@@ -1,115 +1,350 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:trishaheed/pages/home_page.dart';
+import 'package:trishaheed/pages/image_gallery.dart';
+import 'package:trishaheed/pages/not_found.dart';
+import 'package:trishaheed/pages/staff_page.dart';
+import 'package:trishaheed/utilities/menu_tag.dart';
+import 'package:trishaheed/utilities/my_app_config.dart';
+import 'package:trishaheed/utilities/my_app_router_information_parser.dart';
+import 'package:url_strategy/url_strategy.dart';
+import 'pages/student_detail.dart';
+import 'utilities/images.dart';
+import 'utilities/textstyles.dart';
+import 'widgets/header.dart';
 
-void main() {
-  runApp(const MyApp());
+void main(List<String> args) {
+  setPathUrlStrategy();
+  runApp(EntryPoint());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class EntryPoint extends StatelessWidget {
+  final delegate = MyAppRouterDelegate();
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      scrollBehavior: MaterialScrollBehavior().copyWith(
+        dragDevices: {
+          PointerDeviceKind.mouse,
+          PointerDeviceKind.touch,
+          PointerDeviceKind.stylus,
+          PointerDeviceKind.unknown,
+        },
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      theme: ThemeData(fontFamily: 'OpenSans'),
+      backButtonDispatcher: RootBackButtonDispatcher(),
+      routeInformationParser: MyAppRouterInformationParser(),
+      routerDelegate: delegate,
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
+    with ChangeNotifier, PopNavigatorRouterDelegateMixin<MyAppConfiguration> {
+  //to uniquely recognize every page
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
+  late final GlobalKey<NavigatorState> _navigatorKey;
+  MyAppRouterDelegate() : _navigatorKey = GlobalKey<NavigatorState>();
 
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+  MenuTag? _menu;
+  MenuTag? get menu => _menu;
 
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  set atMenu(MenuTag? menu) {
+    _menu = menu;
+    notifyListeners();
   }
 
   @override
+  GlobalKey<NavigatorState>? get navigatorKey => _navigatorKey;
+
+  @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+    final size = MediaQuery.of(context).size;
+
+    return Navigator(
+      key: navigatorKey,
+      pages: [
+        MaterialPage(
+          child: Scaffold(
+            appBar: PreferredSize(
+              preferredSize: Size.fromHeight(176),
+              child: AppBar(
+                flexibleSpace: Container(
+                  width: size.width,
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 120,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset(
+                                logo,
+                                width: 100,
+                                height: 100,
+                              ),
+                            ),
+                            Expanded(
+                              child: Text.rich(
+                                TextSpan(
+                                  text: "श्री त्रि-शहिद",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline4
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                  children: [
+                                    TextSpan(
+                                      text: "\nनमुना मा.वि",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline5
+                                          ?.copyWith(
+                                              fontWeight: FontWeight.bold),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 80,
+                            ),
+                            Row(
+                              children: [
+                                Image.asset(
+                                  paperPlane,
+                                  width: 30,
+                                  height: 30,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  "Email: ",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                Text(
+                                  "trishaheed1986@gmail.com",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 170,
+                                ),
+                                Image.asset(
+                                  telephone,
+                                  width: 20,
+                                  height: 20,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  "Call: ",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                Text(
+                                  "9846095574",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 150,
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.orange,
+                                    borderRadius: BorderRadius.circular(2),
+                                  ),
+                                  alignment: Alignment.center,
+                                  child: Text("नयाँ सूचना"),
+                                  width: 100,
+                                  height: 50,
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        color: Colors.black87,
+                        height: 56,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: List.generate(
+                            MenuTag.values.length,
+                            (index) {
+                              if (MenuTag.values[index].name ==
+                                  MenuTag.unknown) {
+                                print("came here");
+                                return SizedBox();
+                              }
+
+                              return InkWell(
+                                onTap: () {
+                                  atMenu = MenuTag.values[index];
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 24.0),
+                                  child: Text(
+                                    MenuTag.values[index].name,
+                                    style: CustomTextStyle.menu(context)
+                                        ?.copyWith(),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+            body: PagePlaceholder(menuTag: menu),
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ],
+      onPopPage: (route, result) {
+        if (!route.didPop(result)) return false;
+        if (menu == MenuTag.staff ||
+            menu == MenuTag.photoGallery ||
+            menu == MenuTag.students ||
+            menu == MenuTag.unknown ||
+            menu == MenuTag.extras ||
+            menu == MenuTag.routine ||
+            menu == MenuTag.results ||
+            menu == MenuTag.contact ||
+            menu == MenuTag.videoGallery) {
+          atMenu = MenuTag.home;
+        }
+        return true;
+      },
+    );
+  }
+
+  @override
+  Future<void> setNewRoutePath(MyAppConfiguration configuration) async {
+    if (configuration.homePage) {
+      atMenu = MenuTag.home;
+    } else if (configuration.imageGallery) {
+      atMenu = MenuTag.photoGallery;
+    } else if (configuration.videoGallery) {
+      atMenu = MenuTag.videoGallery;
+    } else if (configuration.students) {
+      atMenu = MenuTag.students;
+    } else if (configuration.contact) {
+      atMenu = MenuTag.contact;
+    } else if (configuration.staffPage) {
+      atMenu = MenuTag.staff;
+    } else if (configuration.extras) {
+      atMenu = MenuTag.extras;
+    } else if (configuration.routine) {
+      atMenu = MenuTag.routine;
+    } else if (configuration.results) {
+      atMenu = MenuTag.results;
+    } else {
+      atMenu = null;
+    }
+  }
+
+  @override
+  MyAppConfiguration? get currentConfiguration {
+    if (menu == MenuTag.home) {
+      return MyAppConfiguration.home(MenuTag.home);
+    } else if (menu == MenuTag.staff) {
+      return MyAppConfiguration.staff(MenuTag.staff);
+    } else if (menu == MenuTag.videoGallery) {
+      return MyAppConfiguration.videoGallery(MenuTag.videoGallery);
+    } else if (menu == MenuTag.students) {
+      return MyAppConfiguration.students(MenuTag.students);
+    } else if (menu == MenuTag.photoGallery) {
+      return MyAppConfiguration.photoGallery(MenuTag.photoGallery);
+    } else if (menu == MenuTag.contact) {
+      return MyAppConfiguration.contact(MenuTag.contact);
+    } else if (menu == MenuTag.results) {
+      return MyAppConfiguration.results(MenuTag.results);
+    } else if (menu == MenuTag.routine) {
+      return MyAppConfiguration.routine(MenuTag.routine);
+    } else {
+      return MyAppConfiguration.unknown();
+    }
+  }
+}
+
+class PagePlaceholder extends StatelessWidget {
+  final MenuTag? menuTag;
+  const PagePlaceholder({Key? key, required this.menuTag}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    switch (menuTag) {
+      case MenuTag.home:
+        return HomePage();
+      case MenuTag.staff:
+        return TeacherStaff();
+      case MenuTag.photoGallery:
+        return ImageGallery();
+      case MenuTag.students:
+        return SizedBox(
+          height: 500,
+          child: StudentDetail(),
+        );
+      case MenuTag.extras:
+        return UnknownPage(
+          text: "This is an Extra Page",
+        );
+      case MenuTag.results:
+        return UnknownPage(text: "This should be results page");
+      case MenuTag.routine:
+        return UnknownPage(text: "This should be routine page");
+      case MenuTag.videoGallery:
+        return UnknownPage(text: "This should be Video Gallery");
+      case MenuTag.contact:
+        return UnknownPage(text: "This should be Contact Page");
+
+      default:
+        return UnknownPage();
+    }
+  }
+}
+
+class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
+  @override
+  final Size preferredSize; // default is 56.0
+  CustomAppBar({Key? key})
+      : preferredSize = Size.fromHeight(176),
+        super(key: key);
+
+  @override
+  State<CustomAppBar> createState() => _CustomAppBarState();
+}
+
+class _CustomAppBarState extends State<CustomAppBar> {
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      flexibleSpace: Header(),
     );
   }
 }
