@@ -8,19 +8,21 @@ class StudentData extends DataTableSource {
     studentList = [];
   }
   StudentData();
+//TODO: Modify this method to accept grade number and extract detail of all the studnets.
 
   Future<StudentData> addStudent() async {
     Future.delayed(Duration(seconds: 2));
     for (var i = 1; i < 5; i++) {
       studentList.add(
         Student(
-            name: "Mohan Dhakal",
-            grade: 5,
-            rollNumber: i,
-            latest_Gpa: 3.5,
-            joinedDate: DateTime.now(),
-            dob: DateTime(2000),
-            parentName: "Parents Name"),
+          name: "Mohan Dhakal",
+          grade: 5,
+          rollNumber: i,
+          latest_Gpa: 3.5,
+          joinedDate: DateTime.now(),
+          dob: DateTime(2000),
+          parentName: "Parents Name",
+        ),
       );
     }
     return StudentData();

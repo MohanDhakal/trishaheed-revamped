@@ -18,6 +18,17 @@ void main(List<String> args) {
   runApp(EntryPoint());
 }
 
+// class WidgetTestClass extends StatelessWidget {
+//   const WidgetTestClass({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: StudentDetail(),
+//     );
+//   }
+// }
+
 class EntryPoint extends StatelessWidget {
   final delegate = MyAppRouterDelegate();
 
@@ -195,7 +206,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                             (index) {
                               if (MenuTag.values[index].name ==
                                   MenuTag.unknown) {
-                                print("came here");
+                                // print("came here");
                                 return SizedBox();
                               }
 
@@ -322,7 +333,6 @@ class PagePlaceholder extends StatelessWidget {
         return UnknownPage(text: "This should be Video Gallery");
       case MenuTag.contact:
         return UnknownPage(text: "This should be Contact Page");
-
       default:
         return UnknownPage();
     }

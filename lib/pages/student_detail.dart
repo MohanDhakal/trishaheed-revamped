@@ -12,12 +12,18 @@ class StudentDetail extends StatefulWidget {
 class _StudentDetailState extends State<StudentDetail> {
   late StudentData _studentData;
   String dropdownvalue = 'one';
+  static const TextStyle headerStyle = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    color: Colors.deepPurple,
+  );
 
   var items = ["one", "two", "three"];
 
   @override
   void initState() {
     _studentData = StudentData.empty();
+
     _studentData.addStudent().then((value) {});
     super.initState();
   }
@@ -29,51 +35,82 @@ class _StudentDetailState extends State<StudentDetail> {
       child: PaginatedDataTable2(
         columnSpacing: 12,
         horizontalMargin: 12,
-        minWidth: 200,
+        rowsPerPage: _studentData.rowCount,
         header: DropdownButtonHideUnderline(
           child: ButtonTheme(
             alignedDropdown: true,
-            minWidth: 200,
+            minWidth: 100,
             child: Material(
-              color: Colors.black12,
-              child: DropdownButton(
-                // Initial Value
-                value: dropdownvalue,
-                isExpanded: true,
-                icon: const Icon(Icons.keyboard_arrow_down),
-
-                // Array list of items
-                items: items.map((String items) {
-                  return DropdownMenuItem(
-                    value: items,
-                    child: Text(items),
-                  );
-                }).toList(),
-                // After selecting the desired option,it will
-                // change button value to selected value
-                onChanged: (String? newValue) {
-                  setState(() {
-                    dropdownvalue = newValue!;
-                  });
-                },
-              ),
-            ),
+                color: Colors.black12,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text(
+                        "   [TRI-SHAHEED MODEL SECONDARY SCHOOL] Student Information for Grade      ",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.zero,
+                      margin: EdgeInsets.only(top: 10),
+                      color: Colors.purpleAccent,
+                      child: DropdownButton(
+                        // Initial Value
+                        value: dropdownvalue,
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        // Array list of items
+                        items: items.map((String items) {
+                          return DropdownMenuItem(
+                            value: items,
+                            child: Text(items),
+                          );
+                        }).toList(),
+                        // After selecting the desired option,it will
+                        // change button value to selected value
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownvalue = newValue!;
+                          });
+                        },
+                      ),
+                    ),
+                    Container(
+                      color: Colors.blue,
+                    )
+                  ],
+                )),
           ),
         ),
         // headingTextStyle: TextStyle(fontWeight: FontWeight.bold),
         columns: [
           DataColumn2(
-            label: Text('Full Name'),
+            label: Text(
+              'Full Name',
+              style: headerStyle,
+            ),
             size: ColumnSize.L,
           ),
           DataColumn(
-            label: Text('Date of Birth'),
+            label: Text(
+              'Date of Birth',
+              style: headerStyle,
+            ),
           ),
           DataColumn(
-            label: Text('Joined Year'),
+            label: Text(
+              'Joined Year',
+              style: headerStyle,
+            ),
           ),
           DataColumn(
-            label: Text('Mother/Father Name'),
+            label: Text(
+              'Mother/Father Name',
+              style: headerStyle,
+            ),
           ),
         ],
         empty: Center(
