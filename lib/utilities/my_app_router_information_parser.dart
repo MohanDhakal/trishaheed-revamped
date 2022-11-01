@@ -21,10 +21,8 @@ class MyAppRouterInformationParser
       return RouteInformation(location: RouteName.extras);
     } else if (configuration.contact) {
       return RouteInformation(location: RouteName.contact);
-    } else if (configuration.results) {
-      return RouteInformation(location: RouteName.results);
-    } else if (configuration.routine) {
-      return RouteInformation(location: RouteName.routine);
+    } else if (configuration.downloads) {
+      return RouteInformation(location: RouteName.downloads);
     } else {
       return RouteInformation(location: RouteName.unknown);
     }

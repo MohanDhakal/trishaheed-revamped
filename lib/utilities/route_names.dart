@@ -7,7 +7,7 @@ class RouteName {
   static const String staff = "/teacher_staff";
   static const String students = "/students";
   static const String videoGallery = "/video_gallery";
-  static const String results = "/results";
+  static const String downloads = "/downloads";
   static const String routine = "/routine";
   static const String extras = "/extras";
   static const String contact = "/contact";

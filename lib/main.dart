@@ -1,9 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:trishaheed/pages/contact_page.dart';
+import 'package:trishaheed/pages/downloads_page.dart';
 import 'package:trishaheed/pages/home_page.dart';
 import 'package:trishaheed/pages/image_gallery.dart';
 import 'package:trishaheed/pages/not_found.dart';
 import 'package:trishaheed/pages/staff_page.dart';
+import 'package:trishaheed/pages/video_gallery.dart';
 import 'package:trishaheed/utilities/menu_tag.dart';
 import 'package:trishaheed/utilities/my_app_config.dart';
 import 'package:trishaheed/utilities/my_app_router_information_parser.dart';
@@ -18,16 +21,16 @@ void main(List<String> args) {
   runApp(EntryPoint());
 }
 
-// class WidgetTestClass extends StatelessWidget {
-//   const WidgetTestClass({Key? key}) : super(key: key);
+class WidgetTestClass extends StatelessWidget {
+  const WidgetTestClass({Key? key}) : super(key: key);
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: StudentDetail(),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: ContactPage(),
+    );
+  }
+}
 
 class EntryPoint extends StatelessWidget {
   final delegate = MyAppRouterDelegate();
@@ -59,10 +62,10 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
   late final GlobalKey<NavigatorState> _navigatorKey;
   MyAppRouterDelegate() : _navigatorKey = GlobalKey<NavigatorState>();
 
-  MenuTag? _menu;
-  MenuTag? get menu => _menu;
+  MenuTag _menu = MenuTag.home;
+  MenuTag get menu => _menu;
 
-  set atMenu(MenuTag? menu) {
+  set atMenu(MenuTag menu) {
     _menu = menu;
     notifyListeners();
   }
@@ -73,7 +76,6 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
     return Navigator(
       key: navigatorKey,
       pages: [
@@ -243,8 +245,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
             menu == MenuTag.students ||
             menu == MenuTag.unknown ||
             menu == MenuTag.extras ||
-            menu == MenuTag.routine ||
-            menu == MenuTag.results ||
+            menu == MenuTag.downloads ||
             menu == MenuTag.contact ||
             menu == MenuTag.videoGallery) {
           atMenu = MenuTag.home;
@@ -256,31 +257,50 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
 
   @override
   Future<void> setNewRoutePath(MyAppConfiguration configuration) async {
+    print("CONFIGURATION: ${configuration.toString()}");
     if (configuration.homePage) {
+      print("CONFIGURATION: 1");
+
       atMenu = MenuTag.home;
     } else if (configuration.imageGallery) {
+      print("CONFIGURATION: 2");
+
       atMenu = MenuTag.photoGallery;
     } else if (configuration.videoGallery) {
+      print("CONFIGURATION: 3");
+
       atMenu = MenuTag.videoGallery;
     } else if (configuration.students) {
+      print("CONFIGURATION: 4");
+
       atMenu = MenuTag.students;
     } else if (configuration.contact) {
+      print("CONFIGURATION: 5");
+
       atMenu = MenuTag.contact;
     } else if (configuration.staffPage) {
+      print("CONFIGURATION: 6");
+
       atMenu = MenuTag.staff;
     } else if (configuration.extras) {
+      print("CONFIGURATION: 7");
+
       atMenu = MenuTag.extras;
-    } else if (configuration.routine) {
-      atMenu = MenuTag.routine;
-    } else if (configuration.results) {
-      atMenu = MenuTag.results;
+    } else if (configuration.downloads) {
+      print("CONFIGURATION: 8");
+
+      atMenu = MenuTag.downloads;
     } else {
-      atMenu = null;
+      print("CONFIGURATION: 0");
+
+      atMenu = MenuTag.unknown;
     }
   }
 
   @override
   MyAppConfiguration? get currentConfiguration {
+    print("CONFIGURATION: cong");
+
     if (menu == MenuTag.home) {
       return MyAppConfiguration.home(MenuTag.home);
     } else if (menu == MenuTag.staff) {
@@ -293,10 +313,8 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
       return MyAppConfiguration.photoGallery(MenuTag.photoGallery);
     } else if (menu == MenuTag.contact) {
       return MyAppConfiguration.contact(MenuTag.contact);
-    } else if (menu == MenuTag.results) {
-      return MyAppConfiguration.results(MenuTag.results);
-    } else if (menu == MenuTag.routine) {
-      return MyAppConfiguration.routine(MenuTag.routine);
+    } else if (menu == MenuTag.downloads) {
+      return MyAppConfiguration.downloads(MenuTag.downloads);
     } else {
       return MyAppConfiguration.unknown();
     }
@@ -316,6 +334,8 @@ class PagePlaceholder extends StatelessWidget {
         return TeacherStaff();
       case MenuTag.photoGallery:
         return ImageGallery();
+      case MenuTag.videoGallery:
+        return VideoGallery();
       case MenuTag.students:
         return SizedBox(
           height: 500,
@@ -325,14 +345,12 @@ class PagePlaceholder extends StatelessWidget {
         return UnknownPage(
           text: "This is an Extra Page",
         );
-      case MenuTag.results:
-        return UnknownPage(text: "This should be results page");
-      case MenuTag.routine:
-        return UnknownPage(text: "This should be routine page");
+      case MenuTag.downloads:
+        return DownloadPage();
       case MenuTag.videoGallery:
         return UnknownPage(text: "This should be Video Gallery");
       case MenuTag.contact:
-        return UnknownPage(text: "This should be Contact Page");
+        return ContactPage();
       default:
         return UnknownPage();
     }
