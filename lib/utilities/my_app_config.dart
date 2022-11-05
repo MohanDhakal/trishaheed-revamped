@@ -2,15 +2,14 @@ import 'package:trishaheed/utilities/menu_tag.dart';
 
 class MyAppConfiguration {
   final MenuTag menuTag;
-  MyAppConfiguration.home(MenuTag menu) : menuTag = menu;
-  MyAppConfiguration.photoGallery(MenuTag menu) : menuTag = menu;
-  MyAppConfiguration.staff(MenuTag menu) : menuTag = menu;
-  MyAppConfiguration.staffDetail(MenuTag menu) : menuTag = menu;
-  MyAppConfiguration.students(MenuTag menu) : menuTag = menu;
-  MyAppConfiguration.downloads(MenuTag menu) : menuTag = menu;
-  MyAppConfiguration.videoGallery(MenuTag menu) : menuTag = menu;
-  MyAppConfiguration.extras(MenuTag menu) : menuTag = menu;
-  MyAppConfiguration.contact(MenuTag menu) : menuTag = menu;
+  MyAppConfiguration.home() : menuTag = MenuTag.home;
+  MyAppConfiguration.photoGallery() : menuTag = MenuTag.photoGallery;
+  MyAppConfiguration.staff() : menuTag = MenuTag.staff;
+  MyAppConfiguration.students() : menuTag = MenuTag.students;
+  MyAppConfiguration.downloads() : menuTag = MenuTag.downloads;
+  MyAppConfiguration.videoGallery() : menuTag = MenuTag.videoGallery;
+  MyAppConfiguration.extras() : menuTag = MenuTag.extras;
+  MyAppConfiguration.contact() : menuTag = MenuTag.contact;
   MyAppConfiguration.unknown() : menuTag = MenuTag.unknown;
 
   bool get homePage => menuTag == MenuTag.home;

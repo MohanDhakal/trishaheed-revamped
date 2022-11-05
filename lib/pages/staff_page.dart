@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/model/staff.dart' as s;
 import 'package:trishaheed/repository/staff_info.dart';
 import 'package:trishaheed/utilities/button_position.dart';
@@ -27,6 +28,7 @@ class _TeacherStaffState extends State<TeacherStaff> {
 
   @override
   Widget build(BuildContext context) {
+    final responsiveWrapper = ResponsiveWrapper.of(context);
     return (teacherList.isEmpty)
         ? SizedBox(
             child: Center(
@@ -40,7 +42,11 @@ class _TeacherStaffState extends State<TeacherStaff> {
               maxCrossAxisExtent: 300,
               mainAxisSpacing: 10,
               crossAxisSpacing: 10,
-              childAspectRatio: 0.8,
+              childAspectRatio: responsiveWrapper.isSmallerThan(TABLET)
+                  ? 0.55
+                  : responsiveWrapper.isSmallerThan(DESKTOP)
+                      ? 0.8
+                      : 0.7,
             ),
             itemCount: teacherList.length,
             itemBuilder: ((context, index) {

@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/pages/contact_page.dart';
 import 'package:trishaheed/pages/downloads_page.dart';
 import 'package:trishaheed/pages/home_page.dart';
@@ -7,6 +8,7 @@ import 'package:trishaheed/pages/image_gallery.dart';
 import 'package:trishaheed/pages/not_found.dart';
 import 'package:trishaheed/pages/staff_page.dart';
 import 'package:trishaheed/pages/video_gallery.dart';
+import 'package:trishaheed/utilities/menu_map.dart';
 import 'package:trishaheed/utilities/menu_tag.dart';
 import 'package:trishaheed/utilities/my_app_config.dart';
 import 'package:trishaheed/utilities/my_app_router_information_parser.dart';
@@ -14,22 +16,10 @@ import 'package:url_strategy/url_strategy.dart';
 import 'pages/student_detail.dart';
 import 'utilities/images.dart';
 import 'utilities/textstyles.dart';
-import 'widgets/header.dart';
 
 void main(List<String> args) {
   setPathUrlStrategy();
   runApp(EntryPoint());
-}
-
-class WidgetTestClass extends StatelessWidget {
-  const WidgetTestClass({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: ContactPage(),
-    );
-  }
 }
 
 class EntryPoint extends StatelessWidget {
@@ -58,10 +48,10 @@ class EntryPoint extends StatelessWidget {
 class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<MyAppConfiguration> {
   //to uniquely recognize every page
-
   late final GlobalKey<NavigatorState> _navigatorKey;
-  MyAppRouterDelegate() : _navigatorKey = GlobalKey<NavigatorState>();
+  bool _openDrawer = false;
 
+  MyAppRouterDelegate() : _navigatorKey = GlobalKey<NavigatorState>();
   MenuTag _menu = MenuTag.home;
   MenuTag get menu => _menu;
 
@@ -70,309 +60,504 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
     notifyListeners();
   }
 
+  set drawer(bool val) {
+    _openDrawer = val;
+    notifyListeners();
+  }
+
   @override
   GlobalKey<NavigatorState>? get navigatorKey => _navigatorKey;
 
   @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Navigator(
-      key: navigatorKey,
-      pages: [
-        MaterialPage(
-          child: Scaffold(
-            appBar: PreferredSize(
-              preferredSize: Size.fromHeight(176),
-              child: AppBar(
-                flexibleSpace: Container(
-                  width: size.width,
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 120,
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Image.asset(
-                                logo,
-                                width: 100,
-                                height: 100,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text.rich(
-                                TextSpan(
-                                  text: "श्री त्रि-शहिद",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline4
-                                      ?.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                  children: [
-                                    TextSpan(
-                                      text: "\nनमुना मा.वि",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline5
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.bold),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 80,
-                            ),
-                            Row(
-                              children: [
-                                Image.asset(
-                                  paperPlane,
-                                  width: 30,
-                                  height: 30,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  "Email: ",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                                Text(
-                                  "trishaheed1986@gmail.com",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 170,
-                                ),
-                                Image.asset(
-                                  telephone,
-                                  width: 20,
-                                  height: 20,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  "Call: ",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                                Text(
-                                  "9846095574",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 150,
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.orange,
-                                    borderRadius: BorderRadius.circular(2),
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text("नयाँ सूचना"),
-                                  width: 100,
-                                  height: 50,
-                                )
-                              ],
-                            )
-                          ],
+  Widget build(BuildContext ctx) {
+    final size = MediaQuery.of(ctx).size;
+    final pages = [
+      HomePage(),
+      ImageGallery(),
+      TeacherStaff(),
+      SizedBox(height: 500, child: StudentDetail()),
+      VideoGallery(),
+      DownloadPage(),
+      UnknownPage(
+        text: "This is an Extra Page",
+      ),
+      ContactPage(),
+    ];
+    return ResponsiveWrapper.builder(
+      maxWidth: 1700,
+      minWidth: 350,
+      // defaultScale: true,
+      breakpoints: [
+        ResponsiveBreakpoint.resize(350, name: MOBILE),
+        ResponsiveBreakpoint.autoScale(600, name: TABLET),
+        ResponsiveBreakpoint.resize(800, name: DESKTOP),
+        ResponsiveBreakpoint.autoScale(1700, name: 'XL'),
+      ],
+      Navigator(
+        key: navigatorKey,
+        onPopPage: (route, result) {
+          if (!route.didPop(result)) return false;
+          if (menu == MenuTag.staff ||
+              menu == MenuTag.photoGallery ||
+              menu == MenuTag.students ||
+              menu == MenuTag.unknown ||
+              menu == MenuTag.extras ||
+              menu == MenuTag.downloads ||
+              menu == MenuTag.contact ||
+              menu == MenuTag.videoGallery) {
+            atMenu = MenuTag.home;
+          }
+          return true;
+        },
+        pages: [
+          MaterialPage(
+            child: DefaultTabController(
+              length: MenuIndex.map.length - 1,
+              initialIndex: MenuIndex.map[menu] ?? 0,
+              child: Scaffold(
+                appBar: size.width < 800
+                    ? AppBar(
+                        leading: IconButton(
+                          icon: Icon(Icons.menu),
+                          onPressed: () {
+                            drawer = !_openDrawer;
+                          },
                         ),
-                      ),
-                      Container(
-                        color: Colors.black87,
-                        height: 56,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: List.generate(
-                            MenuTag.values.length,
-                            (index) {
-                              if (MenuTag.values[index].name ==
-                                  MenuTag.unknown) {
-                                // print("came here");
-                                return SizedBox();
-                              }
-
-                              return InkWell(
-                                onTap: () {
-                                  atMenu = MenuTag.values[index];
-                                },
-                                child: Padding(
+                        title: Text("TRI SHAHEED MODEL SECONDARY SCHOOL"),
+                      )
+                    : PreferredSize(
+                        preferredSize: Size.fromHeight(170.0),
+                        child: AppBar(
+                          flexibleSpace: FixHeader(),
+                          backgroundColor: Colors.black87,
+                          bottom: TabBar(
+                            labelColor: Colors.red,
+                            unselectedLabelColor: Colors.grey,
+                            labelStyle: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                            unselectedLabelStyle:
+                                const TextStyle(fontStyle: FontStyle.italic),
+                            onTap: (int value) {
+                              final map = MenuIndex.map;
+                              atMenu = map.keys.firstWhere(
+                                  (k) => map[k] == value,
+                                  orElse: () => MenuTag.unknown);
+                            },
+                            tabs: List.generate(
+                              MenuIndex.map.length - 1,
+                              (index) {
+                                return Padding(
                                   padding: const EdgeInsets.only(left: 24.0),
                                   child: Text(
-                                    MenuTag.values[index].name,
-                                    style: CustomTextStyle.menu(context)
-                                        ?.copyWith(),
+                                    MenuIndex.names.values.elementAt(index),
+                                    style:
+                                        CustomTextStyle.menu(ctx)?.copyWith(),
                                   ),
-                                ),
-                              );
-                            },
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),
-                    ],
-                  ),
+
+                // drawerDragStartBehavior: DragStartBehavior.start,
+                body: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Positioned(
+                      child: size.width < 800
+                          ? getPlaceholderPage(menu)
+                          : TabBarView(
+                              physics: BouncingScrollPhysics(),
+                              children: pages,
+                            ),
+                    ),
+                    if (size.width < 800 && _openDrawer == true)
+                      Positioned(
+                        child: Container(
+                          color: Color(0xFF077bd7),
+                          height: size.width,
+                          width: size.width,
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                ...List<Widget>.generate(
+                                  MenuTag.values.length - 1,
+                                  (int index) {
+                                    return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            drawer = false;
+                                            atMenu = MenuTag.values[index];
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0),
+                                            child: Text(
+                                              MenuIndex.names.values
+                                                  .elementAt(index),
+                                              style: CustomTextStyle.menu(ctx)
+                                                  ?.copyWith(),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 5.0, bottom: 5.0),
+                                          child: Divider(
+                                            color: Colors.blueGrey.shade400,
+                                            thickness: 2,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ),
+                                Expanded(
+                                  child: Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Text(
+                                      'Copyright © 2022 | tri-shaheed',
+                                      style: TextStyle(
+                                        color: Colors.blueGrey.shade300,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
             ),
-            body: PagePlaceholder(menuTag: menu),
           ),
-        ),
-      ],
-      onPopPage: (route, result) {
-        if (!route.didPop(result)) return false;
-        if (menu == MenuTag.staff ||
-            menu == MenuTag.photoGallery ||
-            menu == MenuTag.students ||
-            menu == MenuTag.unknown ||
-            menu == MenuTag.extras ||
-            menu == MenuTag.downloads ||
-            menu == MenuTag.contact ||
-            menu == MenuTag.videoGallery) {
-          atMenu = MenuTag.home;
-        }
-        return true;
-      },
+        ],
+      ),
     );
   }
 
   @override
   Future<void> setNewRoutePath(MyAppConfiguration configuration) async {
-    print("CONFIGURATION: ${configuration.toString()}");
     if (configuration.homePage) {
-      print("CONFIGURATION: 1");
-
       atMenu = MenuTag.home;
     } else if (configuration.imageGallery) {
-      print("CONFIGURATION: 2");
-
       atMenu = MenuTag.photoGallery;
     } else if (configuration.videoGallery) {
-      print("CONFIGURATION: 3");
-
       atMenu = MenuTag.videoGallery;
     } else if (configuration.students) {
-      print("CONFIGURATION: 4");
-
       atMenu = MenuTag.students;
     } else if (configuration.contact) {
-      print("CONFIGURATION: 5");
-
       atMenu = MenuTag.contact;
     } else if (configuration.staffPage) {
-      print("CONFIGURATION: 6");
-
       atMenu = MenuTag.staff;
     } else if (configuration.extras) {
-      print("CONFIGURATION: 7");
-
       atMenu = MenuTag.extras;
     } else if (configuration.downloads) {
-      print("CONFIGURATION: 8");
-
       atMenu = MenuTag.downloads;
     } else {
-      print("CONFIGURATION: 0");
-
       atMenu = MenuTag.unknown;
     }
   }
 
   @override
   MyAppConfiguration? get currentConfiguration {
-    print("CONFIGURATION: cong");
-
     if (menu == MenuTag.home) {
-      return MyAppConfiguration.home(MenuTag.home);
+      return MyAppConfiguration.home();
     } else if (menu == MenuTag.staff) {
-      return MyAppConfiguration.staff(MenuTag.staff);
+      return MyAppConfiguration.staff();
     } else if (menu == MenuTag.videoGallery) {
-      return MyAppConfiguration.videoGallery(MenuTag.videoGallery);
+      return MyAppConfiguration.videoGallery();
     } else if (menu == MenuTag.students) {
-      return MyAppConfiguration.students(MenuTag.students);
+      return MyAppConfiguration.students();
     } else if (menu == MenuTag.photoGallery) {
-      return MyAppConfiguration.photoGallery(MenuTag.photoGallery);
+      return MyAppConfiguration.photoGallery();
     } else if (menu == MenuTag.contact) {
-      return MyAppConfiguration.contact(MenuTag.contact);
+      print("MENU: Reached at contact tag");
+      return MyAppConfiguration.contact();
     } else if (menu == MenuTag.downloads) {
-      return MyAppConfiguration.downloads(MenuTag.downloads);
+      return MyAppConfiguration.downloads();
     } else {
       return MyAppConfiguration.unknown();
     }
   }
 }
 
-class PagePlaceholder extends StatelessWidget {
-  final MenuTag? menuTag;
-  const PagePlaceholder({Key? key, required this.menuTag}) : super(key: key);
+class FixHeader extends StatelessWidget {
+  const FixHeader({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    switch (menuTag) {
-      case MenuTag.home:
-        return HomePage();
-      case MenuTag.staff:
-        return TeacherStaff();
-      case MenuTag.photoGallery:
-        return ImageGallery();
-      case MenuTag.videoGallery:
-        return VideoGallery();
-      case MenuTag.students:
-        return SizedBox(
-          height: 500,
-          child: StudentDetail(),
-        );
-      case MenuTag.extras:
-        return UnknownPage(
-          text: "This is an Extra Page",
-        );
-      case MenuTag.downloads:
-        return DownloadPage();
-      case MenuTag.videoGallery:
-        return UnknownPage(text: "This should be Video Gallery");
-      case MenuTag.contact:
-        return ContactPage();
-      default:
-        return UnknownPage();
-    }
+    return Container(
+      height: 120,
+      color: Colors.white,
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset(
+              logo,
+              width: 100,
+              height: 100,
+            ),
+          ),
+          Expanded(
+            child: Text.rich(
+              TextSpan(
+                text: "श्री त्रि-शहिद",
+                style: Theme.of(context).textTheme.headline4?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                children: [
+                  TextSpan(
+                    text: "\nनमुना मा.वि",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline5
+                        ?.copyWith(fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 80,
+          ),
+          Row(
+            children: [
+              Image.asset(
+                paperPlane,
+                width: 30,
+                height: 30,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                "Email: ",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+              Text(
+                "trishaheed1986@gmail.com",
+                style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                ),
+              ),
+              ResponsiveVisibility(
+                visible: false,
+                visibleWhen: [
+                  Condition.largerThan(name: TABLET),
+                ],
+                child: SizedBox(
+                  width: 170,
+                ),
+              ),
+              Image.asset(
+                telephone,
+                width: 20,
+                height: 20,
+              ),
+              ResponsiveVisibility(
+                visible: false,
+                visibleWhen: [
+                  Condition.largerThan(name: TABLET),
+                ],
+                child: SizedBox(
+                  width: 10,
+                ),
+              ),
+              Text(
+                "Call: ",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+              Text(
+                "9846095574",
+                style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                ),
+              ),
+              ResponsiveVisibility(
+                visible: false,
+                visibleWhen: [
+                  Condition.largerThan(name: TABLET),
+                ],
+                child: SizedBox(
+                  width: 170,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 10),
+                decoration: BoxDecoration(
+                  color: Colors.orange,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+                alignment: Alignment.center,
+                child: Text("नयाँ सूचना"),
+                width: 100,
+                height: 50,
+              )
+            ],
+          )
+        ],
+      ),
+    );
   }
 }
 
-class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
-  @override
-  final Size preferredSize; // default is 56.0
-  CustomAppBar({Key? key})
-      : preferredSize = Size.fromHeight(176),
-        super(key: key);
-
-  @override
-  State<CustomAppBar> createState() => _CustomAppBarState();
+Widget getPlaceholderPage(MenuTag menu) {
+  switch (menu) {
+    case MenuTag.home:
+      return HomePage();
+    case MenuTag.staff:
+      return TeacherStaff();
+    case MenuTag.photoGallery:
+      return ImageGallery();
+    case MenuTag.students:
+      return SizedBox(
+        height: 500,
+        child: StudentDetail(),
+      );
+    case MenuTag.videoGallery:
+      return VideoGallery();
+    case MenuTag.extras:
+      return UnknownPage(
+        text: "This is an Extra Page",
+      );
+    case MenuTag.downloads:
+      return DownloadPage();
+    case MenuTag.contact:
+      return ContactPage();
+    default:
+      return UnknownPage();
+  }
 }
 
-class _CustomAppBarState extends State<CustomAppBar> {
+class HeaderForMobile extends StatelessWidget {
+  const HeaderForMobile({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      flexibleSpace: Header(),
+    return SizedBox(
+      height: 200,
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset(
+                  logo,
+                  width: 100,
+                  height: 100,
+                ),
+              ),
+              Text.rich(
+                TextSpan(
+                  text: "श्री त्रि-शहिद",
+                  style: Theme.of(context).textTheme.headline4?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                  children: [
+                    TextSpan(
+                      text: "\nनमुना मा.वि",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline5
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
+          Row(
+            children: [
+              SizedBox(width: 10),
+              Image.asset(
+                paperPlane,
+                width: 30,
+                height: 30,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                "Email: ",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+              Text(
+                "trishaheed1986@gmail.com",
+                style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                ),
+              ),
+              SizedBox(width: 10),
+            ],
+          ),
+          SizedBox(height: 10),
+          Row(
+            children: [
+              Image.asset(
+                telephone,
+                width: 20,
+                height: 20,
+              ),
+              Text(
+                "Call: ",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+              Text(
+                "9846095574",
+                style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+          Container(
+            margin: EdgeInsets.only(right: 10),
+            decoration: BoxDecoration(
+              color: Colors.orange,
+              borderRadius: BorderRadius.circular(2),
+            ),
+            alignment: Alignment.center,
+            child: Text("नयाँ सूचना"),
+            width: 100,
+            height: 50,
+          ),
+        ],
+      ),
     );
   }
 }

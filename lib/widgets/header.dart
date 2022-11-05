@@ -13,9 +13,9 @@ class Header extends StatelessWidget {
 
     return Container(
       width: size.width,
-      decoration: BoxDecoration(
-        color: Colors.red,
-      ),
+      // decoration: BoxDecoration(
+      //   color: Colors.red,
+      // ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

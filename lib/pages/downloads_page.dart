@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_framework/responsive_value.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 
 class DownloadPage extends StatelessWidget {
   const DownloadPage({Key? key}) : super(key: key);
@@ -22,7 +24,20 @@ class DownloadPage extends StatelessWidget {
                   "Section 1",
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 24,
+                    fontSize: ResponsiveValue(
+                      context,
+                      defaultValue: 24.0,
+                      valueWhen: const [
+                        Condition.smallerThan(
+                          name: TABLET,
+                          value: 16.0,
+                        ),
+                        Condition.largerThan(
+                          name: TABLET,
+                          value: 24.0,
+                        )
+                      ],
+                    ).value,
                   ),
                 ),
                 alignment: Alignment.centerLeft,
@@ -34,11 +49,24 @@ class DownloadPage extends StatelessWidget {
               Container(
                 height: screenWidth * 0.05,
                 padding: EdgeInsets.only(left: 5),
-                margin: EdgeInsets.only(top: 10),
+                margin: EdgeInsets.only(top: 5),
                 child: Text(
                   "Section 2",
                   style: TextStyle(
-                    fontSize: 24,
+                    fontSize: ResponsiveValue(
+                      context,
+                      defaultValue: 24.0,
+                      valueWhen: const [
+                        Condition.smallerThan(
+                          name: TABLET,
+                          value: 16.0,
+                        ),
+                        Condition.largerThan(
+                          name: TABLET,
+                          value: 24.0,
+                        )
+                      ],
+                    ).value,
                   ),
                 ),
                 alignment: Alignment.centerLeft,
@@ -54,7 +82,20 @@ class DownloadPage extends StatelessWidget {
                 child: Text(
                   "Section 3",
                   style: TextStyle(
-                    fontSize: 24,
+                    fontSize: ResponsiveValue(
+                      context,
+                      defaultValue: 24.0,
+                      valueWhen: const [
+                        Condition.smallerThan(
+                          name: TABLET,
+                          value: 16.0,
+                        ),
+                        Condition.largerThan(
+                          name: TABLET,
+                          value: 24.0,
+                        )
+                      ],
+                    ).value,
                   ),
                 ),
                 alignment: Alignment.centerLeft,
@@ -79,7 +120,20 @@ class DownloadPage extends StatelessWidget {
                 "First Link of the file to download",
                 style: TextStyle(
                   color: Colors.blue,
-                  fontSize: 24,
+                  fontSize: ResponsiveValue(
+                    context,
+                    defaultValue: 24.0,
+                    valueWhen: const [
+                      Condition.smallerThan(
+                        name: TABLET,
+                        value: 16.0,
+                      ),
+                      Condition.largerThan(
+                        name: TABLET,
+                        value: 24.0,
+                      )
+                    ],
+                  ).value,
                   decoration: TextDecoration.underline,
                 ),
               ),
@@ -88,7 +142,20 @@ class DownloadPage extends StatelessWidget {
                 "second Link of the file to download",
                 style: TextStyle(
                   color: Colors.blue,
-                  fontSize: 24,
+                  fontSize: ResponsiveValue(
+                    context,
+                    defaultValue: 24.0,
+                    valueWhen: const [
+                      Condition.smallerThan(
+                        name: TABLET,
+                        value: 16.0,
+                      ),
+                      Condition.largerThan(
+                        name: TABLET,
+                        value: 24.0,
+                      )
+                    ],
+                  ).value,
                   decoration: TextDecoration.underline,
                 ),
               ),
@@ -97,7 +164,20 @@ class DownloadPage extends StatelessWidget {
                 "third Link of the file to download",
                 style: TextStyle(
                   color: Colors.blue,
-                  fontSize: 24,
+                  fontSize: ResponsiveValue(
+                    context,
+                    defaultValue: 24.0,
+                    valueWhen: const [
+                      Condition.smallerThan(
+                        name: TABLET,
+                        value: 16.0,
+                      ),
+                      Condition.largerThan(
+                        name: TABLET,
+                        value: 24.0,
+                      )
+                    ],
+                  ).value,
                   decoration: TextDecoration.underline,
                 ),
               ),

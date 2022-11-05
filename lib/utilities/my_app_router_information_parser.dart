@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:trishaheed/utilities/menu_tag.dart';
 import 'package:trishaheed/utilities/my_app_config.dart';
 import 'package:trishaheed/utilities/route_names.dart';
 
@@ -33,7 +32,7 @@ class MyAppRouterInformationParser
       RouteInformation routeInformation) async {
     final uri = Uri.parse(routeInformation.location!);
     if (uri.pathSegments.length == 0) {
-      return MyAppConfiguration.home(MenuTag.home);
+      return MyAppConfiguration.home();
     } else if (uri.pathSegments.length == 1) {
       final first = uri.pathSegments[0].toLowerCase();
       return switchFirstPage(first);
@@ -46,15 +45,20 @@ class MyAppRouterInformationParser
   }
 
   MyAppConfiguration switchFirstPage(String routeName) {
+    print("route name is: $routeName");
     switch (routeName) {
       case RouteName.home:
-        return MyAppConfiguration.home(MenuTag.home);
+        return MyAppConfiguration.home();
       case RouteName.photoGallery:
-        return MyAppConfiguration.photoGallery(MenuTag.photoGallery);
+        return MyAppConfiguration.photoGallery();
       case RouteName.staff:
-        return MyAppConfiguration.staff(MenuTag.staff);
+        return MyAppConfiguration.staff();
       case RouteName.students:
-        return MyAppConfiguration.students(MenuTag.staff);
+        return MyAppConfiguration.students();
+      case RouteName.videoGallery:
+        return MyAppConfiguration.videoGallery();
+      case RouteName.contact:
+        return MyAppConfiguration.contact();
       default:
         return MyAppConfiguration.unknown();
     }

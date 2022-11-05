@@ -40,6 +40,7 @@ dependencies:
   provider: ^6.0.3
   data_table_2: ^2.3.6
   url_strategy: ^0.2.0
+  responsive_framework: ^0.2.0
 
 dev_dependencies:
   flutter_test:

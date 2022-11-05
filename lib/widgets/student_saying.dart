@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import '../utilities/images.dart';
 
 class StudentSaying extends StatelessWidget {
@@ -23,7 +24,9 @@ class StudentSaying extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                width: size.width * 0.2,
+                width: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
+                    ? size.width * 0.8
+                    : size.width * 0.2,
                 child: Text(
                   """Many of our teachers have years of teaching experience which helps our student get some practical knowledge alongside theory.""",
                   textAlign: TextAlign.center,

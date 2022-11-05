@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/model/staff.dart' as s;
 import 'package:trishaheed/utilities/button_position.dart';
 import 'package:trishaheed/utilities/images.dart';
@@ -18,16 +19,17 @@ class Staff extends StatelessWidget {
         borderRadius: BorderRadius.circular(4),
       ),
       padding: EdgeInsets.zero,
+      margin: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
+          ? EdgeInsets.only(bottom: 10.0)
+          : null,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Image.asset(
             potraitSample,
-            // fit: BoxFit.cover,
             fit: BoxFit.fill,
-            // color: Colors.black,
             width: 300,
             height: 200,
             // height: double.infinity / 2,
@@ -57,7 +59,7 @@ class Staff extends StatelessWidget {
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   // color: Colors.white,
                   height: 1.5,
-                  fontSize: 16,
+                  fontSize: 12,
                 ),
           ),
           Text(
