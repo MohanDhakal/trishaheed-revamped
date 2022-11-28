@@ -20,7 +20,7 @@ class Highlights extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Container(
       width: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
-          ? size.width * 0.48
+          ? size.width * 0.8
           : size.width * 0.25,
       height: 300,
       decoration: BoxDecoration(color: backgroundColor),

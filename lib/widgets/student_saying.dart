@@ -3,12 +3,20 @@ import 'package:responsive_framework/responsive_framework.dart';
 import '../utilities/images.dart';
 
 class StudentSaying extends StatelessWidget {
-  const StudentSaying({Key? key}) : super(key: key);
+  final List<BoxShadow>? shadow;
+  const StudentSaying({Key? key, this.shadow}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
+      decoration: BoxDecoration(
+        color: Colors.white70,
+        boxShadow: shadow,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      padding: EdgeInsets.all(4),
+      margin: EdgeInsets.all(4),
       child: Row(
         children: [
           ClipRRect(
@@ -25,7 +33,7 @@ class StudentSaying extends StatelessWidget {
             children: [
               SizedBox(
                 width: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
-                    ? size.width * 0.8
+                    ? size.width * 0.7
                     : size.width * 0.2,
                 child: Text(
                   """Many of our teachers have years of teaching experience which helps our student get some practical knowledge alongside theory.""",

@@ -9,7 +9,7 @@ class StaffApi {
         staffList.add(Staff(
           i,
           1,
-          "Full Name $i",
+          "मोहन कुमार ढकाल $i",
           "Secondary",
           "Java Programming",
           Position.passive,
@@ -18,7 +18,7 @@ class StaffApi {
         staffList.add(Staff(
           i,
           2,
-          "Full Name $i",
+          "मोहन ढकाल $i",
           "Secondary",
           "Java Programming",
           Position.passive,

@@ -18,10 +18,15 @@ class MyAppRouterInformationParser
       return RouteInformation(location: RouteName.videoGallery);
     } else if (configuration.extras) {
       return RouteInformation(location: RouteName.extras);
+    } else if (configuration.blog) {
+      return RouteInformation(location: RouteName.blog);
     } else if (configuration.contact) {
       return RouteInformation(location: RouteName.contact);
     } else if (configuration.downloads) {
       return RouteInformation(location: RouteName.downloads);
+    } else if (configuration.blogDetail) {
+      return RouteInformation(
+          location: RouteName.blogDetail + "${configuration.id}");
     } else {
       return RouteInformation(location: RouteName.unknown);
     }
@@ -36,16 +41,19 @@ class MyAppRouterInformationParser
     } else if (uri.pathSegments.length == 1) {
       final first = uri.pathSegments[0].toLowerCase();
       return switchFirstPage(first);
-    } else if (uri.pathSegments.length == 2) {
+    } else if (uri.pathSegments.length == 3) {
+      // final first = uri.pathSegments[0].toLowerCase();
       // final second = uri.pathSegments[1].toLowerCase();
-      return MyAppConfiguration.unknown();
-      // return switchSecondPage(second);
+      final id = int.tryParse(uri.pathSegments[2]);
+      if (id == null)
+        return MyAppConfiguration.unknown();
+      else
+        return MyAppConfiguration.blogDetail(id);
     } else
       return MyAppConfiguration.unknown();
   }
 
   MyAppConfiguration switchFirstPage(String routeName) {
-    print("route name is: $routeName");
     switch (routeName) {
       case RouteName.home:
         return MyAppConfiguration.home();
@@ -59,6 +67,13 @@ class MyAppRouterInformationParser
         return MyAppConfiguration.videoGallery();
       case RouteName.contact:
         return MyAppConfiguration.contact();
+      case RouteName.extras:
+        return MyAppConfiguration.extras();
+      case RouteName.blog:
+        return MyAppConfiguration.blog();
+      case RouteName.downloads:
+        return MyAppConfiguration.downloads();
+
       default:
         return MyAppConfiguration.unknown();
     }
@@ -66,8 +81,8 @@ class MyAppRouterInformationParser
 
   // MyAppConfiguration switchSecondPage(String routeName) {
   //   switch (routeName) {
-  //     case RouteName.staffDetail:
-  //       return MyAppConfiguration.staffDetail(MenuTag.staffDetail);
+  //     case RouteName.blogDetail:
+  //       return MyAppConfiguration.blogDetail();
   //     default:
   //   }
   // }

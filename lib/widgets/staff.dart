@@ -6,71 +6,118 @@ import 'package:trishaheed/utilities/images.dart';
 
 class Staff extends StatelessWidget {
   final s.Staff staff;
+  final double? width;
+  final double? height;
   const Staff({
     Key? key,
     required this.staff,
+    this.width,
+    this.height,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: staff.position == Position.passive ? Colors.red : Colors.blue,
-        borderRadius: BorderRadius.circular(4),
+        color: staff.position == Position.passive
+            ? Colors.grey.shade300
+            : Colors.blue,
+        borderRadius: BorderRadius.circular(8),
       ),
-      padding: EdgeInsets.zero,
-      margin: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
-          ? EdgeInsets.only(bottom: 10.0)
-          : null,
+      width: (width != null) ? width! * 0.6 : null,
+      height: (width != null) ? width! : null,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
         children: [
-          Image.asset(
-            potraitSample,
-            fit: BoxFit.fill,
-            width: 300,
-            height: 200,
-            // height: double.infinity / 2,
+          ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(8),
+              topRight: Radius.circular(8),
+            ),
+            child: Image.asset(
+              potraitSample,
+              fit: BoxFit.fill,
+              width: width ?? 300,
+              height: 250,
+            ),
           ),
-          SizedBox(
-            height: 10,
+          SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Text(
+              staff.fullName,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge
+                  ?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
           ),
-          Text(
-            staff.fullName,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  // color: Colors.white,
-                  fontSize: 18,
-                ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: RichText(
+              text: TextSpan(
+                text: "विषय :" + "  ",
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                children: [
+                  TextSpan(
+                    text: staff.majorSubject,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(fontSize: 16),
+                  )
+                ],
+              ),
+            ),
           ),
-          Text(
-            staff.majorSubject,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  // color: Colors.white,
-                  height: 1.5,
-                  fontSize: 16,
-                ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: RichText(
+              text: TextSpan(
+                text: "तह :" + "  ",
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                children: [
+                  TextSpan(
+                    text: staff.teacherLevel,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(fontSize: 16),
+                  )
+                ],
+              ),
+            ),
           ),
-          Text(
-            "Sikshak Shreni",
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  // color: Colors.white,
-                  height: 1.5,
-                  fontSize: 12,
-                ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: RichText(
+              text: TextSpan(
+                text: "सम्पर्क‌‌‌‌‌‌ :" + "  ",
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                children: [
+                  TextSpan(
+                    text: staff.contact ?? "९८७६५४५६७८",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(fontSize: 16),
+                  )
+                ],
+              ),
+            ),
           ),
-          Text(
-            staff.contact ?? "Not Available",
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  // color: Colors.white,
-                  // height: 1.5,
-                  fontSize: 14,
-                ),
-          ),
+          SizedBox(height: 10),
         ],
       ),
     );

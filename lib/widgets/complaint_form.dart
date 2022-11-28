@@ -1,6 +1,5 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/utilities/textstyles.dart';
 
 class ComplaintForm extends StatelessWidget {
@@ -8,13 +7,16 @@ class ComplaintForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     final TextEditingController nameController = TextEditingController();
     final TextEditingController phoneController = TextEditingController();
     final TextEditingController emailController = TextEditingController();
     final TextEditingController complaintController = TextEditingController();
 
     return SizedBox(
-      width: 500,
+      width: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
+          ? width
+          : width * 0.5,
       child: Material(
         child: Form(
           child: Column(
@@ -47,9 +49,7 @@ class ComplaintForm extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: TextFormField(
@@ -60,9 +60,7 @@ class ComplaintForm extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: TextFormField(

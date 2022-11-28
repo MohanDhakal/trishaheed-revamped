@@ -9,7 +9,8 @@ class RouteName {
   static const String routine = "routine";
   static const String extras = "extras";
   static const String contact = "contact";
+  static const String blog = "blog";
   static const String unknown = "unknown";
 //double pathway
-  static const String staffDetail = "staff/detail";
+  static String blogDetail = "blog/details/";
 }

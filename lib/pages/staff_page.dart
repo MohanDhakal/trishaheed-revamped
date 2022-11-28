@@ -35,42 +35,73 @@ class _TeacherStaffState extends State<TeacherStaff> {
               child: Text("Could not find teacher list"),
             ),
           )
-        : GridView.builder(
-            shrinkWrap: true,
-            padding: EdgeInsets.all(10.0),
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 300,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
-              childAspectRatio: responsiveWrapper.isSmallerThan(TABLET)
-                  ? 0.55
-                  : responsiveWrapper.isSmallerThan(DESKTOP)
-                      ? 0.8
-                      : 0.7,
-            ),
-            itemCount: teacherList.length,
-            itemBuilder: ((context, index) {
-              return InkWell(
-                onTap: (() {
-                  Navigator.pushNamed(context, RouteName.staffDetail,
-                      arguments: teacherList[index]);
-                }),
-                onHover: ((value) {
-                  setState(() {
-                    if (teacherList[index].position == Position.passive) {
-                      teacherList[index].position = Position.hovered;
-                      // print("reached at 1");
-                    } else {
-                      teacherList[index].position = Position.passive;
-                      // print("reached at 2");
-                    }
-                  });
-                }),
-                child: Staff(
-                  staff: teacherList[index],
+        : responsiveWrapper.isLargerThan(TABLET)
+            ? GridView.builder(
+                shrinkWrap: true,
+                padding: EdgeInsets.all(10.0),
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 300,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  childAspectRatio: 0.66,
                 ),
+                itemCount: teacherList.length,
+                itemBuilder: ((context, index) {
+                  return InkWell(
+                    onTap: (() {
+                      // Navigator.pushNamed(context, RouteName.staffDetail,
+                      //     arguments: teacherList[index]);
+                    }),
+                    onHover: ((value) {
+                      setState(
+                        () {
+                          if (teacherList[index].position == Position.passive) {
+                            teacherList[index].position = Position.hovered;
+                            // print("reached at 1");
+                          } else {
+                            teacherList[index].position = Position.passive;
+                            // print("reached at 2");
+                          }
+                        },
+                      );
+                    }),
+                    child: Staff(
+                      staff: teacherList[index],
+                    ),
+                  );
+                }),
+              )
+            : ListView.builder(
+                itemCount: teacherList.length,
+                shrinkWrap: true,
+                itemBuilder: ((context, index) {
+                  return InkWell(
+                    onTap: (() {
+                      //TODO: IMPLEMENT TODO
+                    }),
+                    onHover: ((value) {
+                      setState(
+                        () {
+                          if (teacherList[index].position == Position.passive) {
+                            teacherList[index].position = Position.hovered;
+                            // print("reached at 1");
+                          } else {
+                            teacherList[index].position = Position.passive;
+                            // print("reached at 2");
+                          }
+                        },
+                      );
+                    }),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 8.0),
+                      child: Staff(
+                        staff: teacherList[index],
+                        width: MediaQuery.of(context).size.width,
+                      ),
+                    ),
+                  );
+                }),
               );
-            }),
-          );
   }
 }

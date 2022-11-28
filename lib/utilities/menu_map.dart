@@ -10,7 +10,9 @@ class MenuIndex {
     MenuTag.downloads: 5,
     MenuTag.extras: 6,
     MenuTag.contact: 7,
-    MenuTag.unknown: 8,
+    MenuTag.blog: 8,
+    MenuTag.blogDetail: 9,
+    MenuTag.unknown: 10,
   };
   static Map<MenuTag, String> names = {
     MenuTag.home: "गृहपृष्ठ",
@@ -21,6 +23,6 @@ class MenuIndex {
     MenuTag.downloads: "डाउन्लोड्स",
     MenuTag.extras: "अन्य",
     MenuTag.contact: "सम्पर्क",
-    MenuTag.unknown: "अपरिचित",
+    MenuTag.blog: "बल्ग",
   };
 }
