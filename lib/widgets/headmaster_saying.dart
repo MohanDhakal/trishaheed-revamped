@@ -58,11 +58,11 @@ class HeadMasterSaying extends StatelessWidget {
                           ? Theme.of(context)
                               .textTheme
                               .headline4
-                              ?.copyWith(fontWeight: FontWeight.w500)
+                              ?.copyWith(fontWeight: FontWeight.bold)
                           : Theme.of(context)
                               .textTheme
                               .headline3
-                              ?.copyWith(fontWeight: FontWeight.w500)),
+                              ?.copyWith(fontWeight: FontWeight.bold)),
                 ),
                 SizedBox(
                   width: ResponsiveWrapper.of(context).isLargerThan(TABLET)
@@ -73,7 +73,10 @@ class HeadMasterSaying extends StatelessWidget {
                       TextSpan(
                         text:
                             "\“गुणस्तरीय र प्राविधिक शिक्षा, आजको आवश्यकता \”",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.normal,
+                        ),
                         children: [
                           TextSpan(
                             text:

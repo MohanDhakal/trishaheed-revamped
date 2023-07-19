@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/widgets/footer.dart';
 import '../utilities/button_position.dart';
@@ -21,56 +20,56 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final responsiveWrapper = ResponsiveWrapper.of(context);
-    // final size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
     return Material(
       color: Colors.white30,
       child: SingleChildScrollView(
         child: Column(
           children: [
-            ImageSlideshow(
-              height: 400.0,
-              children: [
-                Image.asset(
-                  carousel1,
-                  fit: BoxFit.cover,
-                  // width: double.infinity,
-                ),
-                Image.asset(
-                  carousel2,
-                  fit: BoxFit.cover,
-                  // width: double.infinity,
-                ),
-                Image.network(
-                  carousel3,
-                  fit: BoxFit.cover,
-                  // width: double.infinity,
-                ),
-              ],
-              initialPage: 0,
-              indicatorColor: Colors.black87,
-              autoPlayInterval: 5000,
-              isLoop: true,
-              onPageChanged: (value) {
-                //todo: implement on page changed for carousel
-              },
-            ),
-            SizedBox(
-              height: 20,
-            ),
+            // ImageSlideshow(
+            //   height: 400.0,
+            //   children: [
+            //     Image.asset(
+            //       carousel1,
+            //       fit: BoxFit.cover,
+            //       // width: double.infinity,
+            //     ),
+            //     Image.asset(
+            //       carousel2,
+            //       fit: BoxFit.cover,
+            //       // width: double.infinity,
+            //     ),
+            //     Image.network(
+            //       carousel3,
+            //       fit: BoxFit.cover,
+            //       // width: double.infinity,
+            //     ),
+            //   ],
+            //   initialPage: 0,
+            //   indicatorColor: Colors.black87,
+            //   autoPlayInterval: 5000,
+            //   isLoop: true,
+            //   onPageChanged: (value) {
+            //     //todo: implement on page changed for carousel
+            //   },
+            // ),
+            SizedBox(height: 24),
             HeadMasterSaying(),
-            SizedBox(height: 50),
+            SizedBox(height: 48),
             Padding(
               padding: const EdgeInsets.only(left: 20.0),
               child: Text(
                 "Major Contacts",
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontSize: 24,
+                      fontStyle: FontStyle.normal,
                     ),
               ),
             ),
-            SizedBox(height: 50),
+            SizedBox(width: size.width * 0.2, child: Divider(thickness: 4)),
+            SizedBox(height: 48),
             ResponsiveRowColumn(
               layout: responsiveWrapper.isSmallerThan(DESKTOP)
                   ? ResponsiveRowColumnType.COLUMN
@@ -122,9 +121,8 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
             Padding(
-              padding: const EdgeInsets.only(left: 20.0),
+              padding: const EdgeInsets.only(left: 20.0, top: 36),
               child: Text(
                 "HIGHLIGHTS",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -134,10 +132,11 @@ class _HomePageState extends State<HomePage> {
                     ),
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(width: size.width * 0.2, child: Divider(thickness: 4)),
+            SizedBox(height: 48),
             responsiveWrapper.isLargerThan(TABLET)
                 ? Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Highlights(
                         imageUri: progressIcon,
@@ -157,13 +156,6 @@ class _HomePageState extends State<HomePage> {
                         title: "Technical Education",
                         detail:
                             """Technology is inevitable in today's world.Our schools offers Computer Engineering to students willing to learn and explore more in technology sector.""",
-                      ),
-                      Highlights(
-                        imageUri: microscopeIcon,
-                        title: "Lab and Library",
-                        detail:
-                            """Many of our teachers have years of teaching experience which helps our student get some practical knowledge alongside theory.""",
-                        backgroundColor: Colors.black,
                       ),
                     ],
                   )
@@ -190,111 +182,155 @@ class _HomePageState extends State<HomePage> {
                         detail:
                             """Technology is inevitable in today's world.Our schools offers Computer Engineering to students willing to learn and explore more in technology sector.""",
                       ),
-                      SizedBox(height: 10),
-                      Highlights(
-                        imageUri: microscopeIcon,
-                        title: "Lab and Library",
-                        detail:
-                            """Many of our teachers have years of teaching experience which helps our student get some practical knowledge alongside theory.""",
-                        backgroundColor: Colors.black,
-                      ),
                     ],
                   ),
-            SizedBox(height: 50),
+            SizedBox(height: 48),
             Center(
               child: Text(
                 " STUDENTS SAYING",
                 style: responsiveWrapper.isSmallerThan(TABLET)
                     ? Theme.of(context)
                         .textTheme
-                        .headline4
+                        .headlineMedium
                         ?.copyWith(fontWeight: FontWeight.bold)
                     : Theme.of(context)
                         .textTheme
-                        .headline3
+                        .headlineMedium
                         ?.copyWith(fontWeight: FontWeight.bold),
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
+            SizedBox(width: size.width * 0.2, child: Divider(thickness: 4)),
+            SizedBox(height: 12),
             Center(
               child: Text(
                 "This is what our students has to say about us",
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
-            SizedBox(
-              height: 50,
-            ),
-            ResponsiveRowColumn(
-              layout: responsiveWrapper.isSmallerThan(DESKTOP)
-                  ? ResponsiveRowColumnType.COLUMN
-                  : ResponsiveRowColumnType.ROW,
-              columnMainAxisAlignment: MainAxisAlignment.center,
-              rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ResponsiveRowColumnItem(
-                  child: StudentSaying(
-                    shadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        offset: Offset(1, 1),
-                        blurRadius: 1,
-                        spreadRadius: 1,
+            SizedBox(height: 48),
+            responsiveWrapper.isSmallerThan(DESKTOP)
+                ? ResponsiveRowColumn(
+                    layout: ResponsiveRowColumnType.ROW,
+                    columnMainAxisAlignment: MainAxisAlignment.center,
+                    rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ResponsiveRowColumnItem(
+                        child: StudentSaying(
+                          shadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              offset: Offset(1, 1),
+                              blurRadius: 1,
+                              spreadRadius: 1,
+                            ),
+                          ],
+                        ),
                       ),
+                      responsiveWrapper.isSmallerThan(DESKTOP)
+                          ? ResponsiveRowColumnItem(
+                              child: SizedBox(
+                                height: 10,
+                                child: Divider(height: 5.0),
+                              ),
+                            )
+                          : ResponsiveRowColumnItem(child: SizedBox()),
+                      ResponsiveRowColumnItem(
+                          child: StudentSaying(
+                        shadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            offset: Offset(2, 2),
+                            blurRadius: 4,
+                            spreadRadius: 4,
+                          ),
+                          BoxShadow(
+                            color: Colors.black12,
+                            offset: Offset(-2, -2),
+                            blurRadius: 4,
+                            spreadRadius: 4,
+                          )
+                        ],
+                      )),
+                      responsiveWrapper.isSmallerThan(DESKTOP)
+                          ? ResponsiveRowColumnItem(
+                              child: SizedBox(
+                                height: 10,
+                                child: Divider(height: 5.0),
+                              ),
+                            )
+                          : ResponsiveRowColumnItem(child: SizedBox()),
+                      ResponsiveRowColumnItem(
+                          child: StudentSaying(
+                        shadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            offset: Offset(1, 1),
+                            blurRadius: 1,
+                            spreadRadius: 1,
+                          )
+                        ],
+                      )),
                     ],
-                  ),
-                ),
-                responsiveWrapper.isSmallerThan(DESKTOP)
-                    ? ResponsiveRowColumnItem(
-                        child: SizedBox(
-                          height: 10,
-                          child: Divider(height: 5.0),
-                        ),
-                      )
-                    : ResponsiveRowColumnItem(child: SizedBox()),
-                ResponsiveRowColumnItem(
-                    child: StudentSaying(
-                  shadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      offset: Offset(2, 2),
-                      blurRadius: 4,
-                      spreadRadius: 4,
+                  )
+                : SizedBox(
+                    height: size.height * 0.45,
+                    child: Center(
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 24),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                StudentSaying(
+                                  height: size.height * 0.35,
+                                  shadow: [
+                                    BoxShadow(
+                                      color: Colors.black12,
+                                      offset: Offset(4, 4),
+                                      blurRadius: 4,
+                                      spreadRadius: 4,
+                                    ),
+                                  ],
+                                ),
+                                StudentSaying(
+                                  height: size.height * 0.35,
+                                  shadow: [
+                                    BoxShadow(
+                                      color: Colors.black12,
+                                      offset: Offset(4, 4),
+                                      blurRadius: 4,
+                                      spreadRadius: 4,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            left: size.width * 0.335,
+                            bottom: 2,
+                            top: 2,
+                            child: Card(
+                              elevation: 16,
+                              color: Colors.transparent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    8.0), // Adjust the border radius as needed
+                              ),
+                              child: StudentSaying(
+                                height: size.height * 0.4,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    BoxShadow(
-                      color: Colors.black12,
-                      offset: Offset(-2, -2),
-                      blurRadius: 4,
-                      spreadRadius: 4,
-                    )
-                  ],
-                )),
-                responsiveWrapper.isSmallerThan(DESKTOP)
-                    ? ResponsiveRowColumnItem(
-                        child: SizedBox(
-                          height: 10,
-                          child: Divider(height: 5.0),
-                        ),
-                      )
-                    : ResponsiveRowColumnItem(child: SizedBox()),
-                ResponsiveRowColumnItem(
-                    child: StudentSaying(
-                  shadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      offset: Offset(1, 1),
-                      blurRadius: 1,
-                      spreadRadius: 1,
-                    )
-                  ],
-                )),
-              ],
-            ),
-            SizedBox(height: 50),
+                  ),
+            SizedBox(height: 48),
             FooterWidget(color: Colors.black12),
-            SizedBox(height: 10),
+            SizedBox(height: 12),
           ],
         ),
       ),

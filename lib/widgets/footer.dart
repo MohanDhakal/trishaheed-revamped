@@ -22,13 +22,12 @@ class FooterWidget extends StatelessWidget {
         columnCrossAxisAlignment: CrossAxisAlignment.start,
         rowMainAxisAlignment: MainAxisAlignment.spaceAround,
         rowCrossAxisAlignment: CrossAxisAlignment.start,
-        columnPadding: EdgeInsets.only(left: 20.0),
+        columnPadding: EdgeInsets.only(left: 24.0),
         children: [
           ResponsiveRowColumnItem(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Containe(height: 20),
                 SizedBox(
                   width: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
                       ? size.width * 0.8
@@ -49,13 +48,13 @@ class FooterWidget extends StatelessWidget {
                               "	Co-ordinates: 28.13°N 83.78°E, Panchamul-syangja, Gandaki Zone, Nepal",
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText2
+                                  .bodyMedium
                                   ?.copyWith(color: Colors.black),
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 24),
                       Row(
                         children: [
                           Icon(
@@ -68,12 +67,12 @@ class FooterWidget extends StatelessWidget {
                             "	+9779862790724",
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText2
+                                .bodyMedium
                                 ?.copyWith(color: Colors.black),
                           ),
                         ],
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 24),
                       Row(
                         children: [
                           Icon(
@@ -81,12 +80,12 @@ class FooterWidget extends StatelessWidget {
                             size: 24,
                             color: Colors.black,
                           ),
-                          SizedBox(width: 5),
+                          SizedBox(width: 4),
                           Text(
-                            "trishaheed1997@gmail.com",
+                            "trishaheed1996@gmail.com",
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText2
+                                .bodyMedium
                                 ?.copyWith(color: Colors.black),
                           ),
                         ],
@@ -101,51 +100,58 @@ class FooterWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 20),
                 Text(
                   "Important Links",
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 12),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Icon(
                       Icons.arrow_forward,
                       size: 16,
                       color: Colors.black,
                     ),
-                    Text(
-                      "First Link",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2
-                          ?.copyWith(color: Colors.black),
+                    MaterialButton(
+                      onPressed: () {},
+                      child: Text(
+                        "Aandhikhola Rural Municipality",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(color: Colors.blue),
+                      ),
                     ),
                   ],
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Icon(
                       Icons.arrow_forward,
                       size: 16,
                       color: Colors.black,
                     ),
-                    Text(
-                      "Second Link",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2
-                          ?.copyWith(color: Colors.black),
+                    MaterialButton(
+                      onPressed: () {},
+                      child: Text(
+                        "Nepal Education Board ",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(color: Colors.blue),
+                      ),
                     ),
                   ],
                 ),
               ],
             ),
           ),
-          ResponsiveRowColumnItem(child: SizedBox(height: 20)),
+          ResponsiveRowColumnItem(child: SizedBox(height: 24)),
           ResponsiveRowColumnItem(
             child: WebViewX(
               initialContent:

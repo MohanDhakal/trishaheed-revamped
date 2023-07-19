@@ -20,7 +20,7 @@ class _BlogDetailState extends State<BlogDetail> {
   void initState() {
     super.initState();
     if (widget.blog == null) {
-      print("blog null");
+      // print("blog null");
       BlogApi().getBlogForId(1).then((value) {
         urlPost = value;
       });

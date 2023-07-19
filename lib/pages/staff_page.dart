@@ -3,7 +3,6 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/model/staff.dart' as s;
 import 'package:trishaheed/repository/staff_info.dart';
 import 'package:trishaheed/utilities/button_position.dart';
-import 'package:trishaheed/utilities/route_names.dart';
 import 'package:trishaheed/widgets/staff.dart';
 
 class TeacherStaff extends StatefulWidget {
@@ -97,7 +96,7 @@ class _TeacherStaffState extends State<TeacherStaff> {
                           vertical: 8.0, horizontal: 8.0),
                       child: Staff(
                         staff: teacherList[index],
-                        width: MediaQuery.of(context).size.width,
+                        // width: MediaQuery.of(context).size.width,
                       ),
                     ),
                   );

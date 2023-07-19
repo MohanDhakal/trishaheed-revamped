@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/model/blog.dart';
 import 'package:trishaheed/repository/blog_info.dart';
-import 'package:trishaheed/utilities/blog_data.dart';
 import 'package:trishaheed/utilities/button_position.dart';
 import 'package:trishaheed/utilities/menu_tag.dart';
-import '../utilities/images.dart';
 
 class BlogList extends StatefulWidget {
   final Function(MenuTag menuTag, int? id, Blog? blog) onClick;

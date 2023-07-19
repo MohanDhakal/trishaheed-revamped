@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:responsive_framework/responsive_framework.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:trishaheed/model/staff.dart' as s;
 import 'package:trishaheed/utilities/button_position.dart';
 import 'package:trishaheed/utilities/images.dart';
 
 class Staff extends StatelessWidget {
   final s.Staff staff;
-  final double? width;
-  final double? height;
   const Staff({
-    Key? key,
     required this.staff,
-    this.width,
-    this.height,
+    Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final responsiveWrapper = ResponsiveWrapper.of(context);
+    final size = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
         color: staff.position == Position.passive
@@ -24,8 +22,9 @@ class Staff extends StatelessWidget {
             : Colors.blue,
         borderRadius: BorderRadius.circular(8),
       ),
-      width: (width != null) ? width! * 0.6 : null,
-      height: (width != null) ? width! : null,
+      width: responsiveWrapper.isSmallerThan(DESKTOP)
+          ? size.width * 0.9
+          : size.width * 0.3,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,12 +37,13 @@ class Staff extends StatelessWidget {
             ),
             child: Image.asset(
               potraitSample,
-              fit: BoxFit.fill,
-              width: width ?? 300,
-              height: 250,
+              fit: BoxFit.cover,
+              width: responsiveWrapper.isSmallerThan(DESKTOP)
+                  ? size.width * 0.9
+                  : size.width * 0.3,
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 36),
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Text(
@@ -51,14 +51,14 @@ class Staff extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .bodyLarge
-                  ?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+                  ?.copyWith(fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8.0),
+            padding: const EdgeInsets.only(left: 8.0, top: 8.0),
             child: RichText(
               text: TextSpan(
-                text: "विषय :" + "  ",
+                text: "SUBJECT :" + "  ",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -76,10 +76,10 @@ class Staff extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8.0),
+            padding: const EdgeInsets.only(left: 8.0, top: 8.0),
             child: RichText(
               text: TextSpan(
-                text: "तह :" + "  ",
+                text: "POSITION :" + "  ",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -97,10 +97,10 @@ class Staff extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8.0),
+            padding: const EdgeInsets.only(left: 8.0, top: 8.0),
             child: RichText(
               text: TextSpan(
-                text: "सम्पर्क‌‌‌‌‌‌ :" + "  ",
+                text: "CONTACT :" + "  ",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,

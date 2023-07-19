@@ -4,16 +4,21 @@ import '../utilities/images.dart';
 
 class StudentSaying extends StatelessWidget {
   final List<BoxShadow>? shadow;
-  const StudentSaying({Key? key, this.shadow}) : super(key: key);
+  final double? width;
+  final double? height;
+  const StudentSaying({Key? key, this.shadow, this.width, this.height})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
+      width: width,
+      height: height,
       decoration: BoxDecoration(
         color: Colors.white70,
         boxShadow: shadow,
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(8),
       ),
       padding: EdgeInsets.all(4),
       margin: EdgeInsets.all(4),
@@ -34,7 +39,7 @@ class StudentSaying extends StatelessWidget {
               SizedBox(
                 width: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
                     ? size.width * 0.7
-                    : size.width * 0.2,
+                    : size.width * 0.25,
                 child: Text(
                   """Many of our teachers have years of teaching experience which helps our student get some practical knowledge alongside theory.""",
                   textAlign: TextAlign.center,

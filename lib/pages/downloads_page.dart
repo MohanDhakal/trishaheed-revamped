@@ -13,6 +13,7 @@ class DownloadPage extends StatefulWidget {
 
 class _DownloadPageState extends State<DownloadPage> {
   Downloads? selectedPage;
+
   Future<void> getData() async {
     for (var i = 0; i < 3; i++) {
       final menu;

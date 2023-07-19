@@ -21,8 +21,8 @@ class Highlights extends StatelessWidget {
     return Container(
       width: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
           ? size.width * 0.8
-          : size.width * 0.25,
-      height: 300,
+          : size.width / 3,
+      height: size.height * 0.5,
       decoration: BoxDecoration(color: backgroundColor),
       child: Column(
         children: [
@@ -46,7 +46,7 @@ class Highlights extends StatelessWidget {
                 ),
           ),
           SizedBox(
-            height: 20,
+            height: 36,
           ),
           Text(
             detail ?? "DETAIL HERE",

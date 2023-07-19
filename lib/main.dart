@@ -464,7 +464,7 @@ class FixHeader extends StatelessWidget {
                     text: "\nनमुना मा.वि",
                     style: Theme.of(context)
                         .textTheme
-                        .headline5
+                        .headlineMedium
                         ?.copyWith(fontWeight: FontWeight.bold),
                   )
                 ],
@@ -569,7 +569,7 @@ class HeaderForMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    // final size = MediaQuery.of(context).size;
     return Material(
       color: Colors.white,
       child: Column(
@@ -589,7 +589,7 @@ class HeaderForMobile extends StatelessWidget {
               Text.rich(
                 TextSpan(
                   text: "श्री त्रि-शहिद",
-                  style: Theme.of(context).textTheme.headline4?.copyWith(
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
