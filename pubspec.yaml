@@ -78,6 +78,10 @@ flutter:
     - assets/images/icons/microscope.png
     - assets/images/icons/teacher.png
     - assets/images/icons/reading-book.png
+    - assets/data/albums.json
+    - assets/data/images.json
+    - assets/data/students.json
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

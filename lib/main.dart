@@ -2,13 +2,14 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:trishaheed/model/states/students_state.dart';
 import 'package:trishaheed/pages/blogs.dart';
 import 'package:trishaheed/pages/contact_page.dart';
 import 'package:trishaheed/pages/downloads_page.dart';
 import 'package:trishaheed/pages/home_page.dart';
-import 'package:trishaheed/pages/image_gallery.dart';
 import 'package:trishaheed/pages/not_found.dart';
 import 'package:trishaheed/pages/staff_page.dart';
+import 'package:trishaheed/pages/students.dart';
 import 'package:trishaheed/pages/video_gallery.dart';
 import 'package:trishaheed/states/menu_state.dart';
 import 'package:trishaheed/utilities/menu_map.dart';
@@ -18,7 +19,7 @@ import 'package:trishaheed/utilities/my_app_router_information_parser.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'model/blog.dart';
 import 'pages/blog_detail.dart';
-import 'pages/student_detail.dart';
+import 'pages/image_gallery_test.dart';
 import 'utilities/images.dart';
 import 'utilities/textstyles.dart';
 
@@ -26,7 +27,10 @@ void main(List<String> args) {
   setPathUrlStrategy();
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => MenuState())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => MenuState()),
+        ChangeNotifierProvider(create: (_) => StudentState()),
+      ],
       child: EntryPoint(),
     ),
   );
@@ -46,7 +50,7 @@ class EntryPoint extends StatelessWidget {
           PointerDeviceKind.unknown,
         },
       ),
-      theme: ThemeData(fontFamily: 'OpenSans'),
+      // theme: ThemeData(fontFamily: 'OpenSans'),
       backButtonDispatcher: RootBackButtonDispatcher(),
       routeInformationParser: MyAppRouterInformationParser(),
       routerDelegate: delegate,
@@ -65,6 +69,8 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
   MenuTag _menu = MenuTag.home;
   MenuTag get menu => _menu;
   bool noticeExists = false;
+  // ignore: unused_field
+  TeacherStaff? _teacherStaff;
   set atMenu(MenuTag menu) {
     _menu = menu;
     notifyListeners();
@@ -82,14 +88,15 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
       case MenuTag.home:
         return HomePage();
       case MenuTag.staff:
-        return TeacherStaff();
+        return TeacherStaff(
+          onClick: (teacherModel) {
+            _teacherStaff = teacherModel;
+          },
+        );
       case MenuTag.photoGallery:
         return ImageGallery();
       case MenuTag.students:
-        return SizedBox(
-          height: 500,
-          child: StudentDetail(),
-        );
+        return Students();
       case MenuTag.videoGallery:
         return VideoGallery();
       case MenuTag.extras:
@@ -117,8 +124,13 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
     final pages = [
       HomePage(),
       ImageGallery(),
-      TeacherStaff(),
-      SizedBox(height: 500, child: StudentDetail()),
+      TeacherStaff(
+        onClick: (teacherModel) {
+          _teacherStaff = teacherModel;
+          notifyListeners();
+        },
+      ),
+      Students(),
       VideoGallery(),
       DownloadPage(),
       UnknownPage(text: "This is an Extra Page"),
@@ -224,7 +236,6 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                 ),
                               ),
                             ),
-
                       // drawerDragStartBehavior: DragStartBehavior.start,
                       body: Stack(
                         clipBehavior: Clip.none,
@@ -455,7 +466,7 @@ class FixHeader extends StatelessWidget {
             child: Text.rich(
               TextSpan(
                 text: "श्री त्रि-शहिद",
-                style: Theme.of(context).textTheme.headline4?.copyWith(
+                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
@@ -598,7 +609,7 @@ class HeaderForMobile extends StatelessWidget {
                       text: "\nनमुना मा.वि",
                       style: Theme.of(context)
                           .textTheme
-                          .headline5
+                          .headlineSmall
                           ?.copyWith(fontWeight: FontWeight.bold),
                     )
                   ],

@@ -1,1 +1,1 @@
-enum Downloads { results, routine }
+enum Downloads { results, routine, others }

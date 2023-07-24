@@ -35,16 +35,17 @@ class Header extends StatelessWidget {
                   child: Text.rich(
                     TextSpan(
                       text: "श्री त्रि-शहिद",
-                      style: Theme.of(context).textTheme.headline4?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
+                      style:
+                          Theme.of(context).textTheme.headlineMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
                       children: [
                         TextSpan(
                           text: "\nनमुना मा.वि",
                           style: Theme.of(context)
                               .textTheme
-                              .headline5
+                              .headlineSmall
                               ?.copyWith(fontWeight: FontWeight.bold),
                         )
                       ],

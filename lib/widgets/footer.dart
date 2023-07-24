@@ -8,6 +8,7 @@ class FooterWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     late WebViewXController webviewController;
     final size = MediaQuery.of(context).size;
 
@@ -171,13 +172,25 @@ class FooterWidget extends StatelessWidget {
             ),
           ),
           ResponsiveRowColumnItem(
-            child: WebViewX(
-              initialContent:
-                  'https://www.hamropatro.com/widgets/dateconverter.php',
-              initialSourceType: SourceType.url,
-              onWebViewCreated: (controller) => webviewController = controller,
-              height: 200,
-              width: 300,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Date Format Converter",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 12),
+                WebViewX(
+                  initialContent:
+                      'https://www.hamropatro.com/widgets/dateconverter.php',
+                  initialSourceType: SourceType.url,
+                  onWebViewCreated: (controller) =>
+                      webviewController = controller,
+                  height: 200,
+                  width: 300,
+                ),
+              ],
             ),
           ),
         ],

@@ -57,11 +57,11 @@ class HeadMasterSaying extends StatelessWidget {
                       style: ResponsiveWrapper.of(context).isMobile
                           ? Theme.of(context)
                               .textTheme
-                              .headline4
+                              .headlineMedium
                               ?.copyWith(fontWeight: FontWeight.bold)
                           : Theme.of(context)
                               .textTheme
-                              .headline3
+                              .headlineSmall
                               ?.copyWith(fontWeight: FontWeight.bold)),
                 ),
                 SizedBox(

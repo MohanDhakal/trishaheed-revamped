@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
             SizedBox(width: size.width * 0.2, child: Divider(thickness: 4)),
             SizedBox(height: 48),
             ResponsiveRowColumn(
-              layout: responsiveWrapper.isSmallerThan(DESKTOP)
+              layout: responsiveWrapper.isSmallerThan(TABLET)
                   ? ResponsiveRowColumnType.COLUMN
                   : ResponsiveRowColumnType.ROW,
               rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,

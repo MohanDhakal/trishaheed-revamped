@@ -55,7 +55,7 @@ class StudentSaying extends StatelessWidget {
                 "Mohan Kumar Dhakal",
                 style: Theme.of(context)
                     .textTheme
-                    .bodyText2
+                    .bodyMedium
                     ?.copyWith(fontWeight: FontWeight.bold),
               ),
               SizedBox(
@@ -63,7 +63,7 @@ class StudentSaying extends StatelessWidget {
               ),
               Text(
                 "Former Student",
-                style: Theme.of(context).textTheme.caption?.copyWith(
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Color.fromARGB(255, 255, 102, 0),
                     ),
               ),

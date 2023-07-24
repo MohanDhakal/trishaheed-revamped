@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
-import 'package:trishaheed/model/staff.dart' as s;
-import 'package:trishaheed/utilities/button_position.dart';
+import 'package:trishaheed/model/student.dart';
 import 'package:trishaheed/utilities/images.dart';
 
-class Staff extends StatelessWidget {
-  final s.Staff staff;
-  const Staff({
-    required this.staff,
+class StudentWidget extends StatelessWidget {
+  final Student student;
+  const StudentWidget({
+    required this.student,
     Key? key,
   }) : super(key: key);
 
@@ -17,9 +16,7 @@ class Staff extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
-        color: staff.position == Position.passive
-            ? Colors.grey.shade300
-            : Colors.blue,
+        color: Colors.grey.shade300,
         borderRadius: BorderRadius.circular(8),
       ),
       width: responsiveWrapper.isSmallerThan(TABLET)
@@ -47,7 +44,7 @@ class Staff extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Text(
-              staff.fullName,
+              student.fullName,
               style: Theme.of(context)
                   .textTheme
                   .bodyLarge
@@ -65,7 +62,7 @@ class Staff extends StatelessWidget {
                     ),
                 children: [
                   TextSpan(
-                    text: staff.majorSubject,
+                    text: student.majorSubject,
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall
@@ -86,7 +83,7 @@ class Staff extends StatelessWidget {
                     ),
                 children: [
                   TextSpan(
-                    text: staff.teacherLevel,
+                    text: student.currentRank.toString(),
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall
@@ -107,7 +104,7 @@ class Staff extends StatelessWidget {
                     ),
                 children: [
                   TextSpan(
-                    text: staff.contact ?? "९८७६५४५६७८",
+                    text: student.guardianContact ?? "९८७६******",
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall
