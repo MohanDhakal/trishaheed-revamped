@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:trishaheed/model/staff.dart' as s;
-import 'package:trishaheed/utilities/button_position.dart';
 import 'package:trishaheed/utilities/images.dart';
 
 class Staff extends StatelessWidget {
@@ -17,9 +16,7 @@ class Staff extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
-        color: staff.position == Position.passive
-            ? Colors.grey.shade300
-            : Colors.blue,
+        color: Colors.grey.shade300,
         borderRadius: BorderRadius.circular(8),
       ),
       width: responsiveWrapper.isSmallerThan(TABLET)

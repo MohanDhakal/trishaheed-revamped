@@ -187,8 +187,8 @@ class FooterWidget extends StatelessWidget {
                   initialSourceType: SourceType.url,
                   onWebViewCreated: (controller) =>
                       webviewController = controller,
-                  height: 200,
-                  width: 300,
+                  height: 550,
+                  width: 400,
                 ),
               ],
             ),

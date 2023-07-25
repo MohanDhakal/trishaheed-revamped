@@ -24,4 +24,12 @@ class CustomTextStyle {
           color: Colors.white70,
         );
   }
+
+  static TextStyle? quote(BuildContext context) {
+    return Theme.of(context).textTheme.bodyLarge?.copyWith(
+          fontSize: 18,
+          fontWeight: FontWeight.w500,
+          color: Colors.black,
+        );
+  }
 }

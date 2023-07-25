@@ -49,7 +49,7 @@ class HeadMasterSaying extends StatelessWidget {
           ResponsiveRowColumnItem(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
+              mainAxisSize: MainAxisSize.max,
               children: [
                 Center(
                   child: Text('प्रधानाध्यापक को सन्देश',
@@ -61,12 +61,13 @@ class HeadMasterSaying extends StatelessWidget {
                               ?.copyWith(fontWeight: FontWeight.bold)
                           : Theme.of(context)
                               .textTheme
-                              .headlineSmall
+                              .headlineLarge
                               ?.copyWith(fontWeight: FontWeight.bold)),
                 ),
+                SizedBox(height: 24),
                 SizedBox(
                   width: ResponsiveWrapper.of(context).isLargerThan(TABLET)
-                      ? size.width * 0.6
+                      ? size.width * 0.5
                       : size.width * 0.95,
                   child: Center(
                     child: Text.rich(

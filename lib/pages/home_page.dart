@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/widgets/footer.dart';
-import '../utilities/button_position.dart';
 import '../utilities/images.dart';
 import '../widgets/headmaster_saying.dart';
 import '../widgets/highlights.dart';
@@ -80,12 +79,16 @@ class _HomePageState extends State<HomePage> {
                 ResponsiveRowColumnItem(
                   child: Staff(
                     staff: s.Staff(
-                      1,
-                      2,
-                      "Full Name ",
-                      "Secondary",
-                      "Java Programming",
-                      Position.passive,
+                      fullName: "Jay Prasad Chapagain",
+                      post: "Head Teacher",
+                      dob: "2080-03-25",
+                      address: "Panchamool, SYangja",
+                      isActive: 1,
+                      joinedAt: "2080-03-25",
+                      majorSubject: "Mathematics",
+                      jobType: "Permanent",
+                      rank: "0.1",
+                      teacherLevel: "Primary",
                     ),
                   ),
                 ),
@@ -94,13 +97,16 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Staff(
                       staff: s.Staff(
-                        1,
-                        2,
-                        "Full Name ",
-                        "Secondary",
-                        "Java Programming",
-                        Position.passive,
-                      ),
+                          fullName: "Tek Nath Khanal",
+                          post: "Asst.Head Teacher",
+                          dob: "2080-03-25",
+                          address: "Arjunchapari-1, SYangja",
+                          isActive: 1,
+                          joinedAt: "2080-03-25",
+                          majorSubject: "Mathematics",
+                          jobType: "Permanent",
+                          rank: "0.1",
+                          teacherLevel: "Primary"),
                     ),
                   ),
                 ),
@@ -109,13 +115,16 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Staff(
                       staff: s.Staff(
-                        1,
-                        2,
-                        "Full Name ",
-                        "Secondary",
-                        "Java Programming",
-                        Position.passive,
-                      ),
+                          fullName: "Mohan Kumar Dhakal",
+                          post: " Teacher",
+                          dob: "2080-03-25",
+                          address: "Panchamool, SYangja",
+                          isActive: 1,
+                          joinedAt: "2080-03-25",
+                          majorSubject: "Mathematics",
+                          jobType: "Permanent",
+                          rank: "0.1",
+                          teacherLevel: "Primary"),
                     ),
                   ),
                 ),

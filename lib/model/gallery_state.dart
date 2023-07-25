@@ -1,43 +1,62 @@
 import 'package:flutter/cupertino.dart';
+import 'package:trishaheed/model/albums.dart';
 
-enum GalleryAction { NONE, EDIT, DETAIL }
+import '../repository/gallery_repo.dart';
+
+enum GalleryAction { NONE, ALBUMS, EDIT, IMAGES, Error }
 
 class ImageDetail {
+  int? id;
   late String url;
-  late String alternativeImageLink;
-  late String alternateText;
-  late String title;
-  late String description;
+  String? alternativeImageLink;
+  late String createdAt;
+  late String updatedAt;
 
   ImageDetail.fromJson(Map<String, dynamic> json) {
-    this.alternateText = json["alternativeText"];
-    this.alternativeImageLink = json["alternativeUrl"];
-    this.title = json["title"];
-    this.description = json["description"];
-    this.url = json["url"];
+    this.id = json["id"];
+    this.url = json["image_url"];
+    this.createdAt = json["created_at"];
+    this.updatedAt = json["updated_at"];
   }
 }
 
 class GalleryState with ChangeNotifier {
   GalleryAction _action = GalleryAction.NONE;
-  List<ImageDetail> _images = <ImageDetail>[];
+  List<Album> albums = <Album>[];
+  String errorMessage = "";
 
-  GalleryState() {
-    // ImageRepo().getImages(limit: 5).then((value) {
-    //   _images = value;
-    //   notifyListeners();
-    // });
-  }
+  GalleryState() {}
   set action(GalleryAction ac) {
     this._action = ac;
     notifyListeners();
   }
 
   GalleryAction get action => _action;
-  set image(ImageDetail image) {
-    _images.add(image);
+
+  Future<void> getAlbums() async {
+    ImageRepo().getAlbums().then((value) {
+      value.fold((l) {
+        albums = l;
+        action = GalleryAction.ALBUMS;
+      }, (r) {
+        errorMessage = r;
+        action = GalleryAction.Error;
+      });
+    });
     notifyListeners();
   }
 
-  List<ImageDetail> get images => images;
+  Future<List<ImageDetail>?> getImages({required int id}) async {
+    List<ImageDetail> _images = <ImageDetail>[];
+    final response = await ImageRepo().getImagesForAlbum(id);
+    response.fold((l) {
+      _images = l;
+    }, (r) {
+      debugPrint(r);
+      errorMessage = r;
+      action = GalleryAction.Error;
+    });
+    if (_images.length > 0) return _images;
+    return null;
+  }
 }

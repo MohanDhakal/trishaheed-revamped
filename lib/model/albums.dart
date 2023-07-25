@@ -9,6 +9,11 @@ class Album {
     this.name = json["albumName"];
     this.description = json["albumDescription"];
   }
+  Album.fromApi(Map<String, dynamic> json) {
+    this.id = json["id"];
+    this.name = json["name"];
+    this.description = json["description"];
+  }
   Map<String, dynamic> toJson() {
     return {
       "name": this.name,

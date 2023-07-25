@@ -517,7 +517,7 @@ class DownloadOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
+    // final double screenWidth = MediaQuery.of(context).size.width;
 
     return Container(
       alignment: Alignment.center,

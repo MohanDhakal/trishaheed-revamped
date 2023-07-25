@@ -46,3 +46,17 @@ class Student {
     );
   }
 }
+
+class StudentDetail {
+  int currentPage;
+  int lastPage;
+  List<Student> students;
+  StudentDetail(this.currentPage, this.lastPage, this.students);
+  factory StudentDetail.fromJson(Map<String, dynamic> data) {
+    List<Student> local = [];
+    for (var element in data["data"]) {
+      local.add(Student.fromJson(element));
+    }
+    return StudentDetail(data["current_page"], data["last_page"], local);
+  }
+}

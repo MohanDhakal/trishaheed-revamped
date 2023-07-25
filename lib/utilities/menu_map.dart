@@ -15,14 +15,14 @@ class MenuIndex {
     MenuTag.unknown: 10,
   };
   static Map<MenuTag, String> names = {
-    MenuTag.home: "गृहपृष्ठ",
-    MenuTag.photoGallery: "फोटो ग्यालरी",
-    MenuTag.staff: "शिक्षक कर्मचारी",
-    MenuTag.students: "विद्यार्थी",
-    MenuTag.videoGallery: "भिडियो ग्यालरी",
-    MenuTag.downloads: "डाउन्लोड्स",
-    MenuTag.extras: "अन्य",
-    MenuTag.contact: "सम्पर्क",
-    MenuTag.blog: "बल्ग",
+    MenuTag.home: "Home",
+    MenuTag.photoGallery: "Photo Gallery",
+    MenuTag.staff: "Staff",
+    MenuTag.students: "Students",
+    MenuTag.videoGallery: "Video Gallery",
+    MenuTag.downloads: "Downloads",
+    MenuTag.extras: "Extras",
+    MenuTag.contact: "Contact Us",
+    MenuTag.blog: "Blog",
   };
 }

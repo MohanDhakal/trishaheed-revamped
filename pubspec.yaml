@@ -41,6 +41,8 @@ dependencies:
   data_table_2: ^2.3.6
   url_strategy: ^0.2.0
   responsive_framework: ^0.2.0
+  dio: ^5.3.0
+  dartz: ^0.10.1
 
 dev_dependencies:
   flutter_test:

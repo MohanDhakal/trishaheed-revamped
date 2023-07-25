@@ -26,18 +26,20 @@ class _ContactPageState extends State<ContactPage> {
             children: [
               ComplaintForm(),
               ResponsiveWrapper.of(context).isLargerThan(TABLET)
-                  ? SizedBox(
-                      width: size.width / 2,
-                      child: Container(
-                        width: 150,
-                        color: Colors.blue,
-                        alignment: Alignment.center,
+                  ? Card(
+                      elevation: 12,
+                      color: Colors.blue,
+                      child: SizedBox(
+                        width: size.width * 0.4,
+                        height: size.height * 0.2,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 4.0),
-                          child: Text(
-                            "\"Send Your Message Directly to the authority, One of the teacher from our school will respond to your query and will forward message to the concerned party\"",
-                            style: CustomTextStyle.formHeading(context),
-                            textAlign: TextAlign.center,
+                          child: Center(
+                            child: Text(
+                              """Send Your Message Directly to the authority,One of our admin will forward message to the concerned department.""",
+                              style: CustomTextStyle.quote(context),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                         ),
                       ),

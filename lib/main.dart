@@ -2,6 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:trishaheed/model/gallery_state.dart';
+import 'package:trishaheed/model/states/staff_state.dart';
 import 'package:trishaheed/model/states/students_state.dart';
 import 'package:trishaheed/pages/blogs.dart';
 import 'package:trishaheed/pages/contact_page.dart';
@@ -30,6 +32,8 @@ void main(List<String> args) {
       providers: [
         ChangeNotifierProvider(create: (_) => MenuState()),
         ChangeNotifierProvider(create: (_) => StudentState()),
+        ChangeNotifierProvider(create: (_) => GalleryState()),
+        ChangeNotifierProvider(create: (_) => StaffState()),
       ],
       child: EntryPoint(),
     ),
@@ -203,7 +207,6 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                               child: AppBar(
                                 flexibleSpace: FixHeader(
                                   onNewNotice: (() {
-                                    // print("pressed here");
                                     noticeExists = true;
                                     notifyListeners();
                                   }),
@@ -327,7 +330,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                     child: Container(
                                       height: size.height * 0.9,
                                       width: size.width * 0.8,
-                                      color: Colors.red,
+                                      color: Colors.black12,
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 8.0),
                                       child: Column(
@@ -345,8 +348,9 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                                   notifyListeners();
                                                 },
                                                 child: Icon(
-                                                  Icons.delete_sweep_sharp,
-                                                  size: 24,
+                                                  Icons.cancel_sharp,
+                                                  size: 36,
+                                                  color: Colors.red,
                                                 ),
                                               ),
                                             ],
