@@ -4,7 +4,6 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/model/download_menu.dart';
 import 'package:trishaheed/model/states/dowloads_state.dart';
 import 'package:trishaheed/utilities/download_enums.dart';
-
 import '../utilities/file_path_remover.dart';
 import '../utilities/loading_dialog.dart';
 
@@ -38,7 +37,9 @@ class _DownloadPageState extends State<DownloadPage> {
             ? ResponsiveRowColumnType.COLUMN
             : ResponsiveRowColumnType.ROW,
         children: [
-          ResponsiveRowColumnItem(child: SizedBox(width: 24)),
+          responsiveWrapper.isLargerThan(TABLET)
+              ? ResponsiveRowColumnItem(child: SizedBox(width: 24))
+              : ResponsiveRowColumnItem(child: SizedBox()),
           ResponsiveRowColumnItem(
             child: SizedBox(
               width: responsiveWrapper.isSmallerThan(TABLET)
@@ -189,7 +190,10 @@ class _DownloadPageState extends State<DownloadPage> {
           model.selectedFolder == Downloads.results
               ? ResponsiveRowColumnItem(
                   child: Container(
-                    width: screenWidth * 0.75,
+                    width: responsiveWrapper.isSmallerThan(TABLET)
+                        ? screenWidth
+                        : screenWidth * 0.75,
+                    alignment: Alignment.topLeft,
                     margin: EdgeInsets.zero,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

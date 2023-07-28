@@ -123,39 +123,80 @@ class _TeacherStaffState extends State<TeacherStaff> {
                           ),
                         ],
                       )
-                    : ListView.builder(
-                        itemCount: teacherList.length,
-                        shrinkWrap: true,
-                        itemBuilder: ((context, index) {
-                          return InkWell(
-                            onTap: (() {
-                              selectedStaff = teacherList.elementAt(index);
-                              setState(() => null);
-                            }),
-                            onHover: ((value) {
-                              // setState(
-                              //   () {
-                              //     if (teacherList[index].position ==
-                              //         Position.passive) {
-                              //       teacherList[index].position = Position.hovered;
-                              //       // print("reached at 1");
-                              //     } else {
-                              //       teacherList[index].position = Position.passive;
-                              //       // print("reached at 2");
-                              //     }
-                              //   },
-                              // );
-                            }),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 8.0, horizontal: 8.0),
-                              child: Staff(
-                                staff: teacherList[index],
-                                // width: MediaQuery.of(context).size.width,
-                              ),
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: size.height * 0.8,
+                            child: ListView.builder(
+                              itemCount: teacherList.length,
+                              shrinkWrap: true,
+                              itemBuilder: ((context, index) {
+                                return InkWell(
+                                  onTap: (() {
+                                    selectedStaff =
+                                        teacherList.elementAt(index);
+                                    setState(() => null);
+                                  }),
+                                  onHover: ((value) {
+                                    // setState(
+                                    //   () {
+                                    //     if (teacherList[index].position ==
+                                    //         Position.passive) {
+                                    //       teacherList[index].position = Position.hovered;
+                                    //       // print("reached at 1");
+                                    //     } else {
+                                    //       teacherList[index].position = Position.passive;
+                                    //       // print("reached at 2");
+                                    //     }
+                                    //   },
+                                    // );
+                                  }),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0, horizontal: 8.0),
+                                    child: Staff(
+                                      staff: teacherList[index],
+                                      // width: MediaQuery.of(context).size.width,
+                                    ),
+                                  ),
+                                );
+                              }),
                             ),
-                          );
-                        }),
+                          ),
+                          PaginatorWidget(
+                            onNext: () async {
+                              if (currentPage < lastPage) {
+                                currentPage++;
+                                setState(() => _loading = true);
+                                final local = await StaffRepo()
+                                    .getStaffList(page: currentPage);
+                                if (local != null) {
+                                  teacherList = local.staffs;
+                                  currentPage = local.currentPage;
+                                  lastPage = local.lastPage;
+                                  setState(() => _loading = false);
+                                }
+                              }
+                            },
+                            onPrevious: () async {
+                              if (currentPage > 1) {
+                                currentPage--;
+                                setState(() => _loading = true);
+                                final local = await StaffRepo()
+                                    .getStaffList(page: currentPage);
+                                if (local != null) {
+                                  teacherList = local.staffs;
+                                  currentPage = local.currentPage;
+                                  lastPage = local.lastPage;
+                                  setState(() => _loading = false);
+                                }
+                              }
+                            },
+                            currentPage: currentPage,
+                            lastPage: lastPage,
+                          ),
+                        ],
                       );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trishaheed/main.dart';
+import 'package:trishaheed/utilities/globals.dart';
 import 'package:trishaheed/utilities/images.dart';
 import '../utilities/menu_tag.dart';
 import '../utilities/textstyles.dart';
@@ -52,9 +53,7 @@ class Header extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: 80,
-                ),
+                SizedBox(width: 80),
                 Row(
                   children: [
                     Image.asset(
@@ -62,9 +61,7 @@ class Header extends StatelessWidget {
                       width: 30,
                       height: 30,
                     ),
-                    SizedBox(
-                      width: 10,
-                    ),
+                    SizedBox(width: 10),
                     Text(
                       "Email: ",
                       style: TextStyle(
@@ -73,15 +70,13 @@ class Header extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "trishaheed1986@gmail.com",
+                      Globals.schoolEmail,
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 14,
                       ),
                     ),
-                    SizedBox(
-                      width: 170,
-                    ),
+                    SizedBox(width: 170),
                     Image.asset(
                       telephone,
                       width: 20,
@@ -98,15 +93,13 @@ class Header extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "9846095574",
+                      Globals.informationOfficerContact,
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 14,
                       ),
                     ),
-                    SizedBox(
-                      width: 150,
-                    ),
+                    SizedBox(width: 150),
                     Container(
                       decoration: BoxDecoration(
                         color: Colors.orange,

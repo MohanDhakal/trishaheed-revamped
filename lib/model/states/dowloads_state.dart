@@ -6,7 +6,7 @@ import 'package:trishaheed/utilities/file_path_remover.dart';
 
 class DownloadState with ChangeNotifier {
   List<String> selectedDownloads = <String>[];
-  Downloads _selectedFolder = Downloads.routine;
+  Downloads _selectedFolder = Downloads.results;
   int totalPage = 1;
   int currentPage = 1;
 

@@ -139,7 +139,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
       Students(),
       VideoGallery(),
       DownloadPage(),
-      UnknownPage(text: "This is an Extra Page"),
+      UnknownPage(text: "This page is under developement"),
       ContactPage(),
       BlogList(
         onClick: ((m, index, post) {
@@ -269,7 +269,12 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                         CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      HeaderForMobile(),
+                                      HeaderForMobile(
+                                        onNewNotice: (() {
+                                          noticeExists = true;
+                                          notifyListeners();
+                                        }),
+                                      ),
                                       ...List<Widget>.generate(
                                         MenuTag.values.length - 2,
                                         (int index) {
@@ -330,7 +335,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                               ? SingleChildScrollView(
                                   child: Center(
                                     child: Container(
-                                      height: size.height * 0.9,
+                                      height: size.height * 0.95,
                                       width: size.width * 0.8,
                                       color: Colors.black12,
                                       padding:
@@ -568,7 +573,7 @@ class FixHeader extends StatelessWidget {
                     borderRadius: BorderRadius.circular(2),
                   ),
                   alignment: Alignment.center,
-                  child: Text("नयाँ सूचना"),
+                  child: Text("New Notice"),
                   width: 100,
                   height: 50,
                 ),
@@ -582,7 +587,9 @@ class FixHeader extends StatelessWidget {
 }
 
 class HeaderForMobile extends StatelessWidget {
-  const HeaderForMobile({Key? key}) : super(key: key);
+  final Function() onNewNotice;
+  const HeaderForMobile({Key? key, required this.onNewNotice})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -676,14 +683,18 @@ class HeaderForMobile extends StatelessWidget {
               ),
             ],
           ),
-          Container(
-            margin: EdgeInsets.only(left: 10, bottom: 5, top: 5, right: 10),
-            decoration: BoxDecoration(
-              color: Colors.orange,
-              borderRadius: BorderRadius.circular(2),
+          MaterialButton(
+            onPressed: onNewNotice,
+            child: Container(
+              height: 50,
+              margin: EdgeInsets.only(left: 10, bottom: 5, top: 5, right: 10),
+              decoration: BoxDecoration(
+                color: Colors.orange,
+                borderRadius: BorderRadius.circular(2),
+              ),
+              alignment: Alignment.center,
+              child: Text("New Notice"),
             ),
-            alignment: Alignment.center,
-            child: Text("नयाँ सूचना"),
           ),
         ],
       ),

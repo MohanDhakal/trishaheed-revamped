@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/widgets/footer.dart';
 import '../utilities/images.dart';
@@ -25,34 +26,36 @@ class _HomePageState extends State<HomePage> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            // ImageSlideshow(
-            //   height: 400.0,
-            //   children: [
-            //     Image.asset(
-            //       carousel1,
-            //       fit: BoxFit.cover,
-            //       // width: double.infinity,
-            //     ),
-            //     Image.asset(
-            //       carousel2,
-            //       fit: BoxFit.cover,
-            //       // width: double.infinity,
-            //     ),
-            //     Image.network(
-            //       carousel3,
-            //       fit: BoxFit.cover,
-            //       // width: double.infinity,
-            //     ),
-            //   ],
-            //   initialPage: 0,
-            //   indicatorColor: Colors.black87,
-            //   autoPlayInterval: 5000,
-            //   isLoop: true,
-            //   onPageChanged: (value) {
-            //     //todo: implement on page changed for carousel
-            //   },
-            // ),
-            SizedBox(height: 24),
+            ImageSlideshow(
+              height: responsiveWrapper.isLargerThan(TABLET)
+                  ? size.height * 0.7
+                  : size.height * 0.5,
+              children: [
+                Image.asset(
+                  carousel1,
+                  fit: BoxFit.cover,
+                  // width: double.infinity,
+                ),
+                Image.asset(
+                  carousel2,
+                  fit: BoxFit.cover,
+                  // width: double.infinity,
+                ),
+                Image.network(
+                  carousel3,
+                  fit: BoxFit.cover,
+                  // width: double.infinity,
+                ),
+              ],
+              initialPage: 0,
+              indicatorColor: Colors.black87,
+              autoPlayInterval: 5000,
+              isLoop: true,
+              onPageChanged: (value) {
+                //todo: implement on page changed for carousel
+              },
+            ),
+            SizedBox(height: 48),
             HeadMasterSaying(),
             SizedBox(height: 48),
             Padding(
@@ -82,10 +85,10 @@ class _HomePageState extends State<HomePage> {
                       fullName: "Jay Prasad Chapagain",
                       post: "Head Teacher",
                       dob: "2080-03-25",
-                      address: "Panchamool, SYangja",
+                      address: "Arjunchapari-4, Syangja",
                       isActive: 1,
                       joinedAt: "2080-03-25",
-                      majorSubject: "Mathematics",
+                      majorSubject: "Secondary Level 2",
                       jobType: "Permanent",
                       rank: "0.1",
                       teacherLevel: "Primary",
@@ -97,16 +100,17 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Staff(
                       staff: s.Staff(
-                          fullName: "Tek Nath Khanal",
-                          post: "Asst.Head Teacher",
-                          dob: "2080-03-25",
-                          address: "Arjunchapari-1, SYangja",
-                          isActive: 1,
-                          joinedAt: "2080-03-25",
-                          majorSubject: "Mathematics",
-                          jobType: "Permanent",
-                          rank: "0.1",
-                          teacherLevel: "Primary"),
+                        fullName: "Tek Nath Khanal",
+                        post: "Asst.Head Teacher",
+                        dob: "2080-03-25",
+                        address: "Arjunchapari-4, Syangja",
+                        isActive: 1,
+                        joinedAt: "2080-03-25",
+                        majorSubject: "Mathematics",
+                        jobType: "Permanent",
+                        rank: "0.1",
+                        teacherLevel: "Secondary Level 2",
+                      ),
                     ),
                   ),
                 ),
@@ -115,16 +119,17 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Staff(
                       staff: s.Staff(
-                          fullName: "Mohan Kumar Dhakal",
-                          post: " Teacher",
-                          dob: "2080-03-25",
-                          address: "Panchamool, SYangja",
-                          isActive: 1,
-                          joinedAt: "2080-03-25",
-                          majorSubject: "Mathematics",
-                          jobType: "Permanent",
-                          rank: "0.1",
-                          teacherLevel: "Primary"),
+                        fullName: "Mohan Kumar Dhakal",
+                        post: "Technical Instructor",
+                        dob: "2080-03-25",
+                        address: "Panchamool-1, SYangja",
+                        isActive: 1,
+                        joinedAt: "2080-03-25",
+                        majorSubject: "Software Engineering",
+                        jobType: "Temporary",
+                        rank: "0.1",
+                        teacherLevel: "Secondary Level 2",
+                      ),
                     ),
                   ),
                 ),
@@ -217,9 +222,11 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SizedBox(height: 48),
-            responsiveWrapper.isSmallerThan(DESKTOP)
+            responsiveWrapper.isSmallerThan(TABLET)
                 ? ResponsiveRowColumn(
-                    layout: ResponsiveRowColumnType.ROW,
+                    layout: responsiveWrapper.isSmallerThan(TABLET)
+                        ? ResponsiveRowColumnType.COLUMN
+                        : ResponsiveRowColumnType.ROW,
                     columnMainAxisAlignment: MainAxisAlignment.center,
                     rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -235,7 +242,7 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                       ),
-                      responsiveWrapper.isSmallerThan(DESKTOP)
+                      responsiveWrapper.isSmallerThan(TABLET)
                           ? ResponsiveRowColumnItem(
                               child: SizedBox(
                                 height: 10,

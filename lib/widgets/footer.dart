@@ -1,6 +1,8 @@
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:trishaheed/utilities/globals.dart';
 import 'package:webviewx/webviewx.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FooterWidget extends StatelessWidget {
   final Color? color;
@@ -16,7 +18,7 @@ class FooterWidget extends StatelessWidget {
       color: color,
       padding: EdgeInsets.only(top: 20),
       child: ResponsiveRowColumn(
-        layout: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
+        layout: ResponsiveWrapper.of(context).isSmallerThan(TABLET)
             ? ResponsiveRowColumnType.COLUMN
             : ResponsiveRowColumnType.ROW,
         columnMainAxisAlignment: MainAxisAlignment.start,
@@ -30,7 +32,7 @@ class FooterWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
+                  width: ResponsiveWrapper.of(context).isSmallerThan(TABLET)
                       ? size.width * 0.8
                       : size.width * 0.2,
                   child: Column(
@@ -46,7 +48,7 @@ class FooterWidget extends StatelessWidget {
                           SizedBox(width: 5),
                           Expanded(
                             child: Text(
-                              "	Co-ordinates: 28.13°N 83.78°E, Panchamul-syangja, Gandaki Zone, Nepal",
+                              Globals.schoolCoordinates,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium
@@ -65,7 +67,7 @@ class FooterWidget extends StatelessWidget {
                           ),
                           SizedBox(width: 5),
                           Text(
-                            "	+9779862790724",
+                            Globals.informationOfficerContact,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
@@ -83,7 +85,7 @@ class FooterWidget extends StatelessWidget {
                           ),
                           SizedBox(width: 4),
                           Text(
-                            "trishaheed1996@gmail.com",
+                            Globals.schoolEmail,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
@@ -101,6 +103,9 @@ class FooterWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                ResponsiveWrapper.of(context).isSmallerThan(TABLET)
+                    ? SizedBox(height: 12)
+                    : SizedBox(),
                 Text(
                   "Important Links",
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -118,7 +123,9 @@ class FooterWidget extends StatelessWidget {
                       color: Colors.black,
                     ),
                     MaterialButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _launchURL(Globals.aandhikholaRM);
+                      },
                       child: Text(
                         "Aandhikhola Rural Municipality",
                         style: Theme.of(context)
@@ -138,9 +145,33 @@ class FooterWidget extends StatelessWidget {
                       color: Colors.black,
                     ),
                     MaterialButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _launchURL(Globals.neb);
+                      },
                       child: Text(
                         "Nepal Education Board ",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(color: Colors.blue),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.arrow_forward,
+                      size: 16,
+                      color: Colors.black,
+                    ),
+                    MaterialButton(
+                      onPressed: () {
+                        _launchURL(Globals.moecdc);
+                      },
+                      child: Text(
+                        "Curriculum Developement Center",
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium
@@ -196,5 +227,15 @@ class FooterWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _launchURL(String url) async {
+    final Uri _url = Uri.parse(url);
+
+    if (await canLaunchUrl(_url)) {
+      await launchUrl(_url);
+    } else {
+      print('Could not launch $url');
+    }
   }
 }

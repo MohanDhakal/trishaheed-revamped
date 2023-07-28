@@ -154,6 +154,7 @@ class GradeChips extends StatelessWidget {
             return MaterialButton(
               onPressed: () {
                 showLoadingDialog(context);
+                model.currentPage = 1;
                 model.selectedGrade = GradeMap.names.keys.elementAt(index);
                 model.getStudentList().then((value) {
                   Navigator.pop(context);
