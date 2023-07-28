@@ -15,12 +15,14 @@ class BlogList extends StatefulWidget {
 
 class _BlogListState extends State<BlogList> {
   List<Blog> blogList = <Blog>[];
+  bool _loadingBlog = false;
   @override
-  // ignore: must_call_super
   void initState() {
+    super.initState();
     BlogApi().getBlogList().then((value) {
       setState(() {
         blogList = value;
+        _loadingBlog = true;
       });
     });
   }
@@ -29,44 +31,53 @@ class _BlogListState extends State<BlogList> {
   Widget build(BuildContext context) {
     final responsiveWrapper = ResponsiveWrapper.of(context);
 
-    return blogList.isEmpty
-        ? Container(
-            alignment: Alignment.center,
-            child: Text("There are no blogs available at the moment"),
+    return _loadingBlog == false
+        ? Center(
+            child: SizedBox(
+              height: 50,
+              width: 50,
+              child: CircularProgressIndicator(),
+            ),
           )
-        : GridView.builder(
-            itemCount: blogList.length,
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            itemBuilder: (BuildContext context, int index) {
-              return InkWell(
-                onHover: ((value) {
-                  setState(() {
-                    if (blogList[index].position == Position.passive) {
-                      blogList[index].position = Position.hovered;
-                      // print("reached at 1");
-                    } else {
-                      blogList[index].position = Position.passive;
-                      // print("reached at 2");
-                    }
-                  });
-                }),
-                onTap: () => widget.onClick(
-                    MenuTag.blogDetail, blogList[index].id, blogList[index]),
-                child: SingleBlog(
-                  blog: blogList[index],
+        : blogList.isEmpty
+            ? Container(
+                alignment: Alignment.center,
+                child: Text("There are no blogs available at the moment"),
+              )
+            : GridView.builder(
+                itemCount: blogList.length,
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                    onHover: ((value) {
+                      setState(() {
+                        if (blogList[index].position == Position.passive) {
+                          blogList[index].position = Position.hovered;
+                        } else {
+                          blogList[index].position = Position.passive;
+                        }
+                      });
+                    }),
+                    onTap: () => widget.onClick(
+                      MenuTag.blogDetail,
+                      blogList[index].id,
+                      blogList[index],
+                    ),
+                    child: SingleBlog(
+                      blog: blogList[index],
+                    ),
+                  );
+                },
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: responsiveWrapper.isLargerThan(TABLET)
+                      ? responsiveWrapper.screenWidth * 0.4
+                      : responsiveWrapper.screenWidth,
+                  childAspectRatio: 1,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
                 ),
               );
-            },
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: responsiveWrapper.isDesktop
-                  ? responsiveWrapper.screenWidth * 0.4
-                  : responsiveWrapper.screenWidth,
-              childAspectRatio: 0.75,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-            ),
-          );
   }
 }
 
@@ -92,33 +103,44 @@ class SingleBlog extends StatelessWidget {
               topLeft: Radius.circular(10),
               topRight: Radius.circular(10),
             ),
-            child: Image.asset(
+            child: Image.network(
               blog.imageUri,
-              fit: BoxFit.contain,
-              width: responsiveWrapper.isDesktop
+              fit: BoxFit.fitWidth,
+              height: responsiveWrapper.screenHeight * 0.3,
+              width: responsiveWrapper.isLargerThan(TABLET)
                   ? responsiveWrapper.screenWidth * 0.4
                   : responsiveWrapper.screenWidth,
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Text(
-                  blog.slug,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w300,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ...List.generate(
+                    blog.slug.length,
+                    (index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        child: Text(
+                          blog.slug.elementAt(index).name,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                ),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Text(
-                  blog.date,
+                  blog.createdAt.substring(0, 9),
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 12,
@@ -128,19 +150,32 @@ class SingleBlog extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              blog.byWhom,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.normal,
+          SizedBox(height: 12),
+          Row(
+            children: [
+              SizedBox(width: 4),
+              Text(
+                "Author ID",
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(
+                  blog.byWhom,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ),
+            ],
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 12),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
@@ -156,15 +191,15 @@ class SingleBlog extends StatelessWidget {
               maxLines: 3,
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 12),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: SizedBox(
-              width: responsiveWrapper.isDesktop
+              width: responsiveWrapper.isLargerThan(TABLET)
                   ? responsiveWrapper.screenWidth * 0.4
                   : responsiveWrapper.screenWidth,
               child: Text(
-                blog.content,
+                blog.content.first.data.toString(),
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.normal,

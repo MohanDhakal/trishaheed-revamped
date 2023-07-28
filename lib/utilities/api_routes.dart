@@ -6,6 +6,7 @@ class ApiRoutes {
   static final posts = "/posts";
   static final deletePost = "/posts/delete/";
   static final updatePost = "/posts/update/";
+  static final postDetail = "/posts/";
   static final addStaff = "/staffs/add/";
   static final staffs = "/staffs";
   static final updateStaff = "/staffs/update/";

@@ -106,7 +106,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
       case MenuTag.videoGallery:
         return VideoGallery();
       case MenuTag.extras:
-        return UnknownPage(text: "This is Extra Page");
+        return UnknownPage(text: "This page is under developement");
       case MenuTag.downloads:
         return DownloadPage();
       case MenuTag.contact:
