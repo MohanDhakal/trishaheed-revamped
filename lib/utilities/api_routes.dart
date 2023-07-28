@@ -16,4 +16,7 @@ class ApiRoutes {
   static final images = "/images/album/";
   static final deleteAlbum = "/images/delete/";
   static final students = "/students/grade/";
+  static final files = "/files/";
+  static final fileDownload = "/files/downloads/";
+  static final feeback = "/feedback/add";
 }

@@ -4,7 +4,7 @@ import '../services/BaseApi.dart';
 import '../utilities/api_routes.dart';
 
 class StudentRepo {
-  Future<StudentDetail?> getStudentsForGrade(int grade, {int page = 1}) async {
+  Future<StudentDetail?> getStudentsForGrade(int grade, int page) async {
     final response = await BaseApi.createDio()
         .get(ApiRoutes.students + "$grade", {"page": page});
     StudentDetail? student;

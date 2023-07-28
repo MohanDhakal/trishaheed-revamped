@@ -13,7 +13,7 @@ class BaseApi {
       connectTimeout: Duration(seconds: 15),
       sendTimeout: Duration(seconds: 15),
     ));
-    dio.options.headers['Accept'] = 'application/json';
+    dio.options.headers['Accept'] = '*/*';
     if (accessToken != null) {
       dio.options.headers['Authorization'] = 'Bearer $accessToken';
     }
@@ -48,7 +48,6 @@ class BaseApi {
     Failure failure = new Failure("failure message", FailureType.OTHER);
     try {
       final response = await dio.get(path, queryParameters: queryParameters);
-      // print("response $response");
       return Left(response);
     } on DioError catch (e) {
       final dioError = getDioErrorMsg(failure, e);

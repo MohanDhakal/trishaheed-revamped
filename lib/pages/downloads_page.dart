@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/model/download_menu.dart';
+import 'package:trishaheed/model/states/dowloads_state.dart';
 import 'package:trishaheed/utilities/download_enums.dart';
+
+import '../utilities/file_path_remover.dart';
+import '../utilities/loading_dialog.dart';
 
 class DownloadPage extends StatefulWidget {
   const DownloadPage({Key? key}) : super(key: key);
@@ -11,13 +16,14 @@ class DownloadPage extends StatefulWidget {
 }
 
 class _DownloadPageState extends State<DownloadPage> {
-  Downloads selectedPage = Downloads.others;
-
   List<DownloadMenu> downloadMenuList = <DownloadMenu>[];
 
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration.zero).then((value) {
+      Provider.of<DownloadState>(context, listen: false).getFiles();
+    });
   }
 
   @override
@@ -25,15 +31,16 @@ class _DownloadPageState extends State<DownloadPage> {
     final double screenWidth = MediaQuery.of(context).size.width;
     final responsiveWrapper = ResponsiveWrapper.of(context);
 
-    return ResponsiveRowColumn(
-      rowMainAxisAlignment: MainAxisAlignment.start,
-      layout: responsiveWrapper.isSmallerThan(TABLET)
-          ? ResponsiveRowColumnType.COLUMN
-          : ResponsiveRowColumnType.ROW,
-      children: [
-        ResponsiveRowColumnItem(child: SizedBox(width: 24)),
-        ResponsiveRowColumnItem(
-          child: SizedBox(
+    return Consumer<DownloadState>(builder: (context, model, child) {
+      return ResponsiveRowColumn(
+        rowMainAxisAlignment: MainAxisAlignment.start,
+        layout: responsiveWrapper.isSmallerThan(TABLET)
+            ? ResponsiveRowColumnType.COLUMN
+            : ResponsiveRowColumnType.ROW,
+        children: [
+          ResponsiveRowColumnItem(child: SizedBox(width: 24)),
+          ResponsiveRowColumnItem(
+            child: SizedBox(
               width: responsiveWrapper.isSmallerThan(TABLET)
                   ? screenWidth
                   : screenWidth * 0.20,
@@ -47,10 +54,11 @@ class _DownloadPageState extends State<DownloadPage> {
                     : ResponsiveRowColumnType.COLUMN,
                 children: [
                   ResponsiveRowColumnItem(
-                      child: SizedBox(
-                    height: responsiveWrapper.isSmallerThan(TABLET) ? 0 : 16,
-                    width: responsiveWrapper.isSmallerThan(TABLET) ? 8 : 0,
-                  )),
+                    child: SizedBox(
+                      height: responsiveWrapper.isSmallerThan(TABLET) ? 0 : 16,
+                      width: responsiveWrapper.isSmallerThan(TABLET) ? 8 : 0,
+                    ),
+                  ),
                   ResponsiveRowColumnItem(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 8.0),
@@ -79,10 +87,11 @@ class _DownloadPageState extends State<DownloadPage> {
                     ),
                   ),
                   ResponsiveRowColumnItem(
-                      child: SizedBox(
-                    height: responsiveWrapper.isSmallerThan(TABLET) ? 0 : 8,
-                    width: responsiveWrapper.isSmallerThan(TABLET) ? 8 : 0,
-                  )),
+                    child: SizedBox(
+                      height: responsiveWrapper.isSmallerThan(TABLET) ? 0 : 8,
+                      width: responsiveWrapper.isSmallerThan(TABLET) ? 8 : 0,
+                    ),
+                  ),
                   ResponsiveRowColumnItem(
                     child: responsiveWrapper.isSmallerThan(TABLET)
                         ? SizedBox()
@@ -92,14 +101,21 @@ class _DownloadPageState extends State<DownloadPage> {
                           ),
                   ),
                   ResponsiveRowColumnItem(
-                      child: SizedBox(
-                    height: responsiveWrapper.isSmallerThan(TABLET) ? 0 : 16,
-                    width: responsiveWrapper.isSmallerThan(TABLET) ? 16 : 0,
-                  )),
+                    child: SizedBox(
+                      height: responsiveWrapper.isSmallerThan(TABLET) ? 0 : 16,
+                      width: responsiveWrapper.isSmallerThan(TABLET) ? 16 : 0,
+                    ),
+                  ),
                   ResponsiveRowColumnItem(
                     child: MaterialButton(
-                      onPressed: () {
-                        setState(() => selectedPage = Downloads.results);
+                      onPressed: () async {
+                        model.currentPage = 1;
+                        model.totalPage = 1;
+                        showLoadingDialog(context);
+                        model.selectedFolder = Downloads.results;
+                        model.refreshFiles().then((value) {
+                          Navigator.pop(context);
+                        });
                       },
                       child: Text(
                         "Results",
@@ -112,14 +128,22 @@ class _DownloadPageState extends State<DownloadPage> {
                     ),
                   ),
                   ResponsiveRowColumnItem(
-                      child: SizedBox(
-                    height: responsiveWrapper.isSmallerThan(TABLET) ? 0 : 16,
-                    width: responsiveWrapper.isSmallerThan(TABLET) ? 16 : 0,
-                  )),
+                    child: SizedBox(
+                      height: responsiveWrapper.isSmallerThan(TABLET) ? 0 : 16,
+                      width: responsiveWrapper.isSmallerThan(TABLET) ? 16 : 0,
+                    ),
+                  ),
                   ResponsiveRowColumnItem(
                     child: MaterialButton(
-                      onPressed: () {
-                        setState(() => selectedPage = Downloads.routine);
+                      onPressed: () async {
+                        model.currentPage = 1;
+                        model.totalPage = 1;
+
+                        showLoadingDialog(context);
+                        model.selectedFolder = Downloads.routine;
+                        model.refreshFiles().then((value) {
+                          Navigator.pop(context);
+                        });
                       },
                       child: Text(
                         "Routine",
@@ -132,14 +156,21 @@ class _DownloadPageState extends State<DownloadPage> {
                     ),
                   ),
                   ResponsiveRowColumnItem(
-                      child: SizedBox(
-                    height: responsiveWrapper.isSmallerThan(TABLET) ? 0 : 8,
-                    width: responsiveWrapper.isSmallerThan(TABLET) ? 8 : 0,
-                  )),
+                    child: SizedBox(
+                      height: responsiveWrapper.isSmallerThan(TABLET) ? 0 : 8,
+                      width: responsiveWrapper.isSmallerThan(TABLET) ? 8 : 0,
+                    ),
+                  ),
                   ResponsiveRowColumnItem(
                     child: MaterialButton(
                       onPressed: () {
-                        setState(() => selectedPage = Downloads.others);
+                        model.currentPage = 1;
+                        model.totalPage = 1;
+                        showLoadingDialog(context);
+                        model.selectedFolder = Downloads.others;
+                        model.refreshFiles().then((value) {
+                          Navigator.pop(context);
+                        });
                       },
                       child: Text(
                         "Others",
@@ -152,129 +183,127 @@ class _DownloadPageState extends State<DownloadPage> {
                     ),
                   ),
                 ],
-              )),
-        ),
-        selectedPage == Downloads.results
-            ? ResponsiveRowColumnItem(
-                child: Container(
-                  width: screenWidth * 0.75,
-                  margin: EdgeInsets.zero,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 72),
-                      const PlacholderDownloads(),
-                      Divider(
-                        thickness: 2,
-                        color: Colors.grey.shade300,
-                      ),
-                      SizedBox(height: 8),
-                      DownloadFile(
-                        name: "2079 Result Grade 10",
-                        action: '',
-                        sn: 1,
-                      ),
-                      SizedBox(height: 4),
-                      DownloadFile(
-                        name: "2080 Result Grade 10",
-                        action: '',
-                        sn: 2,
-                      ),
-                      Divider(
-                        thickness: 2,
-                        color: Colors.grey.shade300,
-                      ),
-                      PaginatorWidget()
-                    ],
-                  ),
-                ),
-              )
-            : selectedPage == Downloads.routine
-                ? ResponsiveRowColumnItem(
-                    child: Container(
-                      width: screenWidth * 0.75,
-                      margin: EdgeInsets.zero,
-                      alignment: Alignment.center,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 72),
-                          const PlacholderDownloads(),
-                          Divider(
-                            thickness: 2,
-                            color: Colors.grey.shade300,
-                          ),
-                          SizedBox(height: 8),
-                          DownloadFile(
-                            name: "2079 Result Grade 10",
-                            action: '',
-                            sn: 1,
-                          ),
-                          SizedBox(
-                            height: 4,
-                          ),
-                          DownloadFile(
-                            name: "2079 Result Grade 10",
-                            action: '',
-                            sn: 2,
-                          ),
-                          Divider(
-                            thickness: 2,
-                            color: Colors.grey.shade300,
-                          ),
-                          PaginatorWidget()
-                        ],
-                      ),
+              ),
+            ),
+          ),
+          model.selectedFolder == Downloads.results
+              ? ResponsiveRowColumnItem(
+                  child: Container(
+                    width: screenWidth * 0.75,
+                    margin: EdgeInsets.zero,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 72),
+                        const PlacholderDownloads(),
+                        Divider(
+                          thickness: 2,
+                          color: Colors.grey.shade300,
+                        ),
+                        ...List.generate(
+                          model.selectedDownloads.length,
+                          (index) {
+                            int sn = index + 1;
+                            return DownloadFile(
+                              sn: sn,
+                              action: 'Downloads',
+                              name: model.selectedDownloads.elementAt(index),
+                            );
+                          },
+                        ),
+                        Divider(
+                          thickness: 2,
+                          color: Colors.grey.shade300,
+                        ),
+                        PaginatorWidget()
+                      ],
                     ),
-                  )
-                : selectedPage == Downloads.others
-                    ? ResponsiveRowColumnItem(
-                        child: Container(
-                          width: screenWidth * 0.75,
-                          margin: EdgeInsets.zero,
-                          alignment: Alignment.center,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(height: 72),
-                              const PlacholderDownloads(),
-                              Divider(
-                                thickness: 2,
-                                color: Colors.grey.shade300,
-                              ),
-                              SizedBox(height: 8),
-                              DownloadFile(
-                                name: "2079 Result Grade 10",
-                                action: '',
-                                sn: 1,
-                              ),
-                              SizedBox(
-                                height: 4,
-                              ),
-                              DownloadFile(
-                                name: "2079 Result Grade 10",
-                                action: '',
-                                sn: 2,
-                              ),
-                              Divider(
-                                thickness: 2,
-                                color: Colors.grey.shade300,
-                              ),
-                              PaginatorWidget()
-                            ],
-                          ),
-                        ),
-                      )
-                    : ResponsiveRowColumnItem(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Center(
-                            child: Text("Unexpected Error Occured"),
-                          ),
+                  ),
+                )
+              : model.selectedFolder == Downloads.routine
+                  ? ResponsiveRowColumnItem(
+                      child: Container(
+                        width: screenWidth * 0.75,
+                        margin: EdgeInsets.zero,
+                        alignment: Alignment.center,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 72),
+                            const PlacholderDownloads(),
+                            Divider(
+                              thickness: 2,
+                              color: Colors.grey.shade300,
+                            ),
+                            SizedBox(height: 8),
+                            ...List.generate(
+                              model.selectedDownloads.length,
+                              (index) {
+                                int sn = index + 1;
+                                return DownloadFile(
+                                  sn: sn,
+                                  action: 'Downloads',
+                                  name:
+                                      model.selectedDownloads.elementAt(index),
+                                );
+                              },
+                            ),
+                            Divider(
+                              thickness: 2,
+                              color: Colors.grey.shade300,
+                            ),
+                            PaginatorWidget()
+                          ],
                         ),
                       ),
-      ],
-    );
+                    )
+                  : model.selectedFolder == Downloads.others
+                      ? ResponsiveRowColumnItem(
+                          child: Container(
+                            width: screenWidth * 0.75,
+                            margin: EdgeInsets.zero,
+                            alignment: Alignment.center,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(height: 72),
+                                const PlacholderDownloads(),
+                                Divider(
+                                  thickness: 2,
+                                  color: Colors.grey.shade300,
+                                ),
+                                ...List.generate(
+                                  model.selectedDownloads.length,
+                                  (index) {
+                                    int sn = index + 1;
+                                    return DownloadFile(
+                                      sn: sn,
+                                      action: 'Downloads',
+                                      name: model.selectedDownloads
+                                          .elementAt(index),
+                                    );
+                                  },
+                                ),
+                                Divider(
+                                  thickness: 2,
+                                  color: Colors.grey.shade300,
+                                ),
+                                PaginatorWidget()
+                              ],
+                            ),
+                          ),
+                        )
+                      : ResponsiveRowColumnItem(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(
+                              child: Text("Unexpected Error Occured"),
+                            ),
+                          ),
+                        ),
+        ],
+      );
+    });
   }
 }
 
@@ -283,61 +312,79 @@ class PaginatorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        MaterialButton(
-          onPressed: () {},
-          child: Container(
-            width: 100,
-            height: 36,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4),
-              border: Border.all(
-                color: Colors.grey,
+    return Consumer<DownloadState>(builder: (context, model, child) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          MaterialButton(
+            onPressed: () {
+              if (model.currentPage > 1) {
+                model.currentPage--;
+                showLoadingDialog(context);
+                model.refreshFiles().then((value) {
+                  Navigator.pop(context);
+                });
+              }
+            },
+            child: Container(
+              width: 100,
+              height: 36,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                border: Border.all(
+                  color: Colors.grey,
+                ),
               ),
+              child: Text("Previous"),
             ),
-            child: Text("Previous"),
           ),
-        ),
-        SizedBox(width: 12),
-        Container(
-            width: 100,
-            height: 36,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Colors.blueAccent,
-              borderRadius: BorderRadius.circular(4),
-              border: Border.all(
-                color: Colors.grey,
+          SizedBox(width: 12),
+          Container(
+              width: 100,
+              height: 36,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Colors.blueAccent,
+                borderRadius: BorderRadius.circular(4),
+                border: Border.all(
+                  color: Colors.grey,
+                ),
               ),
+              child: Text(
+                "${model.currentPage} of ${model.totalPage}",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                ),
+              )),
+          SizedBox(width: 12),
+          MaterialButton(
+            onPressed: () {
+              if (model.currentPage < model.totalPage) {
+                model.currentPage++;
+                showLoadingDialog(context);
+                model.refreshFiles().then((value) {
+                  Navigator.pop(context);
+                });
+              }
+            },
+            child: Container(
+              width: 100,
+              height: 36,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                border: Border.all(
+                  color: Colors.grey,
+                ),
+              ),
+              child: Text("Next"),
             ),
-            child: Text(
-              "1 of 12",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-              ),
-            )),
-        SizedBox(width: 12),
-        MaterialButton(
-          onPressed: () {},
-          child: Container(
-            width: 100,
-            height: 36,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4),
-              border: Border.all(
-                color: Colors.grey,
-              ),
-            ),
-            child: Text("Next"),
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 }
 
@@ -462,7 +509,7 @@ class DownloadFile extends StatelessWidget {
             ),
           ),
           Text(
-            name,
+            removeDir(name),
             style: TextStyle(
               // color: Colors.blue,
               fontSize: ResponsiveValue(
@@ -482,7 +529,10 @@ class DownloadFile extends StatelessWidget {
             ),
           ),
           MaterialButton(
-            onPressed: () {},
+            onPressed: () async {
+              final model = Provider.of<DownloadState>(context, listen: false);
+              await model.downloadFile(name);
+            },
             child: Text(
               "Download",
               style: TextStyle(

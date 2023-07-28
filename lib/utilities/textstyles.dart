@@ -18,10 +18,10 @@ class CustomTextStyle {
   }
 
   static TextStyle? button(BuildContext context) {
-    return Theme.of(context).textTheme.titleMedium?.copyWith(
+    return Theme.of(context).textTheme.bodyMedium?.copyWith(
           fontSize: 16,
           fontWeight: FontWeight.w500,
-          color: Colors.white70,
+          color: Colors.white,
         );
   }
 

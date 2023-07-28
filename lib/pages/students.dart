@@ -4,6 +4,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/model/states/students_state.dart';
 import 'package:trishaheed/utilities/grade_map.dart';
 import 'package:trishaheed/widgets/student.dart';
+import '../utilities/loading_dialog.dart';
 import 'student_detail.dart';
 
 class Students extends StatefulWidget {
@@ -78,8 +79,8 @@ class _StudentsState extends State<Students> {
                     PaginatorWidget(
                       onNext: () {
                         if (model.currentPage < model.lastPage) {
-                          model.currentPage++;
                           showLoadingDialog(context);
+                          ++model.currentPage;
                           model.getStudentList().then((value) {
                             Navigator.pop(context);
                           });
@@ -87,8 +88,8 @@ class _StudentsState extends State<Students> {
                       },
                       onPrevious: () {
                         if (model.currentPage > 1) {
-                          model.currentPage--;
                           showLoadingDialog(context);
+                          --model.currentPage;
                           model.getStudentList().then((value) {
                             Navigator.pop(context);
                           });
@@ -130,27 +131,6 @@ class _StudentsState extends State<Students> {
                 );
     });
   }
-}
-
-void showLoadingDialog(context) {
-  showDialog(
-    barrierDismissible: false,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text("Loading Students..."),
-        content: SizedBox(
-          height: 50,
-          width: 50,
-          child: Center(
-            child: CircularProgressIndicator(
-              color: Colors.blue,
-            ),
-          ),
-        ),
-      );
-    },
-    context: context,
-  );
 }
 
 class GradeChips extends StatelessWidget {

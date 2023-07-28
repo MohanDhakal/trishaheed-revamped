@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:trishaheed/repository/contacts_repo.dart';
 import 'package:trishaheed/utilities/textstyles.dart';
+import 'package:trishaheed/utilities/validators.dart';
 
-class ComplaintForm extends StatelessWidget {
-  const ComplaintForm({Key? key}) : super(key: key);
+import '../utilities/loading_dialog.dart';
 
+class ComplaintForm extends StatefulWidget {
+  ComplaintForm({Key? key}) : super(key: key);
+
+  @override
+  State<ComplaintForm> createState() => _ComplaintFormState();
+}
+
+class _ComplaintFormState extends State<ComplaintForm> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController complaintController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final TextEditingController nameController = TextEditingController();
-    final TextEditingController phoneController = TextEditingController();
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController complaintController = TextEditingController();
 
     return SizedBox(
       width: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
@@ -19,6 +29,7 @@ class ComplaintForm extends StatelessWidget {
           : width * 0.5,
       child: Material(
         child: Form(
+          key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -27,7 +38,7 @@ class ComplaintForm extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: TextFormField(
                   controller: nameController,
-                  validator: null,
+                  validator: validateName,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: "Enter Your Name Here",
@@ -42,7 +53,7 @@ class ComplaintForm extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: TextFormField(
                   controller: phoneController,
-                  validator: null,
+                  validator: validatePhone,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: "Enter Your Phone Number Here",
@@ -54,6 +65,7 @@ class ComplaintForm extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: TextFormField(
                   controller: emailController,
+                  validator: validateEmail,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: "Enter Your Email Here",
@@ -65,7 +77,7 @@ class ComplaintForm extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: TextFormField(
                   controller: complaintController,
-                  validator: null,
+                  validator: validateDescription,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: "Enter Your Message Here",
@@ -74,8 +86,27 @@ class ComplaintForm extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 10),
-              InkWell(
-                onTap: () {},
+              MaterialButton(
+                onPressed: () async {
+                  final validated = _formKey.currentState?.validate() ?? false;
+                  if (validated) {
+                    showLoadingDialog(context);
+                    final response = await ContactRepo().addFeedback({
+                      "name": nameController.text,
+                      "email": emailController.text,
+                      "message": complaintController.text,
+                      "phone_number": phoneController.text,
+                    });
+                    if (response == null) {
+                      Navigator.pop(context);
+                      showErrorDialog(context, "Error Occured");
+                    } else {
+                      _formKey.currentState?.reset();
+                      Navigator.pop(context);
+                      showSuccessDialog(context, response);
+                    }
+                  }
+                },
                 child: Container(
                   height: 50,
                   margin: EdgeInsets.symmetric(horizontal: 12),

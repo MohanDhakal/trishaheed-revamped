@@ -10,3 +10,4 @@ const String progressIcon = "assets/images/icons/graph.png";
 const String teacherIcon = "assets/images/icons/teacher.png";
 const String microscopeIcon = "assets/images/icons/microscope.png";
 const String readingIcon = "assets/images/icons/reading-book.png";
+const String customerCare = "assets/images/customer-care.png";

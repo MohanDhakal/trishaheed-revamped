@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/model/gallery_state.dart';
+import 'package:trishaheed/model/states/dowloads_state.dart';
 import 'package:trishaheed/model/states/staff_state.dart';
 import 'package:trishaheed/model/states/students_state.dart';
 import 'package:trishaheed/pages/blogs.dart';
@@ -34,6 +35,7 @@ void main(List<String> args) {
         ChangeNotifierProvider(create: (_) => StudentState()),
         ChangeNotifierProvider(create: (_) => GalleryState()),
         ChangeNotifierProvider(create: (_) => StaffState()),
+        ChangeNotifierProvider(create: (_) => DownloadState()),
       ],
       child: EntryPoint(),
     ),

@@ -28,7 +28,7 @@ class StudentState with ChangeNotifier {
   }
 
   set lastPage(int page) {
-    _currentPage = page;
+    _lastPage = page;
   }
 
   int get currentPage => _currentPage;
@@ -38,8 +38,8 @@ class StudentState with ChangeNotifier {
   Student? get selectedStudent => _selectedStudent;
 
   Future<void> getStudentList() async {
-    final response = await StudentRepo()
-        .getStudentsForGrade(selectedGrade, page: currentPage);
+    final response =
+        await StudentRepo().getStudentsForGrade(selectedGrade, currentPage);
     if (response != null) {
       // print(response.students);
       studentList = response.students;

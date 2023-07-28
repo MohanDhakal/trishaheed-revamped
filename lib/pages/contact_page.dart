@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:trishaheed/utilities/images.dart';
 import 'package:trishaheed/widgets/footer.dart';
 import 'package:webviewx/webviewx.dart';
 import '../utilities/textstyles.dart';
@@ -28,19 +29,31 @@ class _ContactPageState extends State<ContactPage> {
               ResponsiveWrapper.of(context).isLargerThan(TABLET)
                   ? Card(
                       elevation: 12,
-                      color: Colors.blue,
+                      color: Colors.white,
                       child: SizedBox(
                         width: size.width * 0.4,
-                        height: size.height * 0.2,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 4.0),
-                          child: Center(
-                            child: Text(
-                              """Send Your Message Directly to the authority,One of our admin will forward message to the concerned department.""",
-                              style: CustomTextStyle.quote(context),
-                              textAlign: TextAlign.center,
+                        height: size.height * 0.25,
+                        child: Column(
+                          children: [
+                            SizedBox(height: 24),
+                            Image.asset(
+                              customerCare,
+                              height: size.height * 0.1,
+                              width: size.width * 0.1,
                             ),
-                          ),
+                            SizedBox(height: 12),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 4.0),
+                              child: Center(
+                                child: Text(
+                                  """Send Your Message Directly to the authority,One of our admin will forward message to the concerned department.""",
+                                  style: CustomTextStyle.quote(context),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     )
