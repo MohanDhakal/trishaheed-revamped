@@ -1,7 +1,9 @@
 class Slug {
   int id;
   String name;
+
   Slug(this.id, this.name);
+
   Map<String, dynamic> toJson() {
     return {"id": this.id, "name": this.name};
   }

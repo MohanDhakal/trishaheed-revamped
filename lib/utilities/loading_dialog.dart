@@ -5,7 +5,7 @@ void showLoadingDialog(context) {
     barrierDismissible: false,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text("Loading Students..."),
+        title: Text("Loading..."),
         content: SizedBox(
           height: 50,
           width: 50,
@@ -52,10 +52,10 @@ void showErrorDialog(context, String? message) {
 
 void showSuccessDialog(context, String? successMsg) {
   showDialog(
-    barrierDismissible: true,
+    barrierDismissible: false,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text("Requested Sucessfull"),
+        title: Text("Request Sucessfull!"),
         content: SizedBox(
           height: 80,
           width: 100,

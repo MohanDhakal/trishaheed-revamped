@@ -13,6 +13,7 @@ class ImageDetail {
   late String updatedAt;
 
   ImageDetail.fromJson(Map<String, dynamic> json) {
+    print(json["image_url"]);
     this.id = json["id"];
     this.url = json["image_url"];
     this.createdAt = json["created_at"];

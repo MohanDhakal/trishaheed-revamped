@@ -3,7 +3,6 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/repository/contacts_repo.dart';
 import 'package:trishaheed/utilities/textstyles.dart';
 import 'package:trishaheed/utilities/validators.dart';
-
 import '../utilities/loading_dialog.dart';
 
 class ComplaintForm extends StatefulWidget {
@@ -101,6 +100,7 @@ class _ComplaintFormState extends State<ComplaintForm> {
                       Navigator.pop(context);
                       showErrorDialog(context, "Error Occured");
                     } else {
+                      print("came here");
                       _formKey.currentState?.reset();
                       Navigator.pop(context);
                       showSuccessDialog(context, response);

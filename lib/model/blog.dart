@@ -34,11 +34,11 @@ class Blog {
 
   factory Blog.fromJson(Map<String, dynamic> obj) {
     List<Slug> s = <Slug>[];
-    // print(obj["slugs"]);
+
     for (var slug in obj["slugs"]) {
       s.add(Slug.fromJson(slug));
     }
-    print(s);
+    // print(s);
     return Blog(
       title: obj["title"],
       content: Delta.fromJson(obj["body"]),

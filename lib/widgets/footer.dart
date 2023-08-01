@@ -18,7 +18,7 @@ class FooterWidget extends StatelessWidget {
       color: color,
       padding: EdgeInsets.only(top: 20),
       child: ResponsiveRowColumn(
-        layout: ResponsiveWrapper.of(context).isSmallerThan(TABLET)
+        layout: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
             ? ResponsiveRowColumnType.COLUMN
             : ResponsiveRowColumnType.ROW,
         columnMainAxisAlignment: MainAxisAlignment.start,
@@ -32,7 +32,7 @@ class FooterWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: ResponsiveWrapper.of(context).isSmallerThan(TABLET)
+                  width: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
                       ? size.width * 0.8
                       : size.width * 0.2,
                   child: Column(
@@ -103,7 +103,7 @@ class FooterWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ResponsiveWrapper.of(context).isSmallerThan(TABLET)
+                ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
                     ? SizedBox(height: 12)
                     : SizedBox(),
                 Text(
@@ -190,8 +190,8 @@ class FooterWidget extends StatelessWidget {
                   'https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2F%E0%A4%B6%E0%A5%8D%E0%A4%B0%E0%A5%80-%E0%A4%A4%E0%A5%8D%E0%A4%B0%E0%A4%BF-%E0%A4%B6%E0%A4%B9%E0%A5%80%E0%A4%A6-%E0%A4%AE%E0%A4%BE%E0%A4%B5%E0%A4%BF-%E0%A4%AA%E0%A4%9E%E0%A5%8D%E0%A4%9A%E0%A4%AE%E0%A5%81%E0%A4%B2-%E0%A4%86%E0%A4%82%E0%A4%A7%E0%A4%BF%E0%A4%96%E0%A5%8B%E0%A4%B2%E0%A4%BE-%E0%A5%A7-%E0%A4%B8%E0%A5%8D%E0%A4%AF%E0%A4%BE%E0%A4%99%E0%A5%8D%E0%A4%9C%E0%A4%BE--1393860857356600%2F&tabs=timeline&width=400&height=500&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false&appId',
               initialSourceType: SourceType.url,
               onWebViewCreated: (controller) => webviewController = controller,
-              height: 500,
-              width: 400,
+              height: size.height * 0.6,
+              width: size.width * 0.4,
             ),
           ),
           ResponsiveRowColumnItem(
@@ -218,8 +218,8 @@ class FooterWidget extends StatelessWidget {
                   initialSourceType: SourceType.url,
                   onWebViewCreated: (controller) =>
                       webviewController = controller,
-                  height: 550,
-                  width: 400,
+                  height: size.height * 0.2,
+                  width: size.width * 0.2,
                 ),
               ],
             ),

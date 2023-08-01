@@ -19,7 +19,7 @@ class StudentWidget extends StatelessWidget {
         color: Colors.grey.shade300,
         borderRadius: BorderRadius.circular(8),
       ),
-      width: responsiveWrapper.isSmallerThan(TABLET)
+      width: responsiveWrapper.isSmallerThan(DESKTOP)
           ? size.width * 0.9
           : size.width * 0.3,
       child: Column(

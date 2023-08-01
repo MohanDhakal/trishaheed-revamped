@@ -19,7 +19,7 @@ class Staff extends StatelessWidget {
         color: Colors.grey.shade300,
         borderRadius: BorderRadius.circular(8),
       ),
-      width: responsiveWrapper.isSmallerThan(TABLET)
+      width: responsiveWrapper.isSmallerThan(DESKTOP)
           ? size.width * 0.9
           : size.width * 0.3,
       child: Column(
@@ -32,12 +32,14 @@ class Staff extends StatelessWidget {
               topLeft: Radius.circular(8),
               topRight: Radius.circular(8),
             ),
-            child: Image.asset(
-              potraitSample,
-              fit: BoxFit.cover,
+            child: Image.network(
+              staff.imageUrl ??
+                  "https://fastly.picsum.photos/id/185/200/300.jpg?blur=5&hmac=yQe4ekSkmZmozebKHSoPPJ9UjQtZ7Xcu7QLdp56CChw",
+              fit: BoxFit.fill,
               width: responsiveWrapper.isSmallerThan(DESKTOP)
                   ? size.width * 0.9
                   : size.width * 0.3,
+              height: size.height * 0.3,
             ),
           ),
           SizedBox(height: 36),
@@ -47,8 +49,8 @@ class Staff extends StatelessWidget {
               staff.fullName,
               style: Theme.of(context)
                   .textTheme
-                  .bodyLarge
-                  ?.copyWith(fontSize: 24, fontWeight: FontWeight.bold),
+                  .bodyMedium
+                  ?.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
           Padding(
@@ -114,7 +116,6 @@ class Staff extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 10),
         ],
       ),
     );

@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
             SizedBox(width: size.width * 0.2, child: Divider(thickness: 4)),
             SizedBox(height: 48),
             ResponsiveRowColumn(
-              layout: responsiveWrapper.isSmallerThan(TABLET)
+              layout: responsiveWrapper.isSmallerThan(DESKTOP)
                   ? ResponsiveRowColumnType.COLUMN
                   : ResponsiveRowColumnType.ROW,
               rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -202,7 +202,7 @@ class _HomePageState extends State<HomePage> {
             Center(
               child: Text(
                 " STUDENTS SAYING",
-                style: responsiveWrapper.isSmallerThan(TABLET)
+                style: responsiveWrapper.isSmallerThan(DESKTOP)
                     ? Theme.of(context)
                         .textTheme
                         .headlineMedium
@@ -222,9 +222,9 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SizedBox(height: 48),
-            responsiveWrapper.isSmallerThan(TABLET)
+            responsiveWrapper.isSmallerThan(DESKTOP)
                 ? ResponsiveRowColumn(
-                    layout: responsiveWrapper.isSmallerThan(TABLET)
+                    layout: responsiveWrapper.isSmallerThan(DESKTOP)
                         ? ResponsiveRowColumnType.COLUMN
                         : ResponsiveRowColumnType.ROW,
                     columnMainAxisAlignment: MainAxisAlignment.center,
@@ -242,7 +242,7 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                       ),
-                      responsiveWrapper.isSmallerThan(TABLET)
+                      responsiveWrapper.isSmallerThan(DESKTOP)
                           ? ResponsiveRowColumnItem(
                               child: SizedBox(
                                 height: 10,

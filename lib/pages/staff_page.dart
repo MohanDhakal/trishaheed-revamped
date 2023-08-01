@@ -59,6 +59,7 @@ class _TeacherStaffState extends State<TeacherStaff> {
                 : responsiveWrapper.isLargerThan(TABLET)
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
                         children: [
                           SizedBox(
                             height: size.height * 0.65,

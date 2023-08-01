@@ -36,69 +36,73 @@ class _StudentsState extends State<Students> {
               },
             )
           : (responsiveWrapper.isLargerThan(TABLET))
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 8.0),
-                    GradeChips(),
-                    (model.studentList.isEmpty)
-                        ? Column(
-                            children: [
-                              SizedBox(height: size.height * 0.2),
-                              Center(
-                                child: Text("No Students Detail Available"),
+              ? SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 8.0),
+                      GradeChips(),
+                      (model.studentList.isEmpty)
+                          ? Column(
+                              children: [
+                                SizedBox(height: size.height * 0.2),
+                                Center(
+                                  child: Text("No Students Detail Available"),
+                                ),
+                              ],
+                            )
+                          : SizedBox(
+                              height: size.height * 0.6,
+                              child: GridView.builder(
+                                shrinkWrap: true,
+                                padding: EdgeInsets.all(10.0),
+                                gridDelegate:
+                                    SliverGridDelegateWithMaxCrossAxisExtent(
+                                  maxCrossAxisExtent: 300,
+                                  mainAxisSpacing: 10,
+                                  crossAxisSpacing: 10,
+                                  childAspectRatio: 0.66,
+                                ),
+                                itemCount: model.studentList.length,
+                                itemBuilder: ((context, index) {
+                                  return InkWell(
+                                    onTap: (() {
+                                      model.selectedStudent =
+                                          model.studentList.elementAt(index);
+                                    }),
+                                    child: StudentWidget(
+                                      student:
+                                          model.studentList.elementAt(index),
+                                    ),
+                                  );
+                                }),
                               ),
-                            ],
-                          )
-                        : SizedBox(
-                            height: size.height * 0.6,
-                            child: GridView.builder(
-                              shrinkWrap: true,
-                              padding: EdgeInsets.all(10.0),
-                              gridDelegate:
-                                  SliverGridDelegateWithMaxCrossAxisExtent(
-                                maxCrossAxisExtent: 300,
-                                mainAxisSpacing: 10,
-                                crossAxisSpacing: 10,
-                                childAspectRatio: 0.66,
-                              ),
-                              itemCount: model.studentList.length,
-                              itemBuilder: ((context, index) {
-                                return InkWell(
-                                  onTap: (() {
-                                    model.selectedStudent =
-                                        model.studentList.elementAt(index);
-                                  }),
-                                  child: StudentWidget(
-                                    student: model.studentList.elementAt(index),
-                                  ),
-                                );
-                              }),
                             ),
-                          ),
-                    PaginatorWidget(
-                      onNext: () {
-                        if (model.currentPage < model.lastPage) {
-                          showLoadingDialog(context);
-                          ++model.currentPage;
-                          model.getStudentList().then((value) {
-                            Navigator.pop(context);
-                          });
-                        }
-                      },
-                      onPrevious: () {
-                        if (model.currentPage > 1) {
-                          showLoadingDialog(context);
-                          --model.currentPage;
-                          model.getStudentList().then((value) {
-                            Navigator.pop(context);
-                          });
-                        }
-                      },
-                      currentPage: model.currentPage,
-                      lastPage: model.lastPage,
-                    )
-                  ],
+                      PaginatorWidget(
+                        onNext: () {
+                          if (model.currentPage < model.lastPage) {
+                            showLoadingDialog(context);
+                            ++model.currentPage;
+                            model.getStudentList().then((value) {
+                              Navigator.pop(context);
+                            });
+                          }
+                        },
+                        onPrevious: () {
+                          if (model.currentPage > 1) {
+                            showLoadingDialog(context);
+                            --model.currentPage;
+                            model.getStudentList().then((value) {
+                              Navigator.pop(context);
+                            });
+                          }
+                        },
+                        currentPage: model.currentPage,
+                        lastPage: model.lastPage,
+                      ),
+                      SizedBox(height: 12)
+                    ],
+                  ),
                 )
               : Column(
                   children: [
@@ -143,8 +147,8 @@ class GradeChips extends StatelessWidget {
 
     return Consumer<StudentState>(builder: (context, model, child) {
       return SizedBox(
-        height: responsiveWrapper.isSmallerThan(TABLET)
-            ? size.height * 0.2
+        height: responsiveWrapper.isSmallerThan(DESKTOP)
+            ? size.height * 0.25
             : size.height * 0.1,
         width: size.width,
         child: Wrap(
@@ -161,8 +165,8 @@ class GradeChips extends StatelessWidget {
                 });
               },
               child: Container(
-                width: responsiveWrapper.isSmallerThan(TABLET) ? 80 : 100,
-                height: responsiveWrapper.isSmallerThan(TABLET) ? 24 : 36,
+                width: responsiveWrapper.isSmallerThan(DESKTOP) ? 80 : 100,
+                height: responsiveWrapper.isSmallerThan(DESKTOP) ? 24 : 36,
                 margin: EdgeInsets.symmetric(horizontal: 8),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(

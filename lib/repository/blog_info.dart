@@ -8,7 +8,7 @@ class BlogApi {
     final response = await BaseApi.createDio().get(ApiRoutes.posts);
     List<Blog> blogs = <Blog>[];
     response.fold((l) {
-      for (var element in l.data) {
+      for (var element in l.data["data"]) {
         final item = Blog.fromJson(element);
         blogs.add(item);
       }

@@ -30,6 +30,7 @@ class ImageRepo {
     String failedMsg = "";
     response.fold((l) {
       for (var element in l.data) {
+        print(element["image_url"]);
         final url = ImageDetail.fromJson(element);
         urlList.add(url);
       }

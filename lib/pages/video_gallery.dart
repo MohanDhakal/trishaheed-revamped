@@ -32,7 +32,7 @@ class _VideoGalleryState extends State<VideoGallery> {
         ),
         SizedBox(height: 16),
         ResponsiveRowColumn(
-          layout: responsiveWrapper.isSmallerThan(TABLET)
+          layout: responsiveWrapper.isSmallerThan(DESKTOP)
               ? ResponsiveRowColumnType.COLUMN
               : ResponsiveRowColumnType.ROW,
           rowMainAxisAlignment: MainAxisAlignment.center,
@@ -46,16 +46,16 @@ class _VideoGalleryState extends State<VideoGallery> {
                 initialSourceType: SourceType.url,
                 onWebViewCreated: (controller) =>
                     webviewController = controller,
-                height: responsiveWrapper.isSmallerThan(TABLET)
+                height: responsiveWrapper.isSmallerThan(DESKTOP)
                     ? size.height * 0.7
                     : size.height * 0.6,
-                width: responsiveWrapper.isSmallerThan(TABLET)
+                width: responsiveWrapper.isSmallerThan(DESKTOP)
                     ? size.width * 0.95
                     : size.width * 0.40,
               ),
             ),
 
-            responsiveWrapper.isSmallerThan(TABLET)
+            responsiveWrapper.isSmallerThan(DESKTOP)
                 ? ResponsiveRowColumnItem(child: SizedBox(height: 20))
                 : ResponsiveRowColumnItem(
                     child: SizedBox(
@@ -69,10 +69,10 @@ class _VideoGalleryState extends State<VideoGallery> {
                 initialSourceType: SourceType.url,
                 onWebViewCreated: (controller) =>
                     webviewController = controller,
-                height: responsiveWrapper.isSmallerThan(TABLET)
+                height: responsiveWrapper.isSmallerThan(DESKTOP)
                     ? size.height * 0.7
                     : size.height * 0.6,
-                width: responsiveWrapper.isSmallerThan(TABLET)
+                width: responsiveWrapper.isSmallerThan(DESKTOP)
                     ? size.width * 0.95
                     : size.width * 0.40,
               ),

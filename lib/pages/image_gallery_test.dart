@@ -104,6 +104,7 @@ class _ImageGalleryState extends State<ImageGallery> {
       barrierDismissible: true,
       builder: (context) => ImageDialog(
         imageUrls: List.generate(images.length, (index) {
+          // print(images[index].url);
           return images[index].url;
         }),
         initialIndex: 0,

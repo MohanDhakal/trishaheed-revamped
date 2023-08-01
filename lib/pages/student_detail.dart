@@ -53,7 +53,7 @@ class StudentDetail extends StatelessWidget {
               ),
               SizedBox(height: 24),
               ResponsiveRowColumn(
-                layout: responsiveWrapper.isSmallerThan(TABLET)
+                layout: responsiveWrapper.isSmallerThan(DESKTOP)
                     ? ResponsiveRowColumnType.COLUMN
                     : ResponsiveRowColumnType.ROW,
                 rowMainAxisAlignment: MainAxisAlignment.center,
@@ -63,7 +63,7 @@ class StudentDetail extends StatelessWidget {
                 children: [
                   ResponsiveRowColumnItem(
                     child: ResponsiveRowColumn(
-                      layout: responsiveWrapper.isSmallerThan(TABLET)
+                      layout: responsiveWrapper.isSmallerThan(DESKTOP)
                           ? ResponsiveRowColumnType.COLUMN
                           : ResponsiveRowColumnType.ROW,
                       rowMainAxisAlignment: MainAxisAlignment.center,
@@ -82,14 +82,14 @@ class StudentDetail extends StatelessWidget {
                             fit: BoxFit.contain,
                           ),
                         )),
-                        responsiveWrapper.isSmallerThan(TABLET)
+                        responsiveWrapper.isSmallerThan(DESKTOP)
                             ? ResponsiveRowColumnItem(
                                 child: SizedBox(height: 24))
                             : ResponsiveRowColumnItem(
                                 child: SizedBox(width: 48)),
                         ResponsiveRowColumnItem(
                           child: SizedBox(
-                            width: responsiveWrapper.isSmallerThan(TABLET)
+                            width: responsiveWrapper.isSmallerThan(DESKTOP)
                                 ? size.width * 0.90
                                 : size.width * 0.35,
                             child: Card(

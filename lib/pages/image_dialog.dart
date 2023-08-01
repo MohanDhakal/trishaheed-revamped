@@ -34,7 +34,7 @@ class _ImageDialogState extends State<ImageDialog> {
         : Dialog(
             backgroundColor: Colors.blue.shade200,
             child: SizedBox(
-              width: responsiveWrapper.isSmallerThan(TABLET)
+              width: responsiveWrapper.isSmallerThan(DESKTOP)
                   ? size.width
                   : size.width * 0.7,
               height: size.height * 0.86,
@@ -43,8 +43,10 @@ class _ImageDialogState extends State<ImageDialog> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  ImageWithLoading(
-                    imageUrl: widget.imageUrls[_currentIndex!],
+                  Expanded(
+                    child: ImageWithLoading(
+                      imageUrl: widget.imageUrls[_currentIndex!],
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

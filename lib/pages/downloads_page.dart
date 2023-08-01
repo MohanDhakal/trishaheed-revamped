@@ -33,7 +33,7 @@ class _DownloadPageState extends State<DownloadPage> {
     return Consumer<DownloadState>(builder: (context, model, child) {
       return ResponsiveRowColumn(
         rowMainAxisAlignment: MainAxisAlignment.start,
-        layout: responsiveWrapper.isSmallerThan(TABLET)
+        layout: responsiveWrapper.isSmallerThan(DESKTOP)
             ? ResponsiveRowColumnType.COLUMN
             : ResponsiveRowColumnType.ROW,
         children: [
@@ -42,7 +42,7 @@ class _DownloadPageState extends State<DownloadPage> {
               : ResponsiveRowColumnItem(child: SizedBox()),
           ResponsiveRowColumnItem(
             child: SizedBox(
-              width: responsiveWrapper.isSmallerThan(TABLET)
+              width: responsiveWrapper.isSmallerThan(DESKTOP)
                   ? screenWidth
                   : screenWidth * 0.20,
               child: ResponsiveRowColumn(
@@ -50,14 +50,14 @@ class _DownloadPageState extends State<DownloadPage> {
                 rowCrossAxisAlignment: CrossAxisAlignment.start,
                 rowMainAxisAlignment: MainAxisAlignment.start,
                 columnMainAxisAlignment: MainAxisAlignment.start,
-                layout: responsiveWrapper.isSmallerThan(TABLET)
+                layout: responsiveWrapper.isSmallerThan(DESKTOP)
                     ? ResponsiveRowColumnType.ROW
                     : ResponsiveRowColumnType.COLUMN,
                 children: [
                   ResponsiveRowColumnItem(
                     child: SizedBox(
-                      height: responsiveWrapper.isSmallerThan(TABLET) ? 0 : 16,
-                      width: responsiveWrapper.isSmallerThan(TABLET) ? 8 : 0,
+                      height: responsiveWrapper.isSmallerThan(DESKTOP) ? 0 : 16,
+                      width: responsiveWrapper.isSmallerThan(DESKTOP) ? 8 : 0,
                     ),
                   ),
                   ResponsiveRowColumnItem(
@@ -89,12 +89,12 @@ class _DownloadPageState extends State<DownloadPage> {
                   ),
                   ResponsiveRowColumnItem(
                     child: SizedBox(
-                      height: responsiveWrapper.isSmallerThan(TABLET) ? 0 : 8,
-                      width: responsiveWrapper.isSmallerThan(TABLET) ? 8 : 0,
+                      height: responsiveWrapper.isSmallerThan(DESKTOP) ? 0 : 8,
+                      width: responsiveWrapper.isSmallerThan(DESKTOP) ? 8 : 0,
                     ),
                   ),
                   ResponsiveRowColumnItem(
-                    child: responsiveWrapper.isSmallerThan(TABLET)
+                    child: responsiveWrapper.isSmallerThan(DESKTOP)
                         ? SizedBox()
                         : Divider(
                             thickness: 4,
@@ -103,8 +103,8 @@ class _DownloadPageState extends State<DownloadPage> {
                   ),
                   ResponsiveRowColumnItem(
                     child: SizedBox(
-                      height: responsiveWrapper.isSmallerThan(TABLET) ? 0 : 16,
-                      width: responsiveWrapper.isSmallerThan(TABLET) ? 16 : 0,
+                      height: responsiveWrapper.isSmallerThan(DESKTOP) ? 0 : 16,
+                      width: responsiveWrapper.isSmallerThan(DESKTOP) ? 16 : 0,
                     ),
                   ),
                   ResponsiveRowColumnItem(
@@ -130,8 +130,8 @@ class _DownloadPageState extends State<DownloadPage> {
                   ),
                   ResponsiveRowColumnItem(
                     child: SizedBox(
-                      height: responsiveWrapper.isSmallerThan(TABLET) ? 0 : 16,
-                      width: responsiveWrapper.isSmallerThan(TABLET) ? 16 : 0,
+                      height: responsiveWrapper.isSmallerThan(DESKTOP) ? 0 : 16,
+                      width: responsiveWrapper.isSmallerThan(DESKTOP) ? 16 : 0,
                     ),
                   ),
                   ResponsiveRowColumnItem(
@@ -158,8 +158,8 @@ class _DownloadPageState extends State<DownloadPage> {
                   ),
                   ResponsiveRowColumnItem(
                     child: SizedBox(
-                      height: responsiveWrapper.isSmallerThan(TABLET) ? 0 : 8,
-                      width: responsiveWrapper.isSmallerThan(TABLET) ? 8 : 0,
+                      height: responsiveWrapper.isSmallerThan(DESKTOP) ? 0 : 8,
+                      width: responsiveWrapper.isSmallerThan(DESKTOP) ? 8 : 0,
                     ),
                   ),
                   ResponsiveRowColumnItem(
@@ -190,7 +190,7 @@ class _DownloadPageState extends State<DownloadPage> {
           model.selectedFolder == Downloads.results
               ? ResponsiveRowColumnItem(
                   child: Container(
-                    width: responsiveWrapper.isSmallerThan(TABLET)
+                    width: responsiveWrapper.isSmallerThan(DESKTOP)
                         ? screenWidth
                         : screenWidth * 0.75,
                     alignment: Alignment.topLeft,
@@ -402,69 +402,79 @@ class PlacholderDownloads extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(
-            "S.N",
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-              fontSize: ResponsiveValue(
-                context,
-                defaultValue: 16.0,
-                valueWhen: const [
-                  Condition.smallerThan(
-                    name: TABLET,
-                    value: 12.0,
-                  ),
-                  Condition.largerThan(
-                    name: TABLET,
-                    value: 24.0,
-                  )
-                ],
-              ).value,
+          Expanded(
+            flex: 1,
+            child: Text(
+              "S.N",
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: ResponsiveValue(
+                  context,
+                  defaultValue: 16.0,
+                  valueWhen: const [
+                    Condition.smallerThan(
+                      name: TABLET,
+                      value: 12.0,
+                    ),
+                    Condition.largerThan(
+                      name: TABLET,
+                      value: 24.0,
+                    )
+                  ],
+                ).value,
+              ),
             ),
           ),
-          Text(
-            "File Name",
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-              fontSize: ResponsiveValue(
-                context,
-                defaultValue: 16.0,
-                valueWhen: const [
-                  Condition.smallerThan(
-                    name: TABLET,
-                    value: 12.0,
-                  ),
-                  Condition.largerThan(
-                    name: TABLET,
-                    value: 24.0,
-                  )
-                ],
-              ).value,
+          Expanded(
+            flex: 4,
+            child: Text(
+              "File Name",
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: ResponsiveValue(
+                  context,
+                  defaultValue: 16.0,
+                  valueWhen: const [
+                    Condition.smallerThan(
+                      name: TABLET,
+                      value: 12.0,
+                    ),
+                    Condition.largerThan(
+                      name: TABLET,
+                      value: 24.0,
+                    )
+                  ],
+                ).value,
+              ),
             ),
           ),
-          Text(
-            "Action",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: ResponsiveValue(
-                context,
-                defaultValue: 16.0,
-                valueWhen: const [
-                  Condition.smallerThan(
-                    name: TABLET,
-                    value: 12.0,
-                  ),
-                  Condition.largerThan(
-                    name: TABLET,
-                    value: 24.0,
-                  )
-                ],
-              ).value,
+          Expanded(
+            flex: 2,
+            child: Text(
+              "Action",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: ResponsiveValue(
+                  context,
+                  defaultValue: 16.0,
+                  valueWhen: const [
+                    Condition.smallerThan(
+                      name: TABLET,
+                      value: 12.0,
+                    ),
+                    Condition.largerThan(
+                      name: TABLET,
+                      value: 24.0,
+                    )
+                  ],
+                ).value,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           )
         ],
@@ -490,58 +500,14 @@ class DownloadFile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(
-            sn.toString(),
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: ResponsiveValue(
-                context,
-                defaultValue: 16.0,
-                valueWhen: const [
-                  Condition.smallerThan(
-                    name: TABLET,
-                    value: 12.0,
-                  ),
-                  Condition.largerThan(
-                    name: TABLET,
-                    value: 16.0,
-                  )
-                ],
-              ).value,
-            ),
-          ),
-          Text(
-            removeDir(name),
-            style: TextStyle(
-              // color: Colors.blue,
-              fontSize: ResponsiveValue(
-                context,
-                defaultValue: 16.0,
-                valueWhen: const [
-                  Condition.smallerThan(
-                    name: TABLET,
-                    value: 12.0,
-                  ),
-                  Condition.largerThan(
-                    name: TABLET,
-                    value: 16.0,
-                  )
-                ],
-              ).value,
-            ),
-          ),
-          MaterialButton(
-            onPressed: () async {
-              final model = Provider.of<DownloadState>(context, listen: false);
-              await model.downloadFile(name);
-            },
+          Expanded(
+            flex: 1,
             child: Text(
-              "Download",
+              sn.toString(),
               style: TextStyle(
-                color: Colors.blue,
-                decoration: TextDecoration.underline,
+                color: Colors.black,
                 fontSize: ResponsiveValue(
                   context,
                   defaultValue: 16.0,
@@ -556,6 +522,60 @@ class DownloadFile extends StatelessWidget {
                     )
                   ],
                 ).value,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 4,
+            child: Text(
+              removeDir(name),
+              style: TextStyle(
+                // color: Colors.blue,
+                fontSize: ResponsiveValue(
+                  context,
+                  defaultValue: 16.0,
+                  valueWhen: const [
+                    Condition.smallerThan(
+                      name: TABLET,
+                      value: 12.0,
+                    ),
+                    Condition.largerThan(
+                      name: TABLET,
+                      value: 16.0,
+                    )
+                  ],
+                ).value,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: MaterialButton(
+              onPressed: () async {
+                final model =
+                    Provider.of<DownloadState>(context, listen: false);
+                await model.downloadFile(name);
+              },
+              child: Text(
+                "Download",
+                style: TextStyle(
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                  fontSize: ResponsiveValue(
+                    context,
+                    defaultValue: 16.0,
+                    valueWhen: const [
+                      Condition.smallerThan(
+                        name: TABLET,
+                        value: 12.0,
+                      ),
+                      Condition.largerThan(
+                        name: TABLET,
+                        value: 16.0,
+                      )
+                    ],
+                  ).value,
+                ),
               ),
             ),
           )

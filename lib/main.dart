@@ -194,7 +194,8 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                     length: MenuIndex.map.length - 2,
                     initialIndex: MenuIndex.map[menu] ?? 0,
                     child: Scaffold(
-                      appBar: size.width <= 800
+                      appBar: ResponsiveWrapper.of(context)
+                              .isSmallerThan(DESKTOP)
                           ? AppBar(
                               leading: IconButton(
                                 icon: Icon(Icons.menu),
@@ -244,23 +245,25 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                       // drawerDragStartBehavior: DragStartBehavior.start,
                       body: Stack(
                         clipBehavior: Clip.none,
+                        fit: StackFit.expand,
                         children: [
                           Positioned(
-                            child: size.width < 800
+                            child: ResponsiveWrapper.of(context)
+                                    .isSmallerThan(TABLET)
                                 ? getPlaceholderPage(menu)
                                 : TabBarView(
-                                    physics: BouncingScrollPhysics(),
+                                    physics: NeverScrollableScrollPhysics(),
                                     children: pages,
                                   ),
                           ),
                           //If the device is a phone and drawer is open
-                          if (size.width <= 800 && _openDrawer == true)
+                          if (ResponsiveWrapper.of(context)
+                                  .isSmallerThan(TABLET) &&
+                              _openDrawer == true)
                             SingleChildScrollView(
                               child: Container(
                                 color: Color(0xFF077bd7),
-                                height: size.width <= 800
-                                    ? size.height
-                                    : size.width,
+                                height: size.height,
                                 width: size.width,
                                 child: Padding(
                                   padding: const EdgeInsets.all(4.0),
@@ -278,9 +281,9 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                       ...List<Widget>.generate(
                                         MenuTag.values.length - 2,
                                         (int index) {
-                                          return Column(
+                                          return Wrap(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                                WrapCrossAlignment.start,
                                             children: [
                                               InkWell(
                                                 onTap: () {
@@ -301,28 +304,21 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                                   ),
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 5.0, bottom: 5.0),
-                                                child: Divider(
-                                                  color:
-                                                      Colors.blueGrey.shade400,
-                                                  thickness: 2,
-                                                ),
+                                              Divider(
+                                                color: Colors.blueGrey.shade400,
+                                                thickness: 2,
                                               ),
                                             ],
                                           );
                                         },
                                       ),
-                                      Expanded(
-                                        child: Align(
-                                          alignment: Alignment.bottomCenter,
-                                          child: Text(
-                                            'Copyright © 2022 | tri-shaheed',
-                                            style: TextStyle(
-                                              color: Colors.blueGrey.shade300,
-                                              fontSize: 14,
-                                            ),
+                                      Align(
+                                        alignment: Alignment.bottomCenter,
+                                        child: Text(
+                                          'Copyright © 2022 | tri-shaheed',
+                                          style: TextStyle(
+                                            color: Colors.blueGrey.shade300,
+                                            fontSize: 14,
                                           ),
                                         ),
                                       )
@@ -593,7 +589,7 @@ class HeaderForMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
     return Material(
       color: Colors.white,
       child: Column(
@@ -610,91 +606,96 @@ class HeaderForMobile extends StatelessWidget {
                   height: 100,
                 ),
               ),
-              Text.rich(
-                TextSpan(
-                  text: "श्री त्रि-शहिद",
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Image.asset(
+                        telephone,
+                        width: 24,
+                        height: 24,
                       ),
-                  children: [
-                    TextSpan(
-                      text: "\nनमुना मा.वि",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall
-                          ?.copyWith(fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
+                      SizedBox(width: 10),
+                      Text(
+                        "Call: ",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Text(
+                        "9846095574",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Image.asset(
+                        paperPlane,
+                        width: 24,
+                        height: 24,
+                      ),
+                      SizedBox(width: 10),
+                      Text(
+                        "Email: ",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      Text(
+                        "trishaheed1986@gmail.com",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                  MaterialButton(
+                    onPressed: onNewNotice,
+                    child: Container(
+                      height: 50,
+                      width: size.width * 0.5,
+                      margin: EdgeInsets.only(
+                          left: 10, bottom: 5, top: 5, right: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.orange,
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                      alignment: Alignment.center,
+                      child: Text("New Notice"),
+                    ),
+                  ),
+                ],
               ),
+
+              // Text.rich(
+              //   TextSpan(
+              //     text: "श्री त्रि-शहिद",
+              //     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+              //           fontWeight: FontWeight.bold,
+              //           color: Colors.black,
+              //         ),
+              //     children: [
+              //       TextSpan(
+              //         text: "\nनमुना मा.वि",
+              //         style: Theme.of(context)
+              //             .textTheme
+              //             .headlineSmall
+              //             ?.copyWith(fontWeight: FontWeight.bold),
+              //       )
+              //     ],
+              //   ),
+              // ),
             ],
-          ),
-          SizedBox(height: 10),
-          Row(
-            children: [
-              SizedBox(width: 10),
-              Image.asset(
-                paperPlane,
-                width: 30,
-                height: 30,
-              ),
-              SizedBox(width: 10),
-              Text(
-                "Email: ",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              ),
-              Text(
-                "trishaheed1986@gmail.com",
-                style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 4),
-          Row(
-            children: [
-              SizedBox(width: 10),
-              Image.asset(
-                telephone,
-                width: 20,
-                height: 20,
-              ),
-              SizedBox(width: 10),
-              Text(
-                "Call: ",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              ),
-              SizedBox(width: 10),
-              Text(
-                "9846095574",
-                style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                ),
-              ),
-            ],
-          ),
-          MaterialButton(
-            onPressed: onNewNotice,
-            child: Container(
-              height: 50,
-              margin: EdgeInsets.only(left: 10, bottom: 5, top: 5, right: 10),
-              decoration: BoxDecoration(
-                color: Colors.orange,
-                borderRadius: BorderRadius.circular(2),
-              ),
-              alignment: Alignment.center,
-              child: Text("New Notice"),
-            ),
           ),
         ],
       ),
