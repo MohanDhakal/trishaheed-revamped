@@ -206,7 +206,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                               title: Text("TRI SHAHEED MODEL SECONDARY SCHOOL"),
                             )
                           : PreferredSize(
-                              preferredSize: Size.fromHeight(170.0),
+                              preferredSize: Size.fromHeight(160.0),
                               child: AppBar(
                                 flexibleSpace: FixHeader(
                                   onNewNotice: (() {
@@ -218,8 +218,18 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                 bottom: TabBar(
                                   labelColor: Colors.red,
                                   unselectedLabelColor: Colors.grey,
+                                  splashBorderRadius: BorderRadius.circular(4),
                                   labelStyle: const TextStyle(
                                     fontWeight: FontWeight.bold,
+                                  ),
+                                  indicatorSize: TabBarIndicatorSize.tab,
+                                  indicator: BoxDecoration(
+                                    color: Colors.blueAccent,
+                                    borderRadius: BorderRadius.circular(4),
+                                    border: Border.all(
+                                      width: 8,
+                                      color: Colors.blue,
+                                    ),
                                   ),
                                   unselectedLabelStyle: const TextStyle(
                                     fontStyle: FontStyle.italic,
@@ -291,10 +301,12 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                                   atMenu =
                                                       MenuTag.values[index];
                                                 },
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 8.0),
+                                                child: Container(
+                                                  padding: EdgeInsets.only(
+                                                    left: 4.0,
+                                                  ),
+                                                  height: Size.fromHeight(160.0)
+                                                      .height,
                                                   child: Text(
                                                     MenuIndex.names.values
                                                         .elementAt(index),

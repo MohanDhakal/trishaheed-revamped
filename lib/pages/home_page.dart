@@ -335,9 +335,7 @@ class _HomePageState extends State<HomePage> {
                                 borderRadius: BorderRadius.circular(
                                     8.0), // Adjust the border radius as needed
                               ),
-                              child: StudentSaying(
-                                height: size.height * 0.4,
-                              ),
+                              child: StudentSaying(height: size.height * 0.4),
                             ),
                           ),
                         ],
