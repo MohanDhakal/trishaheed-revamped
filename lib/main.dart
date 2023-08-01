@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/model/gallery_state.dart';
@@ -72,6 +74,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
   int? id;
   Blog? blog;
   MyAppRouterDelegate() : _navigatorKey = GlobalKey<NavigatorState>();
+
   MenuTag _menu = MenuTag.home;
   MenuTag get menu => _menu;
   bool noticeExists = false;
@@ -127,6 +130,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
     final pages = [
       HomePage(),
       ImageGallery(),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:trishaheed/model/staff.dart' as s;
-import 'package:trishaheed/utilities/images.dart';
 
 class Staff extends StatelessWidget {
   final s.Staff staff;
@@ -96,7 +95,7 @@ class Staff extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+            padding: const EdgeInsets.only(left: 8.0, top: 8.0, bottom: 8.0),
             child: RichText(
               text: TextSpan(
                 text: "CONTACT :" + "  ",
