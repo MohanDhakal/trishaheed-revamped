@@ -49,11 +49,10 @@ class _BlogDetailState extends State<BlogDetail> {
 
   Future<void> convertData() async {
     if (widget.blog != null) {
-      var convertedDelta = quill.Delta.fromJson(
-        [
-          {"insert": widget.blog!.content.first.data.toString() + '\n'},
-        ],
-      );
+      var list = widget.blog!.content.toJson();
+      list.add({"insert": '\n'});
+
+      var convertedDelta = quill.Delta.fromJson(list);
       final document = quill.Document.fromDelta(convertedDelta);
       _readOnlyContainer = quill.QuillController(
         document: document,
@@ -92,6 +91,21 @@ class _BlogDetailState extends State<BlogDetail> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8.0,
+                            vertical: 12.0,
+                          ),
+                          child: SelectableText(
+                            widget.blog!.title,
+                            // overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            maxLines: 3,
+                          ),
+                        ),
                         ClipRRect(
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(10),
@@ -99,7 +113,7 @@ class _BlogDetailState extends State<BlogDetail> {
                           ),
                           child: Image.network(
                             widget.blog!.imageUri,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                             height: responsiveWrapper.screenHeight * 0.6,
                             width: responsiveWrapper.screenWidth,
                           ),
@@ -172,19 +186,6 @@ class _BlogDetailState extends State<BlogDetail> {
                         ),
                         SizedBox(height: 10),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(
-                            widget.blog!.title,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            maxLines: 3,
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: quill.QuillEditor(
                             controller: _readOnlyContainer!,
@@ -195,8 +196,8 @@ class _BlogDetailState extends State<BlogDetail> {
                             readOnly: true,
                             expands: false,
                             padding: EdgeInsets.zero,
-                            minHeight: size.height * 0.50,
-                            // keyboardAppearance: Brightness.light,
+                            minHeight: size.height,
+                            keyboardAppearance: Brightness.light,
                           ),
                         )
                       ],

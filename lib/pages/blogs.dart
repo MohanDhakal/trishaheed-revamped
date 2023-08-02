@@ -140,7 +140,7 @@ class SingleBlog extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Text(
-                  blog.createdAt.substring(0, 9),
+                  blog.createdAt.substring(0, 10),
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 12,
@@ -174,22 +174,6 @@ class SingleBlog extends StatelessWidget {
                 ),
               ),
             ],
-          ),
-          SizedBox(height: 12),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              blog.title,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: blog.position == Position.hovered
-                    ? Colors.orangeAccent
-                    : null,
-              ),
-              maxLines: 3,
-            ),
           ),
           SizedBox(height: 12),
           Padding(

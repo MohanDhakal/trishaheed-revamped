@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/model/states/students_state.dart';
@@ -15,6 +17,9 @@ class Students extends StatefulWidget {
 }
 
 class _StudentsState extends State<Students> {
+  final FocusNode _focusNode = FocusNode();
+  final ScrollController _controller = ScrollController();
+
   @override
   void initState() {
     super.initState();
@@ -27,113 +32,150 @@ class _StudentsState extends State<Students> {
   Widget build(BuildContext context) {
     final responsiveWrapper = ResponsiveWrapper.of(context);
     final size = MediaQuery.of(context).size;
-    return Consumer<StudentState>(builder: (context, model, child) {
-      return model.selectedStudent != null
-          ? StudentDetail(
-              student: model.selectedStudent!,
-              onBackPressed: () {
-                model.selectedStudent = null;
-              },
-            )
-          : (responsiveWrapper.isLargerThan(TABLET))
-              ? SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 8.0),
-                      GradeChips(),
-                      (model.studentList.isEmpty)
-                          ? Column(
-                              children: [
-                                SizedBox(height: size.height * 0.2),
-                                Center(
-                                  child: Text("No Students Detail Available"),
+    return RawKeyboardListener(
+      focusNode: _focusNode,
+      onKey: _handleKeyEvent,
+      autofocus: true,
+      child: Consumer<StudentState>(builder: (context, model, child) {
+        return model.selectedStudent != null
+            ? StudentDetail(
+                student: model.selectedStudent!,
+                onBackPressed: () {
+                  model.selectedStudent = null;
+                },
+              )
+            : (responsiveWrapper.isLargerThan(TABLET))
+                ? SingleChildScrollView(
+                    controller: _controller,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 8.0),
+                        GradeChips(),
+                        (model.studentList.isEmpty)
+                            ? Column(
+                                children: [
+                                  SizedBox(height: size.height * 0.2),
+                                  Center(
+                                    child: Text("No Students Detail Available"),
+                                  ),
+                                ],
+                              )
+                            : SizedBox(
+                                height: size.height * 0.6,
+                                child: GridView.builder(
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.all(10.0),
+                                  gridDelegate:
+                                      SliverGridDelegateWithMaxCrossAxisExtent(
+                                    maxCrossAxisExtent: 300,
+                                    mainAxisSpacing: 10,
+                                    crossAxisSpacing: 10,
+                                    childAspectRatio: 0.66,
+                                  ),
+                                  itemCount: model.studentList.length,
+                                  itemBuilder: ((context, index) {
+                                    return InkWell(
+                                      onTap: (() {
+                                        model.selectedStudent =
+                                            model.studentList.elementAt(index);
+                                      }),
+                                      child: StudentWidget(
+                                        student:
+                                            model.studentList.elementAt(index),
+                                      ),
+                                    );
+                                  }),
                                 ),
-                              ],
-                            )
-                          : SizedBox(
-                              height: size.height * 0.6,
-                              child: GridView.builder(
-                                shrinkWrap: true,
-                                padding: EdgeInsets.all(10.0),
-                                gridDelegate:
-                                    SliverGridDelegateWithMaxCrossAxisExtent(
-                                  maxCrossAxisExtent: 300,
-                                  mainAxisSpacing: 10,
-                                  crossAxisSpacing: 10,
-                                  childAspectRatio: 0.66,
-                                ),
-                                itemCount: model.studentList.length,
-                                itemBuilder: ((context, index) {
-                                  return InkWell(
-                                    onTap: (() {
-                                      model.selectedStudent =
-                                          model.studentList.elementAt(index);
-                                    }),
-                                    child: StudentWidget(
-                                      student:
-                                          model.studentList.elementAt(index),
-                                    ),
-                                  );
-                                }),
                               ),
-                            ),
-                      PaginatorWidget(
-                        onNext: () {
-                          if (model.currentPage < model.lastPage) {
-                            showLoadingDialog(context);
-                            ++model.currentPage;
-                            model.getStudentList().then((value) {
-                              Navigator.pop(context);
-                            });
-                          }
-                        },
-                        onPrevious: () {
-                          if (model.currentPage > 1) {
-                            showLoadingDialog(context);
-                            --model.currentPage;
-                            model.getStudentList().then((value) {
-                              Navigator.pop(context);
-                            });
-                          }
-                        },
-                        currentPage: model.currentPage,
-                        lastPage: model.lastPage,
-                      ),
-                      SizedBox(height: 12)
-                    ],
-                  ),
-                )
-              : Column(
-                  children: [
-                    GradeChips(),
-                    SizedBox(
-                      height: size.height * 0.65,
-                      child: ListView.builder(
-                        itemCount: model.studentList.length,
-                        shrinkWrap: true,
-                        itemBuilder: ((context, index) {
-                          return InkWell(
-                            onTap: (() {
-                              model.selectedStudent =
-                                  model.studentList.elementAt(index);
-                            }),
-                            onHover: ((value) {}),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 8.0, horizontal: 8.0),
-                              child: StudentWidget(
-                                student: model.studentList[index],
-                                // width: MediaQuery.of(context).size.width,
-                              ),
-                            ),
-                          );
-                        }),
-                      ),
+                        PaginatorWidget(
+                          onNext: () {
+                            if (model.currentPage < model.lastPage) {
+                              showLoadingDialog(context);
+                              ++model.currentPage;
+                              model.getStudentList().then((value) {
+                                Navigator.pop(context);
+                              });
+                            }
+                          },
+                          onPrevious: () {
+                            if (model.currentPage > 1) {
+                              showLoadingDialog(context);
+                              --model.currentPage;
+                              model.getStudentList().then((value) {
+                                Navigator.pop(context);
+                              });
+                            }
+                          },
+                          currentPage: model.currentPage,
+                          lastPage: model.lastPage,
+                        ),
+                        SizedBox(height: 12)
+                      ],
                     ),
-                  ],
-                );
-    });
+                  )
+                : Column(
+                    children: [
+                      GradeChips(),
+                      SizedBox(
+                        height: size.height * 0.65,
+                        child: ListView.builder(
+                          itemCount: model.studentList.length,
+                          shrinkWrap: true,
+                          itemBuilder: ((context, index) {
+                            return InkWell(
+                              onTap: (() {
+                                model.selectedStudent =
+                                    model.studentList.elementAt(index);
+                              }),
+                              onHover: ((value) {}),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8.0, horizontal: 8.0),
+                                child: StudentWidget(
+                                  student: model.studentList[index],
+                                  // width: MediaQuery.of(context).size.width,
+                                ),
+                              ),
+                            );
+                          }),
+                        ),
+                      ),
+                    ],
+                  );
+      }),
+    );
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  void _handleKeyEvent(RawKeyEvent event) {
+    var offset = _controller.offset;
+    if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
+      setState(() {
+        if (kReleaseMode) {
+          _controller.animateTo(offset - 50,
+              duration: Duration(milliseconds: 30), curve: Curves.ease);
+        } else {
+          _controller.animateTo(offset - 50,
+              duration: Duration(milliseconds: 30), curve: Curves.ease);
+        }
+      });
+    } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+      setState(() {
+        if (kReleaseMode) {
+          _controller.animateTo(offset + 50,
+              duration: Duration(milliseconds: 30), curve: Curves.ease);
+        } else {
+          _controller.animateTo(offset + 50,
+              duration: Duration(milliseconds: 30), curve: Curves.ease);
+        }
+      });
+    }
   }
 }
 

@@ -27,7 +27,7 @@ class CustomTextStyle {
 
   static TextStyle? quote(BuildContext context) {
     return Theme.of(context).textTheme.bodyLarge?.copyWith(
-          fontSize: 18,
+          fontSize: 16,
           fontWeight: FontWeight.w500,
           color: Colors.black,
         );

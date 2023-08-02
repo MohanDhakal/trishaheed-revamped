@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:trishaheed/model/staff.dart' as s;
+import 'package:trishaheed/utilities/images.dart';
 
 class Staff extends StatelessWidget {
   final s.Staff staff;
+  final bool static;
   const Staff({
     required this.staff,
+    this.static = false,
     Key? key,
   }) : super(key: key);
 
@@ -31,20 +34,29 @@ class Staff extends StatelessWidget {
               topLeft: Radius.circular(8),
               topRight: Radius.circular(8),
             ),
-            child: Image.network(
-              staff.imageUrl ??
-                  "https://fastly.picsum.photos/id/185/200/300.jpg?blur=5&hmac=yQe4ekSkmZmozebKHSoPPJ9UjQtZ7Xcu7QLdp56CChw",
-              fit: BoxFit.fill,
-              width: responsiveWrapper.isSmallerThan(DESKTOP)
-                  ? size.width * 0.9
-                  : size.width * 0.3,
-              height: size.height * 0.3,
-            ),
+            child: static
+                ? Image.asset(
+                    staff.imageUrl ?? profile,
+                    fit: BoxFit.contain,
+                    width: responsiveWrapper.isSmallerThan(DESKTOP)
+                        ? size.width * 0.9
+                        : size.width * 0.3,
+                    height: size.height * 0.4,
+                  )
+                : Image.network(
+                    staff.imageUrl ??
+                        "https://fastly.picsum.photos/id/185/200/300.jpg?blur=5&hmac=yQe4ekSkmZmozebKHSoPPJ9UjQtZ7Xcu7QLdp56CChw",
+                    fit: BoxFit.fill,
+                    width: responsiveWrapper.isSmallerThan(DESKTOP)
+                        ? size.width * 0.9
+                        : size.width * 0.3,
+                    height: size.height * 0.3,
+                  ),
           ),
           SizedBox(height: 36),
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
-            child: Text(
+            child: SelectableText(
               staff.fullName,
               style: Theme.of(context)
                   .textTheme

@@ -73,9 +73,13 @@ flutter:
     - assets/images/logo.png
     - assets/images/paper-airplane.png
     - assets/images/telephone.png
-    - assets/images/carousel_slider/resized-1.jpg
-    - assets/images/carousel_slider/resized-2.jpg
-    - assets/images/carousel_slider/resized-3.jpg
+    - assets/images/carousel_slider/award.JPG
+    - assets/images/carousel_slider/building.jpg
+    - assets/images/carousel_slider/science_lab.jpg
+    - assets/images/carousel_slider/nursery.jpg
+    - assets/images/carousel_slider/elibrary.jpg
+    - assets/images/contacts/Jay_sir.jpg
+    - assets/images/contacts/Tek_sir.jpg
     - assets/images/sample.png
     - assets/images/profile.jpg
     - assets/images/icons/graph.png
