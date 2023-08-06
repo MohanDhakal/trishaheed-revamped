@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import '../model/albums.dart';
 import '../model/gallery_state.dart';
 import "../widgets/album_design.dart" as ui;
@@ -25,6 +26,7 @@ class _ImageGalleryState extends State<ImageGallery> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final wrapper = ResponsiveWrapper.of(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -33,7 +35,9 @@ class _ImageGalleryState extends State<ImageGallery> {
         Consumer<GalleryState>(builder: (context, model, child) {
           return GridView(
             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: size.width * 0.40,
+              maxCrossAxisExtent: wrapper.isSmallerThan(DESKTOP)
+                  ? size.width * 0.8
+                  : size.width * 0.4,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
               childAspectRatio: 1.2,

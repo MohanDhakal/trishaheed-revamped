@@ -11,7 +11,6 @@ import 'student_detail.dart';
 
 class Students extends StatefulWidget {
   const Students({Key? key}) : super(key: key);
-
   @override
   State<Students> createState() => _StudentsState();
 }
@@ -52,42 +51,52 @@ class _StudentsState extends State<Students> {
                       children: [
                         SizedBox(height: 8.0),
                         GradeChips(),
-                        (model.studentList.isEmpty)
-                            ? Column(
-                                children: [
-                                  SizedBox(height: size.height * 0.2),
-                                  Center(
-                                    child: Text("No Students Detail Available"),
-                                  ),
-                                ],
-                              )
-                            : SizedBox(
-                                height: size.height * 0.6,
-                                child: GridView.builder(
-                                  shrinkWrap: true,
-                                  padding: EdgeInsets.all(10.0),
-                                  gridDelegate:
-                                      SliverGridDelegateWithMaxCrossAxisExtent(
-                                    maxCrossAxisExtent: 300,
-                                    mainAxisSpacing: 10,
-                                    crossAxisSpacing: 10,
-                                    childAspectRatio: 0.66,
-                                  ),
-                                  itemCount: model.studentList.length,
-                                  itemBuilder: ((context, index) {
-                                    return InkWell(
-                                      onTap: (() {
-                                        model.selectedStudent =
-                                            model.studentList.elementAt(index);
-                                      }),
-                                      child: StudentWidget(
-                                        student:
-                                            model.studentList.elementAt(index),
-                                      ),
-                                    );
-                                  }),
+                        model.loading
+                            ? SizedBox(
+                                width: 50,
+                                height: 50,
+                                child: Center(
+                                  child: CircularProgressIndicator(),
                                 ),
-                              ),
+                              )
+                            : (model.studentList.isEmpty)
+                                ? Column(
+                                    children: [
+                                      SizedBox(height: size.height * 0.2),
+                                      Center(
+                                        child: Text(
+                                            "No Students Detail Available"),
+                                      ),
+                                    ],
+                                  )
+                                : SizedBox(
+                                    height: size.height * 0.6,
+                                    child: GridView.builder(
+                                      shrinkWrap: true,
+                                      padding: EdgeInsets.all(10.0),
+                                      gridDelegate:
+                                          SliverGridDelegateWithMaxCrossAxisExtent(
+                                        maxCrossAxisExtent: 300,
+                                        mainAxisSpacing: 10,
+                                        crossAxisSpacing: 10,
+                                        childAspectRatio: 0.66,
+                                      ),
+                                      itemCount: model.studentList.length,
+                                      itemBuilder: ((context, index) {
+                                        return InkWell(
+                                          onTap: (() {
+                                            model.selectedStudent = model
+                                                .studentList
+                                                .elementAt(index);
+                                          }),
+                                          child: StudentWidget(
+                                            student: model.studentList
+                                                .elementAt(index),
+                                          ),
+                                        );
+                                      }),
+                                    ),
+                                  ),
                         PaginatorWidget(
                           onNext: () {
                             if (model.currentPage < model.lastPage) {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/model/staff.dart';
+import '../utilities/selectables.dart';
 
 // ignore: must_be_immutable
 class StaffDetail extends StatefulWidget {
@@ -17,8 +18,22 @@ class StaffDetail extends StatefulWidget {
 }
 
 class _StaffDetailState extends State<StaffDetail> {
-  final FocusNode _focusNode = FocusNode();
+  String staffRank = "";
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero).then((value) {
+      staffRank = rank.entries
+          .where(
+            (entry) => entry.value == double.parse(widget.staff.rank),
+          )
+          .first
+          .key;
+      setState(() => null);
+    });
+  }
 
+  final FocusNode _focusNode = FocusNode();
   final ScrollController _controller = ScrollController();
 
   @override
@@ -165,7 +180,7 @@ class _StaffDetailState extends State<StaffDetail> {
                                               ),
                                           children: [
                                             TextSpan(
-                                              text: widget.staff.teacherLevel,
+                                              text: widget.staff.post,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall
@@ -190,7 +205,7 @@ class _StaffDetailState extends State<StaffDetail> {
                                               ),
                                           children: [
                                             TextSpan(
-                                              text: widget.staff.teacherLevel,
+                                              text: staffRank,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall
@@ -215,7 +230,7 @@ class _StaffDetailState extends State<StaffDetail> {
                                               ),
                                           children: [
                                             TextSpan(
-                                              text: widget.staff.teacherLevel,
+                                              text: widget.staff.majorSubject,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall
@@ -240,7 +255,7 @@ class _StaffDetailState extends State<StaffDetail> {
                                               ),
                                           children: [
                                             TextSpan(
-                                              text: widget.staff.teacherLevel,
+                                              text: widget.staff.address,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall
@@ -265,7 +280,7 @@ class _StaffDetailState extends State<StaffDetail> {
                                               ),
                                           children: [
                                             TextSpan(
-                                              text: widget.staff.teacherLevel,
+                                              text: widget.staff.dob,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall
@@ -290,7 +305,7 @@ class _StaffDetailState extends State<StaffDetail> {
                                               ),
                                           children: [
                                             TextSpan(
-                                              text: widget.staff.teacherLevel,
+                                              text: widget.staff.joinedAt,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall
@@ -315,7 +330,7 @@ class _StaffDetailState extends State<StaffDetail> {
                                               ),
                                           children: [
                                             TextSpan(
-                                              text: widget.staff.teacherLevel,
+                                              text: widget.staff.jobType,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall
@@ -366,7 +381,7 @@ class _StaffDetailState extends State<StaffDetail> {
                                               ),
                                           children: [
                                             TextSpan(
-                                              text: widget.staff.contact ??
+                                              text: widget.staff.email ??
                                                   "९८७६५४५६७८",
                                               style: Theme.of(context)
                                                   .textTheme

@@ -36,9 +36,9 @@ class Blog {
     List<Slug> s = <Slug>[];
 
     for (var slug in obj["slugs"]) {
+      // print(slug.toString());
       s.add(Slug.fromJson(slug));
     }
-    // print(s);
     return Blog(
       title: obj["title"],
       content: Delta.fromJson(obj["body"]),

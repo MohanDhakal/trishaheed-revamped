@@ -16,7 +16,7 @@ class TeacherStaff extends StatefulWidget {
 class _TeacherStaffState extends State<TeacherStaff> {
   List<s.Staff> teacherList = [];
   s.Staff? selectedStaff;
-  bool _loading = false;
+  bool _loading = true;
   int lastPage = 1;
   int currentPage = 1;
   @override
@@ -27,6 +27,7 @@ class _TeacherStaffState extends State<TeacherStaff> {
           teacherList = value.staffs;
           lastPage = value.lastPage;
           currentPage = value.currentPage;
+          _loading = false;
         });
       }
     });

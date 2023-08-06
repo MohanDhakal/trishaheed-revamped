@@ -1,7 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/model/gallery_state.dart';
@@ -46,10 +44,12 @@ void main(List<String> args) {
 
 class EntryPoint extends StatelessWidget {
   final delegate = MyAppRouterDelegate();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
+      title: "STSSS",
       scrollBehavior: MaterialScrollBehavior().copyWith(
         dragDevices: {
           PointerDeviceKind.mouse,
@@ -92,6 +92,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
 
   @override
   GlobalKey<NavigatorState>? get navigatorKey => _navigatorKey;
+
   Widget getPlaceholderPage(MenuTag menu) {
     switch (menu) {
       case MenuTag.home:
@@ -201,13 +202,24 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                       appBar: ResponsiveWrapper.of(context)
                               .isSmallerThan(DESKTOP)
                           ? AppBar(
+                              backgroundColor: Colors.black87,
                               leading: IconButton(
-                                icon: Icon(Icons.menu),
+                                icon: Icon(
+                                  Icons.menu,
+                                  size: 24,
+                                  color: Colors.white60,
+                                ),
                                 onPressed: () {
                                   drawer = !_openDrawer;
                                 },
                               ),
-                              title: Text("TRI SHAHEED MODEL SECONDARY SCHOOL"),
+                              title: Text(
+                                "TRI SHAHEED MODEL SECONDARY SCHOOL",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white60,
+                                ),
+                              ),
                             )
                           : PreferredSize(
                               preferredSize: Size.fromHeight(160.0),
@@ -263,7 +275,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                         children: [
                           Positioned(
                             child: ResponsiveWrapper.of(context)
-                                    .isSmallerThan(TABLET)
+                                    .isSmallerThan(DESKTOP)
                                 ? getPlaceholderPage(menu)
                                 : TabBarView(
                                     physics: NeverScrollableScrollPhysics(),
@@ -272,116 +284,110 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                           ),
                           //If the device is a phone and drawer is open
                           if (ResponsiveWrapper.of(context)
-                                  .isSmallerThan(TABLET) &&
+                                  .isSmallerThan(DESKTOP) &&
                               _openDrawer == true)
                             SingleChildScrollView(
                               child: Container(
-                                color: Color(0xFF077bd7),
+                                color: Colors.black,
                                 height: size.height,
                                 width: size.width,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      HeaderForMobile(
-                                        onNewNotice: (() {
-                                          noticeExists = true;
-                                          notifyListeners();
-                                        }),
-                                      ),
-                                      ...List<Widget>.generate(
-                                        MenuTag.values.length - 2,
-                                        (int index) {
-                                          return Wrap(
-                                            crossAxisAlignment:
-                                                WrapCrossAlignment.start,
-                                            children: [
-                                              InkWell(
-                                                onTap: () {
-                                                  drawer = false;
-                                                  atMenu =
-                                                      MenuTag.values[index];
-                                                },
-                                                child: Container(
-                                                  padding: EdgeInsets.only(
-                                                    left: 4.0,
-                                                  ),
-                                                  height: Size.fromHeight(160.0)
-                                                      .height,
-                                                  child: Text(
-                                                    MenuIndex.names.values
-                                                        .elementAt(index),
-                                                    style: CustomTextStyle.menu(
-                                                            context)
-                                                        ?.copyWith(),
-                                                  ),
+                                padding: const EdgeInsets.all(4.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    HeaderForMobile(
+                                      onNewNotice: (() {
+                                        noticeExists = true;
+                                        notifyListeners();
+                                      }),
+                                    ),
+                                    ...List<Widget>.generate(
+                                      MenuTag.values.length - 2,
+                                      (int index) {
+                                        return Wrap(
+                                          crossAxisAlignment:
+                                              WrapCrossAlignment.start,
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                drawer = false;
+                                                atMenu = MenuTag.values[index];
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.only(
+                                                  left: 4.0,
+                                                ),
+                                                height: 24,
+                                                child: Text(
+                                                  MenuIndex.names.values
+                                                      .elementAt(index),
+                                                  style: CustomTextStyle.menu(
+                                                          context)
+                                                      ?.copyWith(),
                                                 ),
                                               ),
-                                              Divider(
-                                                color: Colors.blueGrey.shade400,
-                                                thickness: 2,
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      ),
-                                      Align(
-                                        alignment: Alignment.bottomCenter,
-                                        child: Text(
-                                          'Copyright © 2022 | tri-shaheed',
-                                          style: TextStyle(
-                                            color: Colors.blueGrey.shade300,
-                                            fontSize: 14,
-                                          ),
+                                            ),
+                                            Divider(
+                                              color: Colors.blueGrey.shade400,
+                                              thickness: 2,
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    ),
+                                    Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: Text(
+                                        'Copyright © 2022 | tri-shaheed',
+                                        style: TextStyle(
+                                          color: Colors.blueGrey.shade300,
+                                          fontSize: 14,
                                         ),
-                                      )
-                                    ],
-                                  ),
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
                             ),
                           noticeExists
                               ? SingleChildScrollView(
-                                  child: Center(
-                                    child: Container(
-                                      height: size.height * 0.95,
-                                      width: size.width * 0.8,
-                                      color: Colors.black12,
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 8.0),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text("New Notice From School"),
-                                              MaterialButton(
-                                                onPressed: () {
-                                                  noticeExists = false;
-                                                  notifyListeners();
-                                                },
-                                                child: Icon(
-                                                  Icons.cancel_sharp,
-                                                  size: 36,
-                                                  color: Colors.red,
-                                                ),
+                                  child: Container(
+                                    height: size.height * 0.95,
+                                    width: size.width * 0.8,
+                                    color: Colors.white,
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 8.0),
+                                    alignment: Alignment.center,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text("New Notice From School"),
+                                            MaterialButton(
+                                              onPressed: () {
+                                                noticeExists = false;
+                                                notifyListeners();
+                                              },
+                                              child: Icon(
+                                                Icons.cancel_sharp,
+                                                size: 36,
+                                                color: Colors.red,
                                               ),
-                                            ],
-                                          ),
-                                          Image.asset(
-                                            potraitSample,
-                                            fit: BoxFit.cover,
-                                            height: size.height * 0.85,
-                                            width: size.width * 0.8,
-                                          )
-                                        ],
-                                      ),
+                                            ),
+                                          ],
+                                        ),
+                                        Image.asset(
+                                          potraitSample,
+                                          fit: BoxFit.cover,
+                                          height: size.height * 0.85,
+                                          width: size.width * 0.8,
+                                        )
+                                      ],
                                     ),
                                   ),
                                 )
@@ -395,10 +401,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
               if (menu == MenuTag.blogDetail)
                 MaterialPage(
                   // key: ValueKey(RouteName.blogDetail),
-                  child: BlogDetail(
-                    id: id,
-                    blog: blog,
-                  ),
+                  child: BlogDetail(id: id),
                 ),
             ],
           );

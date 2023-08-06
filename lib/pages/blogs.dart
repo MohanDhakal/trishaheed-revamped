@@ -4,6 +4,7 @@ import 'package:trishaheed/model/blog.dart';
 import 'package:trishaheed/repository/blog_info.dart';
 import 'package:trishaheed/utilities/button_position.dart';
 import 'package:trishaheed/utilities/menu_tag.dart';
+import 'package:trishaheed/widgets/tags.dart';
 
 class BlogList extends StatefulWidget {
   final Function(MenuTag menuTag, int? id, Blog? blog) onClick;
@@ -124,13 +125,9 @@ class SingleBlog extends StatelessWidget {
                     (index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                        child: Text(
-                          blog.slug.elementAt(index).name,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w300,
-                          ),
+                        child: Tags(
+                          name: blog.slug.elementAt(index).name,
+                          index: index,
                         ),
                       );
                     },
@@ -144,7 +141,7 @@ class SingleBlog extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 12,
-                    fontWeight: FontWeight.w300,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ),

@@ -46,7 +46,7 @@ class Staff extends StatelessWidget {
                 : Image.network(
                     staff.imageUrl ??
                         "https://fastly.picsum.photos/id/185/200/300.jpg?blur=5&hmac=yQe4ekSkmZmozebKHSoPPJ9UjQtZ7Xcu7QLdp56CChw",
-                    fit: BoxFit.fill,
+                    fit: BoxFit.contain,
                     width: responsiveWrapper.isSmallerThan(DESKTOP)
                         ? size.width * 0.9
                         : size.width * 0.3,
@@ -96,7 +96,7 @@ class Staff extends StatelessWidget {
                     ),
                 children: [
                   TextSpan(
-                    text: staff.teacherLevel,
+                    text: staff.post,
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall
