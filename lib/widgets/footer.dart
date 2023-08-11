@@ -13,6 +13,7 @@ class FooterWidget extends StatelessWidget {
     // ignore: unused_local_variable
     late WebViewXController webviewController;
     final size = MediaQuery.of(context).size;
+    final responiveWrapper = ResponsiveWrapper.of(context);
 
     return Container(
       color: color,
@@ -191,15 +192,15 @@ class FooterWidget extends StatelessWidget {
               initialSourceType: SourceType.url,
               onWebViewCreated: (controller) => webviewController = controller,
               height: size.height * 0.6,
-              width: size.width * 0.4,
+              width: responiveWrapper.isSmallerThan(DESKTOP)
+                  ? size.width * 0.9
+                  : size.width * 0.4,
             ),
           ),
           ResponsiveRowColumnItem(
             child: SizedBox(
               height: 15,
-              child: Divider(
-                height: 5,
-              ),
+              child: Divider(height: 5),
             ),
           ),
           ResponsiveRowColumnItem(
@@ -219,7 +220,9 @@ class FooterWidget extends StatelessWidget {
                   onWebViewCreated: (controller) =>
                       webviewController = controller,
                   height: size.height * 0.2,
-                  width: size.width * 0.2,
+                  width: responiveWrapper.isSmallerThan(DESKTOP)
+                      ? size.width * 0.9
+                      : size.width * 0.2,
                 ),
               ],
             ),

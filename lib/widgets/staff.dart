@@ -37,7 +37,7 @@ class Staff extends StatelessWidget {
             child: static
                 ? Image.asset(
                     staff.imageUrl ?? profile,
-                    fit: BoxFit.contain,
+                    fit: BoxFit.cover,
                     width: responsiveWrapper.isSmallerThan(DESKTOP)
                         ? size.width * 0.9
                         : size.width * 0.3,
@@ -46,7 +46,7 @@ class Staff extends StatelessWidget {
                 : Image.network(
                     staff.imageUrl ??
                         "https://fastly.picsum.photos/id/185/200/300.jpg?blur=5&hmac=yQe4ekSkmZmozebKHSoPPJ9UjQtZ7Xcu7QLdp56CChw",
-                    fit: BoxFit.contain,
+                    fit: BoxFit.cover,
                     width: responsiveWrapper.isSmallerThan(DESKTOP)
                         ? size.width * 0.9
                         : size.width * 0.3,

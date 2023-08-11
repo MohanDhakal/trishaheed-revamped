@@ -382,7 +382,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                           ],
                                         ),
                                         Image.asset(
-                                          potraitSample,
+                                          notice,
                                           fit: BoxFit.cover,
                                           height: size.height * 0.85,
                                           width: size.width * 0.8,

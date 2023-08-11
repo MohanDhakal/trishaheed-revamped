@@ -70,7 +70,7 @@ class _StudentsState extends State<Students> {
                                     ],
                                   )
                                 : SizedBox(
-                                    height: size.height * 0.6,
+                                    height: size.height * 0.8,
                                     child: GridView.builder(
                                       shrinkWrap: true,
                                       padding: EdgeInsets.all(10.0),
@@ -79,7 +79,7 @@ class _StudentsState extends State<Students> {
                                         maxCrossAxisExtent: 300,
                                         mainAxisSpacing: 10,
                                         crossAxisSpacing: 10,
-                                        childAspectRatio: 0.66,
+                                        childAspectRatio: 0.55,
                                       ),
                                       itemCount: model.studentList.length,
                                       itemBuilder: ((context, index) {

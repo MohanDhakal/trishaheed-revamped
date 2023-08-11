@@ -100,7 +100,7 @@ class _StaffDetailState extends State<StaffDetail> {
                             child: Image.network(
                               widget.staff.imageUrl ??
                                   "https://fastly.picsum.photos/id/185/200/300.jpg?blur=5&hmac=yQe4ekSkmZmozebKHSoPPJ9UjQtZ7Xcu7QLdp56CChw",
-                              fit: BoxFit.fill,
+                              fit: BoxFit.contain,
                               width: size.width * 0.3,
                               height: size.height * 0.6,
                             ),

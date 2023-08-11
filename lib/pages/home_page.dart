@@ -349,7 +349,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                             Positioned(
-                              left: size.width * 0.335,
+                              left: size.width * 0.32,
                               bottom: 2,
                               top: 2,
                               child: Card(

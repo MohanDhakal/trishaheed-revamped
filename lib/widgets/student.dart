@@ -33,8 +33,8 @@ class StudentWidget extends StatelessWidget {
               topRight: Radius.circular(8),
             ),
             child: Image.asset(
-              potraitSample,
-              fit: BoxFit.cover,
+              profile,
+              fit: BoxFit.contain,
               width: responsiveWrapper.isSmallerThan(DESKTOP)
                   ? size.width * 0.9
                   : size.width * 0.3,
@@ -55,14 +55,14 @@ class StudentWidget extends StatelessWidget {
             padding: const EdgeInsets.only(left: 8.0, top: 8.0),
             child: RichText(
               text: TextSpan(
-                text: "SUBJECT :" + "  ",
+                text: "Roll Number :" + "  ",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
                 children: [
                   TextSpan(
-                    text: student.majorSubject,
+                    text: student.rollNumber.toString(),
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall
@@ -76,7 +76,7 @@ class StudentWidget extends StatelessWidget {
             padding: const EdgeInsets.only(left: 8.0, top: 8.0),
             child: RichText(
               text: TextSpan(
-                text: "POSITION :" + "  ",
+                text: "Current Rank :" + "  ",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,

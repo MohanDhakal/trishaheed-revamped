@@ -17,6 +17,7 @@ class _VideoGalleryState extends State<VideoGallery> {
     final responsiveWrapper = ResponsiveWrapper.of(context);
     final size = MediaQuery.of(context).size;
     return ListView(
+      clipBehavior: Clip.hardEdge,
       children: [
         SizedBox(height: 16),
         Padding(
