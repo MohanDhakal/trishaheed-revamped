@@ -91,7 +91,7 @@ flutter:
     - assets/data/albums.json
     - assets/data/images.json
     - assets/data/students.json
-
+    - assets/images/notice/suchana.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -126,6 +126,7 @@ class _StudentsState extends State<Students> {
                 : Column(
                     children: [
                       GradeChips(),
+                      SizedBox(height: 12),
                       SizedBox(
                         height: size.height * 0.65,
                         child: ListView.builder(
