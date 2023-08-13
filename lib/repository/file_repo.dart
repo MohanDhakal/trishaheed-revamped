@@ -18,17 +18,31 @@ class FileRepo {
   }
 
   Future<Uint8List?> downloadFile(String filePath) async {
-    print("${Globals.Url + ApiRoutes.fileDownload + filePath}");
+    print("${Globals.Url + ApiRoutes.fileDownload}");
     try {
-      Dio dio = Dio();
-      Response<Uint8List> response =
-          await dio.get<Uint8List>("${Globals.Url + ApiRoutes.fileDownload}",
-              options: Options(
-                responseType: ResponseType.bytes,
-              ),
-              queryParameters: {
-            "file_path": filePath,
-          });
+      Response<Uint8List> response = await Dio(
+        BaseOptions(
+          baseUrl: Globals.Url,
+          receiveTimeout: Duration(seconds: 30), // 15 seconds
+          connectTimeout: Duration(seconds: 30),
+          sendTimeout: Duration(seconds: 30),
+          responseType: ResponseType.bytes,
+          headers: {
+            "Access-Control-Allow-Origin":
+                "*", // Required for CORS support to work
+            "Access-Control-Allow-Credentials":
+                true, // Required for cookies, aut
+            "Access-Control-Allow-Methods": "GET, OPTIONS",
+            "Access-Control-Allow-Headers":
+                "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+          },
+        ),
+      ).get<Uint8List>(
+        ApiRoutes.fileDownload,
+        queryParameters: {
+          "file_path": filePath,
+        },
+      );
       return response.data;
     } catch (e) {
       // Handle any errors that might occur during the API request.

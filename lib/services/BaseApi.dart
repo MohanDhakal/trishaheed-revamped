@@ -7,12 +7,14 @@ import '../utilities/globals.dart';
 class BaseApi {
   late Dio dio;
   BaseApi.createDio([String? accessToken]) {
-    var dio = Dio(BaseOptions(
-      baseUrl: Globals.Url,
-      receiveTimeout: Duration(seconds: 15), // 15 seconds
-      connectTimeout: Duration(seconds: 15),
-      sendTimeout: Duration(seconds: 15),
-    ));
+    var dio = Dio(
+      BaseOptions(
+        baseUrl: Globals.Url,
+        receiveTimeout: Duration(seconds: 15), // 15 seconds
+        connectTimeout: Duration(seconds: 15),
+        sendTimeout: Duration(seconds: 15),
+      ),
+    );
     dio.options.headers['Accept'] = '*/*';
     if (accessToken != null) {
       dio.options.headers['Authorization'] = 'Bearer $accessToken';

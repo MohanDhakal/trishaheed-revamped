@@ -354,7 +354,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                               ? SingleChildScrollView(
                                   child: Container(
                                     height: size.height * 0.95,
-                                    width: size.width * 0.8,
+                                    // width: size.width * 0.8,
                                     color: Colors.white,
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 8.0),
@@ -383,9 +383,9 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                         ),
                                         Image.asset(
                                           notice,
-                                          fit: BoxFit.cover,
+                                          fit: BoxFit.contain,
                                           height: size.height * 0.85,
-                                          width: size.width * 0.8,
+                                          // width: size.width * 0.8,
                                         )
                                       ],
                                     ),

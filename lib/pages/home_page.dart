@@ -1,7 +1,7 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/widgets/footer.dart';
 import '../utilities/images.dart';
@@ -36,44 +36,36 @@ class _HomePageState extends State<HomePage> {
           controller: _controller,
           child: Column(
             children: [
-              ImageSlideshow(
-                height: responsiveWrapper.isLargerThan(TABLET)
-                    ? size.height * 0.7
-                    : size.height * 0.5,
-                children: [
-                  Image.asset(
-                    carousel1,
-                    fit: BoxFit.cover,
-                    // width: double.infinity,
-                  ),
+              CarouselSlider(
+                items: [
                   Image.asset(
                     carousel2,
                     fit: BoxFit.cover,
-                    // width: double.infinity,
                   ),
                   Image.network(
                     carousel3,
                     fit: BoxFit.cover,
-                    // width: double.infinity,
                   ),
                   Image.network(
                     carousel4,
                     fit: BoxFit.cover,
-                    // width: double.infinity,
                   ),
                   Image.network(
                     carousel5,
                     fit: BoxFit.cover,
-                    // width: double.infinity,
                   ),
                 ],
-                initialPage: 0,
-                indicatorColor: Colors.black87,
-                autoPlayInterval: 5000,
-                isLoop: true,
-                onPageChanged: (value) {
-                  //todo: implement on page changed for carousel
-                },
+                options: CarouselOptions(
+                  initialPage: 0,
+                  autoPlayInterval: Duration(milliseconds: 1000),
+                  reverse: true,
+                  aspectRatio:
+                      responsiveWrapper.isLargerThan(TABLET) ? 16 / 9 : 4 / 3,
+                  viewportFraction: 1,
+                  pageSnapping: true,
+                  enlargeCenterPage: true,
+                  // clipBehavior: Clip.none,
+                ),
               ),
               SizedBox(height: 48),
               HeadMasterSaying(),

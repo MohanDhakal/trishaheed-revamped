@@ -206,14 +206,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.3"
-  flutter_image_slideshow:
-    dependency: "direct main"
-    description:
-      name: flutter_image_slideshow
-      sha256: a887f7c44b459b997c2a7fe88cb246ee77a10289f01a8ea08c0edfd2ae37904d
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.2"
   flutter_keyboard_visibility:
     dependency: transitive
     description:

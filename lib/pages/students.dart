@@ -46,6 +46,7 @@ class _StudentsState extends State<Students> {
             : (responsiveWrapper.isLargerThan(TABLET))
                 ? SingleChildScrollView(
                     controller: _controller,
+                    clipBehavior: Clip.none,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -201,7 +202,7 @@ class GradeChips extends StatelessWidget {
       return SizedBox(
         height: responsiveWrapper.isSmallerThan(DESKTOP)
             ? size.height * 0.25
-            : size.height * 0.1,
+            : size.height * 0.2,
         width: size.width,
         child: Wrap(
           alignment: WrapAlignment.center,
