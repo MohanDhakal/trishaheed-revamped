@@ -213,7 +213,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                   drawer = !_openDrawer;
                                 },
                               ),
-                              title: Text(
+                              title: SelectableText(
                                 "TRI SHAHEED MODEL SECONDARY SCHOOL",
                                 style: TextStyle(
                                   fontSize: 16,
@@ -351,14 +351,19 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                               ),
                             ),
                           noticeExists
-                              ? SingleChildScrollView(
-                                  child: Container(
+                              ? InteractiveViewer(
+                                  scaleEnabled: true,
+                                  constrained: false,
+                                  alignment: Alignment.center,
+                                  child: AnimatedContainer(
                                     height: size.height * 0.95,
-                                    // width: size.width * 0.8,
-                                    color: Colors.white,
+                                    width: size.width,
+                                    color: noticeExists
+                                        ? Colors.white
+                                        : Colors.orange,
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 8.0),
-                                    alignment: Alignment.center,
+                                    duration: Duration(milliseconds: 500),
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
@@ -383,7 +388,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                         ),
                                         Image.asset(
                                           notice,
-                                          fit: BoxFit.contain,
+                                          fit: BoxFit.cover,
                                           height: size.height * 0.85,
                                           // width: size.width * 0.8,
                                         )
@@ -519,14 +524,14 @@ class FixHeader extends StatelessWidget {
               SizedBox(
                 width: 10,
               ),
-              Text(
+              SelectableText(
                 "Email: ",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
               ),
-              Text(
+              SelectableText(
                 "trishaheed1986@gmail.com",
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
@@ -556,14 +561,14 @@ class FixHeader extends StatelessWidget {
                   width: 10,
                 ),
               ),
-              Text(
+              SelectableText(
                 "Call: ",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
               ),
-              Text(
+              SelectableText(
                 "9846095574",
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
@@ -637,7 +642,7 @@ class HeaderForMobile extends StatelessWidget {
                         height: 24,
                       ),
                       SizedBox(width: 10),
-                      Text(
+                      SelectableText(
                         "Call: ",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -645,7 +650,7 @@ class HeaderForMobile extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 10),
-                      Text(
+                      SelectableText(
                         "9846095574",
                         style: TextStyle(
                           fontWeight: FontWeight.w400,

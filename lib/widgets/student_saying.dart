@@ -40,7 +40,7 @@ class StudentSaying extends StatelessWidget {
                 width: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
                     ? size.width * 0.7
                     : size.width * 0.25,
-                child: Text(
+                child: SelectableText(
                   """Many of our teachers have years of teaching experience which helps our student get some practical knowledge alongside theory.""",
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -51,7 +51,7 @@ class StudentSaying extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              Text(
+              SelectableText(
                 "Mohan Kumar Dhakal",
                 style: Theme.of(context)
                     .textTheme
@@ -61,7 +61,7 @@ class StudentSaying extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              Text(
+              SelectableText(
                 "Former Student",
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Color.fromARGB(255, 255, 102, 0),

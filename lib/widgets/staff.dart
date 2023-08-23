@@ -58,16 +58,16 @@ class Staff extends StatelessWidget {
             padding: const EdgeInsets.only(left: 8.0),
             child: SelectableText(
               staff.fullName,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-            child: RichText(
-              text: TextSpan(
+            child: SelectableText.rich(
+              TextSpan(
                 text: "SUBJECT :" + "  ",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontSize: 14,
@@ -87,8 +87,8 @@ class Staff extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-            child: RichText(
-              text: TextSpan(
+            child: SelectableText.rich(
+              TextSpan(
                 text: "POSITION :" + "  ",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontSize: 14,
@@ -108,8 +108,8 @@ class Staff extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 8.0, top: 8.0, bottom: 8.0),
-            child: RichText(
-              text: TextSpan(
+            child: SelectableText.rich(
+              TextSpan(
                 text: "CONTACT :" + "  ",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontSize: 14,

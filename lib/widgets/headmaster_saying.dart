@@ -29,7 +29,7 @@ class HeadMasterSaying extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.asset(
-                potraitSample,
+                contact1,
                 width: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
                     ? size.width * 0.6
                     : size.width * 0.3,
@@ -70,7 +70,7 @@ class HeadMasterSaying extends StatelessWidget {
                       ? size.width * 0.5
                       : size.width * 0.95,
                   child: Center(
-                    child: Text.rich(
+                    child: SelectableText.rich(
                       TextSpan(
                         text:
                             "\“गुणस्तरीय र प्राविधिक शिक्षा, आजको आवश्यकता \”",

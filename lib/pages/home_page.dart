@@ -37,24 +37,15 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               CarouselSlider(
-                items: [
-                  Image.asset(
-                    carousel2,
-                    fit: BoxFit.cover,
-                  ),
-                  Image.network(
-                    carousel3,
-                    fit: BoxFit.cover,
-                  ),
-                  Image.network(
-                    carousel4,
-                    fit: BoxFit.cover,
-                  ),
-                  Image.network(
-                    carousel5,
-                    fit: BoxFit.cover,
-                  ),
-                ],
+                items: List.generate(
+                  carouselImages.length,
+                  (index) {
+                    return Image.asset(
+                      carouselImages[index],
+                      fit: BoxFit.cover,
+                    );
+                  },
+                ),
                 options: CarouselOptions(
                   initialPage: 0,
                   autoPlayInterval: Duration(milliseconds: 1000),
@@ -94,17 +85,18 @@ class _HomePageState extends State<HomePage> {
                   ResponsiveRowColumnItem(
                     child: Staff(
                       staff: s.Staff(
-                          fullName: "Jay Prasad Chapagain",
-                          post: "Head Teacher",
-                          dob: "2080-03-25",
-                          address: "Arjunchapari-4, Syangja",
-                          isActive: 1,
-                          joinedAt: "2080-03-25",
-                          majorSubject: "HPE",
-                          jobType: "Permanent",
-                          rank: "0.1",
-                          teacherLevel: "Primary",
-                          imageUrl: contact1),
+                        fullName: "Jay Prasad Chapagain",
+                        post: "Head Teacher",
+                        dob: "2080-03-25",
+                        address: "Arjunchapari-4, Syangja",
+                        isActive: 1,
+                        joinedAt: "2080-03-25",
+                        majorSubject: "HPE",
+                        jobType: "Permanent",
+                        rank: "0.1",
+                        teacherLevel: "Primary",
+                        imageUrl: contact1,
+                      ),
                       static: true,
                     ),
                   ),

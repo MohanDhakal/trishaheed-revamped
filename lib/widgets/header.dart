@@ -33,7 +33,7 @@ class Header extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: Text.rich(
+                  child: SelectableText.rich(
                     TextSpan(
                       text: "श्री त्रि-शहिद",
                       style:

@@ -1,11 +1,6 @@
 const String logo = "assets/images/logo.png";
 const String paperPlane = "assets/images/paper-airplane.png";
 const String telephone = "assets/images/telephone.png";
-const String carousel1 = "assets/images/carousel_slider/award.JPG";
-const String carousel2 = "assets/images/carousel_slider/building.jpg";
-const String carousel3 = "assets/images/carousel_slider/elibrary.jpg";
-const String carousel4 = "assets/images/carousel_slider/nursery.JPG";
-const String carousel5 = "assets/images/carousel_slider/science_lab.jpg";
 const String potraitSample = "assets/images/sample.png";
 const String profile = "assets/images/placholder.jpg";
 const String progressIcon = "assets/images/icons/graph.png";
@@ -16,3 +11,10 @@ const String customerCare = "assets/images/customer-care.png";
 const String contact1 = "assets/images/contacts/Jay_sir.jpg";
 const String contact2 = "assets/images/contacts/Tek_sir.jpg";
 const String notice = "assets/images/notice/suchana.jpg";
+const List<String> carouselImages = [
+  "assets/images/carousel_slider/nursery.JPG",
+  "assets/images/carousel_slider/science_lab.jpg",
+  "assets/images/carousel_slider/elibrary.jpg",
+  "assets/images/carousel_slider/building.jpg"
+  // "assets/images/carousel_slider/award.JPG",
+];
