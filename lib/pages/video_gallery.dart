@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:webviewx/webviewx.dart';
 
 class VideoGallery extends StatefulWidget {
@@ -13,88 +14,73 @@ class _VideoGalleryState extends State<VideoGallery> {
 
   @override
   Widget build(BuildContext context) {
+    final responsiveWrapper = ResponsiveWrapper.of(context);
+    final size = MediaQuery.of(context).size;
     return ListView(
+      clipBehavior: Clip.hardEdge,
       children: [
-        SizedBox(height: 5),
-        Container(
-          width: 200,
-          height: 50,
-          decoration: BoxDecoration(
-            color: Colors.deepPurpleAccent,
-          ),
-          alignment: Alignment.centerLeft,
+        SizedBox(height: 16),
+        Padding(
+          padding: EdgeInsets.only(left: 12),
           child: Text(
             "Video Category 1",
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 24,
+              fontStyle: FontStyle.normal,
             ),
           ),
         ),
-        SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+        SizedBox(height: 16),
+        ResponsiveRowColumn(
+          layout: responsiveWrapper.isSmallerThan(DESKTOP)
+              ? ResponsiveRowColumnType.COLUMN
+              : ResponsiveRowColumnType.ROW,
+          rowMainAxisAlignment: MainAxisAlignment.center,
+          columnMainAxisAlignment: MainAxisAlignment.center,
           children: [
             // SizedBox(height: 20),
-            WebViewX(
-              initialContent:
-                  'https://www.youtube.com/embed/8juaRClmTZo?start=119',
-              initialSourceType: SourceType.url,
-              onWebViewCreated: (controller) => webviewController = controller,
-              height: 400,
-              width: 500,
+            ResponsiveRowColumnItem(
+              child: WebViewX(
+                initialContent:
+                    'https://www.youtube.com/embed/8juaRClmTZo?start=119',
+                initialSourceType: SourceType.url,
+                onWebViewCreated: (controller) =>
+                    webviewController = controller,
+                height: responsiveWrapper.isSmallerThan(DESKTOP)
+                    ? size.height * 0.7
+                    : size.height * 0.6,
+                width: responsiveWrapper.isSmallerThan(DESKTOP)
+                    ? size.width * 0.95
+                    : size.width * 0.40,
+              ),
             ),
-            SizedBox(width: 20),
-            WebViewX(
-              initialContent:
-                  'https://www.youtube.com/embed/8juaRClmTZo?start=119',
-              initialSourceType: SourceType.url,
-              onWebViewCreated: (controller) => webviewController = controller,
-              height: 400,
-              width: 500,
-            ),
-          ],
-        ),
-        SizedBox(height: 5),
-        Container(
-          width: 200,
-          height: 50,
-          decoration: BoxDecoration(
-            color: Colors.deepPurpleAccent,
-          ),
-          alignment: Alignment.centerLeft,
-          child: Text(
-            "Video Category 2",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 24,
-            ),
-          ),
-        ),
-        SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            WebViewX(
-              initialContent:
-                  'https://www.youtube.com/embed/8juaRClmTZo?start=119',
-              initialSourceType: SourceType.url,
-              onWebViewCreated: (controller) => webviewController = controller,
-              height: 400,
-              width: 500,
-            ),
-            SizedBox(width: 20),
-            WebViewX(
-              initialContent:
-                  'https://www.youtube.com/embed/8juaRClmTZo?start=119',
-              initialSourceType: SourceType.url,
-              onWebViewCreated: (controller) => webviewController = controller,
-              height: 400,
-              width: 500,
+
+            responsiveWrapper.isSmallerThan(DESKTOP)
+                ? ResponsiveRowColumnItem(child: SizedBox(height: 20))
+                : ResponsiveRowColumnItem(
+                    child: SizedBox(
+                      width: 20,
+                    ),
+                  ),
+            ResponsiveRowColumnItem(
+              child: WebViewX(
+                initialContent:
+                    'https://www.youtube.com/embed/8juaRClmTZo?start=119',
+                initialSourceType: SourceType.url,
+                onWebViewCreated: (controller) =>
+                    webviewController = controller,
+                height: responsiveWrapper.isSmallerThan(DESKTOP)
+                    ? size.height * 0.7
+                    : size.height * 0.6,
+                width: responsiveWrapper.isSmallerThan(DESKTOP)
+                    ? size.width * 0.95
+                    : size.width * 0.40,
+              ),
             ),
           ],
         ),
-        SizedBox(height: 20),
+        SizedBox(height: 16),
       ],
     );
   }

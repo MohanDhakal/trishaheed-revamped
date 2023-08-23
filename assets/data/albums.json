@@ -1,0 +1,26 @@
+{
+    "albums":[
+        {            
+            "albumId":1,
+            "albumName":"My First Album",
+            "albumDescription":"Description about this particular album will be displayed here with small and normal text",
+            "photosCount":11,
+            "albumImage":"https://trishaheed.edu.np/images/banner_1.jpg"                    
+        },
+        {
+            "albumId":2,
+            "albumName":"My Second Album",
+            "albumDescription":"Description about this particular album will be displayed here with small and normal text",
+            "photosCount":12,
+            "albumImage":"https://trishaheed.edu.np/images/banner_1.jpg"                
+        },
+        {
+            "albumId":3,
+            "albumName":"My Third Album",
+            "albumDescription":"Description about this particular album will be displayed here with small and normal text",
+            "photosCount":13,
+            "albumImage":"https://trishaheed.edu.np/images/banner_1.jpg"                    
+
+        }
+    ]
+}

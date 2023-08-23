@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import '../utilities/images.dart';
 
 class StudentSaying extends StatelessWidget {
-  const StudentSaying({Key? key}) : super(key: key);
+  final List<BoxShadow>? shadow;
+  final double? width;
+  final double? height;
+  const StudentSaying({Key? key, this.shadow, this.width, this.height})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        color: Colors.white70,
+        boxShadow: shadow,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      padding: EdgeInsets.all(4),
+      margin: EdgeInsets.all(4),
       child: Row(
         children: [
           ClipRRect(
@@ -23,8 +37,10 @@ class StudentSaying extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                width: size.width * 0.2,
-                child: Text(
+                width: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
+                    ? size.width * 0.7
+                    : size.width * 0.25,
+                child: SelectableText(
                   """Many of our teachers have years of teaching experience which helps our student get some practical knowledge alongside theory.""",
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -35,19 +51,19 @@ class StudentSaying extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              Text(
+              SelectableText(
                 "Mohan Kumar Dhakal",
                 style: Theme.of(context)
                     .textTheme
-                    .bodyText2
+                    .bodyMedium
                     ?.copyWith(fontWeight: FontWeight.bold),
               ),
               SizedBox(
                 height: 10,
               ),
-              Text(
+              SelectableText(
                 "Former Student",
-                style: Theme.of(context).textTheme.caption?.copyWith(
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Color.fromARGB(255, 255, 102, 0),
                     ),
               ),

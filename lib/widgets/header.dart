@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trishaheed/main.dart';
+import 'package:trishaheed/utilities/globals.dart';
 import 'package:trishaheed/utilities/images.dart';
 import '../utilities/menu_tag.dart';
 import '../utilities/textstyles.dart';
@@ -32,28 +33,27 @@ class Header extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: Text.rich(
+                  child: SelectableText.rich(
                     TextSpan(
                       text: "श्री त्रि-शहिद",
-                      style: Theme.of(context).textTheme.headline4?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
+                      style:
+                          Theme.of(context).textTheme.headlineMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
                       children: [
                         TextSpan(
                           text: "\nनमुना मा.वि",
                           style: Theme.of(context)
                               .textTheme
-                              .headline5
+                              .headlineSmall
                               ?.copyWith(fontWeight: FontWeight.bold),
                         )
                       ],
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: 80,
-                ),
+                SizedBox(width: 80),
                 Row(
                   children: [
                     Image.asset(
@@ -61,9 +61,7 @@ class Header extends StatelessWidget {
                       width: 30,
                       height: 30,
                     ),
-                    SizedBox(
-                      width: 10,
-                    ),
+                    SizedBox(width: 10),
                     Text(
                       "Email: ",
                       style: TextStyle(
@@ -72,15 +70,13 @@ class Header extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "trishaheed1986@gmail.com",
+                      Globals.schoolEmail,
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 14,
                       ),
                     ),
-                    SizedBox(
-                      width: 170,
-                    ),
+                    SizedBox(width: 170),
                     Image.asset(
                       telephone,
                       width: 20,
@@ -97,15 +93,13 @@ class Header extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "9846095574",
+                      Globals.informationOfficerContact,
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 14,
                       ),
                     ),
-                    SizedBox(
-                      width: 150,
-                    ),
+                    SizedBox(width: 150),
                     Container(
                       decoration: BoxDecoration(
                         color: Colors.orange,

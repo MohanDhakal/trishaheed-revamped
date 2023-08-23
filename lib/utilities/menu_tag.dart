@@ -7,5 +7,7 @@ enum MenuTag {
   downloads,
   extras,
   contact,
+  blog,
+  blogDetail,
   unknown,
 }

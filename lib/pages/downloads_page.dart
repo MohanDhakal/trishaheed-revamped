@@ -1,110 +1,634 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:responsive_framework/responsive_framework.dart';
+import 'package:trishaheed/model/download_menu.dart';
+import 'package:trishaheed/model/states/dowloads_state.dart';
+import 'package:trishaheed/utilities/download_enums.dart';
+import '../utilities/file_path_remover.dart';
+import '../utilities/loading_dialog.dart';
 
-class DownloadPage extends StatelessWidget {
+class DownloadPage extends StatefulWidget {
   const DownloadPage({Key? key}) : super(key: key);
+
+  @override
+  State<DownloadPage> createState() => _DownloadPageState();
+}
+
+class _DownloadPageState extends State<DownloadPage> {
+  List<DownloadMenu> downloadMenuList = <DownloadMenu>[];
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero).then((value) {
+      Provider.of<DownloadState>(context, listen: false).getFiles();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    return Row(
-      children: [
-        SizedBox(width: screenWidth * 0.025),
-        Container(
-          width: screenWidth * 0.25,
-          child: Column(
-            children: [
-              SizedBox(height: screenWidth * 0.025),
-              Container(
-                height: screenWidth * 0.05,
-                margin: EdgeInsets.only(top: 10),
-                padding: EdgeInsets.only(left: 5),
-                child: Text(
-                  "Section 1",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24,
+    final responsiveWrapper = ResponsiveWrapper.of(context);
+
+    return Consumer<DownloadState>(builder: (context, model, child) {
+      return ResponsiveRowColumn(
+        rowMainAxisAlignment: MainAxisAlignment.start,
+        layout: responsiveWrapper.isSmallerThan(DESKTOP)
+            ? ResponsiveRowColumnType.COLUMN
+            : ResponsiveRowColumnType.ROW,
+        children: [
+          responsiveWrapper.isLargerThan(TABLET)
+              ? ResponsiveRowColumnItem(child: SizedBox(width: 24))
+              : ResponsiveRowColumnItem(child: SizedBox()),
+          ResponsiveRowColumnItem(
+            child: SizedBox(
+              width: responsiveWrapper.isSmallerThan(DESKTOP)
+                  ? screenWidth
+                  : screenWidth * 0.20,
+              child: ResponsiveRowColumn(
+                columnCrossAxisAlignment: CrossAxisAlignment.start,
+                rowCrossAxisAlignment: CrossAxisAlignment.start,
+                rowMainAxisAlignment: MainAxisAlignment.start,
+                columnMainAxisAlignment: MainAxisAlignment.start,
+                layout: responsiveWrapper.isSmallerThan(DESKTOP)
+                    ? ResponsiveRowColumnType.ROW
+                    : ResponsiveRowColumnType.COLUMN,
+                children: [
+                  ResponsiveRowColumnItem(
+                    child: SizedBox(
+                      height: responsiveWrapper.isSmallerThan(DESKTOP) ? 0 : 16,
+                      width: responsiveWrapper.isSmallerThan(DESKTOP) ? 8 : 0,
+                    ),
                   ),
-                ),
-                alignment: Alignment.centerLeft,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  color: Colors.deepPurpleAccent,
+                  ResponsiveRowColumnItem(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        "Downloads",
+                        style: TextStyle(
+                          decoration: TextDecoration.none,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: ResponsiveValue(
+                            context,
+                            defaultValue: 16.0,
+                            valueWhen: const [
+                              Condition.smallerThan(
+                                name: TABLET,
+                                value: 16.0,
+                              ),
+                              Condition.largerThan(
+                                name: TABLET,
+                                value: 24.0,
+                              )
+                            ],
+                          ).value,
+                        ),
+                      ),
+                    ),
+                  ),
+                  ResponsiveRowColumnItem(
+                    child: SizedBox(
+                      height: responsiveWrapper.isSmallerThan(DESKTOP) ? 0 : 8,
+                      width: responsiveWrapper.isSmallerThan(DESKTOP) ? 8 : 0,
+                    ),
+                  ),
+                  ResponsiveRowColumnItem(
+                    child: responsiveWrapper.isSmallerThan(DESKTOP)
+                        ? SizedBox()
+                        : Divider(
+                            thickness: 4,
+                            color: Colors.black,
+                          ),
+                  ),
+                  ResponsiveRowColumnItem(
+                    child: SizedBox(
+                      height: responsiveWrapper.isSmallerThan(DESKTOP) ? 0 : 16,
+                      width: responsiveWrapper.isSmallerThan(DESKTOP) ? 16 : 0,
+                    ),
+                  ),
+                  ResponsiveRowColumnItem(
+                    child: MaterialButton(
+                      onPressed: () async {
+                        model.currentPage = 1;
+                        model.totalPage = 1;
+                        showLoadingDialog(context);
+                        model.selectedFolder = Downloads.results;
+                        model.refreshFiles().then((value) {
+                          Navigator.pop(context);
+                        });
+                      },
+                      child: Text(
+                        "Results",
+                        style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Colors.blueAccent,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                  ResponsiveRowColumnItem(
+                    child: SizedBox(
+                      height: responsiveWrapper.isSmallerThan(DESKTOP) ? 0 : 16,
+                      width: responsiveWrapper.isSmallerThan(DESKTOP) ? 16 : 0,
+                    ),
+                  ),
+                  ResponsiveRowColumnItem(
+                    child: MaterialButton(
+                      onPressed: () async {
+                        model.currentPage = 1;
+                        model.totalPage = 1;
+
+                        showLoadingDialog(context);
+                        model.selectedFolder = Downloads.routine;
+                        model.refreshFiles().then((value) {
+                          Navigator.pop(context);
+                        });
+                      },
+                      child: Text(
+                        "Routine",
+                        style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Colors.blueAccent,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                  ResponsiveRowColumnItem(
+                    child: SizedBox(
+                      height: responsiveWrapper.isSmallerThan(DESKTOP) ? 0 : 8,
+                      width: responsiveWrapper.isSmallerThan(DESKTOP) ? 8 : 0,
+                    ),
+                  ),
+                  ResponsiveRowColumnItem(
+                    child: MaterialButton(
+                      onPressed: () {
+                        model.currentPage = 1;
+                        model.totalPage = 1;
+                        showLoadingDialog(context);
+                        model.selectedFolder = Downloads.others;
+                        model.refreshFiles().then((value) {
+                          Navigator.pop(context);
+                        });
+                      },
+                      child: Text(
+                        "Others",
+                        style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Colors.blueAccent,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          model.selectedFolder == Downloads.results
+              ? ResponsiveRowColumnItem(
+                  child: Container(
+                    width: responsiveWrapper.isSmallerThan(DESKTOP)
+                        ? screenWidth
+                        : screenWidth * 0.75,
+                    alignment: Alignment.topLeft,
+                    margin: EdgeInsets.zero,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 72),
+                        const PlacholderDownloads(),
+                        Divider(
+                          thickness: 2,
+                          color: Colors.grey.shade300,
+                        ),
+                        ...List.generate(
+                          model.selectedDownloads.length,
+                          (index) {
+                            int sn = index + 1;
+                            return DownloadFile(
+                              sn: sn,
+                              action: 'Downloads',
+                              name: model.selectedDownloads.elementAt(index),
+                            );
+                          },
+                        ),
+                        Divider(
+                          thickness: 2,
+                          color: Colors.grey.shade300,
+                        ),
+                        PaginatorWidget()
+                      ],
+                    ),
+                  ),
+                )
+              : model.selectedFolder == Downloads.routine
+                  ? ResponsiveRowColumnItem(
+                      child: Container(
+                        width: screenWidth * 0.75,
+                        margin: EdgeInsets.zero,
+                        alignment: Alignment.center,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 72),
+                            const PlacholderDownloads(),
+                            Divider(
+                              thickness: 2,
+                              color: Colors.grey.shade300,
+                            ),
+                            SizedBox(height: 8),
+                            ...List.generate(
+                              model.selectedDownloads.length,
+                              (index) {
+                                int sn = index + 1;
+                                return DownloadFile(
+                                  sn: sn,
+                                  action: 'Downloads',
+                                  name:
+                                      model.selectedDownloads.elementAt(index),
+                                );
+                              },
+                            ),
+                            Divider(
+                              thickness: 2,
+                              color: Colors.grey.shade300,
+                            ),
+                            PaginatorWidget()
+                          ],
+                        ),
+                      ),
+                    )
+                  : model.selectedFolder == Downloads.others
+                      ? ResponsiveRowColumnItem(
+                          child: Container(
+                            width: screenWidth * 0.75,
+                            margin: EdgeInsets.zero,
+                            alignment: Alignment.center,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(height: 72),
+                                const PlacholderDownloads(),
+                                Divider(
+                                  thickness: 2,
+                                  color: Colors.grey.shade300,
+                                ),
+                                ...List.generate(
+                                  model.selectedDownloads.length,
+                                  (index) {
+                                    int sn = index + 1;
+                                    return DownloadFile(
+                                      sn: sn,
+                                      action: 'Downloads',
+                                      name: model.selectedDownloads
+                                          .elementAt(index),
+                                    );
+                                  },
+                                ),
+                                Divider(
+                                  thickness: 2,
+                                  color: Colors.grey.shade300,
+                                ),
+                                PaginatorWidget()
+                              ],
+                            ),
+                          ),
+                        )
+                      : ResponsiveRowColumnItem(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(
+                              child: Text("Unexpected Error Occured"),
+                            ),
+                          ),
+                        ),
+        ],
+      );
+    });
+  }
+}
+
+class PaginatorWidget extends StatelessWidget {
+  const PaginatorWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<DownloadState>(builder: (context, model, child) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          MaterialButton(
+            onPressed: () {
+              if (model.currentPage > 1) {
+                model.currentPage--;
+                showLoadingDialog(context);
+                model.refreshFiles().then((value) {
+                  Navigator.pop(context);
+                });
+              }
+            },
+            child: Container(
+              width: 100,
+              height: 36,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                border: Border.all(
+                  color: Colors.grey,
                 ),
               ),
-              Container(
-                height: screenWidth * 0.05,
-                padding: EdgeInsets.only(left: 5),
-                margin: EdgeInsets.only(top: 10),
-                child: Text(
-                  "Section 2",
-                  style: TextStyle(
-                    fontSize: 24,
-                  ),
-                ),
-                alignment: Alignment.centerLeft,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  color: Colors.deepPurpleAccent,
+              child: Text("Previous"),
+            ),
+          ),
+          SizedBox(width: 12),
+          Container(
+              width: 100,
+              height: 36,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Colors.blueAccent,
+                borderRadius: BorderRadius.circular(4),
+                border: Border.all(
+                  color: Colors.grey,
                 ),
               ),
-              Container(
-                height: screenWidth * 0.05,
-                margin: EdgeInsets.only(top: 10),
-                padding: EdgeInsets.only(left: 5),
-                child: Text(
-                  "Section 3",
-                  style: TextStyle(
-                    fontSize: 24,
-                  ),
+              child: Text(
+                "${model.currentPage} of ${model.totalPage}",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
                 ),
-                alignment: Alignment.centerLeft,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  color: Colors.deepPurpleAccent,
+              )),
+          SizedBox(width: 12),
+          MaterialButton(
+            onPressed: () {
+              if (model.currentPage < model.totalPage) {
+                model.currentPage++;
+                showLoadingDialog(context);
+                model.refreshFiles().then((value) {
+                  Navigator.pop(context);
+                });
+              }
+            },
+            child: Container(
+              width: 100,
+              height: 36,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                border: Border.all(
+                  color: Colors.grey,
                 ),
+              ),
+              child: Text("Next"),
+            ),
+          ),
+        ],
+      );
+    });
+  }
+}
+
+class PlacholderDownloads extends StatelessWidget {
+  const PlacholderDownloads({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 1,
+            child: Text(
+              "S.N",
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: ResponsiveValue(
+                  context,
+                  defaultValue: 16.0,
+                  valueWhen: const [
+                    Condition.smallerThan(
+                      name: TABLET,
+                      value: 12.0,
+                    ),
+                    Condition.largerThan(
+                      name: TABLET,
+                      value: 24.0,
+                    )
+                  ],
+                ).value,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 4,
+            child: Text(
+              "File Name",
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: ResponsiveValue(
+                  context,
+                  defaultValue: 16.0,
+                  valueWhen: const [
+                    Condition.smallerThan(
+                      name: TABLET,
+                      value: 12.0,
+                    ),
+                    Condition.largerThan(
+                      name: TABLET,
+                      value: 24.0,
+                    )
+                  ],
+                ).value,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(
+              "Action",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: ResponsiveValue(
+                  context,
+                  defaultValue: 16.0,
+                  valueWhen: const [
+                    Condition.smallerThan(
+                      name: TABLET,
+                      value: 12.0,
+                    ),
+                    Condition.largerThan(
+                      name: TABLET,
+                      value: 24.0,
+                    )
+                  ],
+                ).value,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class DownloadFile extends StatelessWidget {
+  final int sn;
+  final String name;
+  final String action;
+  const DownloadFile({
+    Key? key,
+    required this.sn,
+    required this.action,
+    required this.name,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 1,
+            child: Text(
+              sn.toString(),
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: ResponsiveValue(
+                  context,
+                  defaultValue: 16.0,
+                  valueWhen: const [
+                    Condition.smallerThan(
+                      name: TABLET,
+                      value: 12.0,
+                    ),
+                    Condition.largerThan(
+                      name: TABLET,
+                      value: 16.0,
+                    )
+                  ],
+                ).value,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 4,
+            child: Text(
+              removeDir(name),
+              style: TextStyle(
+                // color: Colors.blue,
+                fontSize: ResponsiveValue(
+                  context,
+                  defaultValue: 16.0,
+                  valueWhen: const [
+                    Condition.smallerThan(
+                      name: TABLET,
+                      value: 12.0,
+                    ),
+                    Condition.largerThan(
+                      name: TABLET,
+                      value: 16.0,
+                    )
+                  ],
+                ).value,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: MaterialButton(
+              onPressed: () async {
+                final model =
+                    Provider.of<DownloadState>(context, listen: false);
+                await model.downloadFile(name);
+              },
+              child: Text(
+                "Download",
+                style: TextStyle(
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                  fontSize: ResponsiveValue(
+                    context,
+                    defaultValue: 16.0,
+                    valueWhen: const [
+                      Condition.smallerThan(
+                        name: TABLET,
+                        value: 12.0,
+                      ),
+                      Condition.largerThan(
+                        name: TABLET,
+                        value: 16.0,
+                      )
+                    ],
+                  ).value,
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class DownloadOption extends StatelessWidget {
+  final DownloadMenu option;
+  const DownloadOption({Key? key, required this.option}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // final double screenWidth = MediaQuery.of(context).size.width;
+
+    return Container(
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        color: Colors.blue.shade300,
+        boxShadow: option.clicked
+            ? [
+                BoxShadow(
+                  color: Colors.black54,
+                  offset: Offset(2, 2),
+                  blurRadius: 0.5,
+                  spreadRadius: 0.5,
+                )
+              ]
+            : null,
+      ),
+      child: Text(
+        option.downloads.name,
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: ResponsiveValue(
+            context,
+            defaultValue: 24.0,
+            valueWhen: const [
+              Condition.smallerThan(
+                name: TABLET,
+                value: 12.0,
+              ),
+              Condition.largerThan(
+                name: TABLET,
+                value: 16.0,
               )
             ],
-          ),
+          ).value,
         ),
-        SizedBox(width: screenWidth * 0.025),
-        Container(
-          width: screenWidth * 0.7,
-          padding: EdgeInsets.only(left: 5),
-          margin: EdgeInsets.only(top: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: screenWidth * 0.025),
-              Text(
-                "First Link of the file to download",
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 24,
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-              SizedBox(height: 20),
-              Text(
-                "second Link of the file to download",
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 24,
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-              SizedBox(height: 20),
-              Text(
-                "third Link of the file to download",
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 24,
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

@@ -1,0 +1,83 @@
+{
+    "current_page": 1,
+    "data": [
+        {
+            "student_id": 5,
+            "full_name": "Sangit Sharma",
+            "image_uri": "http://localhost:8000/storage/students/x0lJvGTsWHkOJatlYJIfFVQaqFnkg5UY5boFkT8a.jpg",
+            "grade": 3,
+            "current_rank": 2,
+            "roll_number": 12,
+            "address": "Panchamool",
+            "email": "mohan@gmail.com",
+            "guardian_contact": "998756789",
+            "dob": "2078-03-15",
+            "joined_at": "2067-09-05",
+            "major_subject": "optional maths",
+            "is_active": 1,
+            "created_at": "2023-07-22T18:15:00.000000Z",
+            "updated_at": "2023-07-22T18:15:00.000000Z"
+        },
+        {
+            "student_id": 6,
+            "full_name": "Rajendra Sharma",
+            "image_uri": "http://localhost:8000/storage/students/WvZOk8Cg9UX8vs4wLwGMKVPL9LLc0jaUfw9ay6pL.jpg",
+            "grade": 3,
+            "current_rank": 2,
+            "roll_number": 12,
+            "address": "Panchamool",
+            "email": "mohan@gmail.com",
+            "guardian_contact": "998756789",
+            "dob": "2078-03-15",
+            "joined_at": "2067-09-05",
+            "major_subject": "optional maths",
+            "is_active": 1,
+            "created_at": "2023-07-22T18:15:00.000000Z",
+            "updated_at": "2023-07-22T18:15:00.000000Z"
+        },
+        {
+            "student_id": 7,
+            "full_name": "Subash Pariyar",
+            "image_uri": null,
+            "grade": 3,
+            "current_rank": 2,
+            "roll_number": 12,
+            "address": "Panchamool",
+            "email": "mohan@gmail.com",
+            "guardian_contact": "998756789",
+            "dob": "2078-03-15",
+            "joined_at": "2067-09-05",
+            "major_subject": "optional maths",
+            "is_active": 1,
+            "created_at": "2023-07-22T18:15:00.000000Z",
+            "updated_at": "2023-07-22T18:15:00.000000Z"
+        }
+    ],
+    "first_page_url": "http://localhost:8000/api/students/grade/3?page=1",
+    "from": 1,
+    "last_page": 1,
+    "last_page_url": "http://localhost:8000/api/students/grade/3?page=1",
+    "links": [
+        {
+            "url": null,
+            "label": "&laquo; Previous",
+            "active": false
+        },
+        {
+            "url": "http://localhost:8000/api/students/grade/3?page=1",
+            "label": "1",
+            "active": true
+        },
+        {
+            "url": null,
+            "label": "Next &raquo;",
+            "active": false
+        }
+    ],
+    "next_page_url": null,
+    "path": "http://localhost:8000/api/students/grade/3",
+    "per_page": 5,
+    "prev_page_url": null,
+    "to": 3,
+    "total": 3
+}

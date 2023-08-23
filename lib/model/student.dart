@@ -1,18 +1,62 @@
 class Student {
-  String name;
+  int? id;
+  String fullName;
+  String? image_url;
   int grade;
   int rollNumber;
-  double latest_Gpa;
-  DateTime? dob;
-  String? parentName;
-  DateTime? joinedDate;
-  Student({
-    required this.name,
-    required this.grade,
-    required this.rollNumber,
-    required this.latest_Gpa,
-    this.parentName,
+  int currentRank;
+  String? email;
+  String dob;
+  String joinedAt;
+  String? majorSubject;
+  int is_active;
+  String? address;
+  String? guardianContact;
+
+  Student(
+    this.fullName,
+    this.grade,
+    this.rollNumber,
+    this.currentRank,
     this.dob,
-    this.joinedDate,
-  });
+    this.joinedAt,
+    this.is_active, [
+    this.id,
+    this.address,
+    this.guardianContact,
+    this.email,
+    this.image_url,
+    this.majorSubject,
+  ]);
+  factory Student.fromJson(Map<String, dynamic> data) {
+    return Student(
+      data["full_name"],
+      data["grade"],
+      data["roll_number"],
+      data["current_rank"],
+      data["dob"],
+      data["joined_at"],
+      data["is_active"],
+      data["id"],
+      data["address"],
+      data["guardian_contact"],
+      data["email"],
+      data["image_uri"],
+      data["major_subject"],
+    );
+  }
+}
+
+class StudentDetail {
+  int currentPage;
+  int lastPage;
+  List<Student> students;
+  StudentDetail(this.currentPage, this.lastPage, this.students);
+  factory StudentDetail.fromJson(Map<String, dynamic> data) {
+    List<Student> local = [];
+    for (var element in data["data"]) {
+      local.add(Student.fromJson(element));
+    }
+    return StudentDetail(data["current_page"], data["last_page"], local);
+  }
 }

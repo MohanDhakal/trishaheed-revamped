@@ -4,6 +4,7 @@ import 'package:trishaheed/model/menu_content.dart';
 import 'package:trishaheed/model/menu_list.dart';
 import 'package:trishaheed/utilities/textstyles.dart';
 
+// ignore: must_be_immutable
 class Menu extends StatelessWidget {
   late MenuContent menuContent;
   late int index;

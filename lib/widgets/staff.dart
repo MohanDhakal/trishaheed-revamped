@@ -1,73 +1,131 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:trishaheed/model/staff.dart' as s;
-import 'package:trishaheed/utilities/button_position.dart';
 import 'package:trishaheed/utilities/images.dart';
 
 class Staff extends StatelessWidget {
   final s.Staff staff;
+  final bool static;
   const Staff({
-    Key? key,
     required this.staff,
+    this.static = false,
+    Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final responsiveWrapper = ResponsiveWrapper.of(context);
+    final size = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
-        color: staff.position == Position.passive ? Colors.red : Colors.blue,
-        borderRadius: BorderRadius.circular(4),
+        color: Colors.grey.shade300,
+        borderRadius: BorderRadius.circular(8),
       ),
-      padding: EdgeInsets.zero,
+      width: responsiveWrapper.isSmallerThan(DESKTOP)
+          ? size.width * 0.9
+          : size.width * 0.3,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: [
-          Image.asset(
-            potraitSample,
-            // fit: BoxFit.cover,
-            fit: BoxFit.fill,
-            // color: Colors.black,
-            width: 300,
-            height: 200,
-            // height: double.infinity / 2,
+          ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(8),
+              topRight: Radius.circular(8),
+            ),
+            child: static
+                ? Image.asset(
+                    staff.imageUrl ?? profile,
+                    fit: BoxFit.cover,
+                    width: responsiveWrapper.isSmallerThan(DESKTOP)
+                        ? size.width * 0.9
+                        : size.width * 0.3,
+                    height: size.height * 0.4,
+                  )
+                : Image.network(
+                    staff.imageUrl ??
+                        "https://fastly.picsum.photos/id/185/200/300.jpg?blur=5&hmac=yQe4ekSkmZmozebKHSoPPJ9UjQtZ7Xcu7QLdp56CChw",
+                    fit: BoxFit.cover,
+                    width: responsiveWrapper.isSmallerThan(DESKTOP)
+                        ? size.width * 0.9
+                        : size.width * 0.3,
+                    height: size.height * 0.3,
+                  ),
           ),
-          SizedBox(
-            height: 10,
+          SizedBox(height: 36),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: SelectableText(
+              staff.fullName,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
           ),
-          Text(
-            staff.fullName,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  // color: Colors.white,
-                  fontSize: 18,
-                ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+            child: SelectableText.rich(
+              TextSpan(
+                text: "SUBJECT :" + "  ",
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                children: [
+                  TextSpan(
+                    text: staff.majorSubject,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(fontSize: 16),
+                  )
+                ],
+              ),
+            ),
           ),
-          Text(
-            staff.majorSubject,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  // color: Colors.white,
-                  height: 1.5,
-                  fontSize: 16,
-                ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+            child: SelectableText.rich(
+              TextSpan(
+                text: "POSITION :" + "  ",
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                children: [
+                  TextSpan(
+                    text: staff.post,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(fontSize: 16),
+                  )
+                ],
+              ),
+            ),
           ),
-          Text(
-            "Sikshak Shreni",
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  // color: Colors.white,
-                  height: 1.5,
-                  fontSize: 16,
-                ),
-          ),
-          Text(
-            staff.contact ?? "Not Available",
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  // color: Colors.white,
-                  // height: 1.5,
-                  fontSize: 14,
-                ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, top: 8.0, bottom: 8.0),
+            child: SelectableText.rich(
+              TextSpan(
+                text: "CONTACT :" + "  ",
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                children: [
+                  TextSpan(
+                    text: staff.contact ?? "९८७६५४५६७८",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(fontSize: 16),
+                  )
+                ],
+              ),
+            ),
           ),
         ],
       ),

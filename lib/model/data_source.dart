@@ -12,17 +12,9 @@ class StudentData extends DataTableSource {
 
   Future<StudentData> addStudent() async {
     Future.delayed(Duration(seconds: 2));
-    for (var i = 1; i < 5; i++) {
+    for (var i = 1; i < 10; i++) {
       studentList.add(
-        Student(
-          name: "Mohan Dhakal",
-          grade: 5,
-          rollNumber: i,
-          latest_Gpa: 3.5,
-          joinedDate: DateTime.now(),
-          dob: DateTime(2000),
-          parentName: "Parents Name",
-        ),
+        Student("Mohan Dhakal $i", i, i + 1, i, "dob", "joinedAt", 1),
       );
     }
     return StudentData();
@@ -35,10 +27,10 @@ class StudentData extends DataTableSource {
       index: index,
       selected: false,
       cells: [
-        DataCell(Text(student.name)),
-        DataCell(Text(student.joinedDate.toString())),
+        DataCell(Text(student.fullName)),
+        DataCell(Text(student.joinedAt.toString())),
         DataCell(Text(student.dob.toString())),
-        DataCell(Text(student.parentName.toString())),
+        DataCell(Text(student.guardianContact.toString())),
       ],
     );
   }

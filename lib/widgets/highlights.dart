@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/utilities/images.dart';
 
 class Highlights extends StatelessWidget {
@@ -18,8 +19,10 @@ class Highlights extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
-      width: size.width * 0.25,
-      height: 300,
+      width: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
+          ? size.width * 0.8
+          : size.width / 3,
+      height: size.height * 0.5,
       decoration: BoxDecoration(color: backgroundColor),
       child: Column(
         children: [
@@ -39,11 +42,11 @@ class Highlights extends StatelessWidget {
             title ?? "TITLE HERE",
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Colors.white,
-                  fontSize: 24,
+                  fontSize: 20,
                 ),
           ),
           SizedBox(
-            height: 20,
+            height: 36,
           ),
           Text(
             detail ?? "DETAIL HERE",

@@ -4,7 +4,7 @@ import '../utilities/menu_tag.dart';
 
 class MenuState extends ChangeNotifier {
   MenuTag selectedMenu = MenuTag.home;
-  void changeMenu(MenuTag menu) {
+  set changeMenu(MenuTag menu) {
     selectedMenu = menu;
     notifyListeners();
   }
