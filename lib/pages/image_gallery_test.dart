@@ -33,70 +33,140 @@ class _ImageGalleryState extends State<ImageGallery> {
       children: [
         SizedBox(height: 16),
         Consumer<GalleryState>(builder: (context, model, child) {
-          return GridView(
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: wrapper.isSmallerThan(DESKTOP)
-                  ? size.width * 0.8
-                  : size.width * 0.4,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              childAspectRatio: 1.2,
-            ),
-            shrinkWrap: true,
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            children: model.action == GalleryAction.NONE
-                ? [
-                    Center(
-                      child: SizedBox(
-                        height: 50,
-                        width: 50,
-                        child: CircularProgressIndicator(),
-                      ),
-                    )
-                  ]
-                : model.action == GalleryAction.ALBUMS
-                    ? List.generate(
-                        model.albums.length,
-                        (index) {
-                          Album al = model.albums[index];
-                          return InkWell(
-                            child: ui.Album(album: model.albums[index]),
-                            onTap: () async {
-                              showDialog(
-                                barrierDismissible: true,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text("Getting Images..."),
-                                    content: SizedBox(
-                                      height: 50,
-                                      width: 50,
-                                      child: Center(
-                                        child: CircularProgressIndicator(
-                                            color: Colors.blue),
+          return wrapper.isSmallerThan(DESKTOP)
+              ? SizedBox(
+                  // height: size.height * 0.9,
+                  width: size.width * 0.8,
+                  child: ListView(
+                    shrinkWrap: true,
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    children: model.action == GalleryAction.NONE
+                        ? [
+                            Center(
+                              child: SizedBox(
+                                height: 50,
+                                width: 50,
+                                child: CircularProgressIndicator(),
+                              ),
+                            )
+                          ]
+                        : model.action == GalleryAction.ALBUMS
+                            ? List.generate(
+                                model.albums.length,
+                                (index) {
+                                  Album al = model.albums[index];
+                                  return InkWell(
+                                    child: SizedBox(
+                                      height: size.height * 0.4,
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 16.0),
+                                        child: ui.Album(
+                                            album: model.albums[index]),
                                       ),
                                     ),
+                                    onTap: () async {
+                                      showDialog(
+                                        barrierDismissible: true,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text("Getting Images..."),
+                                            content: SizedBox(
+                                              height: 50,
+                                              width: 50,
+                                              child: Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                        color: Colors.blue),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        context: this.context,
+                                      );
+                                      final images =
+                                          await model.getImages(id: al.id!);
+                                      if (images != null) {
+                                        Navigator.pop(context);
+                                        displayDialog(
+                                          context,
+                                          images,
+                                        );
+                                      } else {
+                                        Navigator.pop(context);
+                                      }
+                                    },
                                   );
                                 },
-                                context: this.context,
-                              );
-                              final images = await model.getImages(id: al.id!);
-                              if (images != null) {
-                                Navigator.pop(context);
-                                displayDialog(
-                                  context,
-                                  images,
+                              )
+                            : model.action == GalleryAction.Error
+                                ? [Center(child: Text(model.errorMessage))]
+                                : [],
+                  ),
+                )
+              : GridView(
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: size.width * 0.4,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 1.2,
+                  ),
+                  shrinkWrap: true,
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  children: model.action == GalleryAction.NONE
+                      ? [
+                          Center(
+                            child: SizedBox(
+                              height: 50,
+                              width: 50,
+                              child: CircularProgressIndicator(),
+                            ),
+                          )
+                        ]
+                      : model.action == GalleryAction.ALBUMS
+                          ? List.generate(
+                              model.albums.length,
+                              (index) {
+                                Album al = model.albums[index];
+                                return InkWell(
+                                  child: ui.Album(album: model.albums[index]),
+                                  onTap: () async {
+                                    showDialog(
+                                      barrierDismissible: true,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text("Getting Images..."),
+                                          content: SizedBox(
+                                            height: 50,
+                                            width: 50,
+                                            child: Center(
+                                              child: CircularProgressIndicator(
+                                                  color: Colors.blue),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      context: this.context,
+                                    );
+                                    final images =
+                                        await model.getImages(id: al.id!);
+                                    if (images != null) {
+                                      Navigator.pop(context);
+                                      displayDialog(
+                                        context,
+                                        images,
+                                      );
+                                    } else {
+                                      Navigator.pop(context);
+                                    }
+                                  },
                                 );
-                              } else {
-                                Navigator.pop(context);
-                              }
-                            },
-                          );
-                        },
-                      )
-                    : model.action == GalleryAction.Error
-                        ? [Center(child: Text(model.errorMessage))]
-                        : [],
-          );
+                              },
+                            )
+                          : model.action == GalleryAction.Error
+                              ? [Center(child: Text(model.errorMessage))]
+                              : [],
+                );
         }),
       ],
     );

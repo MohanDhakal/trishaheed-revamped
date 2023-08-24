@@ -21,6 +21,25 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final FocusNode _focusNode = FocusNode();
   final ScrollController _controller = ScrollController();
+  List<Widget> _images = [];
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(milliseconds: 500)).then((value) {
+      setState(() {
+        _images = List.generate(
+          carouselImages.length,
+          (index) {
+            return Image.asset(
+              carouselImages[index],
+              fit: BoxFit.cover,
+            );
+          },
+        );
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,15 +56,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               CarouselSlider(
-                items: List.generate(
-                  carouselImages.length,
-                  (index) {
-                    return Image.asset(
-                      carouselImages[index],
-                      fit: BoxFit.cover,
-                    );
-                  },
-                ),
+                items: _images,
                 options: CarouselOptions(
                   initialPage: 0,
                   autoPlayInterval: Duration(milliseconds: 1000),
@@ -105,24 +116,25 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Staff(
                         staff: s.Staff(
-                            fullName: "Tek Nath Khanal",
-                            post: "Asst.Head Teacher",
-                            dob: "2080-03-25",
-                            address: "Arjunchapari-4, Syangja",
-                            isActive: 1,
-                            joinedAt: "2080-03-25",
-                            majorSubject: "English",
-                            jobType: "Permanent",
-                            rank: "0.1",
-                            teacherLevel: "Secondary Level 2",
-                            imageUrl: contact2),
+                          fullName: "Tek Nath Khanal",
+                          post: "Asst.Head Teacher",
+                          dob: "2080-03-25",
+                          address: "Arjunchapari-4, Syangja",
+                          isActive: 1,
+                          joinedAt: "2080-03-25",
+                          majorSubject: "English",
+                          jobType: "Permanent",
+                          rank: "0.1",
+                          teacherLevel: "Secondary Level 2",
+                          imageUrl: contact2,
+                        ),
                         static: true,
                       ),
                     ),
                   ),
                   ResponsiveRowColumnItem(
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
+                      padding: const EdgeInsets.only(top: 8),
                       child: Staff(
                         staff: s.Staff(
                           fullName: "Mohan Kumar Dhakal",
@@ -169,7 +181,7 @@ class _HomePageState extends State<HomePage> {
                           imageUri: microscopeIcon,
                           title: "Lab and Library",
                           detail:
-                              """Many of our teachers have years of teaching experience which helps our student get some practical knowledge alongside theory.""",
+                              """Organized and Managed Practical Laboratory and well equipped library are of the major highlights of our school where experts lead you to be productive and practical.""",
                           backgroundColor: Colors.black,
                         ),
                         Highlights(
@@ -239,6 +251,10 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         ResponsiveRowColumnItem(
                           child: StudentSaying(
+                            saying:
+                                "'Technology is inevitable in today's world.I have been involved in Technical Stream from Grade 9, which has helped me grow as a technical person.'",
+                            name: "Milan Dhakal",
+                            title: "Student",
                             shadow: [
                               BoxShadow(
                                 color: Colors.black12,
@@ -308,6 +324,10 @@ class _HomePageState extends State<HomePage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   StudentSaying(
+                                    saying:
+                                        """Friendly and motivating environment really helps us focus on what really matters. Our Teachers are available whenever we need them to clarify doubts.""",
+                                    name: "Samraj Darji",
+                                    title: "Student",
                                     height: size.height * 0.35,
                                     shadow: [
                                       BoxShadow(
@@ -320,6 +340,8 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   StudentSaying(
                                     height: size.height * 0.35,
+                                    name: "Milan Dhakal",
+                                    title: "Student",
                                     shadow: [
                                       BoxShadow(
                                         color: Colors.black12,
@@ -333,7 +355,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                             Positioned(
-                              left: size.width * 0.32,
+                              left: size.width * 0.33,
                               bottom: 2,
                               top: 2,
                               child: Card(
@@ -343,7 +365,13 @@ class _HomePageState extends State<HomePage> {
                                   borderRadius: BorderRadius.circular(
                                       8.0), // Adjust the border radius as needed
                                 ),
-                                child: StudentSaying(height: size.height * 0.4),
+                                child: StudentSaying(
+                                  height: size.height * 0.4,
+                                  saying:
+                                      """ I joined Tri-Shaheed at grade 5, The environment for study has improved as the time passes by. Today, while working as an instructor, I feel quality of our student has improved alot.""",
+                                  name: "Mohan k. Dhakal",
+                                  title: "Technical Instructor",
+                                ),
                               ),
                             ),
                           ],

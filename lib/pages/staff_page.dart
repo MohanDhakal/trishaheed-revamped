@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:trishaheed/model/staff.dart' as s;
 import 'package:trishaheed/pages/staff_detail.dart';
 import 'package:trishaheed/repository/staff_repo.dart';
@@ -46,10 +47,80 @@ class _TeacherStaffState extends State<TeacherStaff> {
             },
           )
         : _loading
-            ? SizedBox(
-                width: 50,
-                height: 50,
-                child: Center(child: CircularProgressIndicator()),
+            ? Material(
+                child: Shimmer.fromColors(
+                  baseColor: Colors.blueGrey.shade300,
+                  highlightColor: Colors.blueGrey.shade100,
+                  enabled: true,
+                  child: SingleChildScrollView(
+                    physics: NeverScrollableScrollPhysics(),
+                    child: responsiveWrapper.isLargerThan(TABLET)
+                        ? Row(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(height: 8.0),
+                                  BannerPlaceholder(),
+                                  TitlePlaceholder(),
+                                  SizedBox(height: 16.0),
+                                ],
+                              ),
+                              SizedBox(width: 8),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(height: 16.0),
+                                  BannerPlaceholder(),
+                                  TitlePlaceholder(),
+                                  SizedBox(height: 16.0),
+                                ],
+                              ),
+                              SizedBox(width: 8),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(height: 16.0),
+                                  BannerPlaceholder(),
+                                  TitlePlaceholder(),
+                                  SizedBox(height: 16.0),
+                                ],
+                              ),
+                              SizedBox(width: 8),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(height: 16.0),
+                                  BannerPlaceholder(),
+                                  TitlePlaceholder(),
+                                  SizedBox(height: 16.0),
+                                ],
+                              ),
+                            ],
+                          )
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(height: 8.0),
+                              BannerPlaceholder(),
+                              TitlePlaceholder(),
+                              SizedBox(height: 8.0),
+                              BannerPlaceholder(),
+                              TitlePlaceholder(),
+                            ],
+                          ),
+                  ),
+                ),
               )
             : (teacherList.isEmpty)
                 ? SizedBox(
@@ -273,6 +344,77 @@ class PaginatorWidget extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class TitlePlaceholder extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 8.0,
+            vertical: 12.0,
+          ),
+          child: Text(
+            "Loading.......",
+            // overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+            maxLines: 3,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 8.0,
+            vertical: 12.0,
+          ),
+          child: Text(
+            "Loading........",
+            // overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+            maxLines: 3,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 8.0,
+            vertical: 12.0,
+          ),
+          child: Text(
+            "Loading........",
+            // overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+            maxLines: 3,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class BannerPlaceholder extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final responsiveWrapper = ResponsiveWrapper.of(context);
+    final size = MediaQuery.of(context).size;
+    return Container(
+      width: responsiveWrapper.isSmallerThan(DESKTOP)
+          ? size.width * 0.8
+          : size.width * 0.2,
+      height: size.height * 0.4,
+      color: Colors.green,
     );
   }
 }

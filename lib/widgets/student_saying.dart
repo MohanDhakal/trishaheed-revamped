@@ -6,8 +6,18 @@ class StudentSaying extends StatelessWidget {
   final List<BoxShadow>? shadow;
   final double? width;
   final double? height;
-  const StudentSaying({Key? key, this.shadow, this.width, this.height})
-      : super(key: key);
+  final String? saying;
+  final String? name;
+  final String? title;
+  const StudentSaying({
+    Key? key,
+    this.shadow,
+    this.width,
+    this.height,
+    this.saying,
+    this.name,
+    this.title,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +51,8 @@ class StudentSaying extends StatelessWidget {
                     ? size.width * 0.7
                     : size.width * 0.25,
                 child: SelectableText(
-                  """Many of our teachers have years of teaching experience which helps our student get some practical knowledge alongside theory.""",
+                  saying ??
+                      """Many of our teachers have years of teaching experience which helps our student get some practical knowledge alongside theory.""",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     height: 1.8,
@@ -52,7 +63,7 @@ class StudentSaying extends StatelessWidget {
                 height: 20,
               ),
               SelectableText(
-                "Mohan Kumar Dhakal",
+                name ?? "Anonymous",
                 style: Theme.of(context)
                     .textTheme
                     .bodyMedium
@@ -62,7 +73,7 @@ class StudentSaying extends StatelessWidget {
                 height: 10,
               ),
               SelectableText(
-                "Former Student",
+                title ?? "Former Student",
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Color.fromARGB(255, 255, 102, 0),
                     ),

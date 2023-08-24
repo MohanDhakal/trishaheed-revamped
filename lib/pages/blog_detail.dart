@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:trishaheed/repository/blog_info.dart';
 import '../model/blog.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
@@ -56,13 +57,22 @@ class _BlogDetailState extends State<BlogDetail> {
 
     return _loading
         ? Material(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Loading Details..."),
-                  CircularProgressIndicator(value: 24),
-                ],
+            child: Shimmer.fromColors(
+              baseColor: Colors.blueGrey.shade300,
+              highlightColor: Colors.blueGrey.shade100,
+              enabled: true,
+              child: SingleChildScrollView(
+                physics: NeverScrollableScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    BannerPlaceholder(),
+                    TitlePlaceholder(),
+                    SizedBox(height: 16.0),
+                  ],
+                ),
               ),
             ),
           )
@@ -230,5 +240,39 @@ class _BlogDetailState extends State<BlogDetail> {
         }
       });
     }
+  }
+}
+
+class TitlePlaceholder extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 8.0,
+        vertical: 12.0,
+      ),
+      child: Text(
+        "Post Content is loading please wait....",
+        // overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
+        maxLines: 3,
+      ),
+    );
+  }
+}
+
+class BannerPlaceholder extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    return Container(
+      width: double.infinity,
+      height: size.height * 0.4,
+      color: Colors.green,
+    );
   }
 }

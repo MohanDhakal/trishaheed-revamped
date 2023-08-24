@@ -13,7 +13,6 @@ import 'package:trishaheed/pages/home_page.dart';
 import 'package:trishaheed/pages/not_found.dart';
 import 'package:trishaheed/pages/staff_page.dart';
 import 'package:trishaheed/pages/students.dart';
-import 'package:trishaheed/pages/video_gallery.dart';
 import 'package:trishaheed/states/menu_state.dart';
 import 'package:trishaheed/utilities/menu_map.dart';
 import 'package:trishaheed/utilities/menu_tag.dart';
@@ -107,8 +106,8 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
         return ImageGallery();
       case MenuTag.students:
         return Students();
-      case MenuTag.videoGallery:
-        return VideoGallery();
+      // case MenuTag.videoGallery:
+      //   return VideoGallery();
       case MenuTag.extras:
         return UnknownPage(text: "This page is under developement");
       case MenuTag.downloads:
@@ -142,7 +141,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
         },
       ),
       Students(),
-      VideoGallery(),
+      // VideoGallery(),
       DownloadPage(),
       UnknownPage(text: "This page is under developement"),
       ContactPage(),
@@ -178,7 +177,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                   menu == MenuTag.extras ||
                   menu == MenuTag.downloads ||
                   menu == MenuTag.contact ||
-                  menu == MenuTag.videoGallery ||
+                  // menu == MenuTag.videoGallery ||
                   menu == MenuTag.blog) {
                 atMenu = MenuTag.home;
               }
@@ -191,7 +190,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                   menu == MenuTag.extras ||
                   menu == MenuTag.downloads ||
                   menu == MenuTag.contact ||
-                  menu == MenuTag.videoGallery ||
+                  // menu == MenuTag.videoGallery ||
                   menu == MenuTag.blog ||
                   menu == MenuTag.home)
                 MaterialPage(
@@ -232,24 +231,24 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                 ),
                                 backgroundColor: Colors.black87,
                                 bottom: TabBar(
-                                  labelColor: Colors.red,
-                                  unselectedLabelColor: Colors.grey,
                                   splashBorderRadius: BorderRadius.circular(4),
-                                  labelStyle: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  indicatorSize: TabBarIndicatorSize.tab,
-                                  indicator: BoxDecoration(
-                                    color: Colors.blueAccent,
-                                    borderRadius: BorderRadius.circular(4),
-                                    border: Border.all(
-                                      width: 8,
-                                      color: Colors.blue,
-                                    ),
-                                  ),
-                                  unselectedLabelStyle: const TextStyle(
-                                    fontStyle: FontStyle.italic,
-                                  ),
+                                  indicatorSize: TabBarIndicatorSize.label,
+                                  automaticIndicatorColorAdjustment: false,
+                                  indicatorPadding: EdgeInsets.zero,
+                                  unselectedLabelColor:
+                                      Colors.grey, //for unselected label//
+                                  indicatorColor: Colors
+                                      .orange, //indicates the label color when you click it//
+                                  labelColor:
+                                      Colors.blue, // shows the label color //
+                                  // indicator: BoxDecoration(
+                                  //   color: Colors.blue,
+                                  //   borderRadius: BorderRadius.circular(4),
+                                  //   border: Border.all(
+                                  //     width: 8,
+                                  //     color: Colors.blue,
+                                  //   ),
+                                  // ),
                                   onTap: (int value) {
                                     final map = MenuIndex.map;
                                     atMenu = map.keys.firstWhere(
@@ -421,9 +420,11 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
       atMenu = MenuTag.home;
     } else if (configuration.imageGallery) {
       atMenu = MenuTag.photoGallery;
-    } else if (configuration.videoGallery) {
-      atMenu = MenuTag.videoGallery;
-    } else if (configuration.students) {
+    }
+    // else if (configuration.videoGallery) {
+    //   atMenu = MenuTag.videoGallery;
+    // }
+    else if (configuration.students) {
       atMenu = MenuTag.students;
     } else if (configuration.contact) {
       atMenu = MenuTag.contact;
@@ -449,9 +450,11 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
       return MyAppConfiguration.home();
     } else if (menu == MenuTag.staff) {
       return MyAppConfiguration.staff();
-    } else if (menu == MenuTag.videoGallery) {
-      return MyAppConfiguration.videoGallery();
-    } else if (menu == MenuTag.students) {
+    }
+    //  else if (menu == MenuTag.videoGallery) {
+    //   return MyAppConfiguration.videoGallery();
+    // }
+    else if (menu == MenuTag.students) {
       return MyAppConfiguration.students();
     } else if (menu == MenuTag.photoGallery) {
       return MyAppConfiguration.photoGallery();

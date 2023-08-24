@@ -14,9 +14,11 @@ class MyAppRouterInformationParser
       return RouteInformation(location: RouteName.students);
     } else if (configuration.imageGallery) {
       return RouteInformation(location: RouteName.photoGallery);
-    } else if (configuration.videoGallery) {
-      return RouteInformation(location: RouteName.videoGallery);
-    } else if (configuration.extras) {
+    }
+    //  else if (configuration.videoGallery) {
+    //   return RouteInformation(location: RouteName.videoGallery);
+    // }
+    else if (configuration.extras) {
       return RouteInformation(location: RouteName.extras);
     } else if (configuration.blog) {
       return RouteInformation(location: RouteName.blog);
@@ -63,8 +65,8 @@ class MyAppRouterInformationParser
         return MyAppConfiguration.staff();
       case RouteName.students:
         return MyAppConfiguration.students();
-      case RouteName.videoGallery:
-        return MyAppConfiguration.videoGallery();
+      // case RouteName.videoGallery:
+      //   return MyAppConfiguration.videoGallery();
       case RouteName.contact:
         return MyAppConfiguration.contact();
       case RouteName.extras:
