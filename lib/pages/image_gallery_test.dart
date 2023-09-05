@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:shimmer/shimmer.dart';
 import '../model/albums.dart';
 import '../model/gallery_state.dart';
 import "../widgets/album_design.dart" as ui;
@@ -42,13 +43,22 @@ class _ImageGalleryState extends State<ImageGallery> {
                     padding: EdgeInsets.symmetric(horizontal: 10),
                     children: model.action == GalleryAction.NONE
                         ? [
-                            Center(
-                              child: SizedBox(
-                                height: 50,
-                                width: 50,
-                                child: CircularProgressIndicator(),
+                            Material(
+                              child: Shimmer.fromColors(
+                                baseColor: Colors.blueGrey.shade300,
+                                highlightColor: Colors.blueGrey.shade100,
+                                enabled: true,
+                                child: BannerPlaceholder(),
                               ),
-                            )
+                            ),
+                            Material(
+                              child: Shimmer.fromColors(
+                                baseColor: Colors.blueGrey.shade300,
+                                highlightColor: Colors.blueGrey.shade100,
+                                enabled: true,
+                                child: BannerPlaceholder(),
+                              ),
+                            ),
                           ]
                         : model.action == GalleryAction.ALBUMS
                             ? List.generate(
@@ -62,7 +72,8 @@ class _ImageGalleryState extends State<ImageGallery> {
                                         padding:
                                             const EdgeInsets.only(bottom: 16.0),
                                         child: ui.Album(
-                                            album: model.albums[index]),
+                                          album: model.albums[index],
+                                        ),
                                       ),
                                     ),
                                     onTap: () async {
@@ -115,13 +126,22 @@ class _ImageGalleryState extends State<ImageGallery> {
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   children: model.action == GalleryAction.NONE
                       ? [
-                          Center(
-                            child: SizedBox(
-                              height: 50,
-                              width: 50,
-                              child: CircularProgressIndicator(),
+                          Material(
+                            child: Shimmer.fromColors(
+                              baseColor: Colors.blueGrey.shade300,
+                              highlightColor: Colors.blueGrey.shade100,
+                              enabled: true,
+                              child: BannerPlaceholder(),
                             ),
-                          )
+                          ),
+                          Material(
+                            child: Shimmer.fromColors(
+                              baseColor: Colors.blueGrey.shade300,
+                              highlightColor: Colors.blueGrey.shade100,
+                              enabled: true,
+                              child: BannerPlaceholder(),
+                            ),
+                          ),
                         ]
                       : model.action == GalleryAction.ALBUMS
                           ? List.generate(
@@ -183,6 +203,21 @@ class _ImageGalleryState extends State<ImageGallery> {
         }),
         initialIndex: 0,
       ),
+    );
+  }
+}
+
+class BannerPlaceholder extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final responsiveWrapper = ResponsiveWrapper.of(context);
+    final size = MediaQuery.of(context).size;
+    return Container(
+      width: responsiveWrapper.isSmallerThan(DESKTOP)
+          ? size.width * 0.8
+          : size.width * 0.2,
+      height: size.height * 0.4,
+      color: Colors.green,
     );
   }
 }

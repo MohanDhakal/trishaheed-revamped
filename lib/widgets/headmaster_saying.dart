@@ -67,7 +67,7 @@ class HeadMasterSaying extends StatelessWidget {
                 SizedBox(height: 24),
                 SizedBox(
                   width: ResponsiveWrapper.of(context).isLargerThan(TABLET)
-                      ? size.width * 0.5
+                      ? size.width * 0.55
                       : size.width * 0.95,
                   child: Center(
                     child: SelectableText.rich(

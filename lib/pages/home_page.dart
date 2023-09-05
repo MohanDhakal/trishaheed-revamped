@@ -21,7 +21,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final FocusNode _focusNode = FocusNode();
   final ScrollController _controller = ScrollController();
+  final CarouselController _carouselController = CarouselController();
   List<Widget> _images = [];
+  // int _selectedImage = 0;
 
   @override
   void initState() {
@@ -55,19 +57,68 @@ class _HomePageState extends State<HomePage> {
           controller: _controller,
           child: Column(
             children: [
-              CarouselSlider(
-                items: _images,
-                options: CarouselOptions(
-                  initialPage: 0,
-                  autoPlayInterval: Duration(milliseconds: 1000),
-                  reverse: true,
-                  aspectRatio:
-                      responsiveWrapper.isLargerThan(TABLET) ? 16 / 9 : 4 / 3,
-                  viewportFraction: 1,
-                  pageSnapping: true,
-                  enlargeCenterPage: true,
-                  // clipBehavior: Clip.none,
-                ),
+              Stack(
+                children: [
+                  CarouselSlider(
+                    items: _images,
+                    carouselController: _carouselController,
+                    options: CarouselOptions(
+                      initialPage: 0,
+                      autoPlayInterval: Duration(milliseconds: 1000),
+                      reverse: true,
+                      aspectRatio: responsiveWrapper.isSmallerThan(DESKTOP)
+                          ? 4 / 3
+                          : 16 / 9,
+                      viewportFraction: 1,
+                      pageSnapping: true,
+                      onPageChanged: (index, reason) {},
+                    ),
+                  ),
+                  Positioned(
+                    top: size.height * 0.4,
+                    left: 20,
+                    child: MaterialButton(
+                      onPressed: () {
+                        _carouselController.nextPage();
+                      },
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        child: Icon(
+                          Icons.navigate_before,
+                          size: 30,
+                        ),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade300,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: size.height * 0.4,
+                    right: 20,
+                    child: MaterialButton(
+                      onPressed: () {
+                        _carouselController.previousPage();
+                      },
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        child: Icon(
+                          Icons.navigate_next,
+                          size: 30,
+                        ),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade300,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
               ),
               SizedBox(height: 48),
               HeadMasterSaying(),
@@ -107,6 +158,7 @@ class _HomePageState extends State<HomePage> {
                         rank: "0.1",
                         teacherLevel: "Primary",
                         imageUrl: contact1,
+                        contact: "9856053186",
                       ),
                       static: true,
                     ),
@@ -116,7 +168,7 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Staff(
                         staff: s.Staff(
-                          fullName: "Tek Nath Khanal",
+                          fullName: "Teknath Khanal",
                           post: "Asst.Head Teacher",
                           dob: "2080-03-25",
                           address: "Arjunchapari-4, Syangja",
@@ -127,6 +179,7 @@ class _HomePageState extends State<HomePage> {
                           rank: "0.1",
                           teacherLevel: "Secondary Level 2",
                           imageUrl: contact2,
+                          contact: "9846095574",
                         ),
                         static: true,
                       ),
@@ -147,6 +200,7 @@ class _HomePageState extends State<HomePage> {
                           jobType: "Temporary",
                           rank: "0.1",
                           teacherLevel: "Secondary Level 2",
+                          contact: "9862790724",
                         ),
                         static: true,
                       ),

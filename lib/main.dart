@@ -4,11 +4,13 @@ import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/model/gallery_state.dart';
 import 'package:trishaheed/model/states/dowloads_state.dart';
+import 'package:trishaheed/model/states/smc_state.dart';
 import 'package:trishaheed/model/states/staff_state.dart';
 import 'package:trishaheed/model/states/students_state.dart';
 import 'package:trishaheed/pages/blogs.dart';
 import 'package:trishaheed/pages/contact_page.dart';
 import 'package:trishaheed/pages/downloads_page.dart';
+import 'package:trishaheed/pages/extras_page.dart';
 import 'package:trishaheed/pages/home_page.dart';
 import 'package:trishaheed/pages/not_found.dart';
 import 'package:trishaheed/pages/staff_page.dart';
@@ -35,6 +37,7 @@ void main(List<String> args) {
         ChangeNotifierProvider(create: (_) => GalleryState()),
         ChangeNotifierProvider(create: (_) => StaffState()),
         ChangeNotifierProvider(create: (_) => DownloadState()),
+        ChangeNotifierProvider(create: (_) => SmcState()),
       ],
       child: EntryPoint(),
     ),
@@ -109,7 +112,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
       // case MenuTag.videoGallery:
       //   return VideoGallery();
       case MenuTag.extras:
-        return UnknownPage(text: "This page is under developement");
+        return ExtrasPage();
       case MenuTag.downloads:
         return DownloadPage();
       case MenuTag.contact:
@@ -143,7 +146,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
       Students(),
       // VideoGallery(),
       DownloadPage(),
-      UnknownPage(text: "This page is under developement"),
+      ExtrasPage(),
       ContactPage(),
       BlogList(
         onClick: ((m, index, post) {

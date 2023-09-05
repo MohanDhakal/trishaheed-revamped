@@ -21,4 +21,5 @@ class ApiRoutes {
   static final files = "/files/";
   static final fileDownload = "/files/downloads";
   static final feeback = "/feedback/add";
+  static final members = "/members";
 }

@@ -4,7 +4,7 @@ const List<String> majors = [
   "Mathematics",
   "Nepali",
   "English",
-  "HPE"
+  "HPE",
 ];
 const List<String> jobType = ["permanent", "temporary"];
 

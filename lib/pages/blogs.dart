@@ -50,7 +50,7 @@ class _BlogListState extends State<BlogList> {
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SizedBox(height: 8.0),
+                              SizedBox(height: 16.0),
                               BannerPlaceholder(),
                               TitlePlaceholder(),
                               SizedBox(height: 16.0),
@@ -267,7 +267,7 @@ class TitlePlaceholder extends StatelessWidget {
             vertical: 12.0,
           ),
           child: Text(
-            "Loading.......",
+            "Title of the post",
             // overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 16,
@@ -282,7 +282,7 @@ class TitlePlaceholder extends StatelessWidget {
             vertical: 12.0,
           ),
           child: Text(
-            "Loading........",
+            "body of the post loading....",
             // overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 16,

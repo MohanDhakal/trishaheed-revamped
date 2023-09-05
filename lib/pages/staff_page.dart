@@ -62,7 +62,7 @@ class _TeacherStaffState extends State<TeacherStaff> {
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  SizedBox(height: 8.0),
+                                  SizedBox(height: 16.0),
                                   BannerPlaceholder(),
                                   TitlePlaceholder(),
                                   SizedBox(height: 16.0),

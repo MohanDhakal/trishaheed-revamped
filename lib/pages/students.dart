@@ -46,7 +46,6 @@ class _StudentsState extends State<Students> {
             : (responsiveWrapper.isLargerThan(TABLET))
                 ? SingleChildScrollView(
                     controller: _controller,
-                    clipBehavior: Clip.none,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -80,7 +79,7 @@ class _StudentsState extends State<Students> {
                                         maxCrossAxisExtent: 300,
                                         mainAxisSpacing: 10,
                                         crossAxisSpacing: 10,
-                                        childAspectRatio: 0.55,
+                                        childAspectRatio: 0.60,
                                       ),
                                       itemCount: model.studentList.length,
                                       itemBuilder: ((context, index) {
