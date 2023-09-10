@@ -130,7 +130,7 @@ class StudentDetail extends StatelessWidget {
                                         left: 8.0, top: 8.0),
                                     child: RichText(
                                       text: TextSpan(
-                                        text: "SUBJECT :" + "  ",
+                                        text: "Major :" + "  ",
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium

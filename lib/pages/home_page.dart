@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                     items: _images,
                     carouselController: _carouselController,
                     options: CarouselOptions(
-                      initialPage: 0,
+                      initialPage: 1,
                       autoPlayInterval: Duration(milliseconds: 1000),
                       reverse: true,
                       aspectRatio: responsiveWrapper.isSmallerThan(DESKTOP)

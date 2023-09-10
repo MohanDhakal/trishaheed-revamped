@@ -86,7 +86,7 @@ class StudentWidget extends StatelessWidget {
             padding: const EdgeInsets.only(left: 8.0, top: 8.0),
             child: RichText(
               text: TextSpan(
-                text: "Address" + "  ",
+                text: "Address: " + "  ",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -107,7 +107,7 @@ class StudentWidget extends StatelessWidget {
             padding: const EdgeInsets.only(left: 8.0, top: 8.0),
             child: RichText(
               text: TextSpan(
-                text: "Guardian CONTACT :" + "  ",
+                text: "Guardian Contact :" + "  ",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,

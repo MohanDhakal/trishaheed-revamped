@@ -21,22 +21,11 @@ class Blog {
     required this.imageUri,
     required this.position,
   });
-  Map<String, dynamic> toJson() {
-    return {
-      "id": this.id,
-      "createdAt": this.createdAt,
-      "title": this.title,
-      "delta": this.content.toJson(),
-      "author": this.byWhom,
-      "slugs": this.slug,
-    };
-  }
 
   factory Blog.fromJson(Map<String, dynamic> obj) {
     List<Slug> s = <Slug>[];
 
     for (var slug in obj["slugs"]) {
-      // print(slug.toString());
       s.add(Slug.fromJson(slug));
     }
     return Blog(

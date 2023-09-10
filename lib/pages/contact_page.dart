@@ -32,7 +32,16 @@ class _ContactPageState extends State<ContactPage> {
       child: SingleChildScrollView(
         controller: _controller,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+              child: Text(
+                "User Feedback Form",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+            ),
             Row(
               children: [
                 ComplaintForm(),

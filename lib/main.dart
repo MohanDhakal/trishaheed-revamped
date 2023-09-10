@@ -237,21 +237,21 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                   splashBorderRadius: BorderRadius.circular(4),
                                   indicatorSize: TabBarIndicatorSize.label,
                                   automaticIndicatorColorAdjustment: false,
-                                  indicatorPadding: EdgeInsets.zero,
+                                  // indicatorPadding:
+                                  //     EdgeInsets.symmetric(vertical: 8),
                                   unselectedLabelColor:
                                       Colors.grey, //for unselected label//
-                                  indicatorColor: Colors
-                                      .orange, //indicates the label color when you click it//
-                                  labelColor:
-                                      Colors.blue, // shows the label color //
-                                  // indicator: BoxDecoration(
-                                  //   color: Colors.blue,
-                                  //   borderRadius: BorderRadius.circular(4),
-                                  //   border: Border.all(
-                                  //     width: 8,
-                                  //     color: Colors.blue,
-                                  //   ),
-                                  // ),
+                                  labelPadding:
+                                      EdgeInsets.symmetric(vertical: 8),
+
+                                  indicator: BoxDecoration(
+                                    color: Colors.blue,
+                                    borderRadius: BorderRadius.circular(4),
+                                    border: Border.all(
+                                      width: 8,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
                                   onTap: (int value) {
                                     final map = MenuIndex.map;
                                     atMenu = map.keys.firstWhere(
@@ -261,9 +261,13 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                   tabs: List.generate(
                                     MenuIndex.map.length - 2,
                                     (index) {
-                                      return Text(
-                                        MenuIndex.names.values.elementAt(index),
-                                        style: CustomTextStyle.menu(context),
+                                      return Align(
+                                        alignment: Alignment.topCenter,
+                                        child: Text(
+                                          MenuIndex.names.values
+                                              .elementAt(index),
+                                          style: CustomTextStyle.menu(context),
+                                        ),
                                       );
                                     },
                                   ),
