@@ -40,3 +40,15 @@ class Blog {
     );
   }
 }
+
+class BlogWrapper {
+  int totalPages;
+  int currentPage;
+  List<Blog> blogList;
+
+  BlogWrapper({
+    required this.totalPages,
+    required this.currentPage,
+    required this.blogList,
+  });
+}

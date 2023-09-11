@@ -5,19 +5,24 @@ import 'package:trishaheed/services/BaseApi.dart';
 import 'package:trishaheed/utilities/api_routes.dart';
 
 class BlogApi {
-  Future<List<Blog>> getBlogList() async {
-    final response = await BaseApi.createDio().get(ApiRoutes.posts);
+  Future<BlogWrapper> getBlogList({int page = 1}) async {
+    final response =
+        await BaseApi.createDio().get(ApiRoutes.posts, {"page": page});
     List<Blog> blogs = <Blog>[];
+    BlogWrapper wrapper =
+        BlogWrapper(totalPages: 1, currentPage: 1, blogList: blogs);
     response.fold((l) {
-      // print(l.data);
-      for (var element in l.data) {
+      for (var element in l.data["data"]) {
         final item = Blog.fromJson(element);
         blogs.add(item);
       }
+      wrapper.blogList = blogs;
+      wrapper.totalPages = l.data["last_page"];
+      wrapper.currentPage = l.data["current_page"];
     }, (r) {
       debugPrint(r.message);
     });
-    return blogs;
+    return wrapper;
   }
 
   Future<Blog?> getBlogForId(int id) async {

@@ -18,12 +18,17 @@ class BlogList extends StatefulWidget {
 class _BlogListState extends State<BlogList> {
   List<Blog> blogList = <Blog>[];
   bool _loadingBlog = false;
+  int _totalPages = 1;
+  int _currentPage = 1;
+
   @override
   void initState() {
     super.initState();
     BlogApi().getBlogList().then((value) {
       setState(() {
-        blogList = value;
+        blogList = value.blogList;
+        _totalPages = value.totalPages;
+        _currentPage = value.currentPage;
         _loadingBlog = true;
       });
     });
@@ -103,39 +108,127 @@ class _BlogListState extends State<BlogList> {
                 alignment: Alignment.center,
                 child: Text("There are no blogs available at the moment"),
               )
-            : GridView.builder(
-                itemCount: blogList.length,
+            : ListView(
                 shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemBuilder: (BuildContext context, int index) {
-                  return InkWell(
-                    onHover: ((value) {
-                      setState(() {
-                        if (blogList[index].position == Position.passive) {
-                          blogList[index].position = Position.hovered;
-                        } else {
-                          blogList[index].position = Position.passive;
-                        }
-                      });
-                    }),
-                    onTap: () => widget.onClick(
-                      MenuTag.blogDetail,
-                      blogList[index].id,
-                      blogList[index],
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          color: _currentPage < 2 ? Colors.grey : Colors.black,
+                        ),
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text("Processing"),
+                                  content: SizedBox(
+                                    height: 36,
+                                    width: 36,
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              });
+                          if (_currentPage > 1) {
+                            BlogApi()
+                                .getBlogList(page: _currentPage - 1)
+                                .then((value) {
+                              Navigator.pop(context);
+                              setState(() {
+                                blogList = value.blogList;
+                                _totalPages = value.totalPages;
+                                _currentPage = value.currentPage;
+                              });
+                            });
+                          }
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text("Page ${_currentPage} of ${_totalPages}"),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_forward_ios,
+                          color: _currentPage < _totalPages
+                              ? Colors.black
+                              : Colors.grey,
+                        ),
+                        onPressed: () async {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text("Processing"),
+                                  content: SizedBox(
+                                    height: 36,
+                                    width: 36,
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              });
+                          if (_currentPage < _totalPages) {
+                            BlogApi()
+                                .getBlogList(page: _currentPage + 1)
+                                .then((value) {
+                              Navigator.pop(context);
+                              setState(() {
+                                blogList = value.blogList;
+                                _totalPages = value.totalPages;
+                                _currentPage = value.currentPage;
+                              });
+                            });
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                  GridView.builder(
+                    itemCount: blogList.length,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (BuildContext context, int index) {
+                      return InkWell(
+                        onHover: ((value) {
+                          setState(() {
+                            if (blogList[index].position == Position.passive) {
+                              blogList[index].position = Position.hovered;
+                            } else {
+                              blogList[index].position = Position.passive;
+                            }
+                          });
+                        }),
+                        onTap: () => widget.onClick(
+                          MenuTag.blogDetail,
+                          blogList[index].id,
+                          blogList[index],
+                        ),
+                        child: SingleBlog(
+                          blog: blogList[index],
+                        ),
+                      );
+                    },
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: responsiveWrapper.isLargerThan(TABLET)
+                          ? responsiveWrapper.screenWidth * 0.4
+                          : responsiveWrapper.screenWidth,
+                      childAspectRatio: 1,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
                     ),
-                    child: SingleBlog(
-                      blog: blogList[index],
-                    ),
-                  );
-                },
-                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: responsiveWrapper.isLargerThan(TABLET)
-                      ? responsiveWrapper.screenWidth * 0.4
-                      : responsiveWrapper.screenWidth,
-                  childAspectRatio: 1,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                ),
+                  ),
+                ],
               );
   }
 }
