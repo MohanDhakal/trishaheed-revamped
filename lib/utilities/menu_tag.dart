@@ -3,7 +3,6 @@ enum MenuTag {
   photoGallery,
   staff,
   students,
-  videoGallery,
   downloads,
   extras,
   contact,

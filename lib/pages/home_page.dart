@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:trishaheed/widgets/count_display.dart';
 import 'package:trishaheed/widgets/footer.dart';
 import '../utilities/images.dart';
 import '../widgets/headmaster_saying.dart';
@@ -21,6 +22,27 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final FocusNode _focusNode = FocusNode();
   final ScrollController _controller = ScrollController();
+  final CarouselController _carouselController = CarouselController();
+  List<Widget> _images = [];
+  // int _selectedImage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(milliseconds: 500)).then((value) {
+      setState(() {
+        _images = List.generate(
+          carouselImages.length,
+          (index) {
+            return Image.asset(
+              carouselImages[index],
+              fit: BoxFit.cover,
+            );
+          },
+        );
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,39 +58,91 @@ class _HomePageState extends State<HomePage> {
           controller: _controller,
           child: Column(
             children: [
-              CarouselSlider(
-                items: [
-                  Image.asset(
-                    carousel2,
-                    fit: BoxFit.cover,
+              Stack(
+                children: [
+                  CarouselSlider(
+                    items: _images,
+                    carouselController: _carouselController,
+                    options: CarouselOptions(
+                      initialPage: 1,
+                      autoPlayInterval: Duration(milliseconds: 1000),
+                      reverse: true,
+                      aspectRatio: responsiveWrapper.isSmallerThan(DESKTOP)
+                          ? 4 / 3
+                          : 16 / 9,
+                      viewportFraction: 1,
+                      pageSnapping: true,
+                      onPageChanged: (index, reason) {},
+                    ),
                   ),
-                  Image.network(
-                    carousel3,
-                    fit: BoxFit.cover,
+                  Positioned(
+                    top: size.height * 0.4,
+                    left: 20,
+                    child: MaterialButton(
+                      onPressed: () {
+                        _carouselController.nextPage();
+                      },
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        child: Icon(
+                          Icons.navigate_before,
+                          size: 30,
+                        ),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade300,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
                   ),
-                  Image.network(
-                    carousel4,
-                    fit: BoxFit.cover,
-                  ),
-                  Image.network(
-                    carousel5,
-                    fit: BoxFit.cover,
-                  ),
+                  Positioned(
+                    top: size.height * 0.4,
+                    right: 20,
+                    child: MaterialButton(
+                      onPressed: () {
+                        _carouselController.previousPage();
+                      },
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        child: Icon(
+                          Icons.navigate_next,
+                          size: 30,
+                        ),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade300,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
+                  )
                 ],
-                options: CarouselOptions(
-                  initialPage: 0,
-                  autoPlayInterval: Duration(milliseconds: 1000),
-                  reverse: true,
-                  aspectRatio:
-                      responsiveWrapper.isLargerThan(TABLET) ? 16 / 9 : 4 / 3,
-                  viewportFraction: 1,
-                  pageSnapping: true,
-                  enlargeCenterPage: true,
-                  // clipBehavior: Clip.none,
-                ),
               ),
               SizedBox(height: 48),
               HeadMasterSaying(),
+              SizedBox(height: 48),
+              Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: Text(
+                  "Staff and Students",
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                        fontStyle: FontStyle.normal,
+                      ),
+                ),
+              ),
+              SizedBox(width: size.width * 0.2, child: Divider(thickness: 4)),
+              SizedBox(height: 48),
+              CountDisplay(
+                staffs: 33,
+                students: 487,
+                technicalStudents: 50,
+              ),
               SizedBox(height: 48),
               Padding(
                 padding: const EdgeInsets.only(left: 20.0),
@@ -94,17 +168,19 @@ class _HomePageState extends State<HomePage> {
                   ResponsiveRowColumnItem(
                     child: Staff(
                       staff: s.Staff(
-                          fullName: "Jay Prasad Chapagain",
-                          post: "Head Teacher",
-                          dob: "2080-03-25",
-                          address: "Arjunchapari-4, Syangja",
-                          isActive: 1,
-                          joinedAt: "2080-03-25",
-                          majorSubject: "HPE",
-                          jobType: "Permanent",
-                          rank: "0.1",
-                          teacherLevel: "Primary",
-                          imageUrl: contact1),
+                        fullName: "Jay Prasad Chapagain",
+                        post: "Head Teacher",
+                        dob: "2080-03-25",
+                        address: "Arjunchapari-4, Syangja",
+                        isActive: 1,
+                        joinedAt: "2080-03-25",
+                        majorSubject: "HPE",
+                        jobType: "Permanent",
+                        rank: "0.1",
+                        teacherLevel: "Primary",
+                        imageUrl: contact1,
+                        contact: "9856053186",
+                      ),
                       static: true,
                     ),
                   ),
@@ -113,24 +189,26 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Staff(
                         staff: s.Staff(
-                            fullName: "Tek Nath Khanal",
-                            post: "Asst.Head Teacher",
-                            dob: "2080-03-25",
-                            address: "Arjunchapari-4, Syangja",
-                            isActive: 1,
-                            joinedAt: "2080-03-25",
-                            majorSubject: "English",
-                            jobType: "Permanent",
-                            rank: "0.1",
-                            teacherLevel: "Secondary Level 2",
-                            imageUrl: contact2),
+                          fullName: "Teknath Khanal",
+                          post: "Asst.Head Teacher",
+                          dob: "2080-03-25",
+                          address: "Arjunchapari-4, Syangja",
+                          isActive: 1,
+                          joinedAt: "2080-03-25",
+                          majorSubject: "English",
+                          jobType: "Permanent",
+                          rank: "0.1",
+                          teacherLevel: "Secondary Level 2",
+                          imageUrl: contact2,
+                          contact: "9846095574",
+                        ),
                         static: true,
                       ),
                     ),
                   ),
                   ResponsiveRowColumnItem(
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
+                      padding: const EdgeInsets.only(top: 8),
                       child: Staff(
                         staff: s.Staff(
                           fullName: "Mohan Kumar Dhakal",
@@ -143,6 +221,7 @@ class _HomePageState extends State<HomePage> {
                           jobType: "Temporary",
                           rank: "0.1",
                           teacherLevel: "Secondary Level 2",
+                          contact: "9862790724",
                         ),
                         static: true,
                       ),
@@ -177,7 +256,7 @@ class _HomePageState extends State<HomePage> {
                           imageUri: microscopeIcon,
                           title: "Lab and Library",
                           detail:
-                              """Many of our teachers have years of teaching experience which helps our student get some practical knowledge alongside theory.""",
+                              """Organized and Managed Practical Laboratory and well equipped library are of the major highlights of our school where experts lead you to be productive and practical.""",
                           backgroundColor: Colors.black,
                         ),
                         Highlights(
@@ -216,7 +295,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: 48),
               Center(
                 child: Text(
-                  " STUDENTS SAYING",
+                  " STUDENT TESTIMONIALS",
                   style: responsiveWrapper.isSmallerThan(DESKTOP)
                       ? Theme.of(context)
                           .textTheme
@@ -247,6 +326,10 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         ResponsiveRowColumnItem(
                           child: StudentSaying(
+                            saying:
+                                "'Technology is inevitable in today's world.I have been involved in Technical Stream from Grade 9, which has helped me grow as a technical person.'",
+                            name: "Milan Dhakal",
+                            title: "Student",
                             shadow: [
                               BoxShadow(
                                 color: Colors.black12,
@@ -316,6 +399,10 @@ class _HomePageState extends State<HomePage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   StudentSaying(
+                                    saying:
+                                        """Friendly and motivating environment really helps us focus on what really matters. Our Teachers are available whenever we need them to clarify doubts.""",
+                                    name: "Samraj Darji",
+                                    title: "Student",
                                     height: size.height * 0.35,
                                     shadow: [
                                       BoxShadow(
@@ -328,6 +415,8 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   StudentSaying(
                                     height: size.height * 0.35,
+                                    name: "Milan Dhakal",
+                                    title: "Student",
                                     shadow: [
                                       BoxShadow(
                                         color: Colors.black12,
@@ -341,7 +430,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                             Positioned(
-                              left: size.width * 0.32,
+                              left: size.width * 0.33,
                               bottom: 2,
                               top: 2,
                               child: Card(
@@ -351,7 +440,13 @@ class _HomePageState extends State<HomePage> {
                                   borderRadius: BorderRadius.circular(
                                       8.0), // Adjust the border radius as needed
                                 ),
-                                child: StudentSaying(height: size.height * 0.4),
+                                child: StudentSaying(
+                                  height: size.height * 0.4,
+                                  saying:
+                                      """ I joined Tri-Shaheed at grade 5, The environment for study has improved as the time passes by. Today, while working as an instructor, I feel quality of our student has improved alot.""",
+                                  name: "Mohan k. Dhakal",
+                                  title: "Technical Instructor",
+                                ),
                               ),
                             ),
                           ],

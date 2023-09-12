@@ -22,8 +22,8 @@ class _StudentsState extends State<Students> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(milliseconds: 500)).then((value) {
-      Provider.of<StudentState>(context, listen: false).getStudentList();
+    Future.delayed(Duration(milliseconds: 500)).then((value) async {
+      await Provider.of<StudentState>(context, listen: false).getStudentList();
     });
   }
 
@@ -36,6 +36,7 @@ class _StudentsState extends State<Students> {
       onKey: _handleKeyEvent,
       autofocus: true,
       child: Consumer<StudentState>(builder: (context, model, child) {
+        print(model.loading);
         return model.selectedStudent != null
             ? StudentDetail(
                 student: model.selectedStudent!,
@@ -46,7 +47,6 @@ class _StudentsState extends State<Students> {
             : (responsiveWrapper.isLargerThan(TABLET))
                 ? SingleChildScrollView(
                     controller: _controller,
-                    clipBehavior: Clip.none,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -66,7 +66,7 @@ class _StudentsState extends State<Students> {
                                       SizedBox(height: size.height * 0.2),
                                       Center(
                                         child: Text(
-                                            "No Students Detail Available"),
+                                            "Looks like there is no detail about the grade you selected"),
                                       ),
                                     ],
                                   )
@@ -80,7 +80,7 @@ class _StudentsState extends State<Students> {
                                         maxCrossAxisExtent: 300,
                                         mainAxisSpacing: 10,
                                         crossAxisSpacing: 10,
-                                        childAspectRatio: 0.55,
+                                        childAspectRatio: 0.60,
                                       ),
                                       itemCount: model.studentList.length,
                                       itemBuilder: ((context, index) {
@@ -128,30 +128,49 @@ class _StudentsState extends State<Students> {
                     children: [
                       GradeChips(),
                       SizedBox(height: 12),
-                      SizedBox(
-                        height: size.height * 0.65,
-                        child: ListView.builder(
-                          itemCount: model.studentList.length,
-                          shrinkWrap: true,
-                          itemBuilder: ((context, index) {
-                            return InkWell(
-                              onTap: (() {
-                                model.selectedStudent =
-                                    model.studentList.elementAt(index);
-                              }),
-                              onHover: ((value) {}),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 8.0, horizontal: 8.0),
-                                child: StudentWidget(
-                                  student: model.studentList[index],
-                                  // width: MediaQuery.of(context).size.width,
-                                ),
+                      model.loading
+                          ? SizedBox(
+                              width: 50,
+                              height: 50,
+                              child: Center(
+                                child: CircularProgressIndicator(),
                               ),
-                            );
-                          }),
-                        ),
-                      ),
+                            )
+                          : (model.studentList.isEmpty)
+                              ? Column(
+                                  children: [
+                                    SizedBox(height: size.height * 0.2),
+                                    Center(
+                                      child: Text(
+                                          "Looks like there is no detail about the grade you selected"),
+                                    ),
+                                  ],
+                                )
+                              : SizedBox(
+                                  height: size.height * 0.60,
+                                  child: ListView.builder(
+                                    itemCount: model.studentList.length,
+                                    shrinkWrap: true,
+                                    itemBuilder: ((context, index) {
+                                      return InkWell(
+                                        onTap: (() {
+                                          model.selectedStudent = model
+                                              .studentList
+                                              .elementAt(index);
+                                        }),
+                                        onHover: ((value) {}),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8.0, horizontal: 8.0),
+                                          child: StudentWidget(
+                                            student: model.studentList[index],
+                                            // width: MediaQuery.of(context).size.width,
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                                  ),
+                                ),
                     ],
                   );
       }),
@@ -209,13 +228,13 @@ class GradeChips extends StatelessWidget {
           runSpacing: 8.0,
           children: List.generate(GradeMap.names.length, (index) {
             return MaterialButton(
-              onPressed: () {
-                showLoadingDialog(context);
+              onPressed: () async {
+                // showLoadingDialog(context);
                 model.currentPage = 1;
                 model.selectedGrade = GradeMap.names.keys.elementAt(index);
-                model.getStudentList().then((value) {
-                  Navigator.pop(context);
-                });
+                model.loading = true;
+                await model.getStudentList();
+                model.loading = false;
               },
               child: Container(
                 width: responsiveWrapper.isSmallerThan(DESKTOP) ? 80 : 100,

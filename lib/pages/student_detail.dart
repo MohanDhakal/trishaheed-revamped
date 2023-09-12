@@ -67,16 +67,32 @@ class StudentDetail extends StatelessWidget {
                     columnMainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       ResponsiveRowColumnItem(
-                          child: ClipRRect(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(8),
-                          topRight: Radius.circular(8),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(8),
+                            topRight: Radius.circular(8),
+                          ),
+                          child: student.image_url == null
+                              ? Image.asset(
+                                  profile,
+                                  fit: BoxFit.contain,
+                                  width:
+                                      responsiveWrapper.isSmallerThan(DESKTOP)
+                                          ? size.width * 0.9
+                                          : size.width * 0.3,
+                                  height: size.height * 0.4,
+                                )
+                              : Image.network(
+                                  student.image_url!,
+                                  fit: BoxFit.contain,
+                                  height: size.height * 0.5,
+                                  width:
+                                      responsiveWrapper.isSmallerThan(DESKTOP)
+                                          ? size.width * 0.9
+                                          : size.width * 0.3,
+                                ),
                         ),
-                        child: Image.asset(
-                          profile,
-                          fit: BoxFit.contain,
-                        ),
-                      )),
+                      ),
                       responsiveWrapper.isSmallerThan(DESKTOP)
                           ? ResponsiveRowColumnItem(child: SizedBox(height: 24))
                           : ResponsiveRowColumnItem(child: SizedBox(width: 48)),
@@ -114,7 +130,7 @@ class StudentDetail extends StatelessWidget {
                                         left: 8.0, top: 8.0),
                                     child: RichText(
                                       text: TextSpan(
-                                        text: "SUBJECT :" + "  ",
+                                        text: "Major :" + "  ",
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium

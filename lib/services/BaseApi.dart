@@ -10,9 +10,9 @@ class BaseApi {
     var dio = Dio(
       BaseOptions(
         baseUrl: Globals.Url,
-        receiveTimeout: Duration(seconds: 15), // 15 seconds
-        connectTimeout: Duration(seconds: 15),
-        sendTimeout: Duration(seconds: 15),
+        receiveTimeout: Duration(seconds: 30), // 15 seconds
+        connectTimeout: Duration(seconds: 30),
+        sendTimeout: Duration(seconds: 30),
       ),
     );
     dio.options.headers['Accept'] = '*/*';

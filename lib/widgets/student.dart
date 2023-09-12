@@ -21,7 +21,7 @@ class StudentWidget extends StatelessWidget {
       ),
       width: responsiveWrapper.isSmallerThan(DESKTOP)
           ? size.width * 0.9
-          : size.width * 0.3,
+          : size.width * 0.4,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,13 +32,23 @@ class StudentWidget extends StatelessWidget {
               topLeft: Radius.circular(8),
               topRight: Radius.circular(8),
             ),
-            child: Image.asset(
-              profile,
-              fit: BoxFit.contain,
-              width: responsiveWrapper.isSmallerThan(DESKTOP)
-                  ? size.width * 0.9
-                  : size.width * 0.3,
-            ),
+            child: student.image_url == null
+                ? Image.asset(
+                    profile,
+                    fit: BoxFit.cover,
+                    width: responsiveWrapper.isSmallerThan(DESKTOP)
+                        ? size.width * 0.9
+                        : size.width * 0.3,
+                    height: size.height * 0.3,
+                  )
+                : Image.network(
+                    student.image_url!,
+                    fit: BoxFit.cover,
+                    height: size.height * 0.3,
+                    width: responsiveWrapper.isSmallerThan(DESKTOP)
+                        ? size.width * 0.9
+                        : size.width * 0.3,
+                  ),
           ),
           SizedBox(height: 36),
           Padding(
@@ -76,14 +86,14 @@ class StudentWidget extends StatelessWidget {
             padding: const EdgeInsets.only(left: 8.0, top: 8.0),
             child: RichText(
               text: TextSpan(
-                text: "Current Rank :" + "  ",
+                text: "Address: " + "  ",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
                 children: [
                   TextSpan(
-                    text: student.currentRank.toString(),
+                    text: student.address.toString(),
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall
@@ -97,7 +107,7 @@ class StudentWidget extends StatelessWidget {
             padding: const EdgeInsets.only(left: 8.0, top: 8.0),
             child: RichText(
               text: TextSpan(
-                text: "CONTACT :" + "  ",
+                text: "Guardian Contact :" + "  ",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,

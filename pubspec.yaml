@@ -44,6 +44,7 @@ dependencies:
   dartz: ^0.10.1
   file_saver: ^0.2.6
   flutter_quill: ^7.2.18
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

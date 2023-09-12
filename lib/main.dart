@@ -4,16 +4,17 @@ import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/model/gallery_state.dart';
 import 'package:trishaheed/model/states/dowloads_state.dart';
+import 'package:trishaheed/model/states/smc_state.dart';
 import 'package:trishaheed/model/states/staff_state.dart';
 import 'package:trishaheed/model/states/students_state.dart';
 import 'package:trishaheed/pages/blogs.dart';
 import 'package:trishaheed/pages/contact_page.dart';
 import 'package:trishaheed/pages/downloads_page.dart';
+import 'package:trishaheed/pages/extras_page.dart';
 import 'package:trishaheed/pages/home_page.dart';
 import 'package:trishaheed/pages/not_found.dart';
 import 'package:trishaheed/pages/staff_page.dart';
 import 'package:trishaheed/pages/students.dart';
-import 'package:trishaheed/pages/video_gallery.dart';
 import 'package:trishaheed/states/menu_state.dart';
 import 'package:trishaheed/utilities/menu_map.dart';
 import 'package:trishaheed/utilities/menu_tag.dart';
@@ -36,6 +37,7 @@ void main(List<String> args) {
         ChangeNotifierProvider(create: (_) => GalleryState()),
         ChangeNotifierProvider(create: (_) => StaffState()),
         ChangeNotifierProvider(create: (_) => DownloadState()),
+        ChangeNotifierProvider(create: (_) => SmcState()),
       ],
       child: EntryPoint(),
     ),
@@ -107,10 +109,10 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
         return ImageGallery();
       case MenuTag.students:
         return Students();
-      case MenuTag.videoGallery:
-        return VideoGallery();
+      // case MenuTag.videoGallery:
+      //   return VideoGallery();
       case MenuTag.extras:
-        return UnknownPage(text: "This page is under developement");
+        return ExtrasPage();
       case MenuTag.downloads:
         return DownloadPage();
       case MenuTag.contact:
@@ -142,9 +144,9 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
         },
       ),
       Students(),
-      VideoGallery(),
+      // VideoGallery(),
       DownloadPage(),
-      UnknownPage(text: "This page is under developement"),
+      ExtrasPage(),
       ContactPage(),
       BlogList(
         onClick: ((m, index, post) {
@@ -178,7 +180,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                   menu == MenuTag.extras ||
                   menu == MenuTag.downloads ||
                   menu == MenuTag.contact ||
-                  menu == MenuTag.videoGallery ||
+                  // menu == MenuTag.videoGallery ||
                   menu == MenuTag.blog) {
                 atMenu = MenuTag.home;
               }
@@ -191,7 +193,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                   menu == MenuTag.extras ||
                   menu == MenuTag.downloads ||
                   menu == MenuTag.contact ||
-                  menu == MenuTag.videoGallery ||
+                  // menu == MenuTag.videoGallery ||
                   menu == MenuTag.blog ||
                   menu == MenuTag.home)
                 MaterialPage(
@@ -213,7 +215,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                   drawer = !_openDrawer;
                                 },
                               ),
-                              title: Text(
+                              title: SelectableText(
                                 "TRI SHAHEED MODEL SECONDARY SCHOOL",
                                 style: TextStyle(
                                   fontSize: 16,
@@ -232,23 +234,23 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                 ),
                                 backgroundColor: Colors.black87,
                                 bottom: TabBar(
-                                  labelColor: Colors.red,
-                                  unselectedLabelColor: Colors.grey,
                                   splashBorderRadius: BorderRadius.circular(4),
-                                  labelStyle: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  indicatorSize: TabBarIndicatorSize.tab,
+                                  indicatorSize: TabBarIndicatorSize.label,
+                                  automaticIndicatorColorAdjustment: false,
+                                  // indicatorPadding:
+                                  //     EdgeInsets.symmetric(vertical: 8),
+                                  unselectedLabelColor:
+                                      Colors.grey, //for unselected label//
+                                  labelPadding:
+                                      EdgeInsets.symmetric(vertical: 8),
+
                                   indicator: BoxDecoration(
-                                    color: Colors.blueAccent,
+                                    color: Colors.blue,
                                     borderRadius: BorderRadius.circular(4),
                                     border: Border.all(
                                       width: 8,
                                       color: Colors.blue,
                                     ),
-                                  ),
-                                  unselectedLabelStyle: const TextStyle(
-                                    fontStyle: FontStyle.italic,
                                   ),
                                   onTap: (int value) {
                                     final map = MenuIndex.map;
@@ -259,9 +261,13 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                   tabs: List.generate(
                                     MenuIndex.map.length - 2,
                                     (index) {
-                                      return Text(
-                                        MenuIndex.names.values.elementAt(index),
-                                        style: CustomTextStyle.menu(context),
+                                      return Align(
+                                        alignment: Alignment.topCenter,
+                                        child: Text(
+                                          MenuIndex.names.values
+                                              .elementAt(index),
+                                          style: CustomTextStyle.menu(context),
+                                        ),
                                       );
                                     },
                                   ),
@@ -351,14 +357,19 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                               ),
                             ),
                           noticeExists
-                              ? SingleChildScrollView(
-                                  child: Container(
+                              ? InteractiveViewer(
+                                  scaleEnabled: true,
+                                  constrained: false,
+                                  alignment: Alignment.center,
+                                  child: AnimatedContainer(
                                     height: size.height * 0.95,
-                                    // width: size.width * 0.8,
-                                    color: Colors.white,
+                                    width: size.width,
+                                    color: noticeExists
+                                        ? Colors.white
+                                        : Colors.orange,
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 8.0),
-                                    alignment: Alignment.center,
+                                    duration: Duration(milliseconds: 500),
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
@@ -383,7 +394,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                         ),
                                         Image.asset(
                                           notice,
-                                          fit: BoxFit.contain,
+                                          fit: BoxFit.cover,
                                           height: size.height * 0.85,
                                           // width: size.width * 0.8,
                                         )
@@ -416,9 +427,11 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
       atMenu = MenuTag.home;
     } else if (configuration.imageGallery) {
       atMenu = MenuTag.photoGallery;
-    } else if (configuration.videoGallery) {
-      atMenu = MenuTag.videoGallery;
-    } else if (configuration.students) {
+    }
+    // else if (configuration.videoGallery) {
+    //   atMenu = MenuTag.videoGallery;
+    // }
+    else if (configuration.students) {
       atMenu = MenuTag.students;
     } else if (configuration.contact) {
       atMenu = MenuTag.contact;
@@ -444,9 +457,11 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
       return MyAppConfiguration.home();
     } else if (menu == MenuTag.staff) {
       return MyAppConfiguration.staff();
-    } else if (menu == MenuTag.videoGallery) {
-      return MyAppConfiguration.videoGallery();
-    } else if (menu == MenuTag.students) {
+    }
+    //  else if (menu == MenuTag.videoGallery) {
+    //   return MyAppConfiguration.videoGallery();
+    // }
+    else if (menu == MenuTag.students) {
       return MyAppConfiguration.students();
     } else if (menu == MenuTag.photoGallery) {
       return MyAppConfiguration.photoGallery();
@@ -519,14 +534,14 @@ class FixHeader extends StatelessWidget {
               SizedBox(
                 width: 10,
               ),
-              Text(
+              SelectableText(
                 "Email: ",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
               ),
-              Text(
+              SelectableText(
                 "trishaheed1986@gmail.com",
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
@@ -556,14 +571,14 @@ class FixHeader extends StatelessWidget {
                   width: 10,
                 ),
               ),
-              Text(
+              SelectableText(
                 "Call: ",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
               ),
-              Text(
+              SelectableText(
                 "9846095574",
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
@@ -637,7 +652,7 @@ class HeaderForMobile extends StatelessWidget {
                         height: 24,
                       ),
                       SizedBox(width: 10),
-                      Text(
+                      SelectableText(
                         "Call: ",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -645,7 +660,7 @@ class HeaderForMobile extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 10),
-                      Text(
+                      SelectableText(
                         "9846095574",
                         style: TextStyle(
                           fontWeight: FontWeight.w400,

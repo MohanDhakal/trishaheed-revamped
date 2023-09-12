@@ -5,15 +5,20 @@ import 'package:trishaheed/repository/student_repo.dart';
 class StudentState with ChangeNotifier {
   List<Student> studentList = [];
   Student? _selectedStudent;
-  bool loading = false;
+  bool _loading = false;
   int _currentPage = 1;
   int _lastPage = 1;
 
-  int _selectedGrade = 3;
+  int _selectedGrade = 1;
   String errorMessage = "";
 
   set selectedStudent(Student? std) {
     _selectedStudent = std;
+    notifyListeners();
+  }
+
+  set loading(bool trigger) {
+    _loading = trigger;
     notifyListeners();
   }
 
@@ -34,16 +39,15 @@ class StudentState with ChangeNotifier {
   int get currentPage => _currentPage;
   int get lastPage => _lastPage;
   int get selectedGrade => _selectedGrade;
+  bool get loading => _loading;
 
   Student? get selectedStudent => _selectedStudent;
 
   Future<void> getStudentList() async {
     loading = true;
-
     final response =
         await StudentRepo().getStudentsForGrade(selectedGrade, currentPage);
     if (response != null) {
-      // print(response.students);
       loading = false;
       studentList = response.students;
       lastPage = response.lastPage;

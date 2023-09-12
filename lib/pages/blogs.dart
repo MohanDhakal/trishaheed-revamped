@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:trishaheed/model/blog.dart';
 import 'package:trishaheed/repository/blog_info.dart';
 import 'package:trishaheed/utilities/button_position.dart';
@@ -17,12 +18,17 @@ class BlogList extends StatefulWidget {
 class _BlogListState extends State<BlogList> {
   List<Blog> blogList = <Blog>[];
   bool _loadingBlog = false;
+  int _totalPages = 1;
+  int _currentPage = 1;
+
   @override
   void initState() {
     super.initState();
     BlogApi().getBlogList().then((value) {
       setState(() {
-        blogList = value;
+        blogList = value.blogList;
+        _totalPages = value.totalPages;
+        _currentPage = value.currentPage;
         _loadingBlog = true;
       });
     });
@@ -33,11 +39,68 @@ class _BlogListState extends State<BlogList> {
     final responsiveWrapper = ResponsiveWrapper.of(context);
 
     return _loadingBlog == false
-        ? Center(
-            child: SizedBox(
-              height: 50,
-              width: 50,
-              child: CircularProgressIndicator(),
+        ? Material(
+            child: Shimmer.fromColors(
+              baseColor: Colors.blueGrey.shade300,
+              highlightColor: Colors.blueGrey.shade100,
+              enabled: true,
+              child: SingleChildScrollView(
+                physics: NeverScrollableScrollPhysics(),
+                child: responsiveWrapper.isLargerThan(TABLET)
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(height: 16.0),
+                              BannerPlaceholder(),
+                              TitlePlaceholder(),
+                              SizedBox(height: 16.0),
+                            ],
+                          ),
+                          SizedBox(width: 8),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(height: 16.0),
+                              BannerPlaceholder(),
+                              TitlePlaceholder(),
+                              SizedBox(height: 16.0),
+                            ],
+                          ),
+                          SizedBox(width: 8),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(height: 16.0),
+                              BannerPlaceholder(),
+                              TitlePlaceholder(),
+                              SizedBox(height: 16.0),
+                            ],
+                          ),
+                        ],
+                      )
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 16.0),
+                          BannerPlaceholder(),
+                          TitlePlaceholder(),
+                          SizedBox(height: 16.0),
+                          BannerPlaceholder(),
+                          TitlePlaceholder(),
+                        ],
+                      ),
+              ),
             ),
           )
         : blogList.isEmpty
@@ -45,39 +108,128 @@ class _BlogListState extends State<BlogList> {
                 alignment: Alignment.center,
                 child: Text("There are no blogs available at the moment"),
               )
-            : GridView.builder(
-                itemCount: blogList.length,
+            : ListView(
                 shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemBuilder: (BuildContext context, int index) {
-                  return InkWell(
-                    onHover: ((value) {
-                      setState(() {
-                        if (blogList[index].position == Position.passive) {
-                          blogList[index].position = Position.hovered;
-                        } else {
-                          blogList[index].position = Position.passive;
-                        }
-                      });
-                    }),
-                    onTap: () => widget.onClick(
-                      MenuTag.blogDetail,
-                      blogList[index].id,
-                      blogList[index],
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          color: _currentPage < 2 ? Colors.grey : Colors.black,
+                        ),
+                        onPressed: () {
+                          if (_currentPage > 1) {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text("Processing"),
+                                    content: SizedBox(
+                                      height: 36,
+                                      width: 36,
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                          color: Colors.blue,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                });
+                            BlogApi()
+                                .getBlogList(page: _currentPage - 1)
+                                .then((value) {
+                              Navigator.pop(context);
+                              setState(() {
+                                blogList = value.blogList;
+                                _totalPages = value.totalPages;
+                                _currentPage = value.currentPage;
+                              });
+                            });
+                          }
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text("Page ${_currentPage} of ${_totalPages}"),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_forward_ios,
+                          color: _currentPage < _totalPages
+                              ? Colors.black
+                              : Colors.grey,
+                        ),
+                        onPressed: () async {
+                          if (_currentPage < _totalPages) {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text("Processing"),
+                                    content: SizedBox(
+                                      height: 36,
+                                      width: 36,
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                          color: Colors.blue,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                });
+
+                            BlogApi()
+                                .getBlogList(page: _currentPage + 1)
+                                .then((value) {
+                              Navigator.pop(context);
+                              setState(() {
+                                blogList = value.blogList;
+                                _totalPages = value.totalPages;
+                                _currentPage = value.currentPage;
+                              });
+                            });
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                  GridView.builder(
+                    itemCount: blogList.length,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (BuildContext context, int index) {
+                      return InkWell(
+                        onHover: ((value) {
+                          setState(() {
+                            if (blogList[index].position == Position.passive) {
+                              blogList[index].position = Position.hovered;
+                            } else {
+                              blogList[index].position = Position.passive;
+                            }
+                          });
+                        }),
+                        onTap: () => widget.onClick(
+                          MenuTag.blogDetail,
+                          blogList[index].id,
+                          blogList[index],
+                        ),
+                        child: SingleBlog(
+                          blog: blogList[index],
+                        ),
+                      );
+                    },
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: responsiveWrapper.isLargerThan(TABLET)
+                          ? responsiveWrapper.screenWidth * 0.4
+                          : responsiveWrapper.screenWidth,
+                      childAspectRatio: 1,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
                     ),
-                    child: SingleBlog(
-                      blog: blogList[index],
-                    ),
-                  );
-                },
-                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: responsiveWrapper.isLargerThan(TABLET)
-                      ? responsiveWrapper.screenWidth * 0.4
-                      : responsiveWrapper.screenWidth,
-                  childAspectRatio: 1,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                ),
+                  ),
+                ],
               );
   }
 }
@@ -193,6 +345,62 @@ class SingleBlog extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class TitlePlaceholder extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 8.0,
+            vertical: 12.0,
+          ),
+          child: Text(
+            "Title of the post",
+            // overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+            maxLines: 3,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 8.0,
+            vertical: 12.0,
+          ),
+          child: Text(
+            "body of the post loading....",
+            // overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+            maxLines: 3,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class BannerPlaceholder extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final responsiveWrapper = ResponsiveWrapper.of(context);
+    final size = MediaQuery.of(context).size;
+    return Container(
+      width: responsiveWrapper.isSmallerThan(DESKTOP)
+          ? size.width * 0.8
+          : size.width * 0.3,
+      height: size.height * 0.4,
+      color: Colors.green,
     );
   }
 }
