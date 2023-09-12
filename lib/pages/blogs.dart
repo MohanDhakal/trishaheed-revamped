@@ -120,23 +120,23 @@ class _BlogListState extends State<BlogList> {
                           color: _currentPage < 2 ? Colors.grey : Colors.black,
                         ),
                         onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: Text("Processing"),
-                                  content: SizedBox(
-                                    height: 36,
-                                    width: 36,
-                                    child: Center(
-                                      child: CircularProgressIndicator(
-                                        color: Colors.blue,
+                          if (_currentPage > 1) {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text("Processing"),
+                                    content: SizedBox(
+                                      height: 36,
+                                      width: 36,
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                          color: Colors.blue,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              });
-                          if (_currentPage > 1) {
+                                  );
+                                });
                             BlogApi()
                                 .getBlogList(page: _currentPage - 1)
                                 .then((value) {
@@ -162,23 +162,24 @@ class _BlogListState extends State<BlogList> {
                               : Colors.grey,
                         ),
                         onPressed: () async {
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: Text("Processing"),
-                                  content: SizedBox(
-                                    height: 36,
-                                    width: 36,
-                                    child: Center(
-                                      child: CircularProgressIndicator(
-                                        color: Colors.blue,
+                          if (_currentPage < _totalPages) {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text("Processing"),
+                                    content: SizedBox(
+                                      height: 36,
+                                      width: 36,
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                          color: Colors.blue,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              });
-                          if (_currentPage < _totalPages) {
+                                  );
+                                });
+
                             BlogApi()
                                 .getBlogList(page: _currentPage + 1)
                                 .then((value) {

@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:trishaheed/widgets/count_display.dart';
 import 'package:trishaheed/widgets/footer.dart';
 import '../utilities/images.dart';
 import '../widgets/headmaster_saying.dart';
@@ -122,6 +123,26 @@ class _HomePageState extends State<HomePage> {
               ),
               SizedBox(height: 48),
               HeadMasterSaying(),
+              SizedBox(height: 48),
+              Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: Text(
+                  "Staff and Students",
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                        fontStyle: FontStyle.normal,
+                      ),
+                ),
+              ),
+              SizedBox(width: size.width * 0.2, child: Divider(thickness: 4)),
+              SizedBox(height: 48),
+              CountDisplay(
+                staffs: 33,
+                students: 487,
+                technicalStudents: 50,
+              ),
               SizedBox(height: 48),
               Padding(
                 padding: const EdgeInsets.only(left: 20.0),
@@ -274,7 +295,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: 48),
               Center(
                 child: Text(
-                  " STUDENTS SAYING",
+                  " STUDENT TESTIMONIALS",
                   style: responsiveWrapper.isSmallerThan(DESKTOP)
                       ? Theme.of(context)
                           .textTheme
