@@ -76,7 +76,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Positioned(
-                    top: size.height * 0.4,
+                    top: responsiveWrapper.isMobile
+                        ? size.height * 0.25
+                        : size.height * 0.4,
                     left: 20,
                     child: MaterialButton(
                       onPressed: () {
@@ -98,7 +100,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Positioned(
-                    top: size.height * 0.4,
+                    top: responsiveWrapper.isMobile
+                        ? size.height * 0.25
+                        : size.height * 0.4,
                     right: 20,
                     child: MaterialButton(
                       onPressed: () {
@@ -121,9 +125,24 @@ class _HomePageState extends State<HomePage> {
                   )
                 ],
               ),
-              SizedBox(height: 48),
+              SizedBox(height: 24),
+              Text(
+                'प्रधानाध्यापक को कलमबाट',
+                textAlign: TextAlign.center,
+                style: ResponsiveWrapper.of(context).isMobile
+                    ? Theme.of(context)
+                        .textTheme
+                        .headlineMedium
+                        ?.copyWith(fontWeight: FontWeight.bold)
+                    : Theme.of(context)
+                        .textTheme
+                        .headlineLarge
+                        ?.copyWith(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(width: size.width * 0.2, child: Divider(thickness: 4)),
+              SizedBox(height: 24),
               HeadMasterSaying(),
-              SizedBox(height: 48),
+              SizedBox(height: 24),
               Padding(
                 padding: const EdgeInsets.only(left: 20.0),
                 child: Text(
@@ -164,6 +183,7 @@ class _HomePageState extends State<HomePage> {
                     : ResponsiveRowColumnType.ROW,
                 rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 columnMainAxisAlignment: MainAxisAlignment.center,
+                columnMainAxisSize: MainAxisSize.min,
                 children: [
                   ResponsiveRowColumnItem(
                     child: Staff(
@@ -212,12 +232,12 @@ class _HomePageState extends State<HomePage> {
                       child: Staff(
                         staff: s.Staff(
                           fullName: "Mohan Kumar Dhakal",
-                          post: "Technical Instructor",
+                          post: "Technical Co-Ordinator",
                           dob: "2080-03-25",
                           address: "Panchamool-1, SYangja",
                           isActive: 1,
                           joinedAt: "2080-03-25",
-                          majorSubject: "Software Engineering",
+                          majorSubject: "BE.Software",
                           jobType: "Temporary",
                           rank: "0.1",
                           teacherLevel: "Secondary Level 2",
@@ -268,12 +288,13 @@ class _HomePageState extends State<HomePage> {
                       ],
                     )
                   : Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Highlights(
-                          imageUri: readingIcon,
-                          title: "Technical Education",
+                          imageUri: progressIcon,
+                          title: "Experienced Teachers",
                           detail:
-                              """Technology is inevitable in today's world.Our schools offers Computer Engineering to students willing to learn and explore more in technology sector.""",
+                              """Many of our teachers have years of teaching experience which helps our student get some practical knowledge alongside theory.""",
                         ),
                         SizedBox(height: 10),
                         Highlights(
@@ -296,6 +317,7 @@ class _HomePageState extends State<HomePage> {
               Center(
                 child: Text(
                   " STUDENT TESTIMONIALS",
+                  textAlign: TextAlign.center,
                   style: responsiveWrapper.isSmallerThan(DESKTOP)
                       ? Theme.of(context)
                           .textTheme
@@ -327,63 +349,54 @@ class _HomePageState extends State<HomePage> {
                         ResponsiveRowColumnItem(
                           child: StudentSaying(
                             saying:
-                                "'Technology is inevitable in today's world.I have been involved in Technical Stream from Grade 9, which has helped me grow as a technical person.'",
-                            name: "Milan Dhakal",
+                                """Friendly and motivating environment really helps us focus on what really matters. Our Teachers are available whenever we need them to clarify doubts.""",
+                            name: "Samraj Darji",
                             title: "Student",
+                            height: size.height * 0.35,
                             shadow: [
                               BoxShadow(
                                 color: Colors.black12,
-                                offset: Offset(1, 1),
-                                blurRadius: 1,
-                                spreadRadius: 1,
+                                offset: Offset(4, 4),
+                                blurRadius: 4,
+                                spreadRadius: 4,
                               ),
                             ],
                           ),
                         ),
-                        responsiveWrapper.isSmallerThan(DESKTOP)
-                            ? ResponsiveRowColumnItem(
-                                child: SizedBox(
-                                  height: 10,
-                                  child: Divider(height: 5.0),
-                                ),
-                              )
-                            : ResponsiveRowColumnItem(child: SizedBox()),
                         ResponsiveRowColumnItem(
-                            child: StudentSaying(
-                          shadow: [
-                            BoxShadow(
-                              color: Colors.black12,
-                              offset: Offset(2, 2),
-                              blurRadius: 4,
-                              spreadRadius: 4,
-                            ),
-                            BoxShadow(
-                              color: Colors.black12,
-                              offset: Offset(-2, -2),
-                              blurRadius: 4,
-                              spreadRadius: 4,
-                            )
-                          ],
-                        )),
-                        responsiveWrapper.isSmallerThan(DESKTOP)
-                            ? ResponsiveRowColumnItem(
-                                child: SizedBox(
-                                  height: 10,
-                                  child: Divider(height: 5.0),
-                                ),
-                              )
-                            : ResponsiveRowColumnItem(child: SizedBox()),
+                          child: StudentSaying(
+                            saying:
+                                "'Technology is inevitable in today's world.I have been involved in Technical Stream from Grade 9, which has helped me grow as a technical person.'",
+                            name: "Milan Dhakal",
+                            title: "Student",
+                            height: size.height * 0.35,
+                            shadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                offset: Offset(4, 4),
+                                blurRadius: 4,
+                                spreadRadius: 4,
+                              ),
+                            ],
+                          ),
+                        ),
                         ResponsiveRowColumnItem(
-                            child: StudentSaying(
-                          shadow: [
-                            BoxShadow(
-                              color: Colors.black12,
-                              offset: Offset(1, 1),
-                              blurRadius: 1,
-                              spreadRadius: 1,
-                            )
-                          ],
-                        )),
+                          child: StudentSaying(
+                            height: size.height * 0.35,
+                            saying:
+                                """ I joined Tri-Shaheed at grade 5, The environment for study has improved as the time passes by. Today, while working as an instructor, I feel quality of our student has improved alot.""",
+                            name: "Mohan k. Dhakal",
+                            title: "Technical Instructor(Former Student)",
+                            shadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                offset: Offset(4, 4),
+                                blurRadius: 4,
+                                spreadRadius: 4,
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     )
                   : SizedBox(
@@ -437,9 +450,9 @@ class _HomePageState extends State<HomePage> {
                                 elevation: 16,
                                 color: Colors.transparent,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      8.0), // Adjust the border radius as needed
-                                ),
+                                    borderRadius: BorderRadius.circular(
+                                        8.0) // Adjust the border radius as needed
+                                    ),
                                 child: StudentSaying(
                                   height: size.height * 0.4,
                                   saying:

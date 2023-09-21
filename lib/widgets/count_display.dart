@@ -15,7 +15,7 @@ class CountDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final wrapper = ResponsiveWrapper.of(context);
-    return wrapper.isLargerThan(TABLET)
+    return wrapper.isLargerThan(MOBILE)
         ? Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -26,11 +26,16 @@ class CountDisplay extends StatelessWidget {
             ],
           )
         : Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: [
               CountWidget(number: staffs, forWhat: "Staffs"),
+              SizedBox(height: 8),
               CountWidget(number: students, forWhat: "Students"),
+              SizedBox(height: 8),
               CountWidget(
                   number: technicalStudents, forWhat: "Technical Students"),
+              SizedBox(height: 8),
             ],
           );
   }
@@ -46,8 +51,12 @@ class CountWidget extends StatelessWidget {
     final wrapper = ResponsiveWrapper.of(context);
 
     return Container(
-      height: wrapper.screenHeight * 0.3,
-      width: wrapper.screenWidth * 0.30,
+      height: wrapper.isLargerThan(MOBILE)
+          ? wrapper.screenWidth * 0.15
+          : wrapper.screenWidth * 0.4,
+      width: wrapper.isLargerThan(MOBILE)
+          ? wrapper.screenWidth * 0.3
+          : wrapper.screenWidth * 0.4,
       decoration: BoxDecoration(
         color: Colors.blue,
         gradient: LinearGradient(
@@ -72,6 +81,7 @@ class CountWidget extends StatelessWidget {
           SizedBox(height: 8),
           Text(
             forWhat,
+            textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: FontWeight.w500,
               color: Colors.white,

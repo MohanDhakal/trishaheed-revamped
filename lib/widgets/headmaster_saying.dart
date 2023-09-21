@@ -51,19 +51,6 @@ class HeadMasterSaying extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: [
-                Center(
-                  child: Text('प्रधानाध्यापक को सन्देश',
-                      textAlign: TextAlign.center,
-                      style: ResponsiveWrapper.of(context).isMobile
-                          ? Theme.of(context)
-                              .textTheme
-                              .headlineMedium
-                              ?.copyWith(fontWeight: FontWeight.bold)
-                          : Theme.of(context)
-                              .textTheme
-                              .headlineLarge
-                              ?.copyWith(fontWeight: FontWeight.bold)),
-                ),
                 SizedBox(height: 24),
                 SizedBox(
                   width: ResponsiveWrapper.of(context).isLargerThan(TABLET)

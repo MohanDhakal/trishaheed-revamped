@@ -18,8 +18,13 @@ class Staff extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey.shade300,
+        // color: Colors.grey.shade300,
         borderRadius: BorderRadius.circular(8),
+        gradient: LinearGradient(
+          colors: [Colors.orangeAccent, Color.fromARGB(255, 129, 240, 133)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
       ),
       width: responsiveWrapper.isSmallerThan(DESKTOP)
           ? size.width * 0.9
