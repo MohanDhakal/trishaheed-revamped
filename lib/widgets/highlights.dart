@@ -18,11 +18,12 @@ class Highlights extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final wrapper = ResponsiveWrapper.of(context);
     return Container(
-      width: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
-          ? size.width * 0.8
-          : size.width / 3,
-      height: size.height * 0.5,
+      width: wrapper.isSmallerThan(DESKTOP) ? size.width * 0.8 : size.width / 3,
+      height: wrapper.isSmallerThan(DESKTOP)
+          ? size.height * 0.4
+          : size.height * 0.5,
       decoration: BoxDecoration(color: backgroundColor),
       child: Column(
         children: [
@@ -43,6 +44,7 @@ class Highlights extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Colors.white,
                   fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
           ),
           SizedBox(

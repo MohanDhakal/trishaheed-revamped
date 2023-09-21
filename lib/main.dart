@@ -26,6 +26,7 @@ import 'pages/blog_detail.dart';
 import 'pages/image_gallery_test.dart';
 import 'utilities/images.dart';
 import 'utilities/textstyles.dart';
+import 'dart:html' as html;
 
 void main(List<String> args) {
   setPathUrlStrategy();
@@ -60,7 +61,27 @@ class EntryPoint extends StatelessWidget {
           PointerDeviceKind.unknown,
         },
       ),
-      // theme: ThemeData(fontFamily: 'OpenSans'),
+      themeMode: ThemeMode.dark,
+      // color: Colors.black,
+      theme: ThemeData(
+        // fontFamily: 'OpenSans',
+        textTheme: TextTheme(
+          displaySmall: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontSize: 12,
+                fontWeight: FontWeight.normal,
+              ),
+          displayMedium: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+              ),
+          displayLarge: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontSize: 24,
+                fontWeight: FontWeight.normal,
+              ),
+        ),
+        primaryColor: Colors.white,
+        brightness: Brightness.light,
+      ),
       backButtonDispatcher: RootBackButtonDispatcher(),
       routeInformationParser: MyAppRouterInformationParser(),
       routerDelegate: delegate,
@@ -75,8 +96,9 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
   bool _openDrawer = false;
   int? id;
   Blog? blog;
-  MyAppRouterDelegate() : _navigatorKey = GlobalKey<NavigatorState>();
-
+  MyAppRouterDelegate() {
+    _navigatorKey = GlobalKey<NavigatorState>();
+  }
   MenuTag _menu = MenuTag.home;
   MenuTag get menu => _menu;
   bool noticeExists = false;
@@ -201,6 +223,8 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                     length: MenuIndex.map.length - 2,
                     initialIndex: MenuIndex.map[menu] ?? 0,
                     child: Scaffold(
+                      backgroundColor: Colors.white,
+                      primary: false,
                       appBar: ResponsiveWrapper.of(context)
                               .isSmallerThan(DESKTOP)
                           ? AppBar(
@@ -226,24 +250,35 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                           : PreferredSize(
                               preferredSize: Size.fromHeight(160.0),
                               child: AppBar(
+                                backgroundColor: Colors.black,
+                                elevation: 1,
                                 flexibleSpace: FixHeader(
+                                  onHome: () {
+                                    atMenu = MenuTag.home;
+                                    Future.delayed(Duration(milliseconds: 200))
+                                        .then((value) {
+                                      html.window.location.reload();
+                                    });
+                                  },
                                   onNewNotice: (() {
                                     noticeExists = true;
                                     notifyListeners();
                                   }),
                                 ),
-                                backgroundColor: Colors.black87,
+                                automaticallyImplyLeading: false,
+                                primary: false,
                                 bottom: TabBar(
                                   splashBorderRadius: BorderRadius.circular(4),
                                   indicatorSize: TabBarIndicatorSize.label,
                                   automaticIndicatorColorAdjustment: false,
+
+                                  // controller:,
                                   // indicatorPadding:
                                   //     EdgeInsets.symmetric(vertical: 8),
                                   unselectedLabelColor:
                                       Colors.grey, //for unselected label//
                                   labelPadding:
                                       EdgeInsets.symmetric(vertical: 8),
-
                                   indicator: BoxDecoration(
                                     color: Colors.blue,
                                     borderRadius: BorderRadius.circular(4),
@@ -303,6 +338,14 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     HeaderForMobile(
+                                      onHome: () {
+                                        atMenu = MenuTag.home;
+                                        Future.delayed(
+                                                Duration(milliseconds: 200))
+                                            .then((value) {
+                                          html.window.location.reload();
+                                        });
+                                      },
                                       onNewNotice: (() {
                                         noticeExists = true;
                                         notifyListeners();
@@ -484,43 +527,47 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
 
 class FixHeader extends StatelessWidget {
   final Function() onNewNotice;
+  final Function() onHome;
   const FixHeader({
     Key? key,
     required this.onNewNotice,
+    required this.onHome,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Container(
       color: Colors.white,
       child: Row(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.asset(
-              logo,
-              width: 100,
-              height: 100,
+          InkWell(
+            onTap: onHome,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.asset(
+                logo,
+                width: 100,
+                height: 100,
+              ),
             ),
           ),
-          Expanded(
-            child: Text.rich(
-              TextSpan(
-                text: "श्री त्रि-शहिद",
-                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                children: [
-                  TextSpan(
-                    text: "\nनमुना मा.वि",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineMedium
-                        ?.copyWith(fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
+          Text.rich(
+            TextSpan(
+              text: "श्री त्रि-शहिद",
+              style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+              children: [
+                TextSpan(
+                  text: "\nनमुना मा.वि",
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineMedium
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                )
+              ],
             ),
           ),
           SizedBox(width: 80),
@@ -531,9 +578,7 @@ class FixHeader extends StatelessWidget {
                 width: 30,
                 height: 30,
               ),
-              SizedBox(
-                width: 10,
-              ),
+              SizedBox(width: 10),
               SelectableText(
                 "Email: ",
                 style: TextStyle(
@@ -554,7 +599,7 @@ class FixHeader extends StatelessWidget {
                   Condition.largerThan(name: TABLET),
                 ],
                 child: SizedBox(
-                  width: 170,
+                  width: size.width * 0.1,
                 ),
               ),
               Image.asset(
@@ -567,9 +612,7 @@ class FixHeader extends StatelessWidget {
                 visibleWhen: [
                   Condition.largerThan(name: TABLET),
                 ],
-                child: SizedBox(
-                  width: 10,
-                ),
+                child: SizedBox(width: 10),
               ),
               SelectableText(
                 "Call: ",
@@ -590,9 +633,7 @@ class FixHeader extends StatelessWidget {
                 visibleWhen: [
                   Condition.largerThan(name: TABLET),
                 ],
-                child: SizedBox(
-                  width: 170,
-                ),
+                child: SizedBox(width: size.width * 0.1),
               ),
               InkWell(
                 onTap: onNewNotice,
@@ -618,21 +659,24 @@ class FixHeader extends StatelessWidget {
 
 class HeaderForMobile extends StatelessWidget {
   final Function() onNewNotice;
-  const HeaderForMobile({Key? key, required this.onNewNotice})
+  final Function() onHome;
+
+  const HeaderForMobile(
+      {Key? key, required this.onNewNotice, required this.onHome})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Material(
-      color: Colors.white,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Padding(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            InkWell(
+              onTap: onHome,
+              child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Image.asset(
                   logo,
@@ -640,99 +684,99 @@ class HeaderForMobile extends StatelessWidget {
                   height: 100,
                 ),
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Image.asset(
-                        telephone,
-                        width: 24,
-                        height: 24,
-                      ),
-                      SizedBox(width: 10),
-                      SelectableText(
-                        "Call: ",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      SelectableText(
-                        "9846095574",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Image.asset(
-                        paperPlane,
-                        width: 24,
-                        height: 24,
-                      ),
-                      SizedBox(width: 10),
-                      Text(
-                        "Email: ",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                      Text(
-                        "trishaheed1986@gmail.com",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                  MaterialButton(
-                    onPressed: onNewNotice,
-                    child: Container(
-                      height: 50,
-                      width: size.width * 0.5,
-                      margin: EdgeInsets.only(
-                          left: 10, bottom: 5, top: 5, right: 10),
-                      decoration: BoxDecoration(
-                        color: Colors.orange,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text("New Notice"),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Image.asset(
+                      telephone,
+                      width: 24,
+                      height: 24,
                     ),
+                    SizedBox(width: 10),
+                    SelectableText(
+                      "Call: ",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    SelectableText(
+                      "9846095574",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Image.asset(
+                      paperPlane,
+                      width: 24,
+                      height: 24,
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      "Email: ",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    Text(
+                      "trishaheed1986@gmail.com",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+                MaterialButton(
+                  onPressed: onNewNotice,
+                  child: Container(
+                    height: 50,
+                    width: size.width * 0.5,
+                    margin:
+                        EdgeInsets.only(left: 10, bottom: 5, top: 5, right: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.orange,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text("New Notice"),
                   ),
-                ],
-              ),
+                ),
+              ],
+            ),
 
-              // Text.rich(
-              //   TextSpan(
-              //     text: "श्री त्रि-शहिद",
-              //     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              //           fontWeight: FontWeight.bold,
-              //           color: Colors.black,
-              //         ),
-              //     children: [
-              //       TextSpan(
-              //         text: "\nनमुना मा.वि",
-              //         style: Theme.of(context)
-              //             .textTheme
-              //             .headlineSmall
-              //             ?.copyWith(fontWeight: FontWeight.bold),
-              //       )
-              //     ],
-              //   ),
-              // ),
-            ],
-          ),
-        ],
-      ),
+            // Text.rich(
+            //   TextSpan(
+            //     text: "श्री त्रि-शहिद",
+            //     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+            //           fontWeight: FontWeight.bold,
+            //           color: Colors.black,
+            //         ),
+            //     children: [
+            //       TextSpan(
+            //         text: "\nनमुना मा.वि",
+            //         style: Theme.of(context)
+            //             .textTheme
+            //             .headlineSmall
+            //             ?.copyWith(fontWeight: FontWeight.bold),
+            //       )
+            //     ],
+            //   ),
+            // ),
+          ],
+        ),
+      ],
     );
   }
 }
