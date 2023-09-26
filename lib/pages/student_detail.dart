@@ -19,9 +19,7 @@ class StudentDetail extends StatelessWidget {
     final responsiveWrapper = ResponsiveWrapper.of(context);
     final size = MediaQuery.of(context).size;
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey.shade300,
-      ),
+      decoration: BoxDecoration(color: Colors.grey.shade300),
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -30,7 +28,6 @@ class StudentDetail extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                // SizedBox(width: 12),
                 IconButton(
                   icon: Icon(Icons.arrow_back),
                   onPressed: onBackPressed,
@@ -53,7 +50,7 @@ class StudentDetail extends StatelessWidget {
                   : ResponsiveRowColumnType.ROW,
               rowMainAxisAlignment: MainAxisAlignment.center,
               rowCrossAxisAlignment: CrossAxisAlignment.center,
-              columnCrossAxisAlignment: CrossAxisAlignment.start,
+              columnCrossAxisAlignment: CrossAxisAlignment.center,
               columnMainAxisAlignment: MainAxisAlignment.start,
               children: [
                 ResponsiveRowColumnItem(
@@ -99,211 +96,213 @@ class StudentDetail extends StatelessWidget {
                       ResponsiveRowColumnItem(
                         child: SizedBox(
                           width: responsiveWrapper.isSmallerThan(DESKTOP)
-                              ? size.width * 0.90
+                              ? size.width
                               : size.width * 0.35,
-                          child: Card(
-                            elevation: 8,
-                            color: Colors.blue.shade400,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 24,
-                                vertical: 24,
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Text(
-                                      student.fullName,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge
-                                          ?.copyWith(
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0, top: 8.0),
-                                    child: RichText(
-                                      text: TextSpan(
-                                        text: "Major :" + "  ",
+                          child: Center(
+                            child: Card(
+                              elevation: 8,
+                              color: Colors.blue.shade400,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8.0, vertical: 8.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8.0),
+                                      child: Text(
+                                        student.fullName,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodyMedium
+                                            .bodyLarge
                                             ?.copyWith(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                        children: [
-                                          TextSpan(
-                                            text: student.majorSubject,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall
-                                                ?.copyWith(fontSize: 16),
-                                          )
-                                        ],
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.bold),
                                       ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0, top: 8.0),
-                                    child: RichText(
-                                      text: TextSpan(
-                                        text: "POSITION :" + "  ",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                        children: [
-                                          TextSpan(
-                                            text:
-                                                student.currentRank.toString(),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall
-                                                ?.copyWith(fontSize: 16),
-                                          )
-                                        ],
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, top: 8.0),
+                                      child: RichText(
+                                        text: TextSpan(
+                                          text: "Major :" + "  ",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                          children: [
+                                            TextSpan(
+                                              text: student.majorSubject,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.copyWith(fontSize: 16),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0, top: 8.0),
-                                    child: RichText(
-                                      text: TextSpan(
-                                        text: "Roll Number :" + "  ",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                        children: [
-                                          TextSpan(
-                                            text: student.rollNumber.toString(),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall
-                                                ?.copyWith(fontSize: 16),
-                                          )
-                                        ],
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, top: 8.0),
+                                      child: RichText(
+                                        text: TextSpan(
+                                          text: "POSITION :" + "  ",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                          children: [
+                                            TextSpan(
+                                              text: student.currentRank
+                                                  .toString(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.copyWith(fontSize: 16),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0, top: 8.0),
-                                    child: RichText(
-                                      text: TextSpan(
-                                        text: "Date Of Birth: " + "  ",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                        children: [
-                                          TextSpan(
-                                            text: student.dob,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall
-                                                ?.copyWith(fontSize: 16),
-                                          )
-                                        ],
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, top: 8.0),
+                                      child: RichText(
+                                        text: TextSpan(
+                                          text: "Roll Number :" + "  ",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                          children: [
+                                            TextSpan(
+                                              text:
+                                                  student.rollNumber.toString(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.copyWith(fontSize: 16),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0, top: 8.0),
-                                    child: RichText(
-                                      text: TextSpan(
-                                        text: "Jonined At: " + "  ",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                        children: [
-                                          TextSpan(
-                                            text: student.joinedAt,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall
-                                                ?.copyWith(fontSize: 16),
-                                          )
-                                        ],
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, top: 8.0),
+                                      child: RichText(
+                                        text: TextSpan(
+                                          text: "Date Of Birth: " + "  ",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                          children: [
+                                            TextSpan(
+                                              text: student.dob,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.copyWith(fontSize: 16),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0, top: 8.0),
-                                    child: RichText(
-                                      text: TextSpan(
-                                        text:
-                                            "Guardian Contact Number :" + "  ",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                        children: [
-                                          TextSpan(
-                                            text: student.guardianContact ??
-                                                "९८७६******",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall
-                                                ?.copyWith(fontSize: 16),
-                                          )
-                                        ],
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, top: 8.0),
+                                      child: RichText(
+                                        text: TextSpan(
+                                          text: "Jonined At: " + "  ",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                          children: [
+                                            TextSpan(
+                                              text: student.joinedAt,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.copyWith(fontSize: 16),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0, top: 8.0),
-                                    child: RichText(
-                                      text: TextSpan(
-                                        text: "Email Address :" + "  ",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                        children: [
-                                          TextSpan(
-                                            text: student.email ?? "",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall
-                                                ?.copyWith(fontSize: 16),
-                                          )
-                                        ],
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, top: 8.0),
+                                      child: RichText(
+                                        text: TextSpan(
+                                          text: "Guardian Contact Number :" +
+                                              "  ",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                          children: [
+                                            TextSpan(
+                                              text: student.guardianContact ??
+                                                  "९८७६******",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.copyWith(fontSize: 16),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, top: 8.0),
+                                      child: RichText(
+                                        text: TextSpan(
+                                          text: "Email Address :" + "  ",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                          children: [
+                                            TextSpan(
+                                              text: student.email ?? "",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.copyWith(fontSize: 16),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),

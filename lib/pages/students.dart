@@ -74,7 +74,8 @@ class _StudentsState extends State<Students> {
                                     height: size.height * 0.8,
                                     child: GridView.builder(
                                       shrinkWrap: true,
-                                      padding: EdgeInsets.all(10.0),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 8.0),
                                       gridDelegate:
                                           SliverGridDelegateWithMaxCrossAxisExtent(
                                         maxCrossAxisExtent: 300,
@@ -220,12 +221,12 @@ class GradeChips extends StatelessWidget {
     return Consumer<StudentState>(builder: (context, model, child) {
       return SizedBox(
         height: responsiveWrapper.isSmallerThan(DESKTOP)
-            ? size.height * 0.25
+            ? size.height * 0.28
             : size.height * 0.2,
         width: size.width,
         child: Wrap(
           alignment: WrapAlignment.center,
-          runSpacing: 8.0,
+          runSpacing: 4.0,
           children: List.generate(GradeMap.names.length, (index) {
             return MaterialButton(
               onPressed: () async {
@@ -239,15 +240,16 @@ class GradeChips extends StatelessWidget {
               child: Container(
                 width: responsiveWrapper.isSmallerThan(DESKTOP) ? 80 : 100,
                 height: responsiveWrapper.isSmallerThan(DESKTOP) ? 24 : 36,
-                margin: EdgeInsets.symmetric(horizontal: 8),
+                margin: EdgeInsets.symmetric(horizontal: 4),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                    color: model.selectedGrade ==
-                            GradeMap.names.keys.elementAt(index)
-                        ? Colors.blueAccent
-                        : null,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.black26)),
+                  color: model.selectedGrade ==
+                          GradeMap.names.keys.elementAt(index)
+                      ? Colors.blueAccent
+                      : null,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.black26),
+                ),
                 child: Text(
                     "${GradeMap.names[GradeMap.names.keys.elementAt(index)]}"),
               ),

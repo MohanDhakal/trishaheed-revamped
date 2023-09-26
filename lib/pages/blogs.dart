@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:trishaheed/model/blog.dart';
@@ -20,6 +22,8 @@ class _BlogListState extends State<BlogList> {
   bool _loadingBlog = false;
   int _totalPages = 1;
   int _currentPage = 1;
+  final FocusNode _focusNode = FocusNode();
+  final ScrollController _controller = ScrollController();
 
   @override
   void initState() {
@@ -108,129 +112,188 @@ class _BlogListState extends State<BlogList> {
                 alignment: Alignment.center,
                 child: Text("There are no blogs available at the moment"),
               )
-            : ListView(
-                shrinkWrap: true,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          Icons.arrow_back_ios,
-                          color: _currentPage < 2 ? Colors.grey : Colors.black,
-                        ),
-                        onPressed: () {
-                          if (_currentPage > 1) {
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Text("Processing"),
-                                    content: SizedBox(
-                                      height: 36,
-                                      width: 36,
-                                      child: Center(
-                                        child: CircularProgressIndicator(
-                                          color: Colors.blue,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                });
-                            BlogApi()
-                                .getBlogList(page: _currentPage - 1)
-                                .then((value) {
-                              Navigator.pop(context);
-                              setState(() {
-                                blogList = value.blogList;
-                                _totalPages = value.totalPages;
-                                _currentPage = value.currentPage;
-                              });
-                            });
-                          }
-                        },
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text("Page ${_currentPage} of ${_totalPages}"),
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.arrow_forward_ios,
-                          color: _currentPage < _totalPages
-                              ? Colors.black
-                              : Colors.grey,
-                        ),
-                        onPressed: () async {
-                          if (_currentPage < _totalPages) {
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Text("Processing"),
-                                    content: SizedBox(
-                                      height: 36,
-                                      width: 36,
-                                      child: Center(
-                                        child: CircularProgressIndicator(
-                                          color: Colors.blue,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                });
+            : RawKeyboardListener(
+                focusNode: _focusNode,
+                onKey: _handleKeyEvent,
+                autofocus: true,
+                child: NestedScrollView(
+                  headerSliverBuilder:
+                      (BuildContext context, bool innerBoxIsScrolled) {
+                    return <Widget>[
+                      SliverAppBar(
+                        title: Text("Switch Between Pages"),
+                        backgroundColor: Colors.purple,
+                        actions: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                icon: Icon(
+                                  Icons.arrow_back_ios,
+                                  color: _currentPage < 2
+                                      ? Colors.grey
+                                      : Colors.black,
+                                ),
+                                onPressed: () {
+                                  if (_currentPage > 1) {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: Text("Processing"),
+                                            content: SizedBox(
+                                              height: 36,
+                                              width: 36,
+                                              child: Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: Colors.blue,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        });
+                                    BlogApi()
+                                        .getBlogList(page: _currentPage - 1)
+                                        .then((value) {
+                                      Navigator.pop(context);
+                                      setState(() {
+                                        blogList = value.blogList;
+                                        _totalPages = value.totalPages;
+                                        _currentPage = value.currentPage;
+                                      });
+                                    });
+                                  }
+                                },
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Text(
+                                    "Page ${_currentPage} of ${_totalPages}"),
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: _currentPage < _totalPages
+                                      ? Colors.black
+                                      : Colors.grey,
+                                ),
+                                onPressed: () async {
+                                  if (_currentPage < _totalPages) {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: Text("Processing"),
+                                            content: SizedBox(
+                                              height: 36,
+                                              width: 36,
+                                              child: Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: Colors.blue,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        });
 
-                            BlogApi()
-                                .getBlogList(page: _currentPage + 1)
-                                .then((value) {
-                              Navigator.pop(context);
-                              setState(() {
-                                blogList = value.blogList;
-                                _totalPages = value.totalPages;
-                                _currentPage = value.currentPage;
-                              });
-                            });
-                          }
-                        },
+                                    BlogApi()
+                                        .getBlogList(page: _currentPage + 1)
+                                        .then((value) {
+                                      Navigator.pop(context);
+                                      setState(() {
+                                        blogList = value.blogList;
+                                        _totalPages = value.totalPages;
+                                        _currentPage = value.currentPage;
+                                      });
+                                    });
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ];
+                  },
+                  body: ListView(
+                    controller: _controller,
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 1.5,
+                        child: GridView.builder(
+                          itemCount: blogList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return InkWell(
+                              onHover: ((value) {
+                                setState(() {
+                                  if (blogList[index].position ==
+                                      Position.passive) {
+                                    blogList[index].position = Position.hovered;
+                                  } else {
+                                    blogList[index].position = Position.passive;
+                                  }
+                                });
+                              }),
+                              onTap: () => widget.onClick(
+                                MenuTag.blogDetail,
+                                blogList[index].id,
+                                blogList[index],
+                              ),
+                              child: SingleBlog(
+                                blog: blogList[index],
+                              ),
+                            );
+                          },
+                          gridDelegate:
+                              SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent:
+                                responsiveWrapper.isLargerThan(TABLET)
+                                    ? responsiveWrapper.screenWidth * 0.4
+                                    : responsiveWrapper.screenWidth,
+                            childAspectRatio: 1,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                  GridView.builder(
-                    itemCount: blogList.length,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (BuildContext context, int index) {
-                      return InkWell(
-                        onHover: ((value) {
-                          setState(() {
-                            if (blogList[index].position == Position.passive) {
-                              blogList[index].position = Position.hovered;
-                            } else {
-                              blogList[index].position = Position.passive;
-                            }
-                          });
-                        }),
-                        onTap: () => widget.onClick(
-                          MenuTag.blogDetail,
-                          blogList[index].id,
-                          blogList[index],
-                        ),
-                        child: SingleBlog(
-                          blog: blogList[index],
-                        ),
-                      );
-                    },
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: responsiveWrapper.isLargerThan(TABLET)
-                          ? responsiveWrapper.screenWidth * 0.4
-                          : responsiveWrapper.screenWidth,
-                      childAspectRatio: 1,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                    ),
-                  ),
-                ],
+                ),
               );
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  void _handleKeyEvent(RawKeyEvent event) {
+    var offset = _controller.offset;
+    if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
+      setState(() {
+        if (kReleaseMode) {
+          _controller.animateTo(offset - 50,
+              duration: Duration(milliseconds: 30), curve: Curves.ease);
+        } else {
+          _controller.animateTo(offset - 50,
+              duration: Duration(milliseconds: 30), curve: Curves.ease);
+        }
+      });
+    } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+      setState(() {
+        if (kReleaseMode) {
+          _controller.animateTo(offset + 50,
+              duration: Duration(milliseconds: 30), curve: Curves.ease);
+        } else {
+          _controller.animateTo(offset + 50,
+              duration: Duration(milliseconds: 30), curve: Curves.ease);
+        }
+      });
+    }
   }
 }
 
