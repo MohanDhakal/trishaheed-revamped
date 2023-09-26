@@ -12,7 +12,7 @@ class GradeMap {
     10: "Ten",
     11: "Eleven",
     12: "Twelve",
-    13: "Eleven Tech",
-    14: "Twelve Tech",
+    13: "T.Eleven",
+    14: "T.Twelve",
   };
 }
