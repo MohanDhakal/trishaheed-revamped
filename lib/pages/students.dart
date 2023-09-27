@@ -127,54 +127,57 @@ class _StudentsState extends State<Students> {
                       ],
                     ),
                   )
-                : Column(
-                    children: [
-                      DropDownGrade(),
-                      SizedBox(height: 12),
-                      model.loading
-                          ? SizedBox(
-                              width: 50,
-                              height: 50,
-                              child: Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                            )
-                          : (model.studentList.isEmpty)
-                              ? Column(
-                                  children: [
-                                    SizedBox(height: size.height * 0.2),
-                                    Center(
-                                      child: Text(
-                                          "Looks like there is no detail about the grade you selected"),
-                                    ),
-                                  ],
-                                )
-                              : SizedBox(
-                                  height: size.height * 0.60,
-                                  child: ListView.builder(
-                                    itemCount: model.studentList.length,
-                                    shrinkWrap: true,
-                                    itemBuilder: ((context, index) {
-                                      return InkWell(
-                                        onTap: (() {
-                                          model.selectedStudent = model
-                                              .studentList
-                                              .elementAt(index);
-                                        }),
-                                        onHover: ((value) {}),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0, horizontal: 8.0),
-                                          child: StudentWidget(
-                                            student: model.studentList[index],
-                                            // width: MediaQuery.of(context).size.width,
-                                          ),
-                                        ),
-                                      );
-                                    }),
-                                  ),
+                : SingleChildScrollView(
+                    controller: _controller,
+                    child: Column(
+                      children: [
+                        DropDownGrade(),
+                        SizedBox(height: 12),
+                        model.loading
+                            ? SizedBox(
+                                width: 50,
+                                height: 50,
+                                child: Center(
+                                  child: CircularProgressIndicator(),
                                 ),
-                    ],
+                              )
+                            : (model.studentList.isEmpty)
+                                ? Column(
+                                    children: [
+                                      SizedBox(height: size.height * 0.2),
+                                      Center(
+                                        child: Text(
+                                            "Looks like there is no detail about the grade you selected"),
+                                      ),
+                                    ],
+                                  )
+                                : SizedBox(
+                                    height: size.height,
+                                    child: ListView.builder(
+                                      itemCount: model.studentList.length,
+                                      shrinkWrap: true,
+                                      itemBuilder: ((context, index) {
+                                        return InkWell(
+                                          onTap: (() {
+                                            model.selectedStudent = model
+                                                .studentList
+                                                .elementAt(index);
+                                          }),
+                                          onHover: ((value) {}),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 8.0, horizontal: 8.0),
+                                            child: StudentWidget(
+                                              student: model.studentList[index],
+                                              // width: MediaQuery.of(context).size.width,
+                                            ),
+                                          ),
+                                        );
+                                      }),
+                                    ),
+                                  ),
+                      ],
+                    ),
                   );
       }),
     );

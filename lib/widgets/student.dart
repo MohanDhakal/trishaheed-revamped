@@ -20,7 +20,7 @@ class StudentWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       width: responsiveWrapper.isSmallerThan(DESKTOP)
-          ? size.width * 0.9
+          ? size.width
           : size.width * 0.4,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
