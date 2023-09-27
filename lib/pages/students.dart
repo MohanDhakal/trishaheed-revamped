@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -127,7 +129,7 @@ class _StudentsState extends State<Students> {
                   )
                 : Column(
                     children: [
-                      GradeChips(),
+                      DropDownGrade(),
                       SizedBox(height: 12),
                       model.loading
                           ? SizedBox(
@@ -210,6 +212,35 @@ class _StudentsState extends State<Students> {
   }
 }
 
+class DropDownGrade extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<StudentState>(builder: (context, model, child) {
+      return DropdownButton<String>(
+        value: GradeMap.names[model.selectedGrade],
+        onChanged: (String? newValue) async {
+          List<String> values = GradeMap.names.values.toList();
+          for (var i = 0; i < values.length; i++) {
+            if (values[i] == newValue) {
+              model.selectedGrade = GradeMap.names.keys.elementAt(i);
+              break;
+            }
+          }
+          model.loading = true;
+          await model.getStudentList();
+          model.loading = false;
+        },
+        items: GradeMap.names.values.map((String option) {
+          return DropdownMenuItem<String>(
+            value: option,
+            child: Text(option),
+          );
+        }).toList(),
+      );
+    });
+  }
+}
+
 class GradeChips extends StatelessWidget {
   const GradeChips({super.key});
 
@@ -228,7 +259,6 @@ class GradeChips extends StatelessWidget {
           ...List.generate(GradeMap.names.length, (index) {
             return MaterialButton(
               onPressed: () async {
-                // showLoadingDialog(context);
                 model.currentPage = 1;
                 model.selectedGrade = GradeMap.names.keys.elementAt(index);
                 model.loading = true;
@@ -256,39 +286,6 @@ class GradeChips extends StatelessWidget {
             );
           }),
         ]),
-        // child: Wrap(
-        //   alignment: WrapAlignment.center,
-        //   runSpacing: 4.0,
-        //   children:
-        //List.generate(GradeMap.names.length, (index) {
-        //     return MaterialButton(
-        //       onPressed: () async {
-        //         // showLoadingDialog(context);
-        //         model.currentPage = 1;
-        //         model.selectedGrade = GradeMap.names.keys.elementAt(index);
-        //         model.loading = true;
-        //         await model.getStudentList();
-        //         model.loading = false;
-        //       },
-        //       child: Container(
-        //         width: responsiveWrapper.isSmallerThan(DESKTOP) ? 80 : 100,
-        //         height: responsiveWrapper.isSmallerThan(DESKTOP) ? 24 : 36,
-        //         margin: EdgeInsets.symmetric(horizontal: 4),
-        //         alignment: Alignment.center,
-        //         decoration: BoxDecoration(
-        //           color: model.selectedGrade ==
-        //                   GradeMap.names.keys.elementAt(index)
-        //               ? Colors.blueAccent
-        //               : null,
-        //           borderRadius: BorderRadius.circular(8),
-        //           border: Border.all(color: Colors.black26),
-        //         ),
-        //         child: Text(
-        //             "${GradeMap.names[GradeMap.names.keys.elementAt(index)]}"),
-        //       ),
-        //     );
-        //   }),
-        // ),
       );
     });
   }
