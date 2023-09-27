@@ -73,7 +73,7 @@ class _StudentsState extends State<Students> {
                                     ],
                                   )
                                 : SizedBox(
-                                    height: size.height * 0.8,
+                                    height: size.height * 0.65,
                                     child: GridView.builder(
                                       shrinkWrap: true,
                                       padding:
