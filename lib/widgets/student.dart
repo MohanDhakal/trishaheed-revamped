@@ -21,11 +21,11 @@ class StudentWidget extends StatelessWidget {
       ),
       width: responsiveWrapper.isSmallerThan(DESKTOP)
           ? size.width
-          : size.width * 0.4,
+          : size.width * 0.5,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
+        mainAxisSize: MainAxisSize.min,
         children: [
           ClipRRect(
             borderRadius: BorderRadius.only(
@@ -37,7 +37,7 @@ class StudentWidget extends StatelessWidget {
                     profile,
                     fit: BoxFit.cover,
                     width: responsiveWrapper.isSmallerThan(DESKTOP)
-                        ? size.width * 0.9
+                        ? size.width
                         : size.width * 0.3,
                     height: size.height * 0.3,
                   )
@@ -46,11 +46,11 @@ class StudentWidget extends StatelessWidget {
                     fit: BoxFit.cover,
                     height: size.height * 0.3,
                     width: responsiveWrapper.isSmallerThan(DESKTOP)
-                        ? size.width * 0.9
+                        ? size.width
                         : size.width * 0.3,
                   ),
           ),
-          SizedBox(height: 36),
+          SizedBox(height: 24),
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Text(
@@ -124,7 +124,7 @@ class StudentWidget extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 8)
         ],
       ),
     );

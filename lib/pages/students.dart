@@ -83,7 +83,7 @@ class _StudentsState extends State<Students> {
                                         maxCrossAxisExtent: 300,
                                         mainAxisSpacing: 10,
                                         crossAxisSpacing: 10,
-                                        childAspectRatio: 0.60,
+                                        childAspectRatio: 0.65,
                                       ),
                                       itemCount: model.studentList.length,
                                       itemBuilder: ((context, index) {
@@ -176,6 +176,28 @@ class _StudentsState extends State<Students> {
                                       }),
                                     ),
                                   ),
+                        PaginatorWidget(
+                          onNext: () {
+                            if (model.currentPage < model.lastPage) {
+                              showLoadingDialog(context);
+                              ++model.currentPage;
+                              model.getStudentList().then((value) {
+                                Navigator.pop(context);
+                              });
+                            }
+                          },
+                          onPrevious: () {
+                            if (model.currentPage > 1) {
+                              showLoadingDialog(context);
+                              --model.currentPage;
+                              model.getStudentList().then((value) {
+                                Navigator.pop(context);
+                              });
+                            }
+                          },
+                          currentPage: model.currentPage,
+                          lastPage: model.lastPage,
+                        ),
                       ],
                     ),
                   );

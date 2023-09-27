@@ -111,18 +111,6 @@ class StudentDetail extends StatelessWidget {
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 8.0),
-                                      child: Text(
-                                        student.fullName,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge
-                                            ?.copyWith(
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                    Padding(
                                       padding: const EdgeInsets.only(
                                           left: 8.0, top: 8.0),
                                       child: RichText(
@@ -301,6 +289,7 @@ class StudentDetail extends StatelessWidget {
                                         ),
                                       ),
                                     ),
+                                    SizedBox(height: 8)
                                   ],
                                 ),
                               ),
