@@ -1,5 +1,3 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -133,6 +131,29 @@ class _StudentsState extends State<Students> {
                       children: [
                         DropDownGrade(),
                         SizedBox(height: 12),
+                        PaginatorWidget(
+                          onNext: () {
+                            if (model.currentPage < model.lastPage) {
+                              showLoadingDialog(context);
+                              ++model.currentPage;
+                              model.getStudentList().then((value) {
+                                Navigator.pop(context);
+                              });
+                            }
+                          },
+                          onPrevious: () {
+                            if (model.currentPage > 1) {
+                              showLoadingDialog(context);
+                              --model.currentPage;
+                              model.getStudentList().then((value) {
+                                Navigator.pop(context);
+                              });
+                            }
+                          },
+                          currentPage: model.currentPage,
+                          lastPage: model.lastPage,
+                        ),
+                        SizedBox(height: 12),
                         model.loading
                             ? SizedBox(
                                 width: 50,
@@ -176,28 +197,6 @@ class _StudentsState extends State<Students> {
                                       }),
                                     ),
                                   ),
-                        PaginatorWidget(
-                          onNext: () {
-                            if (model.currentPage < model.lastPage) {
-                              showLoadingDialog(context);
-                              ++model.currentPage;
-                              model.getStudentList().then((value) {
-                                Navigator.pop(context);
-                              });
-                            }
-                          },
-                          onPrevious: () {
-                            if (model.currentPage > 1) {
-                              showLoadingDialog(context);
-                              --model.currentPage;
-                              model.getStudentList().then((value) {
-                                Navigator.pop(context);
-                              });
-                            }
-                          },
-                          currentPage: model.currentPage,
-                          lastPage: model.lastPage,
-                        ),
                       ],
                     ),
                   );

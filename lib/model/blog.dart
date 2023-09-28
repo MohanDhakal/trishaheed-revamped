@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:trishaheed/model/slugs.dart';
 import 'package:trishaheed/utilities/button_position.dart';
@@ -30,7 +32,7 @@ class Blog {
     }
     return Blog(
       title: obj["title"],
-      content: Delta.fromJson(obj["body"]),
+      content: Delta.fromJson(jsonDecode(obj["body"])),
       byWhom: obj["user_id"].toString(),
       id: obj["post_id"],
       imageUri: obj["cover_image"],

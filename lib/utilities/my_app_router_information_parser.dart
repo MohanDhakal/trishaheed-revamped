@@ -7,42 +7,42 @@ class MyAppRouterInformationParser
   @override
   RouteInformation? restoreRouteInformation(MyAppConfiguration configuration) {
     if (configuration.homePage) {
-      return RouteInformation(location: RouteName.home);
+      return RouteInformation(uri: Uri.parse(RouteName.home));
     } else if (configuration.staffPage) {
-      return RouteInformation(location: RouteName.staff);
+      return RouteInformation(uri: Uri.parse(RouteName.staff));
     } else if (configuration.students) {
-      return RouteInformation(location: RouteName.students);
+      return RouteInformation(uri: Uri.parse(RouteName.students));
     } else if (configuration.imageGallery) {
-      return RouteInformation(location: RouteName.photoGallery);
+      return RouteInformation(uri: Uri.parse(RouteName.photoGallery));
     }
     //  else if (configuration.videoGallery) {
     //   return RouteInformation(location: RouteName.videoGallery);
     // }
     else if (configuration.extras) {
-      return RouteInformation(location: RouteName.extras);
+      return RouteInformation(uri: Uri.parse(RouteName.extras));
     } else if (configuration.blog) {
-      return RouteInformation(location: RouteName.blog);
+      return RouteInformation(uri: Uri.parse(RouteName.blog));
     } else if (configuration.contact) {
-      return RouteInformation(location: RouteName.contact);
+      return RouteInformation(uri: Uri.parse(RouteName.contact));
     } else if (configuration.downloads) {
-      return RouteInformation(location: RouteName.downloads);
+      return RouteInformation(uri: Uri.parse(RouteName.downloads));
     } else if (configuration.blogDetail) {
       return RouteInformation(
-          location: RouteName.blogDetail + "${configuration.id}");
+          uri: Uri.parse(RouteName.blogDetail + "${configuration.id}"));
     } else {
-      return RouteInformation(location: RouteName.unknown);
+      return RouteInformation(uri: Uri.parse(RouteName.unknown));
     }
   }
 
   @override
   Future<MyAppConfiguration> parseRouteInformation(
       RouteInformation routeInformation) async {
-    final uri = Uri.parse(routeInformation.location!);
+    final uri = Uri.parse(routeInformation.uri.path);
     if (uri.pathSegments.length == 0) {
       return MyAppConfiguration.home();
     } else if (uri.pathSegments.length == 1) {
       final first = uri.pathSegments[0].toLowerCase();
-      return switchFirstPage(first);
+      return switchFirstPage("/" + first);
     } else if (uri.pathSegments.length == 3) {
       // final first = uri.pathSegments[0].toLowerCase();
       // final second = uri.pathSegments[1].toLowerCase();
