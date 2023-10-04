@@ -388,21 +388,23 @@ class SingleBlog extends StatelessWidget {
             ],
           ),
           SizedBox(height: 12),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: SizedBox(
-              width: responsiveWrapper.isLargerThan(TABLET)
-                  ? responsiveWrapper.screenWidth * 0.4
-                  : responsiveWrapper.screenWidth,
-              child: Text(
-                blog.content.first.data.toString(),
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: SizedBox(
+                width: responsiveWrapper.isLargerThan(TABLET)
+                    ? responsiveWrapper.screenWidth * 0.4
+                    : responsiveWrapper.screenWidth,
+                child: Text(
+                  blog.content.first.data.toString(),
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 4,
+                  textAlign: TextAlign.justify,
                 ),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 5,
-                textAlign: TextAlign.justify,
               ),
             ),
           ),

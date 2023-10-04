@@ -163,22 +163,24 @@ class _DownloadPageState extends State<DownloadPage> {
                     ),
                   ),
                   ResponsiveRowColumnItem(
-                    child: MaterialButton(
-                      onPressed: () {
-                        model.currentPage = 1;
-                        model.totalPage = 1;
-                        showLoadingDialog(context);
-                        model.selectedFolder = Downloads.others;
-                        model.refreshFiles().then((value) {
-                          Navigator.pop(context);
-                        });
-                      },
-                      child: Text(
-                        "Others",
-                        style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          color: Colors.blueAccent,
-                          fontSize: 16,
+                    child: Expanded(
+                      child: MaterialButton(
+                        onPressed: () {
+                          model.currentPage = 1;
+                          model.totalPage = 1;
+                          showLoadingDialog(context);
+                          model.selectedFolder = Downloads.others;
+                          model.refreshFiles().then((value) {
+                            Navigator.pop(context);
+                          });
+                        },
+                        child: Text(
+                          "Others",
+                          style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: Colors.blueAccent,
+                            fontSize: 16,
+                          ),
                         ),
                       ),
                     ),

@@ -358,7 +358,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                           crossAxisAlignment:
                                               WrapCrossAlignment.start,
                                           children: [
-                                            InkWell(
+                                            GestureDetector(
                                               onTap: () {
                                                 drawer = false;
                                                 atMenu = MenuTag.values[index];
@@ -682,8 +682,8 @@ class HeaderForMobile extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Image.asset(
                     logo,
-                    width: 100,
-                    height: 100,
+                    width: 80,
+                    height: 80,
                   ),
                 ),
               ),

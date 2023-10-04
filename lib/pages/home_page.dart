@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
       color: Colors.white30,
       child: RawKeyboardListener(
         focusNode: _focusNode,
-        onKey: _handleKeyEvent,
+        onKey: responsiveWrapper.isSmallerThan(TABLET) ? null : _handleKeyEvent,
         autofocus: true,
         child: SingleChildScrollView(
           controller: _controller,
@@ -250,7 +250,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 20.0, top: 36),
+                padding: const EdgeInsets.only(left: 16.0, top: 36),
                 child: Text(
                   "HIGHLIGHTS",
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -352,7 +352,6 @@ class _HomePageState extends State<HomePage> {
                                 """Friendly and motivating environment really helps us focus on what really matters. Our Teachers are available whenever we need them to clarify doubts.""",
                             name: "Samraj Darji",
                             title: "Student",
-                            height: size.height * 0.35,
                             shadow: [
                               BoxShadow(
                                 color: Colors.black12,
@@ -369,7 +368,6 @@ class _HomePageState extends State<HomePage> {
                                 "'Technology is inevitable in today's world.I have been involved in Technical Stream from Grade 9, which has helped me grow as a technical person.'",
                             name: "Milan Dhakal",
                             title: "Student",
-                            height: size.height * 0.35,
                             shadow: [
                               BoxShadow(
                                 color: Colors.black12,
@@ -382,7 +380,6 @@ class _HomePageState extends State<HomePage> {
                         ),
                         ResponsiveRowColumnItem(
                           child: StudentSaying(
-                            height: size.height * 0.35,
                             saying:
                                 """ I joined Tri-Shaheed at grade 5, The environment for study has improved as the time passes by. Today, while working as an instructor, I feel quality of our student has improved alot.""",
                             name: "Mohan k. Dhakal",
@@ -399,71 +396,52 @@ class _HomePageState extends State<HomePage> {
                         )
                       ],
                     )
-                  : SizedBox(
-                      height: size.height * 0.45,
-                      child: Center(
-                        child: Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 24),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  StudentSaying(
-                                    saying:
-                                        """Friendly and motivating environment really helps us focus on what really matters. Our Teachers are available whenever we need them to clarify doubts.""",
-                                    name: "Samraj Darji",
-                                    title: "Student",
-                                    height: size.height * 0.35,
-                                    shadow: [
-                                      BoxShadow(
-                                        color: Colors.black12,
-                                        offset: Offset(4, 4),
-                                        blurRadius: 4,
-                                        spreadRadius: 4,
-                                      ),
-                                    ],
-                                  ),
-                                  StudentSaying(
-                                    height: size.height * 0.35,
-                                    name: "Milan Dhakal",
-                                    title: "Student",
-                                    shadow: [
-                                      BoxShadow(
-                                        color: Colors.black12,
-                                        offset: Offset(4, 4),
-                                        blurRadius: 4,
-                                        spreadRadius: 4,
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                  : SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          StudentSaying(
+                            saying:
+                                """Friendly and motivating environment really helps us focus on what really matters. Our Teachers are available whenever we need them to clarify doubts.""",
+                            name: "Samraj Darji",
+                            title: "Student",
+                            shadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                offset: Offset(4, 4),
+                                blurRadius: 4,
+                                spreadRadius: 4,
                               ),
-                            ),
-                            Positioned(
-                              left: size.width * 0.33,
-                              bottom: 2,
-                              top: 2,
-                              child: Card(
-                                elevation: 16,
-                                color: Colors.transparent,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        8.0) // Adjust the border radius as needed
-                                    ),
-                                child: StudentSaying(
-                                  height: size.height * 0.4,
-                                  saying:
-                                      """ I joined Tri-Shaheed at grade 5, The environment for study has improved as the time passes by. Today, while working as an instructor, I feel quality of our student has improved alot.""",
-                                  name: "Mohan k. Dhakal",
-                                  title: "Technical Instructor",
-                                ),
+                            ],
+                          ),
+                          StudentSaying(
+                            name: "Milan Dhakal",
+                            title: "Student",
+                            shadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                offset: Offset(4, 4),
+                                blurRadius: 4,
+                                spreadRadius: 4,
                               ),
-                            ),
-                          ],
-                        ),
+                            ],
+                          ),
+                          StudentSaying(
+                            saying:
+                                """ I joined Tri-Shaheed at grade 5, The environment for study has improved as the time passes by. Today, while working as an instructor, I feel quality of our student has improved alot.""",
+                            name: "Mohan k. Dhakal",
+                            title: "Technical Instructor",
+                            shadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                offset: Offset(4, 4),
+                                blurRadius: 4,
+                                spreadRadius: 4,
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
               SizedBox(height: 48),
