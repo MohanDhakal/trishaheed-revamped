@@ -1,5 +1,6 @@
 {
     "java.configuration.updateBuildConfiguration": "interactive",
     "FSharp.suggestGitignore": false,
-    "cmake.sourceDirectory": "E:/shared-documents/school website/trishaheed-revamped/trishaheed-revamped/linux"
+    "cmake.sourceDirectory": "E:/shared-documents/school website/trishaheed-revamped/trishaheed-revamped/linux",
+    "cmake.configureOnOpen": false
 }

@@ -271,12 +271,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                   splashBorderRadius: BorderRadius.circular(4),
                                   indicatorSize: TabBarIndicatorSize.label,
                                   automaticIndicatorColorAdjustment: false,
-
-                                  // controller:,
-                                  // indicatorPadding:
-                                  //     EdgeInsets.symmetric(vertical: 8),
-                                  unselectedLabelColor:
-                                      Colors.grey, //for unselected label//
+                                  unselectedLabelColor: Colors.grey,
                                   labelPadding:
                                       EdgeInsets.symmetric(vertical: 8),
                                   indicator: BoxDecoration(

@@ -10,6 +10,7 @@ const String readingIcon = "assets/images/icons/reading-book.png";
 const String customerCare = "assets/images/customer-care.png";
 const String contact1 = "assets/images/contacts/Jay_sir.jpg";
 const String contact2 = "assets/images/contacts/Tek_sir.jpg";
+const String contact3 = "assets/images/contacts/mohan.jpg";
 const String notice = "assets/images/notice/suchana.jpg";
 const String networkPlaceholder =
     "https://fastly.picsum.photos/id/185/200/300.jpg?blur=5&hmac=yQe4ekSkmZmozebKHSoPPJ9UjQtZ7Xcu7QLdp56CChw";
@@ -18,5 +19,4 @@ const List<String> carouselImages = [
   "assets/images/carousel_slider/science_lab.jpg",
   "assets/images/carousel_slider/elibrary.jpg",
   "assets/images/carousel_slider/building.jpg"
-  // "assets/images/carousel_slider/award.JPG",
 ];

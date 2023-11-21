@@ -53,7 +53,6 @@ class _BlogDetailState extends State<BlogDetail> {
   @override
   Widget build(BuildContext context) {
     final responsiveWrapper = ResponsiveWrapper.of(context);
-    final size = MediaQuery.of(context).size;
 
     return _loading
         ? Material(
@@ -198,7 +197,6 @@ class _BlogDetailState extends State<BlogDetail> {
                               readOnly: true,
                               expands: false,
                               padding: EdgeInsets.zero,
-                              minHeight: size.height,
                               keyboardAppearance: Brightness.light,
                             ),
                           )

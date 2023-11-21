@@ -182,33 +182,37 @@ class _BlogListState extends State<BlogList> {
                                 onPressed: () async {
                                   if (_currentPage < _totalPages) {
                                     showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            title: Text("Processing"),
-                                            content: SizedBox(
-                                              height: 36,
-                                              width: 36,
-                                              child: Center(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  color: Colors.blue,
-                                                ),
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: Text("Processing"),
+                                          content: SizedBox(
+                                            height: 36,
+                                            width: 36,
+                                            child: Center(
+                                              child: CircularProgressIndicator(
+                                                color: Colors.blue,
                                               ),
                                             ),
-                                          );
-                                        });
+                                          ),
+                                        );
+                                      },
+                                    );
 
                                     BlogApi()
                                         .getBlogList(page: _currentPage + 1)
-                                        .then((value) {
-                                      Navigator.pop(context);
-                                      setState(() {
-                                        blogList = value.blogList;
-                                        _totalPages = value.totalPages;
-                                        _currentPage = value.currentPage;
-                                      });
-                                    });
+                                        .then(
+                                      (value) {
+                                        Navigator.pop(context);
+                                        setState(
+                                          () {
+                                            blogList = value.blogList;
+                                            _totalPages = value.totalPages;
+                                            _currentPage = value.currentPage;
+                                          },
+                                        );
+                                      },
+                                    );
                                   }
                                 },
                               ),
@@ -218,11 +222,9 @@ class _BlogListState extends State<BlogList> {
                       ),
                     ];
                   },
-                  body: ListView(
-                    controller: _controller,
+                  body: Column(
                     children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 1.5,
+                      Expanded(
                         child: GridView.builder(
                           itemCount: blogList.length,
                           itemBuilder: (BuildContext context, int index) {

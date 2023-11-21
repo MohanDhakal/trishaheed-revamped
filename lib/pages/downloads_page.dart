@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:trishaheed/model/Download.dart';
 import 'package:trishaheed/model/download_menu.dart';
 import 'package:trishaheed/model/states/dowloads_state.dart';
 import 'package:trishaheed/utilities/download_enums.dart';
@@ -108,24 +109,43 @@ class _DownloadPageState extends State<DownloadPage> {
                     ),
                   ),
                   ResponsiveRowColumnItem(
-                    child: MaterialButton(
-                      onPressed: () async {
-                        model.currentPage = 1;
-                        model.totalPage = 1;
-                        showLoadingDialog(context);
-                        model.selectedFolder = Downloads.results;
-                        model.refreshFiles().then((value) {
-                          Navigator.pop(context);
-                        });
-                      },
-                      child: Text(
-                        "Results",
-                        style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          color: Colors.blueAccent,
-                          fontSize: 16,
+                    child: Stack(
+                      children: [
+                        model.selectedFolder == Downloads.results
+                            ? Positioned.fill(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(
+                                          10.0), // Adjust the border radius as needed
+                                      color: Colors.orange,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(0, 1),
+                                        )
+                                      ] // Adjust the opacity as needed
+                                      ),
+                                ),
+                              )
+                            : SizedBox(),
+                        MaterialButton(
+                          onPressed: () async {
+                            model.currentPage = 1;
+                            model.totalPage = 1;
+                            showLoadingDialog(context);
+                            model.selectedFolder = Downloads.results;
+                            model.refreshFiles().then((value) {
+                              Navigator.pop(context);
+                            });
+                          },
+                          child: Text(
+                            "Results",
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                   ResponsiveRowColumnItem(
@@ -135,25 +155,43 @@ class _DownloadPageState extends State<DownloadPage> {
                     ),
                   ),
                   ResponsiveRowColumnItem(
-                    child: MaterialButton(
-                      onPressed: () async {
-                        model.currentPage = 1;
-                        model.totalPage = 1;
+                    child: Stack(
+                      children: [
+                        model.selectedFolder == Downloads.routine
+                            ? Positioned.fill(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(
+                                          10.0), // Adjust the border radius as needed
+                                      color: Colors.orange,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(0, 1),
+                                          blurRadius: 4,
+                                        )
+                                      ] // Adjust the opacity as needed
+                                      ),
+                                ),
+                              )
+                            : SizedBox(),
+                        MaterialButton(
+                          onPressed: () async {
+                            model.currentPage = 1;
+                            model.totalPage = 1;
 
-                        showLoadingDialog(context);
-                        model.selectedFolder = Downloads.routine;
-                        model.refreshFiles().then((value) {
-                          Navigator.pop(context);
-                        });
-                      },
-                      child: Text(
-                        "Routine",
-                        style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          color: Colors.blueAccent,
-                          fontSize: 16,
+                            showLoadingDialog(context);
+                            model.selectedFolder = Downloads.routine;
+                            model.refreshFiles().then((value) {
+                              Navigator.pop(context);
+                            });
+                          },
+                          child: Text(
+                            "Routine",
+                            style: TextStyle(fontSize: 16),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                   ResponsiveRowColumnItem(
@@ -163,26 +201,45 @@ class _DownloadPageState extends State<DownloadPage> {
                     ),
                   ),
                   ResponsiveRowColumnItem(
-                    child: Expanded(
-                      child: MaterialButton(
-                        onPressed: () {
-                          model.currentPage = 1;
-                          model.totalPage = 1;
-                          showLoadingDialog(context);
-                          model.selectedFolder = Downloads.others;
-                          model.refreshFiles().then((value) {
-                            Navigator.pop(context);
-                          });
-                        },
-                        child: Text(
-                          "Others",
-                          style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Colors.blueAccent,
-                            fontSize: 16,
+                    child: Stack(
+                      children: [
+                        model.selectedFolder == Downloads.others
+                            ? Positioned.fill(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(
+                                          10.0), // Adjust the border radius as needed
+                                      color: Colors.orange,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(0, 1),
+                                        )
+                                      ] // Adjust the opacity as needed
+                                      ),
+                                ),
+                              )
+                            : SizedBox(),
+                        MaterialButton(
+                          onPressed: () {
+                            model.currentPage = 1;
+                            model.totalPage = 1;
+                            showLoadingDialog(context);
+                            model.selectedFolder = Downloads.others;
+                            model.refreshFiles().then((value) {
+                              Navigator.pop(context);
+                            });
+                          },
+                          child: Text(
+                            "Others",
+                            style: TextStyle(
+                              // decoration: TextDecoration.underline,
+                              // color: Colors.blueAccent,
+                              fontSize: 16,
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 ],
