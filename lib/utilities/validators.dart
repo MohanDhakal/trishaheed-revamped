@@ -88,3 +88,7 @@ String? validatePassword(String? value) {
     return "Password not valid";
   }
 }
+
+bool containsAlphabeticLetter(String input) {
+  return RegExp(r'[a-zA-Z]').hasMatch(input);
+}

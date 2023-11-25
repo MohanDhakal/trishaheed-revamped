@@ -36,7 +36,6 @@ class _StudentsState extends State<Students> {
       onKey: _handleKeyEvent,
       autofocus: true,
       child: Consumer<StudentState>(builder: (context, model, child) {
-        print(model.loading);
         return model.selectedStudent != null
             ? StudentDetail(
                 student: model.selectedStudent!,
@@ -79,7 +78,6 @@ class _StudentsState extends State<Students> {
                                       gridDelegate:
                                           SliverGridDelegateWithMaxCrossAxisExtent(
                                         maxCrossAxisExtent: 300,
-                                        mainAxisSpacing: 10,
                                         crossAxisSpacing: 10,
                                         childAspectRatio: 0.65,
                                       ),
@@ -102,19 +100,19 @@ class _StudentsState extends State<Students> {
                         PaginatorWidget(
                           onNext: () {
                             if (model.currentPage < model.lastPage) {
-                              showLoadingDialog(context);
+                              // showLoadingDialog(context);
                               ++model.currentPage;
                               model.getStudentList().then((value) {
-                                Navigator.pop(context);
+                                // Navigator.pop(context);
                               });
                             }
                           },
                           onPrevious: () {
                             if (model.currentPage > 1) {
-                              showLoadingDialog(context);
+                              // showLoadingDialog(context);
                               --model.currentPage;
                               model.getStudentList().then((value) {
-                                Navigator.pop(context);
+                                // Navigator.pop(context);
                               });
                             }
                           },
@@ -125,9 +123,10 @@ class _StudentsState extends State<Students> {
                       ],
                     ),
                   )
-                : SingleChildScrollView(
-                    controller: _controller,
+                : SizedBox(
+                    height: size.height,
                     child: Column(
+                      mainAxisSize: MainAxisSize.max,
                       children: [
                         DropDownGrade(),
                         SizedBox(height: 12),
@@ -172,11 +171,13 @@ class _StudentsState extends State<Students> {
                                       ),
                                     ],
                                   )
-                                : SizedBox(
-                                    height: size.height,
+                                : Expanded(
                                     child: ListView.builder(
                                       itemCount: model.studentList.length,
                                       shrinkWrap: true,
+                                      controller: _controller,
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 12),
                                       itemBuilder: ((context, index) {
                                         return InkWell(
                                           onTap: (() {
@@ -275,9 +276,7 @@ class GradeChips extends StatelessWidget {
 
     return Consumer<StudentState>(builder: (context, model, child) {
       return SizedBox(
-        height: responsiveWrapper.isSmallerThan(DESKTOP)
-            ? size.height * 0.2
-            : size.height * 0.2,
+        height: size.height * 0.2,
         width: size.width,
         child: Wrap(spacing: 1, runSpacing: 2, children: [
           ...List.generate(GradeMap.names.length, (index) {

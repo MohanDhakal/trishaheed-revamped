@@ -7,6 +7,7 @@ import 'package:trishaheed/model/blog.dart';
 import 'package:trishaheed/repository/blog_info.dart';
 import 'package:trishaheed/utilities/button_position.dart';
 import 'package:trishaheed/utilities/menu_tag.dart';
+import 'package:trishaheed/utilities/validators.dart';
 import 'package:trishaheed/widgets/tags.dart';
 
 class BlogList extends StatefulWidget {
@@ -225,39 +226,48 @@ class _BlogListState extends State<BlogList> {
                   body: Column(
                     children: [
                       Expanded(
-                        child: GridView.builder(
-                          itemCount: blogList.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return InkWell(
-                              onHover: ((value) {
-                                setState(() {
-                                  if (blogList[index].position ==
-                                      Position.passive) {
-                                    blogList[index].position = Position.hovered;
-                                  } else {
-                                    blogList[index].position = Position.passive;
-                                  }
-                                });
-                              }),
-                              onTap: () => widget.onClick(
-                                MenuTag.blogDetail,
-                                blogList[index].id,
-                                blogList[index],
+                        child: SizedBox(
+                          height: responsiveWrapper.screenHeight,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 12.0),
+                            child: GridView.builder(
+                              itemCount: blogList.length,
+                              shrinkWrap: true,
+                              itemBuilder: (BuildContext context, int index) {
+                                return InkWell(
+                                  onHover: ((value) {
+                                    setState(() {
+                                      if (blogList[index].position ==
+                                          Position.passive) {
+                                        blogList[index].position =
+                                            Position.hovered;
+                                      } else {
+                                        blogList[index].position =
+                                            Position.passive;
+                                      }
+                                    });
+                                  }),
+                                  onTap: () => widget.onClick(
+                                    MenuTag.blogDetail,
+                                    blogList[index].id,
+                                    blogList[index],
+                                  ),
+                                  child: SingleBlog(
+                                    blog: blogList[index],
+                                  ),
+                                );
+                              },
+                              gridDelegate:
+                                  SliverGridDelegateWithMaxCrossAxisExtent(
+                                maxCrossAxisExtent:
+                                    responsiveWrapper.isLargerThan(TABLET)
+                                        ? responsiveWrapper.screenWidth * 0.4
+                                        : responsiveWrapper.screenWidth,
+                                childAspectRatio: 1,
+                                crossAxisSpacing: 12,
+                                mainAxisSpacing: 12,
                               ),
-                              child: SingleBlog(
-                                blog: blogList[index],
-                              ),
-                            );
-                          },
-                          gridDelegate:
-                              SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent:
-                                responsiveWrapper.isLargerThan(TABLET)
-                                    ? responsiveWrapper.screenWidth * 0.4
-                                    : responsiveWrapper.screenWidth,
-                            childAspectRatio: 1,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
+                            ),
                           ),
                         ),
                       ),
@@ -304,14 +314,14 @@ class SingleBlog extends StatelessWidget {
   const SingleBlog({Key? key, required this.blog}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final content = blog.content.first.data.toString();
     final responsiveWrapper = ResponsiveWrapper.of(context);
-
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: Colors.grey.shade300,
       ),
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      margin: EdgeInsets.symmetric(horizontal: 12),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -390,6 +400,20 @@ class SingleBlog extends StatelessWidget {
             ],
           ),
           SizedBox(height: 12),
+          Row(
+            children: [
+              SizedBox(width: 4),
+              Text(
+                blog.title,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 12),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -398,7 +422,7 @@ class SingleBlog extends StatelessWidget {
                     ? responsiveWrapper.screenWidth * 0.4
                     : responsiveWrapper.screenWidth,
                 child: Text(
-                  blog.content.first.data.toString(),
+                  content,
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.normal,
