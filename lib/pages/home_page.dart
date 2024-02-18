@@ -447,7 +447,7 @@ class _HomePageState extends State<HomePage> {
                     ),
               SizedBox(height: 48),
               FooterWidget(color: Colors.black12),
-              SizedBox(height: 12),
+              // SizedBox(height: 12),
             ],
           ),
         ),

@@ -7,6 +7,7 @@
         {
             "name": "trishaheed",
             "request": "launch",
+            "flutterMode": "debug",
             "type": "dart",
             "args": [
                 "-d",
@@ -17,13 +18,21 @@
             "name": "trishaheed (profile mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "flutterMode": "profile",
+            "args": [
+                "-d",
+                "chrome"
+            ],
         },
         {
             "name": "trishaheed (release mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release"
+            "flutterMode": "release",
+            "args": [
+                "-d",
+                "chrome"
+            ],
         }
     ]
 }

@@ -1,6 +1,5 @@
 import 'dart:convert';
-
-import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/quill_delta.dart';
 import 'package:trishaheed/model/slugs.dart';
 import 'package:trishaheed/utilities/button_position.dart';
 

@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/utilities/images.dart';
 import 'package:trishaheed/widgets/footer.dart';
-import 'package:webviewx/webviewx.dart';
 import '../utilities/textstyles.dart';
 import '../widgets/complaint_form.dart';
 
@@ -22,7 +21,6 @@ class _ContactPageState extends State<ContactPage> {
   @override
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
-    late WebViewXController webviewController;
     final size = MediaQuery.of(context).size;
 
     return RawKeyboardListener(

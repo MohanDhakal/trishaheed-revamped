@@ -1,11 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_quill/quill_delta.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:trishaheed/repository/blog_info.dart';
 import '../model/blog.dart';
-import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:flutter_quill/flutter_quill.dart';
 import '../widgets/tags.dart';
 
 class BlogDetail extends StatefulWidget {
@@ -21,7 +22,7 @@ class _BlogDetailState extends State<BlogDetail> {
   final ScrollController _controller = ScrollController();
   String userName = "";
   bool _loading = true;
-  quill.QuillController? _readOnlyContainer;
+  QuillController? _readOnlyContainer;
   Blog? _blogDetail;
 
   @override
@@ -42,11 +43,14 @@ class _BlogDetailState extends State<BlogDetail> {
   Future<void> convertData({Blog? blog}) async {
     var list = blog!.content.toJson();
     list.add({"insert": '\n'});
-    var convertedDelta = quill.Delta.fromJson(list);
-    final document = quill.Document.fromDelta(convertedDelta);
-    _readOnlyContainer = quill.QuillController(
+    var convertedDelta = Delta.fromJson(list);
+    final document = Document.fromDelta(convertedDelta);
+    _readOnlyContainer = QuillController(
       document: document,
-      selection: TextSelection.collapsed(offset: 0),
+      selection:
+          TextSelection.collapsed(offset: 0, affinity: TextAffinity.downstream),
+      onSelectionChanged: (textSelection) {},
+      onSelectionCompleted: () {},
     );
   }
 
@@ -186,20 +190,36 @@ class _BlogDetailState extends State<BlogDetail> {
                             ],
                           ),
                           SizedBox(height: 10),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: quill.QuillEditor(
-                              controller: _readOnlyContainer!,
-                              scrollController: ScrollController(),
-                              scrollable: true,
-                              focusNode: FocusNode(),
-                              autoFocus: false,
-                              readOnly: true,
-                              expands: false,
-                              padding: EdgeInsets.zero,
-                              keyboardAppearance: Brightness.light,
-                            ),
-                          )
+                          //  quill.QuillEditor(configurations: ,)
+                          _readOnlyContainer != null
+                              ? Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: QuillEditor.basic(
+                                    scrollController: ScrollController(),
+                                    focusNode: FocusNode(
+                                      canRequestFocus: false,
+                                    ),
+                                    configurations: QuillEditorConfigurations(
+                                      controller: _readOnlyContainer!,
+                                      readOnly: true,
+                                      autoFocus: true,
+                                      expands: false,
+                                      padding: EdgeInsets.all(8),
+                                      scrollable: true,
+                                      paintCursorAboveText: false,
+                                      enableInteractiveSelection: true,
+                                      enableSelectionToolbar: false,
+                                      scrollPhysics:
+                                          NeverScrollableScrollPhysics(),
+                                      showCursor: false,
+                                      floatingCursorDisabled: false,
+                                      isOnTapOutsideEnabled: false,
+                                      textSelectionControls:
+                                          EmptyTextSelectionControls(),
+                                    ),
+                                  ),
+                                )
+                              : SizedBox(),
                         ],
                       ),
                     ),

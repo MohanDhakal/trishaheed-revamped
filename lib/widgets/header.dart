@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:trishaheed/main.dart';
 import 'package:trishaheed/utilities/globals.dart';
 import 'package:trishaheed/utilities/images.dart';
+import '../pages/myapp_router_delegate.dart';
 import '../utilities/menu_tag.dart';
 import '../utilities/textstyles.dart';
 
