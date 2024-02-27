@@ -50,9 +50,9 @@ class _HomePageState extends State<HomePage> {
     final size = MediaQuery.of(context).size;
     return Material(
       color: Colors.white30,
-      child: RawKeyboardListener(
+      child: KeyboardListener(
         focusNode: _focusNode,
-        onKey: responsiveWrapper.isSmallerThan(TABLET) ? null : _handleKeyEvent,
+        onKeyEvent: responsiveWrapper.isSmallerThan(TABLET) ? null : _handleKeyEvent,
         autofocus: true,
         child: SingleChildScrollView(
           controller: _controller,
@@ -461,7 +461,7 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  void _handleKeyEvent(RawKeyEvent event) {
+  void _handleKeyEvent(KeyEvent event) {
     var offset = _controller.offset;
     if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
       setState(() {

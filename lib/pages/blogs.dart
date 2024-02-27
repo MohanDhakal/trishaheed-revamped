@@ -7,7 +7,6 @@ import 'package:trishaheed/model/blog.dart';
 import 'package:trishaheed/repository/blog_info.dart';
 import 'package:trishaheed/utilities/button_position.dart';
 import 'package:trishaheed/utilities/menu_tag.dart';
-import 'package:trishaheed/utilities/validators.dart';
 import 'package:trishaheed/widgets/tags.dart';
 
 class BlogList extends StatefulWidget {

@@ -81,9 +81,9 @@ class _BlogDetailState extends State<BlogDetail> {
           )
         : (_blogDetail != null)
             ? Material(
-                child: RawKeyboardListener(
+                child: KeyboardListener(
                   focusNode: _focusNode,
-                  onKey: _handleKeyEvent,
+                  onKeyEvent: _handleKeyEvent,
                   autofocus: true,
                   child: SingleChildScrollView(
                     controller: _controller,
@@ -202,7 +202,7 @@ class _BlogDetailState extends State<BlogDetail> {
                                     configurations: QuillEditorConfigurations(
                                       controller: _readOnlyContainer!,
                                       readOnly: true,
-                                      autoFocus: true,
+                                      autoFocus: false,
                                       expands: false,
                                       padding: EdgeInsets.all(8),
                                       scrollable: true,
@@ -215,7 +215,7 @@ class _BlogDetailState extends State<BlogDetail> {
                                       floatingCursorDisabled: false,
                                       isOnTapOutsideEnabled: false,
                                       textSelectionControls:
-                                          EmptyTextSelectionControls(),
+                                          DesktopTextSelectionControls(),
                                     ),
                                   ),
                                 )
@@ -235,7 +235,7 @@ class _BlogDetailState extends State<BlogDetail> {
     super.dispose();
   }
 
-  void _handleKeyEvent(RawKeyEvent event) {
+  void _handleKeyEvent(KeyEvent event) {
     var offset = _controller.offset;
     if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
       setState(() {
