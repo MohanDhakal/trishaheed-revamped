@@ -8,5 +8,6 @@ enum MenuTag {
   contact,
   blog,
   blogDetail,
+  staffDetail,
   unknown,
 }

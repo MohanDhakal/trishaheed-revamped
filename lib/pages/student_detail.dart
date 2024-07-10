@@ -6,16 +6,19 @@ import '../utilities/images.dart';
 // ignore: must_be_immutable
 class StudentDetail extends StatelessWidget {
   final Student student;
+  final StudentContact? stdContact;
   Function() onBackPressed;
   StudentDetail({
     Key? key,
     required this.student,
     required this.onBackPressed,
+    this.stdContact,
     value,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print('std ${stdContact?.toMap()}');
     final responsiveWrapper = ResponsiveWrapper.of(context);
     final size = MediaQuery.of(context).size;
     return Container(
@@ -69,7 +72,7 @@ class StudentDetail extends StatelessWidget {
                             topLeft: Radius.circular(8),
                             topRight: Radius.circular(8),
                           ),
-                          child: student.image_url == null
+                          child: student.imageUri == null
                               ? Image.asset(
                                   profile,
                                   fit: BoxFit.contain,
@@ -80,7 +83,7 @@ class StudentDetail extends StatelessWidget {
                                   height: size.height * 0.4,
                                 )
                               : Image.network(
-                                  student.image_url!,
+                                  student.imageUri!,
                                   fit: BoxFit.contain,
                                   height: size.height * 0.5,
                                   width:
@@ -237,6 +240,33 @@ class StudentDetail extends StatelessWidget {
                                         ),
                                       ),
                                     ),
+                                      Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, top: 8.0),
+                                      child: RichText(
+                                        text: TextSpan(
+                                          text: "Contact Number :" +
+                                              "  ",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                          children: [
+                                            TextSpan(
+                                              text:
+                                                  stdContact?.phoneNumber.toString(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.copyWith(fontSize: 16),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           left: 8.0, top: 8.0),
@@ -253,8 +283,8 @@ class StudentDetail extends StatelessWidget {
                                               ),
                                           children: [
                                             TextSpan(
-                                              text: student.guardianContact ??
-                                                  "९८७६******",
+                                              text:
+                                                  stdContact?.guardianContact.toString(),
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall
@@ -279,7 +309,8 @@ class StudentDetail extends StatelessWidget {
                                               ),
                                           children: [
                                             TextSpan(
-                                              text: student.email ?? "",
+                                              text:
+                                                  stdContact?.email.toString(),
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall

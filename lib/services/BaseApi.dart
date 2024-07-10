@@ -32,7 +32,6 @@ class BaseApi {
             filename: "sample_image");
       }
       final response = await dio.post(path, data: FormData.fromMap(data));
-      print("BaseApi After: $response");
       return Left(response);
     } on DioError catch (e) {
       print("BaseApi After DioError: " + e.toString());

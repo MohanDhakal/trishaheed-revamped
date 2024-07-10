@@ -7,10 +7,12 @@ import '../utilities/images.dart';
 class FixHeader extends StatelessWidget {
   final Function() onNewNotice;
   final Function() onHome;
+  final Function() onResultsPublished;
   const FixHeader({
     Key? key,
     required this.onNewNotice,
     required this.onHome,
+    required this.onResultsPublished,
   }) : super(key: key);
 
   @override
@@ -27,8 +29,8 @@ class FixHeader extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Image.asset(
                 logo,
-                width: 100,
-                height: 100,
+                width: 80,
+                height: 80,
               ),
             ),
           ),
@@ -118,6 +120,20 @@ class FixHeader extends StatelessWidget {
             ],
           ),
           InkWell(
+            onTap: onResultsPublished,
+            child: Container(
+              margin: EdgeInsets.only(right: 10, top: 5, bottom: 5),
+              decoration: BoxDecoration(
+                color: Colors.greenAccent,
+                borderRadius: BorderRadius.circular(2),
+              ),
+              alignment: Alignment.center,
+              child: Text("See Results"),
+              width: 100,
+              height: 50,
+            ),
+          ),
+          InkWell(
             onTap: onNewNotice,
             child: Container(
               margin: EdgeInsets.only(right: 10, top: 5, bottom: 5),
@@ -140,14 +156,17 @@ class FixHeader extends StatelessWidget {
 class HeaderForMobile extends StatelessWidget {
   final Function() onNewNotice;
   final Function() onHome;
+  final Function() onResultsPublished;
 
   const HeaderForMobile(
-      {Key? key, required this.onNewNotice, required this.onHome})
+      {Key? key,
+      required this.onNewNotice,
+      required this.onHome,
+      required this.onResultsPublished})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Material(
       color: Colors.white,
       child: Column(
@@ -220,11 +239,28 @@ class HeaderForMobile extends StatelessWidget {
                       ),
                     ],
                   ),
-                  MaterialButton(
+                  Row(
+                    children: [
+                      MaterialButton(
+                        onPressed: onResultsPublished,
+                        child: Container(
+                          height: 48,
+                          width: 100,
+                          margin: EdgeInsets.only(
+                              left: 10, bottom: 5, top: 5, right: 10),
+                          decoration: BoxDecoration(
+                            color: Colors.greenAccent,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text("Exam Result"),
+                        ),
+                      ),
+                                        MaterialButton(
                     onPressed: onNewNotice,
                     child: Container(
-                      height: 50,
-                      width: size.width * 0.5,
+                      height: 48,
+                      width: 100,
                       margin: EdgeInsets.only(
                           left: 10, bottom: 5, top: 5, right: 10),
                       decoration: BoxDecoration(
@@ -234,6 +270,10 @@ class HeaderForMobile extends StatelessWidget {
                       alignment: Alignment.center,
                       child: Text("New Notice"),
                     ),
+                  ),
+
+                    ],
+
                   ),
                 ],
               ),

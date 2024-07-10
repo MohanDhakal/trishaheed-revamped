@@ -1,5 +1,7 @@
+import 'package:trishaheed/utilities/results.dart';
+
 class RouteName {
-//single pathway
+  //single pathway
   static const String home = "/";
   static const String photoGallery = "/photo_gallery";
   static const String staff = "/teacher_staff";
@@ -11,6 +13,9 @@ class RouteName {
   static const String contact = "/contact";
   static const String blog = "/blog";
   static const String unknown = "/unknown";
-//double pathway
+  static const String result = '/${Result.path}';
+  //double pathway
   static String blogDetail = "/blog/details/";
+  static String staffDetail = "/teacher_staff/details/";
+
 }

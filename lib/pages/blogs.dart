@@ -112,9 +112,9 @@ class _BlogListState extends State<BlogList> {
                 alignment: Alignment.center,
                 child: Text("There are no blogs available at the moment"),
               )
-            : RawKeyboardListener(
+            : KeyboardListener(
                 focusNode: _focusNode,
-                onKey: _handleKeyEvent,
+                onKeyEvent: _handleKeyEvent,
                 autofocus: true,
                 child: NestedScrollView(
                   headerSliverBuilder:
@@ -282,7 +282,7 @@ class _BlogListState extends State<BlogList> {
     super.dispose();
   }
 
-  void _handleKeyEvent(RawKeyEvent event) {
+  void _handleKeyEvent(KeyEvent event) {
     var offset = _controller.offset;
     if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
       setState(() {

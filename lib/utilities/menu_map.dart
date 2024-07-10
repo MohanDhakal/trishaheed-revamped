@@ -12,7 +12,8 @@ class MenuIndex {
     MenuTag.contact: 6,
     MenuTag.blog: 7,
     MenuTag.blogDetail: 8,
-    MenuTag.unknown: 9,
+    MenuTag.staffDetail:9,
+    MenuTag.unknown: 10,
   };
   static Map<MenuTag, String> names = {
     MenuTag.home: "Home",

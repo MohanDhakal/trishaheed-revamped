@@ -1,11 +1,9 @@
 import 'dart:html';
-
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/utilities/globals.dart';
 // import 'package:webviewx/webviewx.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:web/web.dart' as web;
 
 class FooterWidget extends StatelessWidget {
   final Color? color;

@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:trishaheed/model/staff.dart' as s;
-import 'package:trishaheed/pages/staff_detail.dart';
 import 'package:trishaheed/repository/staff_repo.dart';
 import 'package:trishaheed/widgets/staff.dart';
 
+import '../utilities/menu_tag.dart';
+
 class TeacherStaff extends StatefulWidget {
-  final Function(TeacherStaff teacherStaff) onClick;
+  final Function(MenuTag m, s.Staff teacherStaff, int staffId) onClick;
   const TeacherStaff({Key? key, required this.onClick}) : super(key: key);
 
   @override
@@ -16,7 +17,6 @@ class TeacherStaff extends StatefulWidget {
 
 class _TeacherStaffState extends State<TeacherStaff> {
   List<s.Staff> teacherList = [];
-  s.Staff? selectedStaff;
   bool _loading = true;
   int lastPage = 1;
   int currentPage = 1;
@@ -39,238 +39,232 @@ class _TeacherStaffState extends State<TeacherStaff> {
   Widget build(BuildContext context) {
     final responsiveWrapper = ResponsiveWrapper.of(context);
     final size = MediaQuery.of(context).size;
-    return selectedStaff != null
-        ? StaffDetail(
-            staff: selectedStaff!,
-            onBackPressed: () {
-              setState(() => selectedStaff = null);
-            },
-          )
-        : _loading
-            ? Material(
-                child: Shimmer.fromColors(
-                  baseColor: Colors.blueGrey.shade300,
-                  highlightColor: Colors.blueGrey.shade100,
-                  enabled: true,
-                  child: SingleChildScrollView(
-                    physics: NeverScrollableScrollPhysics(),
-                    child: responsiveWrapper.isLargerThan(TABLET)
-                        ? Row(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(height: 16.0),
-                                  BannerPlaceholder(),
-                                  TitlePlaceholder(),
-                                  SizedBox(height: 16.0),
-                                ],
-                              ),
-                              SizedBox(width: 8),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(height: 16.0),
-                                  BannerPlaceholder(),
-                                  TitlePlaceholder(),
-                                  SizedBox(height: 16.0),
-                                ],
-                              ),
-                              SizedBox(width: 8),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(height: 16.0),
-                                  BannerPlaceholder(),
-                                  TitlePlaceholder(),
-                                  SizedBox(height: 16.0),
-                                ],
-                              ),
-                              SizedBox(width: 8),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(height: 16.0),
-                                  BannerPlaceholder(),
-                                  TitlePlaceholder(),
-                                  SizedBox(height: 16.0),
-                                ],
-                              ),
-                            ],
-                          )
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+    return _loading
+        ? Material(
+            child: Shimmer.fromColors(
+              baseColor: Colors.blueGrey.shade300,
+              highlightColor: Colors.blueGrey.shade100,
+              enabled: true,
+              child: SingleChildScrollView(
+                physics: NeverScrollableScrollPhysics(),
+                child: responsiveWrapper.isLargerThan(TABLET)
+                    ? Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SizedBox(height: 8.0),
+                              SizedBox(height: 16.0),
                               BannerPlaceholder(),
                               TitlePlaceholder(),
-                              SizedBox(height: 8.0),
-                              BannerPlaceholder(),
-                              TitlePlaceholder(),
+                              SizedBox(height: 16.0),
                             ],
                           ),
-                  ),
-                ),
-              )
-            : (teacherList.isEmpty)
-                ? SizedBox(
-                    child: Center(
-                      child: Text("Could not find teacher list"),
-                    ),
-                  )
-                : responsiveWrapper.isLargerThan(TABLET)
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          SizedBox(
-                            height: size.height * 0.65,
-                            child: GridView.builder(
-                              shrinkWrap: true,
-                              padding: EdgeInsets.all(10.0),
-                              gridDelegate:
-                                  SliverGridDelegateWithMaxCrossAxisExtent(
-                                maxCrossAxisExtent: 300,
-                                mainAxisSpacing: 10,
-                                crossAxisSpacing: 10,
-                                childAspectRatio: 0.66,
-                              ),
-                              itemCount: teacherList.length,
-                              itemBuilder: ((context, index) {
-                                return InkWell(
-                                  onTap: (() {
-                                    setState(() {
-                                      selectedStaff =
-                                          teacherList.elementAt(index);
-                                    });
-                                  }),
-                                  onHover: ((value) {}),
-                                  child: Staff(
-                                    staff: teacherList[index],
-                                  ),
-                                );
-                              }),
-                            ),
+                          SizedBox(width: 8),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(height: 16.0),
+                              BannerPlaceholder(),
+                              TitlePlaceholder(),
+                              SizedBox(height: 16.0),
+                            ],
                           ),
-                          PaginatorWidget(
-                            onNext: () async {
-                              if (currentPage < lastPage) {
-                                currentPage++;
-                                setState(() => _loading = true);
-                                final local = await StaffRepo()
-                                    .getStaffList(page: currentPage);
-                                if (local != null) {
-                                  teacherList = local.staffs;
-                                  currentPage = local.currentPage;
-                                  lastPage = local.lastPage;
-                                  setState(() => _loading = false);
-                                }
-                              }
-                            },
-                            onPrevious: () async {
-                              if (currentPage > 1) {
-                                currentPage--;
-                                setState(() => _loading = true);
-                                final local = await StaffRepo()
-                                    .getStaffList(page: currentPage);
-                                if (local != null) {
-                                  teacherList = local.staffs;
-                                  currentPage = local.currentPage;
-                                  lastPage = local.lastPage;
-                                  setState(() => _loading = false);
-                                }
-                              }
-                            },
-                            currentPage: currentPage,
-                            lastPage: lastPage,
+                          SizedBox(width: 8),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(height: 16.0),
+                              BannerPlaceholder(),
+                              TitlePlaceholder(),
+                              SizedBox(height: 16.0),
+                            ],
+                          ),
+                          SizedBox(width: 8),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(height: 16.0),
+                              BannerPlaceholder(),
+                              TitlePlaceholder(),
+                              SizedBox(height: 16.0),
+                            ],
                           ),
                         ],
                       )
                     : Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(
-                            height: size.height * 0.8,
-                            child: ListView.builder(
-                              itemCount: teacherList.length,
-                              shrinkWrap: true,
-                              itemBuilder: ((context, index) {
-                                return InkWell(
-                                  onTap: (() {
-                                    selectedStaff =
-                                        teacherList.elementAt(index);
-                                    setState(() => null);
-                                  }),
-                                  onHover: ((value) {
-                                    // setState(
-                                    //   () {
-                                    //     if (teacherList[index].position ==
-                                    //         Position.passive) {
-                                    //       teacherList[index].position = Position.hovered;
-                                    //       // print("reached at 1");
-                                    //     } else {
-                                    //       teacherList[index].position = Position.passive;
-                                    //       // print("reached at 2");
-                                    //     }
-                                    //   },
-                                    // );
-                                  }),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8.0, horizontal: 8.0),
-                                    child: Staff(
-                                      staff: teacherList[index],
-                                      // width: MediaQuery.of(context).size.width,
-                                    ),
-                                  ),
-                                );
-                              }),
-                            ),
-                          ),
-                          PaginatorWidget(
-                            onNext: () async {
-                              if (currentPage < lastPage) {
-                                currentPage++;
-                                setState(() => _loading = true);
-                                final local = await StaffRepo()
-                                    .getStaffList(page: currentPage);
-                                if (local != null) {
-                                  teacherList = local.staffs;
-                                  currentPage = local.currentPage;
-                                  lastPage = local.lastPage;
-                                  setState(() => _loading = false);
-                                }
-                              }
-                            },
-                            onPrevious: () async {
-                              if (currentPage > 1) {
-                                currentPage--;
-                                setState(() => _loading = true);
-                                final local = await StaffRepo()
-                                    .getStaffList(page: currentPage);
-                                if (local != null) {
-                                  teacherList = local.staffs;
-                                  currentPage = local.currentPage;
-                                  lastPage = local.lastPage;
-                                  setState(() => _loading = false);
-                                }
-                              }
-                            },
-                            currentPage: currentPage,
-                            lastPage: lastPage,
-                          ),
+                          SizedBox(height: 8.0),
+                          BannerPlaceholder(),
+                          TitlePlaceholder(),
+                          SizedBox(height: 8.0),
+                          BannerPlaceholder(),
+                          TitlePlaceholder(),
                         ],
-                      );
+                      ),
+              ),
+            ),
+          )
+        : (teacherList.isEmpty)
+            ? SizedBox(
+                child: Center(
+                  child: Text("Could not find teacher list"),
+                ),
+              )
+            : responsiveWrapper.isLargerThan(TABLET)
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      SizedBox(
+                        height: size.height * 0.65,
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.all(10.0),
+                          gridDelegate:
+                              SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 300,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 10,
+                            childAspectRatio: 0.66,
+                          ),
+                          itemCount: teacherList.length,
+                          itemBuilder: ((context, index) {
+                            return InkWell(
+                              onTap: (() {
+                                s.Staff selectedStaff =
+                                    teacherList.elementAt(index);
+                                widget.onClick(MenuTag.staffDetail,
+                                    selectedStaff, selectedStaff.id!);
+                              }),
+                              onHover: ((value) {}),
+                              child: Staff(
+                                staff: teacherList[index],
+                              ),
+                            );
+                          }),
+                        ),
+                      ),
+                      PaginatorWidget(
+                        onNext: () async {
+                          if (currentPage < lastPage) {
+                            currentPage++;
+                            setState(() => _loading = true);
+                            final local = await StaffRepo()
+                                .getStaffList(page: currentPage);
+                            if (local != null) {
+                              teacherList = local.staffs;
+                              currentPage = local.currentPage;
+                              lastPage = local.lastPage;
+                              setState(() => _loading = false);
+                            }
+                          }
+                        },
+                        onPrevious: () async {
+                          if (currentPage > 1) {
+                            currentPage--;
+                            setState(() => _loading = true);
+                            final local = await StaffRepo()
+                                .getStaffList(page: currentPage);
+                            if (local != null) {
+                              teacherList = local.staffs;
+                              currentPage = local.currentPage;
+                              lastPage = local.lastPage;
+                              setState(() => _loading = false);
+                            }
+                          }
+                        },
+                        currentPage: currentPage,
+                        lastPage: lastPage,
+                      ),
+                    ],
+                  )
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: size.height * 0.8,
+                        child: ListView.builder(
+                          itemCount: teacherList.length,
+                          shrinkWrap: true,
+                          itemBuilder: ((context, index) {
+                            return InkWell(
+                              onTap: (() {
+                                s.Staff selectedStaff =
+                                    teacherList.elementAt(index);
+                                widget.onClick(MenuTag.staffDetail,
+                                    selectedStaff, selectedStaff.id!);
+                              }),
+                              onHover: ((value) {
+                                // setState(
+                                //   () {
+                                //     if (teacherList[index].position ==
+                                //         Position.passive) {
+                                //       teacherList[index].position = Position.hovered;
+                                //       // print("reached at 1");
+                                //     } else {
+                                //       teacherList[index].position = Position.passive;
+                                //       // print("reached at 2");
+                                //     }
+                                //   },
+                                // );
+                              }),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8.0, horizontal: 8.0),
+                                child: Staff(
+                                  staff: teacherList[index],
+                                  // width: MediaQuery.of(context).size.width,
+                                ),
+                              ),
+                            );
+                          }),
+                        ),
+                      ),
+                      PaginatorWidget(
+                        onNext: () async {
+                          if (currentPage < lastPage) {
+                            currentPage++;
+                            setState(() => _loading = true);
+                            final local = await StaffRepo()
+                                .getStaffList(page: currentPage);
+                            if (local != null) {
+                              teacherList = local.staffs;
+                              currentPage = local.currentPage;
+                              lastPage = local.lastPage;
+                              setState(() => _loading = false);
+                            }
+                          }
+                        },
+                        onPrevious: () async {
+                          if (currentPage > 1) {
+                            currentPage--;
+                            setState(() => _loading = true);
+                            final local = await StaffRepo()
+                                .getStaffList(page: currentPage);
+                            if (local != null) {
+                              teacherList = local.staffs;
+                              currentPage = local.currentPage;
+                              lastPage = local.lastPage;
+                              setState(() => _loading = false);
+                            }
+                          }
+                        },
+                        currentPage: currentPage,
+                        lastPage: lastPage,
+                      ),
+                    ],
+                  );
   }
 }
 

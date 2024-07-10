@@ -15,4 +15,18 @@ class StaffRepo {
     });
     return staffDetail;
   }
+    Future<Staff?> getStaffWithId(int id) async {
+    final response =
+        await BaseApi.createDio().get(ApiRoutes.staffDetail + "$id");
+    Staff? local;
+    response.fold((l) {
+    
+      local = Staff.fromJson(l.data);
+    }, (r) {
+      print("error occured");
+      debugPrint(r.message);
+    });
+    return local;
+  }
+  
 }

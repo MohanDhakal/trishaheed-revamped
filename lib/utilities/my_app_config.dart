@@ -1,8 +1,11 @@
 import 'package:trishaheed/utilities/menu_tag.dart';
+import 'package:trishaheed/utilities/results.dart';
 
 class MyAppConfiguration {
-  final MenuTag menuTag;
+  MenuTag? menuTag;
   int? id;
+  int? staffId;
+  String? external;
   MyAppConfiguration.home() : menuTag = MenuTag.home;
   MyAppConfiguration.photoGallery() : menuTag = MenuTag.photoGallery;
   MyAppConfiguration.staff() : menuTag = MenuTag.staff;
@@ -13,7 +16,9 @@ class MyAppConfiguration {
   MyAppConfiguration.contact() : menuTag = MenuTag.contact;
   MyAppConfiguration.blog() : menuTag = MenuTag.blog;
   MyAppConfiguration.blogDetail(this.id) : menuTag = MenuTag.blogDetail;
+  MyAppConfiguration.staffDetail(this.staffId) : menuTag = MenuTag.staffDetail;
   MyAppConfiguration.unknown() : menuTag = MenuTag.unknown;
+  MyAppConfiguration.result() : external = Result.path;
 
   bool get homePage => menuTag == MenuTag.home;
   bool get imageGallery => menuTag == MenuTag.photoGallery;
@@ -25,5 +30,8 @@ class MyAppConfiguration {
   bool get contact => menuTag == MenuTag.contact;
   bool get blog => menuTag == MenuTag.blog;
   bool get blogDetail => menuTag == MenuTag.blogDetail;
+  bool get staffDetail => menuTag == MenuTag.staffDetail;
   bool get unknown => menuTag == MenuTag.unknown;
+  bool get result => external == Result.path;
+
 }

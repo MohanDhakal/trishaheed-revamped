@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
+import 'package:trishaheed/model/staff.dart';
+import 'package:trishaheed/pages/results_page.dart';
+import 'package:trishaheed/pages/staff_detail.dart' as s;
 import 'package:trishaheed/utilities/my_app_config.dart';
+import 'package:trishaheed/utilities/results.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'dart:html' as html;
 import '../model/blog.dart';
 import '../states/menu_state.dart';
+import '../utilities/globals.dart';
 import '../utilities/images.dart';
 import '../utilities/menu_map.dart';
 import '../utilities/menu_tag.dart';
+import '../utilities/route_names.dart';
 import '../utilities/textstyles.dart';
 import 'blog_detail.dart';
 import 'blogs.dart';
@@ -28,17 +35,27 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
   bool _openDrawer = false;
   int? id;
   Blog? blog;
+  int? staffId;
+  Staff? staff;
   MyAppRouterDelegate() {
     _navigatorKey = GlobalKey<NavigatorState>();
   }
   MenuTag _menu = MenuTag.home;
   MenuTag get menu => _menu;
+  String _external = ' ';
+  String get external => _external;
   bool noticeExists = false;
-  // ignore: unused_field
-  TeacherStaff? _teacherStaff;
+
   set atMenu(MenuTag menu) {
     _menu = menu;
     notifyListeners();
+    // print(staffId);
+  }
+
+  set atPath(String path) {
+    _external = path;
+    notifyListeners();
+    // print(staffId);
   }
 
   set drawer(bool val) {
@@ -55,8 +72,10 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
         return HomePage();
       case MenuTag.staff:
         return TeacherStaff(
-          onClick: (teacherModel) {
-            _teacherStaff = teacherModel;
+          onClick: (m, teacherModel, id) {
+            staff = teacherModel;
+            staffId = id;
+            atMenu = m;
           },
         );
       case MenuTag.photoGallery:
@@ -74,9 +93,9 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
       case MenuTag.blog:
         return BlogList(
           onClick: (m, index, post) {
-            atMenu = m;
             id = index;
             blog = post;
+            atMenu = m;
           },
         );
       default:
@@ -91,9 +110,10 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
       HomePage(),
       ImageGallery(),
       TeacherStaff(
-        onClick: (teacherModel) {
-          _teacherStaff = teacherModel;
-          notifyListeners();
+        onClick: (m, teacherModel, id) {
+          staff = teacherModel;
+          staffId = id;
+          atMenu = m;
         },
       ),
       Students(),
@@ -103,10 +123,9 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
       ContactPage(),
       BlogList(
         onClick: ((m, index, post) {
-          _menu = m;
           id = index;
           blog = post;
-          notifyListeners();
+          atMenu = m;
         }),
       ),
     ];
@@ -151,7 +170,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                   menu == MenuTag.home)
                 MaterialPage(
                   child: DefaultTabController(
-                    length: MenuIndex.map.length - 2,
+                    length: MenuIndex.map.length - 3,
                     initialIndex: MenuIndex.map[menu] ?? 0,
                     child: Scaffold(
                       backgroundColor: Colors.white,
@@ -179,7 +198,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                               ),
                             )
                           : PreferredSize(
-                              preferredSize: Size.fromHeight(160.0),
+                              preferredSize: Size.fromHeight(140.0),
                               child: AppBar(
                                 backgroundColor: Colors.black,
                                 elevation: 1,
@@ -195,6 +214,9 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                     noticeExists = true;
                                     notifyListeners();
                                   }),
+                                  onResultsPublished: () {
+                                    _launchURL(Globals.resultSystem);
+                                  },
                                 ),
                                 automaticallyImplyLeading: false,
                                 primary: false,
@@ -216,11 +238,12 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                   onTap: (int value) {
                                     final map = MenuIndex.map;
                                     atMenu = map.keys.firstWhere(
-                                        (k) => map[k] == value,
-                                        orElse: () => MenuTag.unknown);
+                                      (k) => map[k] == value,
+                                      orElse: () => MenuTag.unknown,
+                                    );
                                   },
                                   tabs: List.generate(
-                                    MenuIndex.map.length - 2,
+                                    MenuIndex.map.length - 3,
                                     (index) {
                                       return Align(
                                         alignment: Alignment.topCenter,
@@ -272,13 +295,16 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                           html.window.location.reload();
                                         });
                                       },
+                                      onResultsPublished: () {
+                                        _launchURL(Globals.resultSystem);
+                                      },
                                       onNewNotice: (() {
                                         noticeExists = true;
                                         notifyListeners();
                                       }),
                                     ),
                                     ...List<Widget>.generate(
-                                      MenuTag.values.length - 2,
+                                      MenuTag.values.length - 3,
                                       (int index) {
                                         return Wrap(
                                           crossAxisAlignment:
@@ -377,17 +403,35 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                     ),
                   ),
                 ),
+              if (external == Result.path) MaterialPage(child: ViewResult()),
               if (menu == MenuTag.unknown) MaterialPage(child: UnknownPage()),
               if (menu == MenuTag.blogDetail)
                 MaterialPage(
-                  // key: ValueKey(RouteName.blogDetail),
+                  key: ValueKey(RouteName.blogDetail),
                   child: BlogDetail(id: id),
                 ),
+              if (menu == MenuTag.staffDetail)
+                MaterialPage(
+                    key: ValueKey(RouteName.staffDetail),
+                    child: s.StaffDetail(
+                      staff: staff,
+                      id: staffId,
+                    )),
             ],
           );
         },
       ),
     );
+  }
+
+  void _launchURL(String url) async {
+    final Uri _url = Uri.parse(url);
+
+    if (await canLaunchUrl(_url)) {
+      await launchUrl(_url);
+    } else {
+      print('Could not launch $url');
+    }
   }
 
   @override
@@ -413,8 +457,14 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
     } else if (configuration.extras) {
       atMenu = MenuTag.extras;
     } else if (configuration.blogDetail) {
-      atMenu = MenuTag.blogDetail;
       id = configuration.id;
+      atMenu = MenuTag.blogDetail;
+    } else if (configuration.staffDetail) {
+      _menu = MenuTag.staffDetail;
+      staffId = configuration.staffId;
+      notifyListeners();
+    } else if (configuration.result) {
+      atPath = Result.path;
     } else {
       atMenu = MenuTag.unknown;
     }
@@ -445,6 +495,10 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
       return MyAppConfiguration.blog();
     } else if (menu == MenuTag.blogDetail) {
       return MyAppConfiguration.blogDetail(id);
+    } else if (menu == MenuTag.staffDetail) {
+      return MyAppConfiguration.staffDetail(staffId);
+    } else if (external == Result.path) {
+      return MyAppConfiguration.result();
     } else {
       return MyAppConfiguration.unknown();
     }

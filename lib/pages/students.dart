@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/model/states/students_state.dart';
-import 'package:trishaheed/utilities/grade_map.dart';
+import 'package:trishaheed/model/student.dart' as studentModel;
 import 'package:trishaheed/widgets/student.dart';
 import '../utilities/loading_dialog.dart';
 import 'student_detail.dart';
@@ -23,7 +23,9 @@ class _StudentsState extends State<Students> {
   void initState() {
     super.initState();
     Future.delayed(Duration(milliseconds: 500)).then((value) async {
-      await Provider.of<StudentState>(context, listen: false).getStudentList();
+      final provider = Provider.of<StudentState>(context, listen: false);
+      await provider.getClasses();
+      await provider.getStudentList();
     });
   }
 
@@ -31,14 +33,15 @@ class _StudentsState extends State<Students> {
   Widget build(BuildContext context) {
     final responsiveWrapper = ResponsiveWrapper.of(context);
     final size = MediaQuery.of(context).size;
-    return RawKeyboardListener(
+    return KeyboardListener(
       focusNode: _focusNode,
-      onKey: _handleKeyEvent,
+      onKeyEvent: _handleKeyEvent,
       autofocus: true,
       child: Consumer<StudentState>(builder: (context, model, child) {
         return model.selectedStudent != null
             ? StudentDetail(
                 student: model.selectedStudent!,
+                stdContact: model.studentContact,
                 onBackPressed: () {
                   model.selectedStudent = null;
                 },
@@ -84,14 +87,18 @@ class _StudentsState extends State<Students> {
                                       itemCount: model.studentList.length,
                                       itemBuilder: ((context, index) {
                                         return InkWell(
-                                          onTap: (() {
+                                          onTap: (() async {
+                                            model.studentContact = null;
                                             model.selectedStudent = model
                                                 .studentList
                                                 .elementAt(index);
+                                            await model.getContact();
                                           }),
                                           child: StudentWidget(
                                             student: model.studentList
                                                 .elementAt(index),
+                                            studentContact:
+                                                model.studentContact,
                                           ),
                                         );
                                       }),
@@ -211,7 +218,7 @@ class _StudentsState extends State<Students> {
     super.dispose();
   }
 
-  void _handleKeyEvent(RawKeyEvent event) {
+  void _handleKeyEvent(KeyEvent event) {
     var offset = _controller.offset;
     if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
       setState(() {
@@ -241,24 +248,18 @@ class DropDownGrade extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<StudentState>(builder: (context, model, child) {
-      return DropdownButton<String>(
-        value: GradeMap.names[model.selectedGrade],
-        onChanged: (String? newValue) async {
-          List<String> values = GradeMap.names.values.toList();
-          for (var i = 0; i < values.length; i++) {
-            if (values[i] == newValue) {
-              model.selectedGrade = GradeMap.names.keys.elementAt(i);
-              break;
-            }
-          }
+      return DropdownButton<studentModel.Grade>(
+        value: model.grades[0],
+        onChanged: (studentModel.Grade? newValue) async {
           model.loading = true;
+          model.selectedGrade = newValue;
           await model.getStudentList();
           model.loading = false;
         },
-        items: GradeMap.names.values.map((String option) {
-          return DropdownMenuItem<String>(
-            value: option,
-            child: Text(option),
+        items: model.grades.map((e) {
+          return DropdownMenuItem<studentModel.Grade>(
+            value: e,
+            child: Text(e.className),
           );
         }).toList(),
       );
@@ -278,37 +279,41 @@ class GradeChips extends StatelessWidget {
       return SizedBox(
         height: size.height * 0.2,
         width: size.width,
-        child: Wrap(spacing: 1, runSpacing: 2, children: [
-          ...List.generate(GradeMap.names.length, (index) {
-            return MaterialButton(
-              onPressed: () async {
-                model.currentPage = 1;
-                model.selectedGrade = GradeMap.names.keys.elementAt(index);
-                model.loading = true;
-                await model.getStudentList();
-                model.loading = false;
-              },
-              child: Container(
-                width: responsiveWrapper.isSmallerThan(DESKTOP) ? 60 : 100,
-                height: responsiveWrapper.isSmallerThan(DESKTOP) ? 24 : 36,
-                margin: EdgeInsets.symmetric(horizontal: 4),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: model.selectedGrade ==
-                          GradeMap.names.keys.elementAt(index)
-                      ? Colors.blueAccent
-                      : null,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.black26),
-                ),
-                child: Text(
-                  "${GradeMap.names[GradeMap.names.keys.elementAt(index)]}",
-                  style: TextStyle(fontSize: 12),
-                ),
-              ),
-            );
-          }),
-        ]),
+        child: Wrap(
+          spacing: 1,
+          runSpacing: 2,
+          children: model.grades.isEmpty
+              ? <Widget>[Text('Loading Grades')]
+              : model.grades.map((e) {
+                  return MaterialButton(
+                    onPressed: () async {
+                      model.currentPage = 1;
+                      model.selectedGrade = e;
+                      model.loading = true;
+                      await model.getStudentList();
+                      model.loading = false;
+                    },
+                    child: Container(
+                      width:
+                          responsiveWrapper.isSmallerThan(DESKTOP) ? 60 : 100,
+                      height:
+                          responsiveWrapper.isSmallerThan(DESKTOP) ? 24 : 36,
+                      margin: EdgeInsets.symmetric(horizontal: 4),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color:
+                            model.selectedGrade == e ? Colors.blueAccent : null,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.black26),
+                      ),
+                      child: Text(
+                        "${e.className}",
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    ),
+                  );
+                }).toList(),
+        ),
       );
     });
   }

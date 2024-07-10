@@ -29,6 +29,11 @@ class MyAppRouterInformationParser
     } else if (configuration.blogDetail) {
       return RouteInformation(
           uri: Uri.parse(RouteName.blogDetail + "${configuration.id}"));
+    } else if (configuration.staffDetail) {
+      return RouteInformation(
+          uri: Uri.parse(RouteName.staffDetail + "${configuration.staffId}"));
+    } else if (configuration.result) {
+      return RouteInformation(uri: Uri.parse(RouteName.result));
     } else {
       return RouteInformation(uri: Uri.parse(RouteName.unknown));
     }
@@ -38,19 +43,29 @@ class MyAppRouterInformationParser
   Future<MyAppConfiguration> parseRouteInformation(
       RouteInformation routeInformation) async {
     final uri = Uri.parse(routeInformation.uri.path);
+    final first = uri.pathSegments[0].toLowerCase();
     if (uri.pathSegments.length == 0) {
+     
       return MyAppConfiguration.home();
     } else if (uri.pathSegments.length == 1) {
-      final first = uri.pathSegments[0].toLowerCase();
       return switchFirstPage("/" + first);
     } else if (uri.pathSegments.length == 3) {
-      // final first = uri.pathSegments[0].toLowerCase();
-      // final second = uri.pathSegments[1].toLowerCase();
+      final second = uri.pathSegments[1].toLowerCase();
+      final staffId = int.tryParse(uri.pathSegments[2]);
       final id = int.tryParse(uri.pathSegments[2]);
-      if (id == null)
+      final pathToCheck = "/" + first + "/" + second + "/";
+      if (pathToCheck == RouteName.staffDetail) {
+        if (staffId == null)
+          return MyAppConfiguration.unknown();
+        else
+          return MyAppConfiguration.staffDetail(staffId);
+      } else if (pathToCheck == RouteName.blogDetail) {
+        if (id == null)
+          return MyAppConfiguration.unknown();
+        else
+          return MyAppConfiguration.blogDetail(id);
+      } else
         return MyAppConfiguration.unknown();
-      else
-        return MyAppConfiguration.blogDetail(id);
     } else
       return MyAppConfiguration.unknown();
   }
@@ -75,7 +90,8 @@ class MyAppRouterInformationParser
         return MyAppConfiguration.blog();
       case RouteName.downloads:
         return MyAppConfiguration.downloads();
-
+      case RouteName.result:
+        return MyAppConfiguration.result();
       default:
         return MyAppConfiguration.unknown();
     }

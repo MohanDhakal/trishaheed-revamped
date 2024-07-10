@@ -5,9 +5,10 @@ import 'package:trishaheed/utilities/images.dart';
 
 class StudentWidget extends StatelessWidget {
   final Student student;
+  final StudentContact? studentContact;
   const StudentWidget({
     required this.student,
-    Key? key,
+    Key? key,  this.studentContact,
   }) : super(key: key);
 
   @override
@@ -32,7 +33,7 @@ class StudentWidget extends StatelessWidget {
               topLeft: Radius.circular(8),
               topRight: Radius.circular(8),
             ),
-            child: student.image_url == null
+            child: student.imageUri == null
                 ? Image.asset(
                     profile,
                     fit: BoxFit.cover,
@@ -42,7 +43,7 @@ class StudentWidget extends StatelessWidget {
                     height: size.height * 0.3,
                   )
                 : Image.network(
-                    student.image_url!,
+                    student.imageUri!,
                     fit: BoxFit.cover,
                     height: size.height * 0.3,
                     width: responsiveWrapper.isSmallerThan(DESKTOP)
@@ -107,14 +108,14 @@ class StudentWidget extends StatelessWidget {
             padding: const EdgeInsets.only(left: 8.0, top: 8.0),
             child: RichText(
               text: TextSpan(
-                text: "Guardian Contact :" + "  ",
+                text: "Major In: " + "  ",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
                 children: [
                   TextSpan(
-                    text: student.guardianContact ?? "९८७६******",
+                    text: student.majorSubject.toString() ,
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall
