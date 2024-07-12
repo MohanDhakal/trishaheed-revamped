@@ -15,7 +15,6 @@ class _VideoGalleryState extends State<VideoGallery> {
   @override
   Widget build(BuildContext context) {
     final responsiveWrapper = ResponsiveWrapper.of(context);
-    final size = MediaQuery.of(context).size;
     return ListView(
       clipBehavior: Clip.hardEdge,
       children: [

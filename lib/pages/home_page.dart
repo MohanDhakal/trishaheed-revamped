@@ -2,8 +2,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:trishaheed/model/states/EventState.dart';
+import 'package:trishaheed/model/states/staff_state.dart';
 import 'package:trishaheed/widgets/count_display.dart';
+import 'package:trishaheed/widgets/event_card.dart';
 import 'package:trishaheed/widgets/footer.dart';
 import '../utilities/images.dart';
 import '../widgets/headmaster_saying.dart';
@@ -29,6 +33,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
     Future.delayed(Duration(milliseconds: 500)).then((value) {
       setState(() {
         _images = List.generate(
@@ -41,6 +46,8 @@ class _HomePageState extends State<HomePage> {
           },
         );
       });
+      Provider.of<StaffState>(context, listen: false).contacts();
+      Provider.of<EventState>(context, listen: false).events();
     });
   }
 
@@ -52,7 +59,8 @@ class _HomePageState extends State<HomePage> {
       color: Colors.white30,
       child: KeyboardListener(
         focusNode: _focusNode,
-        onKeyEvent: responsiveWrapper.isSmallerThan(TABLET) ? null : _handleKeyEvent,
+        onKeyEvent:
+            responsiveWrapper.isSmallerThan(TABLET) ? null : _handleKeyEvent,
         autofocus: true,
         child: SingleChildScrollView(
           controller: _controller,
@@ -142,8 +150,49 @@ class _HomePageState extends State<HomePage> {
               SizedBox(width: size.width * 0.2, child: Divider(thickness: 4)),
               SizedBox(height: 24),
               HeadMasterSaying(),
-              SizedBox(height: 24),
+              SizedBox(height: 24),          
               Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: Text(
+                  "Latest Events",
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                        fontStyle: FontStyle.normal,
+                      ),
+                ),
+              ),
+              SizedBox(width: size.width * 0.2, child: Divider(thickness: 4)),
+
+              SizedBox(height: 24),
+              Consumer<EventState>(builder: (context, model, child) {
+                return ResponsiveRowColumn(
+                  layout: responsiveWrapper.isSmallerThan(DESKTOP)
+                      ? ResponsiveRowColumnType.COLUMN
+                      : ResponsiveRowColumnType.ROW,
+                  rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  columnMainAxisAlignment: MainAxisAlignment.center,
+                  columnMainAxisSize: MainAxisSize.min,
+                  children: [
+                    ...model.schoolEvents.map((e) {
+                      return ResponsiveRowColumnItem(
+                          child: EventCard(
+                        bannerUrl: e.imageUri,
+                        title: e.eventName,
+                        description: e.eventDescription,
+                        startDate: e.startDate,
+                        endDate: e.endDate,
+                        startTime: e.startTime,
+                        endTime: e.endTime,
+                      ));
+                    }).toList()
+                  ],
+                );
+              }),
+
+              SizedBox(height: 24),
+                  Padding(
                 padding: const EdgeInsets.only(left: 20.0),
                 child: Text(
                   "Staff and Students",
@@ -156,13 +205,13 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(width: size.width * 0.2, child: Divider(thickness: 4)),
-              SizedBox(height: 48),
+
               CountDisplay(
                 staffs: 33,
                 students: 487,
                 technicalStudents: 50,
               ),
-              SizedBox(height: 48),
+              SizedBox(height: 24),
               Padding(
                 padding: const EdgeInsets.only(left: 20.0),
                 child: Text(
@@ -176,80 +225,43 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(width: size.width * 0.2, child: Divider(thickness: 4)),
-              SizedBox(height: 48),
-              ResponsiveRowColumn(
-                layout: responsiveWrapper.isSmallerThan(DESKTOP)
-                    ? ResponsiveRowColumnType.COLUMN
-                    : ResponsiveRowColumnType.ROW,
-                rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                columnMainAxisAlignment: MainAxisAlignment.center,
-                columnMainAxisSize: MainAxisSize.min,
-                children: [
-                  ResponsiveRowColumnItem(
-                    child: Staff(
-                      staff: s.Staff(
-                        fullName: "Jay Prasad Chapagain",
-                        post: "Head Teacher",
-                        dob: "2080-03-25",
-                        address: "Arjunchapari-4, Syangja",
-                        isActive: 1,
-                        joinedAt: "2080-03-25",
-                        majorSubject: "HPE",
-                        jobType: "Permanent",
-                        rank: "0.1",
-                        teacherLevel: "Primary",
-                        imageUrl: contact1,
-                        contact: "9856053186",
-                      ),
-                      static: true,
-                    ),
-                  ),
-                  ResponsiveRowColumnItem(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Staff(
-                        staff: s.Staff(
-                          fullName: "Teknath Khanal",
-                          post: "Asst.Head Teacher",
-                          dob: "2080-03-25",
-                          address: "Arjunchapari-4, Syangja",
-                          isActive: 1,
-                          joinedAt: "2080-03-25",
-                          majorSubject: "English",
-                          jobType: "Permanent",
-                          rank: "0.1",
-                          teacherLevel: "Secondary Level 2",
-                          imageUrl: contact2,
-                          contact: "9846095574",
-                        ),
-                        static: true,
-                      ),
-                    ),
-                  ),
-                  ResponsiveRowColumnItem(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: Staff(
-                        staff: s.Staff(
-                          fullName: "Mohan Kumar Dhakal",
-                          post: "Technical Co-Ordinator",
-                          dob: "2080-03-25",
-                          address: "Panchamool-1, SYangja",
-                          isActive: 1,
-                          joinedAt: "2080-03-25",
-                          majorSubject: "BE.Software",
-                          jobType: "Temporary",
-                          rank: "0.1",
-                          teacherLevel: "Secondary Level 2",
-                          contact: "9862790724",
-                          imageUrl: contact3,
-                        ),
-                        static: true,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+
+              SizedBox(height: 24),
+              Consumer<StaffState>(builder: (context, model, child) {
+                return ResponsiveRowColumn(
+                  layout: responsiveWrapper.isSmallerThan(DESKTOP)
+                      ? ResponsiveRowColumnType.COLUMN
+                      : ResponsiveRowColumnType.ROW,
+                  rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  columnMainAxisAlignment: MainAxisAlignment.center,
+                  columnMainAxisSize: MainAxisSize.min,
+                  children: [
+                    ...model.staffs.map((e) {
+                      final staff = e.teacherStaff;
+                      return staff == null
+                          ? ResponsiveRowColumnItem(child: SizedBox())
+                          : ResponsiveRowColumnItem(
+                              child: Staff(
+                                staff: s.Staff(
+                                  fullName: staff.fullName,
+                                  post: staff.post,
+                                  dob: staff.dob,
+                                  address: staff.address,
+                                  isActive: staff.isActive,
+                                  joinedAt: staff.joinedAt,
+                                  majorSubject: staff.majorSubject,
+                                  jobType: staff.jobType,
+                                  rank: staff.rank,
+                                  teacherLevel: staff.teacherLevel,
+                                  imageUrl: staff.imageUrl,
+                                  contact: staff.contact,
+                                ),
+                              ),
+                            );
+                    }).toList()
+                  ],
+                );
+              }),
               Padding(
                 padding: const EdgeInsets.only(left: 16.0, top: 36),
                 child: Text(

@@ -29,5 +29,8 @@ class ApiRoutes {
   static final academicYears = "/exams/years";
   static final verifyStudent = "/students/verify";
   static final displayResult = "/results/display";
+  static final majorContacts = "/staffs/major/contacts";
+  static final events = "/events";
+
 
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:trishaheed/model/staff.dart';
+import '../model/major_contact.dart';
 import '../services/BaseApi.dart';
 import '../utilities/api_routes.dart';
 
@@ -28,5 +29,20 @@ class StaffRepo {
     });
     return local;
   }
-  
+    Future<List<MajorContact>> getMajorContacts() async {
+    List<MajorContact> tList = <MajorContact>[];
+    BaseApi baseApi = BaseApi.createDio();
+    var response = await baseApi.get(ApiRoutes.majorContacts);
+    print('came here 2');
+
+    response.fold((l) {
+      for (var element in l.data) {
+        tList.add(MajorContact.fromMap(element));
+      }
+    }, (r) {
+      print("Error with code: ${r.code} and message: ${r.message}");
+    });
+    return tList;
+  }
+
 }

@@ -73,6 +73,7 @@ flutter:
     - assets/images/logo.png
     - assets/images/paper-airplane.png
     - assets/images/telephone.png
+    - assets/images/event_banner.png
     - assets/images/carousel_slider/award.JPG
     - assets/images/carousel_slider/building.jpg
     - assets/images/carousel_slider/science_lab.jpg

@@ -43,13 +43,15 @@ class MyAppRouterInformationParser
   Future<MyAppConfiguration> parseRouteInformation(
       RouteInformation routeInformation) async {
     final uri = Uri.parse(routeInformation.uri.path);
-    final first = uri.pathSegments[0].toLowerCase();
-    if (uri.pathSegments.length == 0) {
-     
+    if (uri.pathSegments.length == 0) {     
       return MyAppConfiguration.home();
     } else if (uri.pathSegments.length == 1) {
+    final first = uri.pathSegments[0].toLowerCase();
+
       return switchFirstPage("/" + first);
     } else if (uri.pathSegments.length == 3) {
+    final first = uri.pathSegments[0].toLowerCase();
+
       final second = uri.pathSegments[1].toLowerCase();
       final staffId = int.tryParse(uri.pathSegments[2]);
       final id = int.tryParse(uri.pathSegments[2]);

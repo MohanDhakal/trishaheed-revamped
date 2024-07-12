@@ -1,4 +1,6 @@
 const String logo = "assets/images/logo.png";
+const String eventBanner = "assets/images/event_banner.png";
+
 const String paperPlane = "assets/images/paper-airplane.png";
 const String telephone = "assets/images/telephone.png";
 const String potraitSample = "assets/images/sample.png";

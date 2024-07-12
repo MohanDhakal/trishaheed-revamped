@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:trishaheed/model/gallery_state.dart';
+import 'package:trishaheed/model/states/EventState.dart';
 import 'package:trishaheed/model/states/dowloads_state.dart';
 import 'package:trishaheed/model/states/smc_state.dart';
 import 'package:trishaheed/model/states/staff_state.dart';
@@ -21,6 +22,8 @@ void main(List<String> args) {
         ChangeNotifierProvider(create: (_) => StaffState()),
         ChangeNotifierProvider(create: (_) => DownloadState()),
         ChangeNotifierProvider(create: (_) => SmcState()),
+        ChangeNotifierProvider(create: (_) => EventState()),
+
       ],
       child: EntryPoint(),
     ),

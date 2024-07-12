@@ -5,10 +5,8 @@ import 'package:trishaheed/utilities/images.dart';
 
 class Staff extends StatelessWidget {
   final s.Staff staff;
-  final bool static;
   const Staff({
     required this.staff,
-    this.static = false,
     Key? key,
   }) : super(key: key);
 
@@ -39,9 +37,9 @@ class Staff extends StatelessWidget {
               topLeft: Radius.circular(8),
               topRight: Radius.circular(8),
             ),
-            child: static
+            child: staff.imageUrl == null
                 ? Image.asset(
-                    staff.imageUrl ?? profile,
+                    profile,
                     fit: BoxFit.cover,
                     width: responsiveWrapper.isSmallerThan(DESKTOP)
                         ? size.width * 0.9
@@ -49,8 +47,7 @@ class Staff extends StatelessWidget {
                     height: size.height * 0.4,
                   )
                 : Image.network(
-                    staff.imageUrl ??
-                        "https://fastly.picsum.photos/id/185/200/300.jpg?blur=5&hmac=yQe4ekSkmZmozebKHSoPPJ9UjQtZ7Xcu7QLdp56CChw",
+                    staff.imageUrl!,
                     fit: BoxFit.cover,
                     width: responsiveWrapper.isSmallerThan(DESKTOP)
                         ? size.width * 0.9
