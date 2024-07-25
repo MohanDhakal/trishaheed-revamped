@@ -98,7 +98,7 @@ Failure getDioErrorMsg(Failure failure, DioError e) {
       failure.type = FailureType.SERVER;
       return failure;
     default:
-      failure.message = e.message ?? "Unknown Errior";
+      failure.message = e.message ?? "Unknown Error";
       failure.type = FailureType.SERVER;
       return failure;
   }

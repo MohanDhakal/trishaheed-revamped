@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:trishaheed/model/states/students_state.dart';
 import 'package:trishaheed/model/student.dart' as studentModel;
 import 'package:trishaheed/widgets/student.dart';
@@ -11,6 +12,7 @@ import 'student_detail.dart';
 
 class Students extends StatefulWidget {
   const Students({Key? key}) : super(key: key);
+
   @override
   State<Students> createState() => _StudentsState();
 }
@@ -104,28 +106,30 @@ class _StudentsState extends State<Students> {
                                       }),
                                     ),
                                   ),
-                        PaginatorWidget(
-                          onNext: () {
-                            if (model.currentPage < model.lastPage) {
-                              // showLoadingDialog(context);
-                              ++model.currentPage;
-                              model.getStudentList().then((value) {
-                                // Navigator.pop(context);
-                              });
-                            }
-                          },
-                          onPrevious: () {
-                            if (model.currentPage > 1) {
-                              // showLoadingDialog(context);
-                              --model.currentPage;
-                              model.getStudentList().then((value) {
-                                // Navigator.pop(context);
-                              });
-                            }
-                          },
-                          currentPage: model.currentPage,
-                          lastPage: model.lastPage,
-                        ),
+                        model.studentList.isEmpty
+                            ? SizedBox()
+                            : PaginatorWidget(
+                                onNext: () {
+                                  if (model.currentPage < model.lastPage) {
+                                    // showLoadingDialog(context);
+                                    ++model.currentPage;
+                                    model.getStudentList().then((value) {
+                                      // Navigator.pop(context);
+                                    });
+                                  }
+                                },
+                                onPrevious: () {
+                                  if (model.currentPage > 1) {
+                                    // showLoadingDialog(context);
+                                    --model.currentPage;
+                                    model.getStudentList().then((value) {
+                                      // Navigator.pop(context);
+                                    });
+                                  }
+                                },
+                                currentPage: model.currentPage,
+                                lastPage: model.lastPage,
+                              ),
                         SizedBox(height: 12)
                       ],
                     ),
@@ -172,9 +176,14 @@ class _StudentsState extends State<Students> {
                                 ? Column(
                                     children: [
                                       SizedBox(height: size.height * 0.2),
-                                      Center(
-                                        child: Text(
-                                            "Looks like there is no detail about the grade you selected"),
+                                      Padding(
+                                        padding: EdgeInsets.all(8),
+                                        child: Center(
+                                          child: Text(
+                                            "Looks like there is no detail about the grade you selected",
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   )
@@ -248,21 +257,23 @@ class DropDownGrade extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<StudentState>(builder: (context, model, child) {
-      return DropdownButton<studentModel.Grade>(
-        value: model.grades[0],
-        onChanged: (studentModel.Grade? newValue) async {
-          model.loading = true;
-          model.selectedGrade = newValue;
-          await model.getStudentList();
-          model.loading = false;
-        },
-        items: model.grades.map((e) {
-          return DropdownMenuItem<studentModel.Grade>(
-            value: e,
-            child: Text(e.className),
-          );
-        }).toList(),
-      );
+      return model.grades.isEmpty
+          ? Center(child: Text('No Students Found....'))
+          : DropdownButton<studentModel.Grade>(
+              value: model.grades[0],
+              onChanged: (studentModel.Grade? newValue) async {
+                model.loading = true;
+                model.selectedGrade = newValue;
+                await model.getStudentList();
+                model.loading = false;
+              },
+              items: model.grades.map((e) {
+                return DropdownMenuItem<studentModel.Grade>(
+                  value: e,
+                  child: Text(e.className),
+                );
+              }).toList(),
+            );
     });
   }
 }
@@ -324,6 +335,7 @@ class PaginatorWidget extends StatelessWidget {
   final Function() onPrevious;
   final int currentPage;
   final int lastPage;
+
   PaginatorWidget({
     super.key,
     required this.onNext,
@@ -340,7 +352,7 @@ class PaginatorWidget extends StatelessWidget {
         MaterialButton(
           onPressed: onPrevious,
           child: Container(
-            width: 100,
+            width: 10.h,
             height: 36,
             alignment: Alignment.center,
             decoration: BoxDecoration(
@@ -352,9 +364,9 @@ class PaginatorWidget extends StatelessWidget {
             child: Text("Previous"),
           ),
         ),
-        SizedBox(width: 12),
+        SizedBox(width: 8),
         Container(
-          width: 100,
+          width: 16.h,
           height: 36,
           alignment: Alignment.center,
           decoration: BoxDecoration(
@@ -372,11 +384,11 @@ class PaginatorWidget extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(width: 12),
+        SizedBox(width: 8),
         MaterialButton(
           onPressed: onNext,
           child: Container(
-            width: 100,
+            width: 10.h,
             height: 36,
             alignment: Alignment.center,
             decoration: BoxDecoration(

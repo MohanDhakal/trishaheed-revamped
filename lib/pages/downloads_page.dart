@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:trishaheed/model/download_menu.dart';
 import 'package:trishaheed/model/states/dowloads_state.dart';
 import 'package:trishaheed/utilities/download_enums.dart';
@@ -33,16 +34,16 @@ class _DownloadPageState extends State<DownloadPage> {
     return Consumer<DownloadState>(builder: (context, model, child) {
       return ResponsiveRowColumn(
         rowMainAxisAlignment: MainAxisAlignment.start,
-        layout: responsiveWrapper.isSmallerThan(DESKTOP)
+        layout: responsiveWrapper.isSmallerThan(TABLET)
             ? ResponsiveRowColumnType.COLUMN
             : ResponsiveRowColumnType.ROW,
         children: [
           responsiveWrapper.isLargerThan(TABLET)
-              ? ResponsiveRowColumnItem(child: SizedBox(width: 24))
+              ? ResponsiveRowColumnItem(child: SizedBox(width: 24.sp))
               : ResponsiveRowColumnItem(child: SizedBox()),
           ResponsiveRowColumnItem(
             child: SizedBox(
-              width: responsiveWrapper.isSmallerThan(DESKTOP)
+              width: responsiveWrapper.isSmallerThan(TABLET)
                   ? screenWidth
                   : screenWidth * 0.20,
               child: ResponsiveRowColumn(
@@ -50,47 +51,21 @@ class _DownloadPageState extends State<DownloadPage> {
                 rowCrossAxisAlignment: CrossAxisAlignment.start,
                 rowMainAxisAlignment: MainAxisAlignment.start,
                 columnMainAxisAlignment: MainAxisAlignment.start,
-                layout: responsiveWrapper.isSmallerThan(DESKTOP)
+                layout: responsiveWrapper.isSmallerThan(TABLET)
                     ? ResponsiveRowColumnType.ROW
                     : ResponsiveRowColumnType.COLUMN,
                 children: [
                   ResponsiveRowColumnItem(
                     child: SizedBox(
-                      height: responsiveWrapper.isSmallerThan(DESKTOP) ? 0 : 16,
-                      width: responsiveWrapper.isSmallerThan(DESKTOP) ? 8 : 0,
-                    ),
-                  ),
-                  ResponsiveRowColumnItem(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(
-                        "Downloads",
-                        style: TextStyle(
-                          decoration: TextDecoration.none,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: ResponsiveValue(
-                            context,
-                            defaultValue: 16.0,
-                            valueWhen: const [
-                              Condition.smallerThan(
-                                name: TABLET,
-                                value: 16.0,
-                              ),
-                              Condition.largerThan(
-                                name: TABLET,
-                                value: 24.0,
-                              )
-                            ],
-                          ).value,
-                        ),
-                      ),
+                      height:
+                          responsiveWrapper.isSmallerThan(TABLET) ? 8.sp : 0,
+                      width: responsiveWrapper.isLargerThan(TABLET) ? 0.sp: 8.sp,
                     ),
                   ),
                   ResponsiveRowColumnItem(
                     child: SizedBox(
-                      height: responsiveWrapper.isSmallerThan(DESKTOP) ? 0 : 8,
-                      width: responsiveWrapper.isSmallerThan(DESKTOP) ? 8 : 0,
+                      height: responsiveWrapper.isSmallerThan(TABLET) ? 8.sp : 0,
+                      width: responsiveWrapper.isSmallerThan(TABLET) ? 0.sp : 8.sp,
                     ),
                   ),
                   ResponsiveRowColumnItem(
@@ -103,8 +78,8 @@ class _DownloadPageState extends State<DownloadPage> {
                   ),
                   ResponsiveRowColumnItem(
                     child: SizedBox(
-                      height: responsiveWrapper.isSmallerThan(DESKTOP) ? 0 : 16,
-                      width: responsiveWrapper.isSmallerThan(DESKTOP) ? 16 : 0,
+                      height: responsiveWrapper.isSmallerThan(DESKTOP) ? 0 : 8,
+                      width: responsiveWrapper.isSmallerThan(DESKTOP) ? 8 : 0,
                     ),
                   ),
                   ResponsiveRowColumnItem(
@@ -140,7 +115,7 @@ class _DownloadPageState extends State<DownloadPage> {
                           child: Text(
                             "Results",
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 16.sp,
                             ),
                           ),
                         ),
@@ -149,8 +124,10 @@ class _DownloadPageState extends State<DownloadPage> {
                   ),
                   ResponsiveRowColumnItem(
                     child: SizedBox(
-                      height: responsiveWrapper.isSmallerThan(DESKTOP) ? 0 : 16,
-                      width: responsiveWrapper.isSmallerThan(DESKTOP) ? 16 : 0,
+                      height:
+                          responsiveWrapper.isSmallerThan(DESKTOP) ? 0 : 8.sp,
+                      width:
+                          responsiveWrapper.isSmallerThan(DESKTOP) ? 8.sp : 0,
                     ),
                   ),
                   ResponsiveRowColumnItem(
@@ -187,7 +164,7 @@ class _DownloadPageState extends State<DownloadPage> {
                           },
                           child: Text(
                             "Routine",
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: 16.sp),
                           ),
                         ),
                       ],
@@ -195,8 +172,10 @@ class _DownloadPageState extends State<DownloadPage> {
                   ),
                   ResponsiveRowColumnItem(
                     child: SizedBox(
-                      height: responsiveWrapper.isSmallerThan(DESKTOP) ? 0 : 8,
-                      width: responsiveWrapper.isSmallerThan(DESKTOP) ? 8 : 0,
+                      height:
+                          responsiveWrapper.isSmallerThan(DESKTOP) ? 0 : 8.sp,
+                      width:
+                          responsiveWrapper.isSmallerThan(DESKTOP) ? 8.sp : 0,
                     ),
                   ),
                   ResponsiveRowColumnItem(
@@ -234,7 +213,7 @@ class _DownloadPageState extends State<DownloadPage> {
                             style: TextStyle(
                               // decoration: TextDecoration.underline,
                               // color: Colors.blueAccent,
-                              fontSize: 16,
+                              fontSize: 16.sp,
                             ),
                           ),
                         ),
@@ -248,15 +227,16 @@ class _DownloadPageState extends State<DownloadPage> {
           model.selectedFolder == Downloads.results
               ? ResponsiveRowColumnItem(
                   child: Container(
-                    width: responsiveWrapper.isSmallerThan(DESKTOP)
+                    width: responsiveWrapper.isSmallerThan(TABLET)
                         ? screenWidth
                         : screenWidth * 0.75,
                     alignment: Alignment.topLeft,
                     margin: EdgeInsets.zero,
+                    padding: EdgeInsets.zero,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 72),
+                        SizedBox(height: 24),
                         const PlacholderDownloads(),
                         Divider(
                           thickness: 2,
@@ -285,13 +265,15 @@ class _DownloadPageState extends State<DownloadPage> {
               : model.selectedFolder == Downloads.routine
                   ? ResponsiveRowColumnItem(
                       child: Container(
-                        width: screenWidth * 0.75,
+                        width: responsiveWrapper.isSmallerThan(TABLET)
+                            ? screenWidth
+                            : screenWidth * 0.75,
                         margin: EdgeInsets.zero,
-                        alignment: Alignment.center,
+                        alignment: Alignment.topLeft,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: 72),
+                            SizedBox(height: 24),
                             const PlacholderDownloads(),
                             Divider(
                               thickness: 2,
@@ -322,13 +304,15 @@ class _DownloadPageState extends State<DownloadPage> {
                   : model.selectedFolder == Downloads.others
                       ? ResponsiveRowColumnItem(
                           child: Container(
-                            width: screenWidth * 0.75,
+                            width: responsiveWrapper.isSmallerThan(TABLET)
+                                ? screenWidth
+                                : screenWidth * 0.75,
                             margin: EdgeInsets.zero,
-                            alignment: Alignment.center,
+                            alignment: Alignment.topLeft,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(height: 72),
+                                SizedBox(height: 24),
                                 const PlacholderDownloads(),
                                 Divider(
                                   thickness: 2,
@@ -376,7 +360,7 @@ class PaginatorWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<DownloadState>(builder: (context, model, child) {
       return Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           MaterialButton(
             onPressed: () {
@@ -389,7 +373,7 @@ class PaginatorWidget extends StatelessWidget {
               }
             },
             child: Container(
-              width: 100,
+              width: 10.h,
               height: 36,
               alignment: Alignment.center,
               decoration: BoxDecoration(
@@ -403,7 +387,7 @@ class PaginatorWidget extends StatelessWidget {
           ),
           SizedBox(width: 12),
           Container(
-              width: 100,
+              width: 16.h,
               height: 36,
               alignment: Alignment.center,
               decoration: BoxDecoration(
@@ -432,7 +416,7 @@ class PaginatorWidget extends StatelessWidget {
               }
             },
             child: Container(
-              width: 100,
+              width: 10.h,
               height: 36,
               alignment: Alignment.center,
               decoration: BoxDecoration(

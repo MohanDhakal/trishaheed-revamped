@@ -7,7 +7,6 @@ import 'package:trishaheed/model/states/smc_state.dart';
 import 'package:trishaheed/model/states/staff_state.dart';
 import 'package:trishaheed/model/states/students_state.dart';
 import 'package:url_strategy/url_strategy.dart';
-
 import 'pages/entry_point.dart';
 import 'states/menu_state.dart';
 
@@ -23,7 +22,6 @@ void main(List<String> args) {
         ChangeNotifierProvider(create: (_) => DownloadState()),
         ChangeNotifierProvider(create: (_) => SmcState()),
         ChangeNotifierProvider(create: (_) => EventState()),
-
       ],
       child: EntryPoint(),
     ),

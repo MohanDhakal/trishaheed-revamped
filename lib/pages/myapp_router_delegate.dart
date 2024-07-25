@@ -1,32 +1,25 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
-import 'package:trishaheed/model/staff.dart';
-import 'package:trishaheed/pages/results_page.dart';
-import 'package:trishaheed/pages/staff_detail.dart' as s;
-import 'package:trishaheed/utilities/my_app_config.dart';
-import 'package:trishaheed/utilities/results.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'dart:html' as html;
-import '../model/blog.dart';
-import '../states/menu_state.dart';
-import '../utilities/globals.dart';
-import '../utilities/images.dart';
-import '../utilities/menu_map.dart';
-import '../utilities/menu_tag.dart';
-import '../utilities/route_names.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
+import '../model/staff.dart';
+import '../utilities/launch_url.dart';
 import '../utilities/textstyles.dart';
-import 'blog_detail.dart';
-import 'blogs.dart';
-import 'contact_page.dart';
-import 'downloads_page.dart';
-import 'extras_page.dart';
+import '../widgets/widgets.dart';
+import '../model/blog.dart';
+import '../utilities/utilities.dart';
 import 'headers.dart';
-import 'home_page.dart';
 import 'image_gallery_test.dart';
-import 'not_found.dart';
+import 'menupages.dart';
+import 'staff_detail.dart' as s;
 import 'staff_page.dart';
 import 'students.dart';
+import 'blogs.dart';
 
 class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<MyAppConfiguration> {
@@ -45,7 +38,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
   String _external = ' ';
   String get external => _external;
   bool noticeExists = false;
-
+  int bottomNavigationIndex = 0;
   set atMenu(MenuTag menu) {
     _menu = menu;
     notifyListeners();
@@ -53,6 +46,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
   }
 
   set atPath(String path) {
+    print("at path calleed");
     _external = path;
     notifyListeners();
     // print(staffId);
@@ -103,9 +97,13 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
     }
   }
 
+  void onTabTapped(int index) {
+    bottomNavigationIndex = index;
+    notifyListeners();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     final pages = [
       HomePage(),
       ImageGallery(),
@@ -165,7 +163,6 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                   menu == MenuTag.extras ||
                   menu == MenuTag.downloads ||
                   menu == MenuTag.contact ||
-                  // menu == MenuTag.videoGallery ||
                   menu == MenuTag.blog ||
                   menu == MenuTag.home)
                 MaterialPage(
@@ -175,66 +172,40 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                     child: Scaffold(
                       backgroundColor: Colors.white,
                       primary: false,
-                      appBar: ResponsiveWrapper.of(context)
-                              .isSmallerThan(DESKTOP)
-                          ? AppBar(
-                              backgroundColor: Colors.black87,
-                              leading: IconButton(
-                                icon: Icon(
-                                  Icons.menu,
-                                  size: 24,
-                                  color: Colors.white60,
-                                ),
-                                onPressed: () {
-                                  drawer = !_openDrawer;
-                                },
-                              ),
-                              title: SelectableText(
-                                "TRI SHAHEED MODEL SECONDARY SCHOOL",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.white60,
-                                ),
-                              ),
-                            )
-                          : PreferredSize(
-                              preferredSize: Size.fromHeight(140.0),
-                              child: AppBar(
-                                backgroundColor: Colors.black,
-                                elevation: 1,
-                                flexibleSpace: FixHeader(
-                                  onHome: () {
-                                    atMenu = MenuTag.home;
-                                    Future.delayed(Duration(milliseconds: 200))
-                                        .then((value) {
-                                      html.window.location.reload();
-                                    });
-                                  },
-                                  onNewNotice: (() {
+
+                      // drawerDragStartBehavior: DragStartBehavior.start,
+                      body: Stack(
+                        clipBehavior: Clip.none,
+                        fit: StackFit.expand,
+                        children: [
+                          Positioned(
+                            top: 0.h,
+                            bottom: 0.h,
+                            left: 0.h,
+                            right: 0.h,
+                            child: Column(
+                              children: [
+                                HeaderForMobile(
+                                  onNewNotice: () {
                                     noticeExists = true;
                                     notifyListeners();
-                                  }),
+                                  },
+                                  onHome: () {},
                                   onResultsPublished: () {
-                                    _launchURL(Globals.resultSystem);
+                                    // atMenu=MenuTag.unknown;
+                                    atPath = Result.path;
                                   },
                                 ),
-                                automaticallyImplyLeading: false,
-                                primary: false,
-                                bottom: TabBar(
+                                TabBar(
                                   splashBorderRadius: BorderRadius.circular(4),
                                   indicatorSize: TabBarIndicatorSize.label,
-                                  automaticIndicatorColorAdjustment: false,
+                                  automaticIndicatorColorAdjustment: true,
                                   unselectedLabelColor: Colors.grey,
-                                  labelPadding:
-                                      EdgeInsets.symmetric(vertical: 8),
-                                  indicator: BoxDecoration(
-                                    color: Colors.blue,
-                                    borderRadius: BorderRadius.circular(4),
-                                    border: Border.all(
-                                      width: 8,
-                                      color: Colors.blue,
-                                    ),
-                                  ),
+                                  tabAlignment: TabAlignment.start,
+                                  isScrollable: true,
+                                  labelPadding: EdgeInsets.symmetric(
+                                      vertical: 4, horizontal: 4),
+                                  indicatorColor: Colors.deepPurple,
                                   onTap: (int value) {
                                     final map = MenuIndex.map;
                                     atMenu = map.keys.firstWhere(
@@ -246,192 +217,145 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                     MenuIndex.map.length - 3,
                                     (index) {
                                       return Align(
-                                        alignment: Alignment.topCenter,
-                                        child: Text(
-                                          MenuIndex.names.values
-                                              .elementAt(index),
-                                          style: CustomTextStyle.menu(context),
+                                        alignment: Alignment.topLeft,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8.0),
+                                          child: Text(
+                                            MenuIndex.names.values
+                                                .elementAt(index),
+                                            style: CustomTextStyle.menu(context)
+                                                ?.copyWith(
+                                                    color: Colors.deepPurple),
+                                          ),
                                         ),
                                       );
                                     },
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
-                      // drawerDragStartBehavior: DragStartBehavior.start,
-                      body: Stack(
-                        clipBehavior: Clip.none,
-                        fit: StackFit.expand,
-                        children: [
-                          Positioned(
-                            child: ResponsiveWrapper.of(context)
-                                    .isSmallerThan(DESKTOP)
-                                ? getPlaceholderPage(menu)
-                                : TabBarView(
-                                    physics: NeverScrollableScrollPhysics(),
-                                    children: pages,
-                                  ),
+                            // child: PreferredSize(
+                            //   preferredSize: Size.fromHeight(
+                            //       30.h),
+                            //   child: AppBar(
+                            //     backgroundColor: Colors.white,
+                            //     elevation: 1,
+                            //     flexibleSpace:
+                            //     HeaderForMobile(
+                            //       onNewNotice: () {
+                            //         noticeExists = true;
+                            //         notifyListeners();
+                            //       },
+                            //       onHome: () {},
+                            //       onResultsPublished: () {
+                            //         // atMenu=MenuTag.unknown;
+                            //         atPath = Result.path;
+                            //       },
+                            //     ),
+                            //     automaticallyImplyLeading: false,
+                            //     primary: false,
+                            //     bottom:
+                            //   ),
+                            // ),
                           ),
-                          //If the device is a phone and drawer is open
-                          if (ResponsiveWrapper.of(context)
-                                  .isSmallerThan(DESKTOP) &&
-                              _openDrawer == true)
-                            SingleChildScrollView(
-                              child: Container(
-                                color: Colors.black,
-                                height: size.height,
-                                width: size.width,
-                                padding: const EdgeInsets.all(4.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    HeaderForMobile(
-                                      onHome: () {
-                                        atMenu = MenuTag.home;
-                                        Future.delayed(
-                                                Duration(milliseconds: 200))
-                                            .then((value) {
-                                          html.window.location.reload();
-                                        });
-                                      },
-                                      onResultsPublished: () {
-                                        _launchURL(Globals.resultSystem);
-                                      },
-                                      onNewNotice: (() {
-                                        noticeExists = true;
-                                        notifyListeners();
-                                      }),
-                                    ),
-                                    ...List<Widget>.generate(
-                                      MenuTag.values.length - 3,
-                                      (int index) {
-                                        return Wrap(
-                                          crossAxisAlignment:
-                                              WrapCrossAlignment.start,
+                          Positioned(
+                            top: 31.h,
+                            left: 0.h,
+                            bottom: 0.h,
+                            right: 0.h,
+                            child: TabBarView(
+                              physics: NeverScrollableScrollPhysics(),
+                              children: pages,
+                            ),
+                          ),
+                          noticeExists
+                              ? Material(
+                                  color: Colors.transparent,
+                                  child: Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 16.sp),
+                                    child: InteractiveViewer(
+                                      scaleEnabled: true,
+                                      constrained: false,
+                                      alignment: Alignment.center,
+
+                                      child: Container(
+                                        height: 100.h,
+                                        width: 100.w,
+                                        color: noticeExists
+                                            ? Colors.transparent
+                                            : Colors.orange,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 8.0),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
                                           children: [
-                                            GestureDetector(
-                                              onTap: () {
-                                                drawer = false;
-                                                atMenu = MenuTag.values[index];
-                                              },
-                                              child: Container(
-                                                padding: EdgeInsets.only(
-                                                  left: 4.0,
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text("New Notice From School"),
+                                                MaterialButton(
+                                                  onPressed: () {
+                                                    noticeExists = false;
+                                                    notifyListeners();
+                                                  },
+                                                  child: Icon(
+                                                    Icons.cancel_sharp,
+                                                    size: 24.sp,
+                                                    color: Colors.red,
+                                                  ),
                                                 ),
-                                                height: 24,
-                                                child: Text(
-                                                  MenuIndex.names.values
-                                                      .elementAt(index),
-                                                  style: CustomTextStyle.menu(
-                                                          context)
-                                                      ?.copyWith(),
-                                                ),
+                                              ],
+                                            ),
+                                            Expanded(
+                                              child: Image.asset(
+                                                notice,
+                                                fit: BoxFit.fill,
+                                                height: 100.h,
+                                                // width: size.width * 0.8,
                                               ),
-                                            ),
-                                            Divider(
-                                              color: Colors.blueGrey.shade400,
-                                              thickness: 2,
-                                            ),
+                                            )
                                           ],
-                                        );
-                                      },
-                                    ),
-                                    Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Text(
-                                        'Copyright © 2022 | tri-shaheed',
-                                        style: TextStyle(
-                                          color: Colors.blueGrey.shade300,
-                                          fontSize: 14,
                                         ),
                                       ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          noticeExists
-                              ? InteractiveViewer(
-                                  scaleEnabled: true,
-                                  constrained: false,
-                                  alignment: Alignment.center,
-                                  child: AnimatedContainer(
-                                    height: size.height * 0.95,
-                                    width: size.width,
-                                    color: noticeExists
-                                        ? Colors.white
-                                        : Colors.orange,
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 8.0),
-                                    duration: Duration(milliseconds: 500),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            Text("New Notice From School"),
-                                            MaterialButton(
-                                              onPressed: () {
-                                                noticeExists = false;
-                                                notifyListeners();
-                                              },
-                                              child: Icon(
-                                                Icons.cancel_sharp,
-                                                size: 36,
-                                                color: Colors.red,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Image.asset(
-                                          notice,
-                                          fit: BoxFit.cover,
-                                          height: size.height * 0.85,
-                                          // width: size.width * 0.8,
-                                        )
-                                      ],
                                     ),
                                   ),
                                 )
-                              : SizedBox(),
+                              : SizedBox()
                         ],
                       ),
                     ),
                   ),
                 ),
-              if (external == Result.path) MaterialPage(child: ViewResult()),
+              if (external == Result.path)
+                MaterialPage(child: ViewResult(
+                  onBackPressed: () {
+                    print('came here');
+                    _menu = MenuTag.home;
+                    atPath = '';
+                  },
+                )),
               if (menu == MenuTag.unknown) MaterialPage(child: UnknownPage()),
               if (menu == MenuTag.blogDetail)
                 MaterialPage(
-                  key: ValueKey(RouteName.blogDetail),
-                  child: BlogDetail(id: id),
-                ),
+                    key: ValueKey(RouteName.blogDetail),
+                    child: BlogDetail(id: id)),
               if (menu == MenuTag.staffDetail)
                 MaterialPage(
-                    key: ValueKey(RouteName.staffDetail),
-                    child: s.StaffDetail(
-                      staff: staff,
-                      id: staffId,
-                    )),
+                  key: ValueKey(RouteName.staffDetail),
+                  child: s.StaffDetail(
+                    staff: staff,
+                    id: staffId,
+                  ),
+                ),
             ],
           );
         },
       ),
     );
-  }
-
-  void _launchURL(String url) async {
-    final Uri _url = Uri.parse(url);
-
-    if (await canLaunchUrl(_url)) {
-      await launchUrl(_url);
-    } else {
-      print('Could not launch $url');
-    }
   }
 
   @override
@@ -440,11 +364,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
       atMenu = MenuTag.home;
     } else if (configuration.imageGallery) {
       atMenu = MenuTag.photoGallery;
-    }
-    // else if (configuration.videoGallery) {
-    //   atMenu = MenuTag.videoGallery;
-    // }
-    else if (configuration.students) {
+    } else if (configuration.students) {
       atMenu = MenuTag.students;
     } else if (configuration.contact) {
       atMenu = MenuTag.contact;
@@ -472,35 +392,32 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
 
   @override
   MyAppConfiguration? get currentConfiguration {
-    if (menu == MenuTag.home) {
-      return MyAppConfiguration.home();
-    } else if (menu == MenuTag.staff) {
-      return MyAppConfiguration.staff();
-    }
-    //  else if (menu == MenuTag.videoGallery) {
-    //   return MyAppConfiguration.videoGallery();
-    // }
-    else if (menu == MenuTag.students) {
-      return MyAppConfiguration.students();
-    } else if (menu == MenuTag.photoGallery) {
-      return MyAppConfiguration.photoGallery();
-    } else if (menu == MenuTag.contact) {
-      // print("MENU: Reached at contact tag");
-      return MyAppConfiguration.contact();
-    } else if (menu == MenuTag.downloads) {
-      return MyAppConfiguration.downloads();
-    } else if (menu == MenuTag.extras) {
-      return MyAppConfiguration.extras();
-    } else if (menu == MenuTag.blog) {
-      return MyAppConfiguration.blog();
-    } else if (menu == MenuTag.blogDetail) {
-      return MyAppConfiguration.blogDetail(id);
-    } else if (menu == MenuTag.staffDetail) {
-      return MyAppConfiguration.staffDetail(staffId);
-    } else if (external == Result.path) {
+    if (external == Result.path) {
       return MyAppConfiguration.result();
-    } else {
-      return MyAppConfiguration.unknown();
+    }
+    switch (menu) {
+      case MenuTag.home:
+        return MyAppConfiguration.home();
+      case MenuTag.contact:
+        return MyAppConfiguration.contact();
+      case MenuTag.staff:
+        return MyAppConfiguration.staff();
+      case MenuTag.blog:
+        return MyAppConfiguration.blog();
+      case MenuTag.students:
+        return MyAppConfiguration.students();
+      case MenuTag.extras:
+        return MyAppConfiguration.extras();
+      case MenuTag.downloads:
+        return MyAppConfiguration.downloads();
+      case MenuTag.photoGallery:
+        return MyAppConfiguration.photoGallery();
+      case MenuTag.blogDetail:
+        return MyAppConfiguration.blogDetail(id);
+      case MenuTag.staffDetail:
+        return MyAppConfiguration.staffDetail(staffId);
+      default:
+        return MyAppConfiguration.unknown();
     }
   }
 }

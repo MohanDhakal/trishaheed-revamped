@@ -27,9 +27,7 @@ class Highlights extends StatelessWidget {
       decoration: BoxDecoration(color: backgroundColor),
       child: Column(
         children: [
-          SizedBox(
-            height: 20,
-          ),
+
           Image.asset(
             imageUri,
             width: 36,

@@ -4,7 +4,9 @@
         android:label="trishaheed"
         android:name="${applicationName}"
         android:roundIcon="@mipmap/ic_launcher"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:enableOnBackInvokedCallback="true"
+       >
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -31,5 +33,6 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
     </application>
 </manifest>

@@ -17,7 +17,7 @@ const String notice = "assets/images/notice/suchana.jpg";
 const String networkPlaceholder =
     "https://fastly.picsum.photos/id/185/200/300.jpg?blur=5&hmac=yQe4ekSkmZmozebKHSoPPJ9UjQtZ7Xcu7QLdp56CChw";
 const List<String> carouselImages = [
-  "assets/images/carousel_slider/nursery.JPG",
+  "assets/images/carousel_slider/nursery.jpg",
   "assets/images/carousel_slider/science_lab.jpg",
   "assets/images/carousel_slider/elibrary.jpg",
   "assets/images/carousel_slider/building.jpg"

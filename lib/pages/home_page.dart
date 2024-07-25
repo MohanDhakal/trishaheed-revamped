@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Positioned(
                     top: responsiveWrapper.isMobile
-                        ? size.height * 0.25
+                        ? size.height * 0.20
                         : size.height * 0.4,
                     left: 20,
                     child: MaterialButton(
@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color: Colors.grey.shade300,
+                          color: Colors.grey.shade300.withOpacity(0.5),
                           shape: BoxShape.circle,
                         ),
                       ),
@@ -109,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Positioned(
                     top: responsiveWrapper.isMobile
-                        ? size.height * 0.25
+                        ? size.height * 0.20
                         : size.height * 0.4,
                     right: 20,
                     child: MaterialButton(
@@ -125,7 +125,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color: Colors.grey.shade300,
+                          color: Colors.grey.shade300.withOpacity(0.5),
                           shape: BoxShape.circle,
                         ),
                       ),
@@ -150,7 +150,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(width: size.width * 0.2, child: Divider(thickness: 4)),
               SizedBox(height: 24),
               HeadMasterSaying(),
-              SizedBox(height: 24),          
+              SizedBox(height: 24),
               Padding(
                 padding: const EdgeInsets.only(left: 20.0),
                 child: Text(
@@ -164,7 +164,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(width: size.width * 0.2, child: Divider(thickness: 4)),
-
               SizedBox(height: 24),
               Consumer<EventState>(builder: (context, model, child) {
                 return ResponsiveRowColumn(
@@ -177,22 +176,23 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     ...model.schoolEvents.map((e) {
                       return ResponsiveRowColumnItem(
-                          child: EventCard(
-                        bannerUrl: e.imageUri,
-                        title: e.eventName,
-                        description: e.eventDescription,
-                        startDate: e.startDate,
-                        endDate: e.endDate,
-                        startTime: e.startTime,
-                        endTime: e.endTime,
-                      ));
+                        child: EventCard(
+                          bannerUrl: e.imageUri,
+                          title: e.eventName,
+                          description: e.eventDescription,
+                          startDate: e.startDate,
+                          endDate: e.endDate,
+                          startTime: e.startTime,
+                          endTime: e.endTime,
+                        ),
+                      );
                     }).toList()
                   ],
                 );
               }),
 
               SizedBox(height: 24),
-                  Padding(
+              Padding(
                 padding: const EdgeInsets.only(left: 20.0),
                 child: Text(
                   "Staff and Students",
@@ -457,8 +457,8 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-              SizedBox(height: 48),
-              FooterWidget(color: Colors.black12),
+              SizedBox(height: 24),
+              kIsWeb ? FooterWidget(color: Colors.black12) : SizedBox(),
               // SizedBox(height: 12),
             ],
           ),

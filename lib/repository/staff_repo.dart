@@ -33,7 +33,6 @@ class StaffRepo {
     List<MajorContact> tList = <MajorContact>[];
     BaseApi baseApi = BaseApi.createDio();
     var response = await baseApi.get(ApiRoutes.majorContacts);
-    print('came here 2');
 
     response.fold((l) {
       for (var element in l.data) {

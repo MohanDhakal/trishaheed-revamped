@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class CustomTextStyle {
   static TextStyle? menu(BuildContext context) {
     return Theme.of(context).textTheme.bodyMedium?.copyWith(
-          fontSize: 18,
-          fontWeight: FontWeight.w300,
-          color: Colors.white70,
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
         );
   }
 

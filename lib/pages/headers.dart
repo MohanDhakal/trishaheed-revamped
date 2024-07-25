@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_value.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../utilities/images.dart';
 
@@ -8,6 +9,7 @@ class FixHeader extends StatelessWidget {
   final Function() onNewNotice;
   final Function() onHome;
   final Function() onResultsPublished;
+
   const FixHeader({
     Key? key,
     required this.onNewNotice,
@@ -128,7 +130,7 @@ class FixHeader extends StatelessWidget {
                 borderRadius: BorderRadius.circular(2),
               ),
               alignment: Alignment.center,
-              child: Text("See Results"),
+              child: Text("View Results"),
               width: 100,
               height: 50,
             ),
@@ -171,132 +173,140 @@ class HeaderForMobile extends StatelessWidget {
       color: Colors.white,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          SizedBox(height: 5.h),
+          SizedBox(
+            width: Adaptive.w(100),
+            height: 13.h,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                InkWell(
+                  onTap: onHome,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.asset(
+                      logo,
+                      width: Adaptive.w(15),
+                      height: 15.h,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    children: [
+                      SelectableText(
+                        "Shree Tri-Shaheed Model Secondary School, Aandhikhola-1 ",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.sp,
+                            color: Colors.deepPurple),
+                      ),
+                      Row(
+                        children: [
+                          Image.asset(
+                            telephone,
+                            width: 16.sp,
+                            height: 16.sp,
+                          ),
+                          SizedBox(width: 8),
+                          SelectableText(
+                            "Call: ",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.sp,
+                                color: Colors.deepPurpleAccent),
+                          ),
+                          SizedBox(width: 8),
+                          SelectableText(
+                            "9846095574",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16.sp,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Image.asset(
+                            paperPlane,
+                            width: 16.sp,
+                            height: 16.sp,
+                          ),
+                          SizedBox(width: 8.sp),
+                          Text(
+                            "Email: ",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.sp,
+                                color: Colors.deepPurpleAccent),
+                          ),
+                          Text(
+                            "trishaheed1986@gmail.com",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16.sp,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              InkWell(
-                onTap: onHome,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Image.asset(
-                    logo,
-                    width: 80,
-                    height: 80,
+              MaterialButton(
+                onPressed: onNewNotice,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.orange,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    "NEW NOTICE",
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      color: Colors.black87
+                    ),
                   ),
                 ),
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Image.asset(
-                        telephone,
-                        width: 24,
-                        height: 24,
-                      ),
-                      SizedBox(width: 10),
-                      SelectableText(
-                        "Call: ",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      SelectableText(
-                        "9846095574",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
+              MaterialButton(
+                onPressed: onResultsPublished,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.greenAccent,
+                    borderRadius: BorderRadius.circular(2),
                   ),
-                  Row(
+                  alignment: Alignment.center,
+                  child: Row(
                     children: [
-                      Image.asset(
-                        paperPlane,
-                        width: 24,
-                        height: 24,
-                      ),
-                      SizedBox(width: 10),
                       Text(
-                        "Email: ",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
+                        "SEE RESULT",
+                        style: TextStyle(fontSize: 16.sp),
                       ),
-                      Text(
-                        "trishaheed1986@gmail.com",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14,
-                        ),
-                      ),
+                      SizedBox(width: 4.sp),
+                      Icon(Icons.login),
                     ],
                   ),
-                  Row(
-                    children: [
-                      MaterialButton(
-                        onPressed: onResultsPublished,
-                        child: Container(
-                          height: 48,
-                          width: 100,
-                          margin: EdgeInsets.only(
-                              left: 10, bottom: 5, top: 5, right: 10),
-                          decoration: BoxDecoration(
-                            color: Colors.greenAccent,
-                            borderRadius: BorderRadius.circular(2),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text("Exam Result"),
-                        ),
-                      ),
-                                        MaterialButton(
-                    onPressed: onNewNotice,
-                    child: Container(
-                      height: 48,
-                      width: 100,
-                      margin: EdgeInsets.only(
-                          left: 10, bottom: 5, top: 5, right: 10),
-                      decoration: BoxDecoration(
-                        color: Colors.orange,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text("New Notice"),
-                    ),
-                  ),
-
-                    ],
-
-                  ),
-                ],
+                ),
               ),
-
-              // Text.rich(
-              //   TextSpan(
-              //     text: "श्री त्रि-शहिद",
-              //     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              //           fontWeight: FontWeight.bold,
-              //           color: Colors.black,
-              //         ),
-              //     children: [
-              //       TextSpan(
-              //         text: "\nनमुना मा.वि",
-              //         style: Theme.of(context)
-              //             .textTheme
-              //             .headlineSmall
-              //             ?.copyWith(fontWeight: FontWeight.bold),
-              //       )
-              //     ],
-              //   ),
-              // ),
             ],
+          ),
+          SizedBox(
+            height: 8.sp,
           ),
         ],
       ),

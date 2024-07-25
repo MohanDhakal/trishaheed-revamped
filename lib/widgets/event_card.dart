@@ -67,8 +67,8 @@ class EventCard extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Wrap(
+              alignment: WrapAlignment.spaceBetween,
               children: <Widget>[
                 Text(
                   'Starts at: $startDate  $startTime  ',

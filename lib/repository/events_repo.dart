@@ -16,5 +16,4 @@ class EventsRepo {
     });
     return posts;
   }
-
 }

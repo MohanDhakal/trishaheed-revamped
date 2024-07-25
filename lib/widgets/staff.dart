@@ -24,6 +24,7 @@ class Staff extends StatelessWidget {
           end: Alignment.bottomRight,
         ),
       ),
+      margin: responsiveWrapper.isSmallerThan(DESKTOP)? EdgeInsets.symmetric(vertical: 8): EdgeInsets.symmetric(horizontal: 8),
       width: responsiveWrapper.isSmallerThan(DESKTOP)
           ? size.width * 0.9
           : size.width * 0.3,
