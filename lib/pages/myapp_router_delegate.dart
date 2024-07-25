@@ -1,16 +1,11 @@
-import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../model/staff.dart';
-import '../utilities/launch_url.dart';
 import '../utilities/textstyles.dart';
-import '../widgets/widgets.dart';
 import '../model/blog.dart';
 import '../utilities/utilities.dart';
 import 'headers.dart';
@@ -25,7 +20,6 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<MyAppConfiguration> {
   //to uniquely recognize every page
   late final GlobalKey<NavigatorState> _navigatorKey;
-  bool _openDrawer = false;
   int? id;
   Blog? blog;
   int? staffId;
@@ -52,10 +46,6 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
     // print(staffId);
   }
 
-  set drawer(bool val) {
-    _openDrawer = val;
-    notifyListeners();
-  }
 
   @override
   GlobalKey<NavigatorState>? get navigatorKey => _navigatorKey;
@@ -279,7 +269,6 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                       scaleEnabled: true,
                                       constrained: false,
                                       alignment: Alignment.center,
-
                                       child: Container(
                                         height: 100.h,
                                         width: 100.w,
