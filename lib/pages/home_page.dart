@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +10,7 @@ import 'package:trishaheed/model/states/staff_state.dart';
 import 'package:trishaheed/widgets/count_display.dart';
 import 'package:trishaheed/widgets/event_card.dart';
 import 'package:trishaheed/widgets/footer.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 import '../utilities/images.dart';
 import '../widgets/headmaster_saying.dart';
 import '../widgets/highlights.dart';
@@ -28,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   final ScrollController _controller = ScrollController();
   final CarouselController _carouselController = CarouselController();
   List<Widget> _images = [];
-  // int _selectedImage = 0;
+
 
   @override
   void initState() {
@@ -83,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                       onPageChanged: (index, reason) {},
                     ),
                   ),
-                  Positioned(
+             Positioned(
                     top: responsiveWrapper.isMobile
                         ? size.height * 0.25
                         : size.height * 0.4,
@@ -133,21 +135,7 @@ class _HomePageState extends State<HomePage> {
                   )
                 ],
               ),
-              SizedBox(height: 24),
-              Text(
-                'प्रधानाध्यापक को कलमबाट',
-                textAlign: TextAlign.center,
-                style: ResponsiveWrapper.of(context).isMobile
-                    ? Theme.of(context)
-                        .textTheme
-                        .headlineMedium
-                        ?.copyWith(fontWeight: FontWeight.bold)
-                    : Theme.of(context)
-                        .textTheme
-                        .headlineLarge
-                        ?.copyWith(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(width: size.width * 0.2, child: Divider(thickness: 4)),
+
               SizedBox(height: 24),
               HeadMasterSaying(),
               SizedBox(height: 24),          
