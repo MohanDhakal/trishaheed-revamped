@@ -54,6 +54,8 @@ class _StudentsState extends State<Students> {
                       children: [
                         SizedBox(height: 8.0),
                         GradeChips(),
+                        SizedBox(height: 16.0),
+
                         model.loading
                             ? SizedBox(
                                 width: 50,
@@ -72,38 +74,40 @@ class _StudentsState extends State<Students> {
                                       ),
                                     ],
                                   )
-                                : SizedBox(
-                                    height: size.height * 0.65,
-                                    child: GridView.builder(
-                                      shrinkWrap: true,
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 8.0),
-                                      gridDelegate:
-                                          SliverGridDelegateWithMaxCrossAxisExtent(
-                                        maxCrossAxisExtent: 300,
-                                        crossAxisSpacing: 10,
-                                        childAspectRatio: 0.65,
-                                      ),
-                                      itemCount: model.studentList.length,
-                                      itemBuilder: ((context, index) {
-                                        return InkWell(
-                                          onTap: (() async {
-                                            model.studentContact = null;
-                                            model.selectedStudent = model
-                                                .studentList
-                                                .elementAt(index);
-                                            await model.getContact();
-                                          }),
-                                          child: StudentWidget(
-                                            student: model.studentList
-                                                .elementAt(index),
-                                            studentContact:
-                                                model.studentContact,
-                                          ),
-                                        );
-                                      }),
+                                : GridView.builder(
+                                    shrinkWrap: true,
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 8.0),
+                                    gridDelegate:
+                                        SliverGridDelegateWithMaxCrossAxisExtent(
+                                      maxCrossAxisExtent: responsiveWrapper
+                                              .isSmallerThan(TABLET)
+                                          ? size.width * 0.9
+                                          : size.width * 0.3,
+                                      mainAxisSpacing: 8,
+                                      crossAxisSpacing: 8,
+                                      childAspectRatio: 0.8,
                                     ),
+                                    itemCount: model.studentList.length,
+                                    itemBuilder: ((context, index) {
+                                      return InkWell(
+                                        onTap: (() async {
+                                          model.studentContact = null;
+                                          model.selectedStudent = model
+                                              .studentList
+                                              .elementAt(index);
+                                          await model.getContact();
+                                        }),
+                                        child: StudentWidget(
+                                          student: model.studentList
+                                              .elementAt(index),
+                                          studentContact: model.studentContact,
+                                        ),
+                                      );
+                                    }),
                                   ),
+                        SizedBox(height: 16.0),
+
                         PaginatorWidget(
                           onNext: () {
                             if (model.currentPage < model.lastPage) {
@@ -133,7 +137,7 @@ class _StudentsState extends State<Students> {
                 : SizedBox(
                     height: size.height,
                     child: Column(
-                      mainAxisSize: MainAxisSize.max,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         DropDownGrade(),
                         SizedBox(height: 12),
@@ -277,7 +281,6 @@ class GradeChips extends StatelessWidget {
 
     return Consumer<StudentState>(builder: (context, model, child) {
       return SizedBox(
-        height: size.height * 0.2,
         width: size.width,
         child: Wrap(
           spacing: 1,

@@ -4,56 +4,90 @@ import 'package:trishaheed/model/staff.dart' as s;
 import 'package:trishaheed/utilities/images.dart';
 
 class Staff extends StatelessWidget {
+  final bool isStatic;
   final s.Staff staff;
   const Staff({
     required this.staff,
+    this.isStatic = false,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final responsiveWrapper = ResponsiveWrapper.of(context);
-    final size = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
-        // color: Colors.grey.shade300,
+        color: Colors.grey.shade300,
         borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: Colors.purpleAccent,
+          width: 4,
+        ),
+        boxShadow: staff.onFocused ?? false
+            ? [
+                BoxShadow(
+                  blurRadius: 8.0,
+                  spreadRadius: 8.0,
+                  color: Colors.black12,
+                )
+              ]
+            : null,
         gradient: LinearGradient(
-          colors: [Colors.orangeAccent, Color.fromARGB(255, 129, 240, 133)],
+          colors: [Color(0xFFEAAECA), Color(0XFF94BBE9)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
       ),
-      width: responsiveWrapper.isSmallerThan(DESKTOP)
-          ? size.width * 0.9
-          : size.width * 0.3,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(8),
-              topRight: Radius.circular(8),
+        isStatic?  SizedBox(height: 24):SizedBox(),
+          Container(
+            padding: EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Colors.blueAccent,
+                width: 2,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 8.0,
+                  spreadRadius: 8.0,
+                  color: Colors.black12,
+                )
+              ],
             ),
-            child: staff.imageUrl == null
-                ? Image.asset(
-                    profile,
-                    fit: BoxFit.cover,
-                    width: responsiveWrapper.isSmallerThan(DESKTOP)
-                        ? size.width * 0.9
-                        : size.width * 0.3,
-                    height: size.height * 0.4,
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Colors.blue,
+                  width: 2,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 4.0,
+                    spreadRadius: 4.0,
+                    color: Colors.grey.shade200,
                   )
-                : Image.network(
-                    staff.imageUrl!,
-                    fit: BoxFit.cover,
-                    width: responsiveWrapper.isSmallerThan(DESKTOP)
-                        ? size.width * 0.9
-                        : size.width * 0.3,
-                    height: size.height * 0.3,
-                  ),
+                ],
+                image: staff.imageUrl != null
+                    ? DecorationImage(
+                        image: NetworkImage(
+                          staff.imageUrl!,
+                        ),
+                        fit: BoxFit.cover,
+                      )
+                    : DecorationImage(
+                        image: AssetImage(profile),
+                        fit: BoxFit.cover,
+                      ),
+              ),
+              width: 150,
+              height: 150,
+            ),
           ),
           SizedBox(height: 36),
           Padding(
@@ -61,74 +95,34 @@ class Staff extends StatelessWidget {
             child: SelectableText(
               staff.fullName,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontSize: 20,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
+                    color: Colors.deepPurpleAccent,
                   ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-            child: SelectableText.rich(
-              TextSpan(
-                text: "SUBJECT :" + "  ",
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                children: [
-                  TextSpan(
-                    text: staff.majorSubject,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(fontSize: 16),
-                  )
-                ],
-              ),
+            padding: const EdgeInsets.only(left: 8.0),
+            child: SelectableText(
+              staff.post,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontSize: 16,
+                    fontWeight: FontWeight.normal,
+                  ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-            child: SelectableText.rich(
-              TextSpan(
-                text: "POSITION :" + "  ",
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                children: [
-                  TextSpan(
-                    text: staff.post,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(fontSize: 16),
-                  )
-                ],
-              ),
+            padding: const EdgeInsets.only(left: 8.0),
+            child: SelectableText(
+              staff.contact ?? 'Contact Not Available',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontSize: 16,
+                    fontWeight: FontWeight.normal,
+                  ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0, top: 8.0, bottom: 8.0),
-            child: SelectableText.rich(
-              TextSpan(
-                text: "CONTACT :" + "  ",
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                children: [
-                  TextSpan(
-                    text: staff.contact ?? "९८७६५४५६७८",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(fontSize: 16),
-                  )
-                ],
-              ),
-            ),
-          ),
+          isStatic?  SizedBox(height: 24):SizedBox(),
+
         ],
       ),
     );

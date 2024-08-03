@@ -8,48 +8,85 @@ class StudentWidget extends StatelessWidget {
   final StudentContact? studentContact;
   const StudentWidget({
     required this.student,
-    Key? key,  this.studentContact,
+    Key? key,
+    this.studentContact,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final responsiveWrapper = ResponsiveWrapper.of(context);
-    final size = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
         color: Colors.grey.shade300,
         borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: Colors.purpleAccent,
+          width: 4,
+        ),
+        boxShadow: student.isFocused ?? false
+            ? [
+                BoxShadow(
+                  blurRadius: 8.0,
+                  spreadRadius: 8.0,
+                  color: Colors.black12,
+                )
+              ]
+            : null,
+        gradient: LinearGradient(
+          colors: [Color(0xFFEAAECA), Color(0XFF94BBE9)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
       ),
-      width: responsiveWrapper.isSmallerThan(DESKTOP)
-          ? size.width
-          : size.width * 0.5,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(8),
-              topRight: Radius.circular(8),
+          Container(
+            padding: EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Colors.blueAccent,
+                width: 2,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 8.0,
+                  spreadRadius: 8.0,
+                  color: Colors.black12,
+                )
+              ],
             ),
-            child: student.imageUri == null
-                ? Image.asset(
-                    profile,
-                    fit: BoxFit.cover,
-                    width: responsiveWrapper.isSmallerThan(DESKTOP)
-                        ? size.width
-                        : size.width * 0.3,
-                    height: size.height * 0.3,
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Colors.blue,
+                  width: 2,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 4.0,
+                    spreadRadius: 4.0,
+                    color: Colors.grey.shade200,
                   )
-                : Image.network(
-                    student.imageUri!,
-                    fit: BoxFit.cover,
-                    height: size.height * 0.3,
-                    width: responsiveWrapper.isSmallerThan(DESKTOP)
-                        ? size.width
-                        : size.width * 0.3,
-                  ),
+                ],
+                image: student.imageUri != null
+                    ? DecorationImage(
+                        image: NetworkImage(
+                          student.imageUri!,
+                        ),
+                        fit: BoxFit.cover,
+                      )
+                    : DecorationImage(
+                        image: AssetImage(profile),
+                        fit: BoxFit.cover,
+                      ),
+              ),
+              width: 150,
+              height: 150,
+            ),
           ),
           SizedBox(height: 24),
           Padding(
@@ -63,65 +100,24 @@ class StudentWidget extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-            child: RichText(
-              text: TextSpan(
-                text: "Roll Number :" + "  ",
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                children: [
-                  TextSpan(
-                    text: student.rollNumber.toString(),
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(fontSize: 16),
-                  )
-                ],
-              ),
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Text(
+              student.address,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(fontSize: 16, fontWeight: FontWeight.w600),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+            padding: const EdgeInsets.only(left: 8.0, top: 4.0),
             child: RichText(
               text: TextSpan(
-                text: "Address: " + "  ",
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                children: [
-                  TextSpan(
-                    text: student.address.toString(),
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(fontSize: 16),
-                  )
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-            child: RichText(
-              text: TextSpan(
-                text: "Major In: " + "  ",
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                children: [
-                  TextSpan(
-                    text: student.majorSubject.toString() ,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(fontSize: 16),
-                  )
-                ],
+                text: '${student.majorSubject}',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(fontSize: 16),
               ),
             ),
           ),

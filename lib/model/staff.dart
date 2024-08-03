@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+
 class StaffDetail {
   late int currentPage;
   late int lastPage;
@@ -14,7 +16,7 @@ class StaffDetail {
   }
 }
 
-class Staff {
+class Staff extends Equatable {
   int? id;
   String fullName;
   String teacherLevel;
@@ -29,6 +31,7 @@ class Staff {
   int isActive;
   String joinedAt;
   String jobType;
+  bool? onFocused = false;
   Staff({
     required this.fullName,
     required this.teacherLevel,
@@ -44,6 +47,7 @@ class Staff {
     this.contact,
     this.email,
     this.imageUrl,
+    this.onFocused,
   });
   factory Staff.fromJson(Map<String, dynamic> json) {
     return Staff(
@@ -63,4 +67,23 @@ class Staff {
       id: json["id"],
     );
   }
+
+  @override
+  List<Object?> get props => [
+        this.fullName,
+        this.teacherLevel,
+        this.majorSubject,
+        this.dob,
+        this.address,
+        this.post,
+        this.rank,
+        this.isActive,
+        this.joinedAt,
+        this.jobType,
+        this.id,
+        this.contact,
+        this.email,
+        this.imageUrl,
+        this.onFocused,
+      ];
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:trishaheed/utilities/my_app_router_information_parser.dart';
-
+import '../utilities/my_app_router_information_parser.dart';
 import 'myapp_router_delegate.dart';
 
 class EntryPoint extends StatelessWidget {
@@ -9,6 +8,14 @@ class EntryPoint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // return MaterialApp(
+    //   title: 'Test',
+    //   themeMode: ThemeMode.dark,
+    //   home:BlocProvider(
+    //     create:(_)=>CounterBloc(),
+    //     child: CounterAppOne(),
+    //   ),
+    // );
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: "STSSS",
@@ -44,6 +51,7 @@ class EntryPoint extends StatelessWidget {
       backButtonDispatcher: RootBackButtonDispatcher(),
       routeInformationParser: MyAppRouterInformationParser(),
       routerDelegate: delegate,
+
     );
   }
 }

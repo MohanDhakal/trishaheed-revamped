@@ -10,3 +10,4 @@ class Globals {
   static final String resultSystem = "http://localhost:8080/result";
   static final String moecdc = "http://moecdc.gov.np";
 }
+

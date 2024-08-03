@@ -49,13 +49,11 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
   set atMenu(MenuTag menu) {
     _menu = menu;
     notifyListeners();
-    // print(staffId);
   }
 
   set atPath(String path) {
     _external = path;
     notifyListeners();
-    // print(staffId);
   }
 
   set drawer(bool val) {
@@ -410,13 +408,18 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                   key: ValueKey(RouteName.blogDetail),
                   child: BlogDetail(id: id),
                 ),
-              if (menu == MenuTag.staffDetail)
+              if (menu == MenuTag.staffDetail && staffId != null)
                 MaterialPage(
-                    key: ValueKey(RouteName.staffDetail),
-                    child: s.StaffDetail(
-                      staff: staff,
-                      id: staffId,
-                    )),
+                  key: ValueKey(RouteName.staffDetail),
+                  child: s.StaffDetail(
+                    staff: staff,
+                    id: staffId,
+                    onBackPressed: () {
+                      staffId=null;
+                      atMenu = MenuTag.staff;
+                    },
+                  ),
+                ),
             ],
           );
         },
@@ -460,9 +463,8 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
       id = configuration.id;
       atMenu = MenuTag.blogDetail;
     } else if (configuration.staffDetail) {
-      _menu = MenuTag.staffDetail;
       staffId = configuration.staffId;
-      notifyListeners();
+      atMenu = MenuTag.staffDetail;
     } else if (configuration.result) {
       atPath = Result.path;
     } else {

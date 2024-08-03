@@ -18,6 +18,7 @@ class Student {
   int courseId;
   Uint8List? image;
   String? imageUri;
+  bool?  isFocused;
 
   Student({
     this.id,
@@ -32,6 +33,7 @@ class Student {
     required this.classId,
     this.contactId,
     required this.courseId,
+    this.isFocused,
   });
 
   Map<String, dynamic> toMap() {

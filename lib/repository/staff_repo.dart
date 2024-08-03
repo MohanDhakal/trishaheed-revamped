@@ -21,7 +21,6 @@ class StaffRepo {
         await BaseApi.createDio().get(ApiRoutes.staffDetail + "$id");
     Staff? local;
     response.fold((l) {
-    
       local = Staff.fromJson(l.data);
     }, (r) {
       print("error occured");
@@ -33,8 +32,6 @@ class StaffRepo {
     List<MajorContact> tList = <MajorContact>[];
     BaseApi baseApi = BaseApi.createDio();
     var response = await baseApi.get(ApiRoutes.majorContacts);
-    print('came here 2');
-
     response.fold((l) {
       for (var element in l.data) {
         tList.add(MajorContact.fromMap(element));

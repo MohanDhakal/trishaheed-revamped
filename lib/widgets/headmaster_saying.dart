@@ -25,8 +25,7 @@ class _HeadMasterSayingState extends State<HeadMasterSaying> {
         if (visiblePercentage > 1) {
           if (endY != 0) setState(() => endY = 0);
         }
-        // debugPrint(
-        //     'Widget ${info.key} is ${visiblePercentage}% visible');
+
       },
       child: TweenAnimationBuilder(
           tween: Tween<Offset>(begin: Offset(0, 50), end: Offset(endX, endY)),

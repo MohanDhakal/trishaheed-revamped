@@ -18,7 +18,7 @@ class FixHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Container(
+    return Material(
       color: Colors.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -26,7 +26,7 @@ class FixHeader extends StatelessWidget {
           InkWell(
             onTap: onHome,
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8),
               child: Image.asset(
                 logo,
                 width: 80,
@@ -52,38 +52,30 @@ class FixHeader extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(width: 80),
+          SizedBox(width: 64),
           Row(
             children: [
               Image.asset(
                 paperPlane,
-                width: 30,
-                height: 30,
+                width: 32,
+                height: 32,
               ),
-              SizedBox(width: 10),
+              SizedBox(width: 8),
               SelectableText(
                 "Email: ",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                  fontSize: 16,
                 ),
               ),
               SelectableText(
                 "trishaheed1986@gmail.com",
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
-                  fontSize: 14,
+                  fontSize: 16,
                 ),
               ),
-              ResponsiveVisibility(
-                visible: false,
-                visibleWhen: [
-                  Condition.largerThan(name: TABLET),
-                ],
-                child: SizedBox(
-                  width: size.width * 0.1,
-                ),
-              ),
+              SizedBox(width: 48),
               Image.asset(
                 telephone,
                 width: 20,
@@ -129,22 +121,22 @@ class FixHeader extends StatelessWidget {
               ),
               alignment: Alignment.center,
               child: Text("See Results"),
-              width: 100,
-              height: 50,
+              width: 96,
+              height: 48,
             ),
           ),
           InkWell(
             onTap: onNewNotice,
             child: Container(
-              margin: EdgeInsets.only(right: 10, top: 5, bottom: 5),
+              margin: EdgeInsets.only(right: 8, top: 4, bottom: 4),
               decoration: BoxDecoration(
                 color: Colors.orange,
                 borderRadius: BorderRadius.circular(2),
               ),
               alignment: Alignment.center,
               child: Text("New Notice"),
-              width: 100,
-              height: 50,
+              width: 96,
+              height: 48,
             ),
           )
         ],
@@ -202,10 +194,10 @@ class HeaderForMobile extends StatelessWidget {
                         "Call: ",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontSize: 16,
                         ),
                       ),
-                      SizedBox(width: 10),
+                      SizedBox(width: 8),
                       SelectableText(
                         "9846095574",
                         style: TextStyle(
@@ -256,24 +248,22 @@ class HeaderForMobile extends StatelessWidget {
                           child: Text("Exam Result"),
                         ),
                       ),
-                                        MaterialButton(
-                    onPressed: onNewNotice,
-                    child: Container(
-                      height: 48,
-                      width: 100,
-                      margin: EdgeInsets.only(
-                          left: 10, bottom: 5, top: 5, right: 10),
-                      decoration: BoxDecoration(
-                        color: Colors.orange,
-                        borderRadius: BorderRadius.circular(2),
+                      MaterialButton(
+                        onPressed: onNewNotice,
+                        child: Container(
+                          height: 48,
+                          width: 100,
+                          margin: EdgeInsets.only(
+                              left: 10, bottom: 5, top: 5, right: 10),
+                          decoration: BoxDecoration(
+                            color: Colors.orange,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text("New Notice"),
+                        ),
                       ),
-                      alignment: Alignment.center,
-                      child: Text("New Notice"),
-                    ),
-                  ),
-
                     ],
-
                   ),
                 ],
               ),
