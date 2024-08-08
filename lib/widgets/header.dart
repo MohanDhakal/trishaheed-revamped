@@ -99,17 +99,29 @@ class Header extends StatelessWidget {
                         fontSize: 14,
                       ),
                     ),
-                    SizedBox(width: 150),
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.orange,
-                        borderRadius: BorderRadius.circular(2),
+                        gradient: LinearGradient(colors: [Colors.black, Colors.redAccent]),
+                        border: Border.all(
+                          color: Colors.red,
+                        ),
+                        borderRadius: BorderRadius.circular(32),
                       ),
-                      alignment: Alignment.center,
-                      child: Text("नयाँ सूचना"),
-                      width: 100,
-                      height: 50,
-                    )
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.orange,
+                          borderRadius: BorderRadius.circular(2),
+                          border: Border.all(
+
+                          )
+                        ),
+                        alignment: Alignment.center,
+                        child: Text("नयाँ सूचना"),
+                        width: 100,
+                        height: 50,
+                      ),
+                    ),
+                    SizedBox(width: 150)
                   ],
                 )
               ],

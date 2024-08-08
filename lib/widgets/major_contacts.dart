@@ -67,12 +67,13 @@ class _MajorContactsState extends State<MajorContacts> {
                   child ?? SizedBox(),
                   Consumer<StaffState>(builder: (context, model, child) {
                     return ResponsiveRowColumn(
-                      layout: responsiveWrapper.isSmallerThan(DESKTOP)
+                      layout: responsiveWrapper.isSmallerThan(TABLET)
                           ? ResponsiveRowColumnType.COLUMN
                           : ResponsiveRowColumnType.ROW,
                       rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       columnMainAxisAlignment: MainAxisAlignment.center,
                       columnMainAxisSize: MainAxisSize.min,
+                      columnSpacing: 8,
                       children: [
                         ...model.staffs.map((e) {
                           final staff = e.teacherStaff;
@@ -82,7 +83,7 @@ class _MajorContactsState extends State<MajorContacts> {
                                   child: SizedBox(
                                     width:
                                         responsiveWrapper.isSmallerThan(TABLET)
-                                            ? size.width * 0.9
+                                            ? size.width *0.8
                                             : size.width * 0.3,
                                     child: Staff(
                                       isStatic: true,
@@ -104,6 +105,7 @@ class _MajorContactsState extends State<MajorContacts> {
                                   ),
                                 );
                         }).toList()
+
                       ],
                     );
                   }),

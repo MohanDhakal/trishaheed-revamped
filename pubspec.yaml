@@ -44,6 +44,7 @@ dependencies:
   visibility_detector: ^0.4.0+2
   flutter_bloc: ^8.1.6
   equatable: ^2.0.5
+  gradient_borders: ^1.0.1
 
 dev_dependencies:
   flutter_test:
@@ -88,6 +89,8 @@ flutter:
     - assets/images/icons/reading-book.png
     - assets/images/customer-care.png
     - assets/images/notice/suchana.jpg
+    - assets/images/icons/quotes.png
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

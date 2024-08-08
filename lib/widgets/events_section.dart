@@ -73,12 +73,13 @@ class _EventSectionState extends State<EventSection> {
                   child ?? SizedBox(),
                   Consumer<EventState>(builder: (context, model, child) {
                     return ResponsiveRowColumn(
-                      layout: responsiveWrapper.isSmallerThan(DESKTOP)
+                      layout: responsiveWrapper.isSmallerThan(TABLET)
                           ? ResponsiveRowColumnType.COLUMN
                           : ResponsiveRowColumnType.ROW,
                       rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       columnMainAxisAlignment: MainAxisAlignment.center,
                       columnMainAxisSize: MainAxisSize.min,
+                      columnSpacing: 8,
                       children: [
                         ...model.schoolEvents.map((e) {
                           return ResponsiveRowColumnItem(

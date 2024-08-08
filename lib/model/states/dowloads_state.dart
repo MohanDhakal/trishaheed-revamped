@@ -32,7 +32,6 @@ class DownloadState with ChangeNotifier {
   }
 
   Future<void> refreshFiles() async {
-    print("Selected Folder:$selectedFolder");
     await getFiles();
     notifyListeners();
   }
@@ -53,7 +52,6 @@ class DownloadState with ChangeNotifier {
     if (file != null) {
       final message =
           await FileSaver.instance.saveFile(name: removeDir(path), bytes: file);
-      print("Message: $message");
     }
   }
 }

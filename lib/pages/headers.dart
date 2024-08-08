@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gradient_borders/gradient_borders.dart';
 import 'package:responsive_framework/responsive_value.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 
 import '../utilities/images.dart';
 
-class FixHeader extends StatelessWidget {
+class FixHeader extends StatefulWidget {
   final Function() onNewNotice;
   final Function() onHome;
   final Function() onResultsPublished;
@@ -16,6 +17,42 @@ class FixHeader extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<FixHeader> createState() => _FixHeaderState();
+}
+
+class _FixHeaderState extends State<FixHeader> with TickerProviderStateMixin {
+
+
+
+  late AnimationController _controller;
+  late Animation<Color?> _colorAnimation;
+  @override
+  void initState() {
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 1000),
+    )..repeat(reverse: true);
+    _colorAnimation = ColorTween(begin: Colors.greenAccent, end: Colors.orangeAccent)
+        .animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeIn,
+    ));
+    _controller.addListener(() {
+      if (_controller.isCompleted) {
+        _controller.reverse();
+      }
+      if (_controller.isDismissed) {
+        _controller.forward();
+      }
+    });
+    Future.delayed(Duration(seconds: 1)).then((value) {
+      _controller.forward();
+    });
+    super.initState();
+
+  }
+
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Material(
@@ -24,7 +61,7 @@ class FixHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           InkWell(
-            onTap: onHome,
+            onTap: widget.onHome,
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: Image.asset(
@@ -111,37 +148,71 @@ class FixHeader extends StatelessWidget {
               ),
             ],
           ),
-          InkWell(
-            onTap: onResultsPublished,
-            child: Container(
-              margin: EdgeInsets.only(right: 10, top: 5, bottom: 5),
-              decoration: BoxDecoration(
-                color: Colors.greenAccent,
-                borderRadius: BorderRadius.circular(2),
-              ),
-              alignment: Alignment.center,
-              child: Text("See Results"),
-              width: 96,
-              height: 48,
-            ),
-          ),
-          InkWell(
-            onTap: onNewNotice,
-            child: Container(
-              margin: EdgeInsets.only(right: 8, top: 4, bottom: 4),
-              decoration: BoxDecoration(
-                color: Colors.orange,
-                borderRadius: BorderRadius.circular(2),
-              ),
-              alignment: Alignment.center,
+          AnimatedBuilder(
+              animation: _controller,
+              builder: (context, value) {
+                return InkWell(
+                  onTap: widget.onResultsPublished,
+                  child: Container(
+                    margin: EdgeInsets.only(right: 8, top: 4, bottom: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.greenAccent,
+                      borderRadius: BorderRadius.circular(4),
+                      border: GradientBoxBorder(
+                        gradient: LinearGradient(
+                          colors: [
+                            _colorAnimation.value ?? Colors.transparent,
+                            _colorAnimation.value ?? Colors.transparent
+                          ],
+                        ),
+                        width: 4,
+                      ),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text("See Results"),
+                    width: 96,
+                    height: 48,
+                  ),
+                );
+              }),
+          AnimatedBuilder(
+              animation: _controller,
               child: Text("New Notice"),
-              width: 96,
-              height: 48,
-            ),
-          )
+              builder: (context, child) {
+                return InkWell(
+                  onTap: widget.onNewNotice,
+                  child: Container(
+                    margin: EdgeInsets.only(right: 8, top: 4, bottom: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.orange,
+                      borderRadius: BorderRadius.circular(4),
+                      border: GradientBoxBorder(
+                        gradient: LinearGradient(
+                          colors: [
+                            _colorAnimation.value ?? Colors.transparent,
+                            _colorAnimation.value ?? Colors.transparent
+                          ],
+                        ),
+                        width: 4,
+                      ),
+                    ),
+                    alignment: Alignment.center,
+                    child: child,
+                    width: 96,
+                    height: 48,
+                  ),
+                );
+              })
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+
   }
 }
 

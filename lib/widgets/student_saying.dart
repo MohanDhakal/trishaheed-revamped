@@ -10,12 +10,16 @@ class StudentSaying extends StatefulWidget {
   final String? saying;
   final String? name;
   final String? title;
+  final String? imageUri;
+  final int id;
   const StudentSaying({
     Key? key,
     this.shadow,
     this.saying,
     this.name,
     this.title,
+    this.imageUri,
+    required this.id,
   }) : super(key: key);
 
   @override
@@ -30,7 +34,7 @@ class _StudentSayingState extends State<StudentSaying> {
 
     final size = MediaQuery.of(context).size;
     return VisibilityDetector(
-      key: Key('student_saying ${widget.name}'),
+      key: Key('student_saying ${widget.id}'),
       onVisibilityChanged: (VisibilityInfo info) {
         var visiblePercentage = info.visibleFraction * 100;
         if (visiblePercentage > 1 && angle == pi) {
@@ -56,24 +60,51 @@ class _StudentSayingState extends State<StudentSaying> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SelectableText(
-              widget.saying ??
-                  """Many of our teachers have years of teaching experience which helps our student get some practical knowledge alongside theory.""",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                height: 1.8,
-              ),
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                   Positioned(
+                  top: 0,
+                  left: 96,
+                  child: Image.asset(
+                    quote,
+                    width: 48,
+                    height: 48,
+                  ),
+                ),
+                Container(
+                  height: 96,
+                  width: 96,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.blue,
+                      width: 2,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 4.0,
+                        spreadRadius: 4.0,
+                        color: Colors.grey.shade200,
+                      )
+                    ],
+                    image: widget.imageUri != null
+                        ? DecorationImage(
+                            image: NetworkImage(
+                              widget.imageUri!,
+                            ),
+                            fit: BoxFit.cover,
+                          )
+                        : DecorationImage(
+                            image: AssetImage(profile),
+                            fit: BoxFit.cover,
+                          ),
+                  ),
+                ),
+             
+              ],
             ),
-            SizedBox(height: 16),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(48),
-              child: Image.asset(
-                profile,
-                height: 96,
-                width: 96,
-              ),
-            ),
-            SizedBox(height: 16),
+            SizedBox(height: 8),
             SelectableText(
               widget.name ?? "Anonymous",
               style: Theme.of(context)
@@ -81,12 +112,25 @@ class _StudentSayingState extends State<StudentSaying> {
                   .bodyMedium
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 16),
             SelectableText(
-              widget.title ?? "Former Student",
+              widget.title ?? "Not Availahble",
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Color.fromARGB(255, 255, 102, 0),
                   ),
+            ),
+            Expanded(
+              child: SizedBox(
+                height: size.height * 0.2,
+                child: SelectableText(
+                  widget.saying ??
+                      """Many of our teachers have years of teaching experience which helps our student get some practical knowledge alongside theory.""",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    overflow: TextOverflow.ellipsis,
+                    height: 1.8,
+                  ),
+                ),
+              ),
             ),
           ],
         ),

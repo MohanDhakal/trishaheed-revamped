@@ -81,10 +81,10 @@ class _HighlightsState extends State<Highlights> with TickerProviderStateMixin {
               transform: transform,
               alignment: Alignment.bottomLeft,
               child: Container(
-                width: wrapper.isSmallerThan(DESKTOP)
-                    ? size.width * 0.8
+                width: wrapper.isSmallerThan(TABLET)
+                    ? size.width
                     : size.width / 3,
-                height: wrapper.isSmallerThan(DESKTOP)
+                height: wrapper.isSmallerThan(TABLET)
                     ? size.height * 0.4
                     : size.height * 0.5,
                 decoration: BoxDecoration(color: widget.backgroundColor),

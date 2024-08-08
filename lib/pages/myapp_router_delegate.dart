@@ -406,7 +406,12 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
               if (menu == MenuTag.blogDetail)
                 MaterialPage(
                   key: ValueKey(RouteName.blogDetail),
-                  child: BlogDetail(id: id),
+                  child: BlogDetail(
+                    id: id,
+                    onBackPressed: () {
+                      atMenu = MenuTag.blog;
+                    },
+                  ),
                 ),
               if (menu == MenuTag.staffDetail && staffId != null)
                 MaterialPage(
@@ -415,7 +420,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                     staff: staff,
                     id: staffId,
                     onBackPressed: () {
-                      staffId=null;
+                      staffId = null;
                       atMenu = MenuTag.staff;
                     },
                   ),

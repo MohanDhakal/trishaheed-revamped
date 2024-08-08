@@ -94,10 +94,10 @@ class _CountWidgetState extends State<CountWidget> {
       child: Container(
         height: wrapper.isLargerThan(MOBILE)
             ? wrapper.screenWidth * 0.15
-            : wrapper.screenWidth * 0.4,
+            : wrapper.screenWidth * 0.5,
         width: wrapper.isLargerThan(MOBILE)
             ? wrapper.screenWidth * 0.3
-            : wrapper.screenWidth * 0.4,
+            : wrapper.screenWidth * 0.5,
         decoration: BoxDecoration(
           color: Colors.blue,
           gradient: LinearGradient(
@@ -105,7 +105,11 @@ class _CountWidgetState extends State<CountWidget> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          shape: BoxShape.circle,
+          shape: wrapper.isLargerThan(MOBILE)
+              ? BoxShape.circle
+              : BoxShape.rectangle,
+          borderRadius:
+              wrapper.isLargerThan(MOBILE) ?  null: BorderRadius.circular(12),
         ),
         alignment: Alignment.center,
         child: Column(

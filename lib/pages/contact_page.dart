@@ -23,9 +23,9 @@ class _ContactPageState extends State<ContactPage> {
     // ignore: unused_local_variable
     final size = MediaQuery.of(context).size;
 
-    return RawKeyboardListener(
+    return KeyboardListener(
       focusNode: _focusNode,
-      onKey: _handleKeyEvent,
+      onKeyEvent: _handleKeyEvent,
       autofocus: true,
       child: SingleChildScrollView(
         controller: _controller,
@@ -36,8 +36,8 @@ class _ContactPageState extends State<ContactPage> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
               child: Text(
-                "User Feedback Form",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                "Share your progressive feedback with us.",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
             Row(
@@ -45,7 +45,7 @@ class _ContactPageState extends State<ContactPage> {
                 ComplaintForm(),
                 ResponsiveWrapper.of(context).isLargerThan(TABLET)
                     ? Card(
-                        elevation: 12,
+                        elevation: 8,
                         color: Colors.white,
                         child: SizedBox(
                           width: size.width * 0.4,
@@ -90,7 +90,7 @@ class _ContactPageState extends State<ContactPage> {
     super.dispose();
   }
 
-  void _handleKeyEvent(RawKeyEvent event) {
+  void _handleKeyEvent(KeyEvent event) {
     var offset = _controller.offset;
     if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
       setState(() {

@@ -41,7 +41,6 @@ class _BlogListState extends State<BlogList> {
   @override
   Widget build(BuildContext context) {
     final responsiveWrapper = ResponsiveWrapper.of(context);
-
     return _loadingBlog == false
         ? Material(
             child: Shimmer.fromColors(
@@ -486,10 +485,10 @@ class BannerPlaceholder extends StatelessWidget {
     final responsiveWrapper = ResponsiveWrapper.of(context);
     final size = MediaQuery.of(context).size;
     return Container(
-      width: responsiveWrapper.isSmallerThan(DESKTOP)
+      width: responsiveWrapper.isSmallerThan(TABLET)
           ? size.width * 0.8
           : size.width * 0.3,
-      height: size.height * 0.4,
+      height: size.height * 0.5,
       color: Colors.green,
     );
   }

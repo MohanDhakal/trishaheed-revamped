@@ -9,10 +9,10 @@ import 'package:trishaheed/widgets/count_display.dart';
 import 'package:trishaheed/widgets/events_section.dart';
 import 'package:trishaheed/widgets/footer.dart';
 import 'package:trishaheed/widgets/major_contacts.dart';
+import 'package:trishaheed/widgets/testimonials.dart';
 import '../utilities/images.dart';
 import '../widgets/headmaster_saying.dart';
 import '../widgets/highlights.dart';
-import '../widgets/student_saying.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                       initialPage: 1,
                       autoPlayInterval: Duration(milliseconds: 1000),
                       reverse: true,
-                      aspectRatio: responsiveWrapper.isSmallerThan(DESKTOP)
+                      aspectRatio: responsiveWrapper.isSmallerThan(TABLET)
                           ? 4 / 3
                           : 16 / 9,
                       viewportFraction: 1,
@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                   Positioned(
                     top: responsiveWrapper.isMobile
                         ? size.height * 0.25
-                        : size.height * 0.4,
+                        : size.height * 0.5,
                     left: 20,
                     child: MaterialButton(
                       onPressed: () {
@@ -106,7 +106,7 @@ class _HomePageState extends State<HomePage> {
                   Positioned(
                     top: responsiveWrapper.isMobile
                         ? size.height * 0.25
-                        : size.height * 0.4,
+                        : size.height * 0.5,
                     right: 20,
                     child: MaterialButton(
                       onPressed: () {
@@ -130,11 +130,11 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
 
-              SizedBox(height: 24),
+              SizedBox(height: 8),
               HeadMasterSaying(),
-              SizedBox(height: 24),
+              SizedBox(height: 16),
               MajorContacts(),
-              SizedBox(height: 24),
+              SizedBox(height: 16),
               Padding(
                 padding: const EdgeInsets.only(left: 20.0),
                 child: Text(
@@ -154,9 +154,9 @@ class _HomePageState extends State<HomePage> {
                 students: 487,
                 technicalStudents: 50,
               ),
-              SizedBox(height: 24),
+              SizedBox(height: 16),
               EventSection(),
-              SizedBox(height: 24),
+              SizedBox(height: 16),
               Padding(
                 padding: const EdgeInsets.only(left: 16.0, top: 36),
                 child: Text(
@@ -169,7 +169,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(width: size.width * 0.2, child: Divider(thickness: 4)),
-              SizedBox(height: 24),
+              SizedBox(height: 16),
               responsiveWrapper.isLargerThan(TABLET)
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -221,12 +221,12 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     ),
-              SizedBox(height: 24),
+              SizedBox(height: 16),
               Center(
                 child: Text(
                   " STUDENT TESTIMONIALS",
                   textAlign: TextAlign.center,
-                  style: responsiveWrapper.isSmallerThan(DESKTOP)
+                  style: responsiveWrapper.isSmallerThan(TABLET)
                       ? Theme.of(context)
                           .textTheme
                           .headlineMedium
@@ -238,120 +238,14 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(width: size.width * 0.2, child: Divider(thickness: 4)),
-              SizedBox(height: 12),
               Center(
                 child: Text(
                   "This is what our students has to say about us",
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
-              SizedBox(height: 24),
-              responsiveWrapper.isSmallerThan(DESKTOP)
-                  ? ResponsiveRowColumn(
-                      layout: responsiveWrapper.isSmallerThan(DESKTOP)
-                          ? ResponsiveRowColumnType.COLUMN
-                          : ResponsiveRowColumnType.ROW,
-                      columnMainAxisAlignment: MainAxisAlignment.center,
-                      rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ResponsiveRowColumnItem(
-                          child: StudentSaying(
-                            saying:
-                                """Friendly and motivating environment really helps us focus on what really matters. Our Teachers are available whenever we need them to clarify doubts.""",
-                            name: "Samraj Darji",
-                            title: "Student",
-                            shadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                                offset: Offset(4, 4),
-                                blurRadius: 4,
-                                spreadRadius: 4,
-                              ),
-                            ],
-                          ),
-                        ),
-                        ResponsiveRowColumnItem(
-                          child: StudentSaying(
-                            saying:
-                                "'Technology is inevitable in today's world.I have been involved in Technical Stream from Grade 9, which has helped me grow as a technical person.'",
-                            name: "Milan Dhakal",
-                            title: "Student",
-                            shadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                                offset: Offset(4, 4),
-                                blurRadius: 4,
-                                spreadRadius: 4,
-                              ),
-                            ],
-                          ),
-                        ),
-                        ResponsiveRowColumnItem(
-                          child: StudentSaying(
-                            saying:
-                                """ I joined Tri-Shaheed at grade 5, The environment for study has improved as the time passes by. Today, while working as an instructor, I feel quality of our student has improved alot.""",
-                            name: "Mohan k. Dhakal",
-                            title: "Technical Instructor(Former Student)",
-                            shadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                                offset: Offset(4, 4),
-                                blurRadius: 4,
-                                spreadRadius: 4,
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    )
-                  : SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          StudentSaying(
-                            saying:
-                                """Friendly and motivating environment really helps us focus on what really matters. Our Teachers are available whenever we need them to clarify doubts.""",
-                            name: "Samraj Darji",
-                            title: "Student",
-                            shadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                                offset: Offset(4, 4),
-                                blurRadius: 4,
-                                spreadRadius: 4,
-                              ),
-                            ],
-                          ),
-                          StudentSaying(
-                            name: "Milan Dhakal",
-                            title: "Student",
-                            shadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                                offset: Offset(4, 4),
-                                blurRadius: 4,
-                                spreadRadius: 4,
-                              ),
-                            ],
-                          ),
-                          StudentSaying(
-                            saying:
-                                """ I joined Tri-Shaheed at grade 5, The environment for study has improved as the time passes by. Today, while working as an instructor, I feel quality of our student has improved alot.""",
-                            name: "Mohan k. Dhakal",
-                            title: "Technical Instructor",
-                            shadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                                offset: Offset(4, 4),
-                                blurRadius: 4,
-                                spreadRadius: 4,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+              SizedBox(height: 16),
+              Testimonials(),
               SizedBox(height: 48),
               FooterWidget(color: Colors.black12),
               // SizedBox(height: 12),
