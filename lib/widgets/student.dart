@@ -101,7 +101,7 @@ class StudentWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Text(
-              student.address,
+             'Address: ${student.address}' ,
               style: Theme.of(context)
                   .textTheme
                   .bodyMedium
@@ -112,7 +112,7 @@ class StudentWidget extends StatelessWidget {
             padding: const EdgeInsets.only(left: 8.0, top: 4.0),
             child: RichText(
               text: TextSpan(
-                text: '${student.majorSubject}',
+                text: 'DOB: ${student.dob}',
                 style: Theme.of(context)
                     .textTheme
                     .bodyMedium

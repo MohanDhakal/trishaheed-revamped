@@ -361,7 +361,7 @@ class _ViewResultState extends State<ViewResult> {
               color: Colors.black,
             ),
             ResultsFooter(
-              checkedBy: "Jay Prasad Chapagain",
+              checkedBy: "",
               preparedBy: "Pabitra Poudel",
               headMaster: "Tek Nath Khanal",
               issuedDate:

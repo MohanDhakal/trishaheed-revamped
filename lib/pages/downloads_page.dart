@@ -21,7 +21,8 @@ class _DownloadPageState extends State<DownloadPage> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero).then((value) {
-      Provider.of<DownloadState>(context, listen: false).getFiles();
+   Provider.of<DownloadState>(context, listen: false).getFiles();
+
     });
   }
 
@@ -30,6 +31,7 @@ class _DownloadPageState extends State<DownloadPage> {
     final double screenWidth = MediaQuery.of(context).size.width;
     final responsiveWrapper = ResponsiveWrapper.of(context);
     return Consumer<DownloadState>(builder: (context, model, child) {
+      print(model.selectedDownloads);
       return ResponsiveRowColumn(
         rowMainAxisAlignment: MainAxisAlignment.start,
         layout: responsiveWrapper.isSmallerThan(TABLET)

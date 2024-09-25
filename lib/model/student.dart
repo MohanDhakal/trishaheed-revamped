@@ -18,7 +18,7 @@ class Student {
   int courseId;
   Uint8List? image;
   String? imageUri;
-  bool?  isFocused;
+  bool? isFocused;
   String? symbolNo;
 
   Student({
@@ -36,6 +36,7 @@ class Student {
     required this.courseId,
     this.isFocused,
     this.symbolNo,
+    this.imageUri,
   });
 
   Map<String, dynamic> toMap() {
@@ -69,6 +70,7 @@ class Student {
       rollNumber: map['roll_number'] as int,
       classId: map['class_id'] as int,
       contactId: map['contact_id'] != null ? map['contact_id'] as int : null,
+      imageUri: map['image_uri'] != null ? map['image_uri'] as String : null,
       courseId: map['course_id'] as int,
       symbolNo: map['symbol_no'],
     );
@@ -135,12 +137,13 @@ class Grade {
 
   String toJson() => json.encode(toMap());
 }
+
 class StudentContact {
   int contactId;
   int studentId;
- String email;
- String phoneNumber;
- String guardianContact;
+  String email;
+  String phoneNumber;
+  String guardianContact;
   StudentContact({
     required this.contactId,
     required this.studentId,
@@ -148,7 +151,6 @@ class StudentContact {
     required this.phoneNumber,
     required this.guardianContact,
   });
-
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -172,5 +174,6 @@ class StudentContact {
 
   String toJson() => json.encode(toMap());
 
-  factory StudentContact.fromJson(String source) => StudentContact.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory StudentContact.fromJson(String source) =>
+      StudentContact.fromMap(json.decode(source) as Map<String, dynamic>);
 }

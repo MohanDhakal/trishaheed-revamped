@@ -13,7 +13,7 @@ class FooterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
     // late WebViewXController webviewController;
-    final size = MediaQuery.of(context).size;
+   final size = MediaQuery.of(context).size;
     // final responiveWrapper = ResponsiveWrapper.of(context);
 
     return Container(

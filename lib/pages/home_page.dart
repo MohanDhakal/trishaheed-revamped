@@ -29,7 +29,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-
     Future.delayed(Duration(milliseconds: 500)).then((value) {
       setState(() {
         _images = List.generate(
@@ -70,13 +69,14 @@ class _HomePageState extends State<HomePage> {
                   children: _images,
                   controller: _carouselController,
                   padding: EdgeInsets.all(0),
+                  itemSnapping: true,
                   shape: ContinuousRectangleBorder(
                     side: BorderSide.none,
                     borderRadius: BorderRadius.circular(0),
                   ),
                 ),
               ),
-
+              
               SizedBox(height: 8),
               HeadMasterSaying(),
               SizedBox(height: 16),

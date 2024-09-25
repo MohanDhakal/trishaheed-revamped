@@ -37,8 +37,8 @@ class _EventSectionState extends State<EventSection> {
         }
       },
       child: TweenAnimationBuilder(
-          tween: Tween<Offset>(begin: Offset(0,100), end: Offset(endX, endY)),
-          duration: const Duration(milliseconds: 500),
+          tween: Tween<Offset>(begin: Offset(0, 100), end: Offset(endX, endY)),
+          duration: const Duration(milliseconds: 300),
           curve: Curves.easeIn,
           child: Column(
             children: [
@@ -65,38 +65,41 @@ class _EventSectionState extends State<EventSection> {
               const ResponsiveRowColumnItem(child: SizedBox(height: 24)),
             ],
           ),
-          builder: (BuildContext context,Offset value, child) {
+          builder: (BuildContext context, Offset value, child) {
             return Transform.translate(
               offset: value,
-              child: Column(
-                children: [
-                  child ?? SizedBox(),
-                  Consumer<EventState>(builder: (context, model, child) {
-                    return ResponsiveRowColumn(
-                      layout: responsiveWrapper.isSmallerThan(TABLET)
-                          ? ResponsiveRowColumnType.COLUMN
-                          : ResponsiveRowColumnType.ROW,
-                      rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      columnMainAxisAlignment: MainAxisAlignment.center,
-                      columnMainAxisSize: MainAxisSize.min,
-                      columnSpacing: 8,
-                      children: [
-                        ...model.schoolEvents.map((e) {
-                          return ResponsiveRowColumnItem(
-                              child: EventCard(
-                            bannerUrl: e.imageUri,
-                            title: e.eventName,
-                            description: e.eventDescription,
-                            startDate: e.startDate,
-                            endDate: e.endDate,
-                            startTime: e.startTime,
-                            endTime: e.endTime,
-                          ));
-                        }).toList()
-                      ],
-                    );
-                  }),
-                ],
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Column(
+                  children: [
+                    child ?? SizedBox(),
+                    Consumer<EventState>(builder: (context, model, child) {
+                      return ResponsiveRowColumn(
+                        layout: responsiveWrapper.isSmallerThan(TABLET)
+                            ? ResponsiveRowColumnType.COLUMN
+                            : ResponsiveRowColumnType.ROW,
+                        rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        columnMainAxisAlignment: MainAxisAlignment.center,
+                        columnMainAxisSize: MainAxisSize.min,
+                        columnSpacing: 8,
+                        children: [
+                          ...model.schoolEvents.map((e) {
+                            return ResponsiveRowColumnItem(
+                                child: EventCard(
+                              bannerUrl: e.imageUri,
+                              title: e.eventName,
+                              description: e.eventDescription,
+                              startDate: e.startDate,
+                              endDate: e.endDate,
+                              startTime: e.startTime,
+                              endTime: e.endTime,
+                            ));
+                          }).toList()
+                        ],
+                      );
+                    }),
+                  ],
+                ),
               ),
             );
           }),

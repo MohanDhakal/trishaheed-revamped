@@ -25,7 +25,7 @@ class _ImageWithLoadingState extends State<ImageWithLoading> {
       children: <Widget>[
         Image.network(
           widget.imageUrl,
-          fit: BoxFit.fitHeight,
+          fit: BoxFit.contain,
           height: size.height * 0.8,
           width: responsiveWrapper.isSmallerThan(DESKTOP)
               ? size.width * 0.95
