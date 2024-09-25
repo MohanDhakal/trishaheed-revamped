@@ -55,7 +55,6 @@ class _StudentsState extends State<Students> {
                         SizedBox(height: 8.0),
                         GradeChips(),
                         SizedBox(height: 16.0),
-
                         model.loading
                             ? SizedBox(
                                 width: 50,
@@ -70,7 +69,8 @@ class _StudentsState extends State<Students> {
                                       SizedBox(height: size.height * 0.2),
                                       Center(
                                         child: Text(
-                                            "Looks like there is no detail about the grade you selected"),
+                                          "Looks like there is no detail about the grade you selected",
+                                        ),
                                       ),
                                     ],
                                   )
@@ -82,11 +82,14 @@ class _StudentsState extends State<Students> {
                                         SliverGridDelegateWithMaxCrossAxisExtent(
                                       maxCrossAxisExtent: responsiveWrapper
                                               .isSmallerThan(TABLET)
-                                          ? size.width * 0.9
+                                          ? size.width * 0.8
                                           : size.width * 0.3,
                                       mainAxisSpacing: 8,
                                       crossAxisSpacing: 8,
-                                      childAspectRatio: 0.8,
+                                      childAspectRatio: responsiveWrapper
+                                              .isSmallerThan(TABLET)
+                                          ? 0.8
+                                          : 0.8,
                                     ),
                                     itemCount: model.studentList.length,
                                     itemBuilder: ((context, index) {
@@ -107,7 +110,6 @@ class _StudentsState extends State<Students> {
                                     }),
                                   ),
                         SizedBox(height: 16.0),
-
                         PaginatorWidget(
                           onNext: () {
                             if (model.currentPage < model.lastPage) {
@@ -200,9 +202,14 @@ class _StudentsState extends State<Students> {
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 8.0, horizontal: 8.0),
-                                            child: StudentWidget(
-                                              student: model.studentList[index],
-                                              // width: MediaQuery.of(context).size.width,
+                                            child: SizedBox(
+                                              width: size.width * 0.7,
+                                              height: size.height * 0.6,
+                                              child: StudentWidget(
+                                                student:
+                                                    model.studentList[index],
+                                                // width: MediaQuery.of(context).size.width,
+                                              ),
                                             ),
                                           ),
                                         );

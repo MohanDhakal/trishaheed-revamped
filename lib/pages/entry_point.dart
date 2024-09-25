@@ -11,9 +11,25 @@ class EntryPoint extends StatelessWidget {
     // return MaterialApp(
     //   title: 'Test',
     //   themeMode: ThemeMode.dark,
-    //   home:BlocProvider(
-    //     create:(_)=>CounterBloc(),
-    //     child: CounterAppOne(),
+    //     scrollBehavior: MaterialScrollBehavior().copyWith(
+    //       dragDevices: {
+    //         PointerDeviceKind.mouse,
+    //         PointerDeviceKind.touch,
+    //         PointerDeviceKind.stylus,
+    //         PointerDeviceKind.unknown,
+    //       },
+    //     ),
+    //   home: ResponsiveWrapper.builder(
+    //     maxWidth: 1700,
+    //     minWidth: 350,
+    //     // defaultScale: true,
+    //     breakpoints: [
+    //       ResponsiveBreakpoint.resize(350, name: MOBILE),
+    //       ResponsiveBreakpoint.autoScale(600, name: TABLET),
+    //       ResponsiveBreakpoint.resize(800, name: DESKTOP),
+    //       ResponsiveBreakpoint.autoScale(1700, name: 'XL'),
+    //     ],
+    //     ViewResult(),
     //   ),
     // );
     return MaterialApp.router(
@@ -28,9 +44,7 @@ class EntryPoint extends StatelessWidget {
         },
       ),
       themeMode: ThemeMode.dark,
-      // color: Colors.black,
       theme: ThemeData(
-        // fontFamily: 'OpenSans',
         textTheme: TextTheme(
           displaySmall: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontSize: 12,
@@ -51,7 +65,6 @@ class EntryPoint extends StatelessWidget {
       backButtonDispatcher: RootBackButtonDispatcher(),
       routeInformationParser: MyAppRouterInformationParser(),
       routerDelegate: delegate,
-
     );
   }
 }

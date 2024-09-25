@@ -155,7 +155,7 @@ class _StaffDetailState extends State<StaffDetail> {
                   ResponsiveRowColumnItem(
                     child: SizedBox(
                       width: responsiveWrapper.isSmallerThan(TABLET)
-                          ? size.width * 0.90
+                          ? size.width
                           : size.width * 0.35,
                       child: Card(
                         elevation: 8,

@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -62,72 +61,20 @@ class _HomePageState extends State<HomePage> {
           controller: _controller,
           child: Column(
             children: [
-              Stack(
-                children: [
-                  CarouselSlider(
-                    items: _images,
-                    carouselController: _carouselController,
-                    options: CarouselOptions(
-                      initialPage: 1,
-                      autoPlayInterval: Duration(milliseconds: 1000),
-                      reverse: true,
-                      aspectRatio: responsiveWrapper.isSmallerThan(TABLET)
-                          ? 4 / 3
-                          : 16 / 9,
-                      viewportFraction: 1,
-                      pageSnapping: true,
-                      onPageChanged: (index, reason) {},
-                    ),
+              SizedBox(
+                height: size.height * 0.7,
+                width: size.width,
+                child: CarouselView(
+                  itemExtent: size.width,
+                  scrollDirection: Axis.horizontal,
+                  children: _images,
+                  controller: _carouselController,
+                  padding: EdgeInsets.all(0),
+                  shape: ContinuousRectangleBorder(
+                    side: BorderSide.none,
+                    borderRadius: BorderRadius.circular(0),
                   ),
-                  Positioned(
-                    top: responsiveWrapper.isMobile
-                        ? size.height * 0.25
-                        : size.height * 0.5,
-                    left: 20,
-                    child: MaterialButton(
-                      onPressed: () {
-                        _carouselController.nextPage();
-                      },
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        child: Icon(
-                          Icons.navigate_before,
-                          size: 30,
-                        ),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade300,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: responsiveWrapper.isMobile
-                        ? size.height * 0.25
-                        : size.height * 0.5,
-                    right: 20,
-                    child: MaterialButton(
-                      onPressed: () {
-                        _carouselController.previousPage();
-                      },
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        child: Icon(
-                          Icons.navigate_next,
-                          size: 30,
-                        ),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade300,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
+                ),
               ),
 
               SizedBox(height: 8),

@@ -12,6 +12,8 @@ class Result {
   String? grade;
   double? credit;
   double? gradePoint;
+  String? symbolNo;
+  String? subjectCode;
 
   Result({
     required this.studentId,
@@ -24,6 +26,8 @@ class Result {
     this.credit,
     this.gradePoint,
     this.id,
+    this.symbolNo,
+    this.subjectCode,
   });
 
   Map<String, dynamic> toMap() {
@@ -49,6 +53,7 @@ class Result {
       subjectName: map['subject_name'] as String,
       gradePoint:
           map['grade_point'] != null ? map['grade_point'] as double : null,
+      subjectCode: map['subject_code'],
     );
   }
 

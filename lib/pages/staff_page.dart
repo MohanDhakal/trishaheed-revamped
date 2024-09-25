@@ -4,7 +4,6 @@ import 'package:shimmer/shimmer.dart';
 import 'package:trishaheed/model/staff.dart' as s;
 import 'package:trishaheed/repository/staff_repo.dart';
 import 'package:trishaheed/widgets/staff.dart';
-
 import '../utilities/menu_tag.dart';
 
 class TeacherStaff extends StatefulWidget {
@@ -161,7 +160,6 @@ class _TeacherStaffState extends State<TeacherStaff> {
                         }),
                       ),
                       SizedBox(height: 24),
-
                       PaginatorWidget(
                         onNext: () async {
                           if (currentPage < lastPage) {
@@ -199,8 +197,7 @@ class _TeacherStaffState extends State<TeacherStaff> {
                 : Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        height: size.height * 0.8,
+                      Expanded(
                         child: ListView.builder(
                           itemCount: teacherList.length,
                           shrinkWrap: true,
@@ -229,9 +226,13 @@ class _TeacherStaffState extends State<TeacherStaff> {
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 8.0, horizontal: 8.0),
-                                child: Staff(
-                                  staff: teacherList[index],
-                                  // width: MediaQuery.of(context).size.width,
+                                child: SizedBox(
+                                  width: size.width * 0.7,
+                                  height: size.height*0.6,
+                                  child: Staff(
+                                    staff: teacherList[index],
+                                    // width: MediaQuery.of(context).size.width,
+                                  ),
                                 ),
                               ),
                             );

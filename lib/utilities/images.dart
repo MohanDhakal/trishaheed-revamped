@@ -13,6 +13,7 @@ const String customerCare = "assets/images/customer-care.png";
 const String contact1 = "assets/images/contacts/Jay_sir.jpg";
 const String contact2 = "assets/images/contacts/Tek_sir.jpg";
 const String contact3 = "assets/images/contacts/mohan.jpg";
+const String headSir = "assets/images/contacts/head_sir.jpg";
 const String notice = "assets/images/notice/suchana.jpg";
 const String quote="assets/images/icons/quotes.png";
 const String networkPlaceholder =

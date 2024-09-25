@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:trishaheed/model/staff.dart' as s;
 import 'package:trishaheed/utilities/images.dart';
 

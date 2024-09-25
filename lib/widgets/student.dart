@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:trishaheed/model/student.dart';
 import 'package:trishaheed/utilities/images.dart';
 
@@ -40,7 +39,7 @@ class StudentWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: MainAxisSize.max,
         children: [
           Container(
             padding: EdgeInsets.all(8.0),

@@ -24,7 +24,10 @@ class _BlogDetailState extends State<BlogDetail> {
   final ScrollController _controller = ScrollController();
   String userName = "";
   bool _loading = true;
-  QuillController? _readOnlyContainer;
+  QuillController _readOnlyContainer = QuillController(
+      selection: TextSelection.collapsed(offset: 0),
+      document: Document(),
+      readOnly: true);
   Blog? _blogDetail;
 
   @override
@@ -94,7 +97,8 @@ class _BlogDetailState extends State<BlogDetail> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 16.0),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 16.0),
                           child: Row(
                             children: [
                               InkWell(
@@ -195,24 +199,20 @@ class _BlogDetailState extends State<BlogDetail> {
                         ),
                         SizedBox(height: 10),
                         //  quill.QuillEditor(configurations: ,)
-                        _readOnlyContainer != null
-                            ? Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: QuillEditor.basic(
-                                  scrollController: ScrollController(),
-                                  focusNode: FocusNode(
-                                    canRequestFocus: true,
-                                  ),
-                                  configurations: QuillEditorConfigurations(
-                                      controller: _readOnlyContainer!,
-                                      readOnly: true,
-                                      textSelectionThemeData:
-                                          TextSelectionThemeData(),
-                                      sharedConfigurations:
-                                          QuillSharedConfigurations()),
-                                ),
-                              )
-                            : SizedBox(),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: QuillEditor.basic(
+                            scrollController: ScrollController(),
+                            focusNode: FocusNode(
+                              canRequestFocus: true,
+                            ),
+                            configurations: QuillEditorConfigurations(
+                              controller: _readOnlyContainer,
+                              textSelectionThemeData: TextSelectionThemeData(),
+                              sharedConfigurations: QuillSharedConfigurations(),
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ),

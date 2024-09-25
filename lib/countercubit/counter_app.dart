@@ -1,10 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'counter_cubit.dart';
-
 class CounterApp extends StatelessWidget {
   const CounterApp({super.key});
 
@@ -27,7 +23,6 @@ class CounterApp extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: (){
-                  //TODO: Implement increement counter
                   context.read<CounterCubit>().increement();
                 },
                 child: Container(

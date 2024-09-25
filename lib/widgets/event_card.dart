@@ -43,7 +43,7 @@ class EventCard extends StatelessWidget {
               child: bannerUrl == null
                   ? Image.asset(
                       eventBanner,
-                      fit: BoxFit.fitWidth,
+                      fit: BoxFit.contain,
                       width: responsiveWrapper.isSmallerThan(TABLET)
                           ? size.width
                           : size.width * 0.4,
@@ -51,7 +51,7 @@ class EventCard extends StatelessWidget {
                     )
                   : Image.network(
                       bannerUrl!,
-                      fit: BoxFit.fitWidth,
+                      fit:BoxFit.contain,
                       width: responsiveWrapper.isSmallerThan(TABLET)
                           ? size.width
                           : size.width * 0.4,
@@ -66,7 +66,7 @@ class EventCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 8),
               child: SelectableText(description),
             ),
             Padding(
@@ -75,7 +75,7 @@ class EventCard extends StatelessWidget {
                 'Starts at: $startDate  $startTime  ',
                 style: TextStyle(
                   color: Colors.green[600],
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w500,
 
                 ),
               ),
@@ -86,7 +86,7 @@ class EventCard extends StatelessWidget {
                 '  Ends at:$endDate  $endTime  ',
                 style: TextStyle(
                   color: Colors.red,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),

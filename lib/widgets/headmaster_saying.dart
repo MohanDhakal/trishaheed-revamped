@@ -52,13 +52,11 @@ class _HeadMasterSayingState extends State<HeadMasterSaying> {
                                 ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 8),
-
                       SizedBox(
                         width: size.width * 0.2,
                         child: Divider(thickness: 4),
                       ),
                       SizedBox(height: 16),
-
                     ],
                   ),
                   ResponsiveRowColumn(
@@ -79,7 +77,7 @@ class _HeadMasterSayingState extends State<HeadMasterSaying> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(12),
                           child: Image.asset(
-                            contact1,
+                            headSir,
                             width: ResponsiveWrapper.of(context)
                                     .isSmallerThan(DESKTOP)
                                 ? size.width * 0.6
@@ -98,10 +96,19 @@ class _HeadMasterSayingState extends State<HeadMasterSaying> {
                       ),
                       ResponsiveRowColumnItem(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisSize: MainAxisSize.max,
+
                           children: [
                             SizedBox(height: 24),
+                            SelectableText(
+                              "टेकनाथ खनाल",
+                              style: TextStyle(
+                                fontSize: 36,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
                             SizedBox(
                               width: ResponsiveWrapper.of(context)
                                       .isLargerThan(TABLET)
