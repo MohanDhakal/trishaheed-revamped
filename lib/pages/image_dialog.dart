@@ -32,7 +32,7 @@ class _ImageDialogState extends State<ImageDialog> {
             child: Text("Something went wrong"),
           )
         : Dialog(
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.grey[200],
             child: SizedBox(
               width: responsiveWrapper.isSmallerThan(DESKTOP)
                   ? size.width
@@ -49,14 +49,16 @@ class _ImageDialogState extends State<ImageDialog> {
                     ),
                   ),
                   Container(
-                    color: Colors.blueAccent,
-                    
+                    color: Colors.blueAccent.shade400,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         IconButton(
-                          icon: Icon(Icons.navigate_before,size: 36,),
+                          icon: Icon(
+                            Icons.navigate_before,
+                            size: 36,
+                          ),
                           onPressed: _currentIndex! > 0
                               ? () {
                                   setState(() {
@@ -66,7 +68,10 @@ class _ImageDialogState extends State<ImageDialog> {
                               : null,
                         ),
                         IconButton(
-                          icon: Icon(Icons.navigate_next,size: 36,),
+                          icon: Icon(
+                            Icons.navigate_next,
+                            size: 36,
+                          ),
                           onPressed:
                               _currentIndex! < widget.imageUrls.length - 1
                                   ? () {

@@ -37,6 +37,7 @@ class StudentRepo {
     }, (r) => debugPrint("${r.message}"));
     return std;
   }
+
   Future<List<Grade>> getClasses() async {
     List<Grade> tList = <Grade>[];
     BaseApi baseApi = BaseApi.createDio();
@@ -57,12 +58,12 @@ class StudentRepo {
     var response = await baseApi.get('${ApiRoutes.contactForID}$id');
     StudentContact? studentContact;
     response.fold((l) {
-      studentContact =StudentContact.fromMap(l.data);
+      print(l.data);
+
+      studentContact = StudentContact.fromMap(l.data);
     }, (r) {
       print("Error with code: ${r.code} and message: ${r.message}");
     });
-    print(studentContact?.toMap());
     return studentContact;
-
   }
 }

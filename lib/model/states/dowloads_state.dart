@@ -19,6 +19,8 @@ class DownloadState with ChangeNotifier {
 
   Future<void> getFiles() async {
     final downloadData = await FileRepo().listFiles(selectedFolder.name);
+    
+    print(downloadData);
     if (downloadData != null) {
       print(downloadData.files);
       final chunks = chunk(downloadData.files, 5);

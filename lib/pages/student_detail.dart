@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import '../model/student.dart';
 import '../utilities/images.dart';
+import 'dart:html' as html;
 
 class StudentDetail extends StatefulWidget {
   final Student student;
@@ -98,34 +99,42 @@ class _StudentDetailState extends State<StudentDetail>
                       ResponsiveRowColumnItem(
                         child: Column(
                           children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                  color: Colors.blue,
-                                  width: 2,
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    blurRadius: 4.0,
-                                    spreadRadius: 4.0,
-                                    color: Colors.grey.shade200,
-                                  )
-                                ],
-                                image: widget.student.imageUri != null
-                                    ? DecorationImage(
-                                        image: NetworkImage(
-                                          widget.student.imageUri!,
+                            GestureDetector(
+                              onTap: () {
+                                if (widget.student.imageUri != null) {
+                                  html.window
+                                      .open(widget.student.imageUri!, "_blank");
+                                }
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: Colors.blue,
+                                    width: 2,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 4.0,
+                                      spreadRadius: 4.0,
+                                      color: Colors.grey.shade200,
+                                    )
+                                  ],
+                                  image: widget.student.imageUri != null
+                                      ? DecorationImage(
+                                          image: NetworkImage(
+                                            widget.student.imageUri!,
+                                          ),
+                                          fit: BoxFit.cover,
+                                        )
+                                      : DecorationImage(
+                                          image: AssetImage(profile),
+                                          fit: BoxFit.cover,
                                         ),
-                                        fit: BoxFit.cover,
-                                      )
-                                    : DecorationImage(
-                                        image: AssetImage(profile),
-                                        fit: BoxFit.cover,
-                                      ),
+                                ),
+                                width: 300,
+                                height: 360,
                               ),
-                              width: 300,
-                              height: 360,
                             ),
                             SizedBox(height: 24),
                             Text(

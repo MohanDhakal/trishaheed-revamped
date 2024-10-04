@@ -6,6 +6,7 @@ import 'package:trishaheed/model/staff.dart';
 import 'package:trishaheed/repository/staff_repo.dart';
 import 'package:trishaheed/utilities/images.dart';
 import '../utilities/selectables.dart';
+import 'dart:html' as html;
 
 // ignore: must_be_immutable
 class StaffDetail extends StatefulWidget {
@@ -101,34 +102,42 @@ class _StaffDetailState extends State<StaffDetail> {
                       : ResponsiveRowColumnItem(
                           child: Column(
                             children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(
-                                    color: Colors.blue,
-                                    width: 2,
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      blurRadius: 4.0,
-                                      spreadRadius: 4.0,
-                                      color: Colors.grey.shade200,
-                                    )
-                                  ],
-                                  image: staff!.imageUrl != null
-                                      ? DecorationImage(
-                                          image: NetworkImage(
-                                            staff!.imageUrl!,
+                              GestureDetector(
+                                onTap: () {
+                                  if (staff!.imageUrl != null) {
+                                    html.window
+                                        .open(staff!.imageUrl!, "_blank");
+                                  }
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                      color: Colors.blue,
+                                      width: 2,
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 4.0,
+                                        spreadRadius: 4.0,
+                                        color: Colors.grey.shade200,
+                                      )
+                                    ],
+                                    image: staff!.imageUrl != null
+                                        ? DecorationImage(
+                                            image: NetworkImage(
+                                              staff!.imageUrl!,
+                                            ),
+                                            fit: BoxFit.cover,
+                                          )
+                                        : DecorationImage(
+                                            image: AssetImage(profile),
+                                            fit: BoxFit.cover,
                                           ),
-                                          fit: BoxFit.cover,
-                                        )
-                                      : DecorationImage(
-                                          image: AssetImage(profile),
-                                          fit: BoxFit.cover,
-                                        ),
+                                  ),
+                                  width: 300,
+                                  height: 360,
                                 ),
-                                width: 300,
-                                height: 360,
                               ),
                               Padding(
                                 padding:

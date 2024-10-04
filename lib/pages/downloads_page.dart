@@ -31,7 +31,6 @@ class _DownloadPageState extends State<DownloadPage> {
     final double screenWidth = MediaQuery.of(context).size.width;
     final responsiveWrapper = ResponsiveWrapper.of(context);
     return Consumer<DownloadState>(builder: (context, model, child) {
-      print(model.selectedDownloads);
       return ResponsiveRowColumn(
         rowMainAxisAlignment: MainAxisAlignment.start,
         layout: responsiveWrapper.isSmallerThan(TABLET)

@@ -99,7 +99,7 @@ class _StudentsState extends State<Students> {
                                           model.selectedStudent = model
                                               .studentList
                                               .elementAt(index);
-                                          await model.getContact();
+                                          // await model.getContact();
                                         }),
                                         child: StudentWidget(
                                           student: model.studentList
