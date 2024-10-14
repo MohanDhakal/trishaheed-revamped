@@ -71,8 +71,10 @@ class StudentWidget extends StatelessWidget {
                     color: Colors.grey.shade200,
                   )
                 ],
+                 
                 image: student.imageUri != null
                     ? DecorationImage(
+                      filterQuality: FilterQuality.low,
                         image: NetworkImage(
                           student.imageUri!,
                         ),

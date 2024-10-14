@@ -24,23 +24,11 @@ class _HomePageState extends State<HomePage> {
   final FocusNode _focusNode = FocusNode();
   final ScrollController _controller = ScrollController();
   final CarouselController _carouselController = CarouselController();
-  List<Widget> _images = [];
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(milliseconds: 500)).then((value) {
-      setState(() {
-        _images = List.generate(
-          carouselImages.length,
-          (index) {
-            return Image.asset(
-              carouselImages[index],
-              fit: BoxFit.cover,
-            );
-          },
-        );
-      });
+    Future.delayed(Duration(milliseconds: 300)).then((value) {
       Provider.of<StaffState>(context, listen: false).contacts();
     });
   }
@@ -66,7 +54,6 @@ class _HomePageState extends State<HomePage> {
                 child: CarouselView(
                   itemExtent: size.width,
                   scrollDirection: Axis.horizontal,
-                  children: _images,
                   controller: _carouselController,
                   padding: EdgeInsets.all(0),
                   itemSnapping: true,
@@ -74,9 +61,55 @@ class _HomePageState extends State<HomePage> {
                     side: BorderSide.none,
                     borderRadius: BorderRadius.circular(0),
                   ),
+                  children: [
+                    ...List.generate(
+                      carouselImages.length,
+                      (index) {
+                        return Image.network(
+                          carouselImages[index],
+                          fit: BoxFit.cover,
+                          loadingBuilder: (BuildContext context, Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) {
+                              // Image has been fully loaded, return the child image
+                              return child;
+                            }
+                            // While loading, return a circular progress indicator
+                            return Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                        : null,
+                                    color: Colors.blue,
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    'Loading...',
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.grey),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          errorBuilder: (BuildContext context, Object exception,
+                              StackTrace? stackTrace) {
+                            print(exception.toString());
+                            return Center(child: Text('Image failed to load'));
+                          },
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
-              
+
               SizedBox(height: 8),
               HeadMasterSaying(),
               SizedBox(height: 16),

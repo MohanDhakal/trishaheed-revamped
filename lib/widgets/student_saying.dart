@@ -31,13 +31,12 @@ class _StudentSayingState extends State<StudentSaying> {
   @override
   Widget build(BuildContext context) {
     final responsiveWrapper = ResponsiveWrapper.of(context);
-
     final size = MediaQuery.of(context).size;
     return VisibilityDetector(
       key: Key('student_saying ${widget.id}'),
       onVisibilityChanged: (VisibilityInfo info) {
         var visiblePercentage = info.visibleFraction * 100;
-        if (visiblePercentage > 1 && angle == pi) {
+        if (visiblePercentage > 0.5 && angle == pi) {
           setState(() {
             angle = 0;
           });
@@ -55,7 +54,7 @@ class _StudentSayingState extends State<StudentSaying> {
         ),
         padding: EdgeInsets.all(4),
         margin: EdgeInsets.all(4),
-        duration: Duration(milliseconds: 500),
+        duration: Duration(milliseconds: 200),
         transform: Matrix4.identity()..rotateY(angle),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
