@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:trishaheed/model/download_menu.dart';
 import 'package:trishaheed/model/states/dowloads_state.dart';
 import 'package:trishaheed/utilities/download_enums.dart';
@@ -345,7 +344,7 @@ class PaginatorWidget extends StatelessWidget {
               }
             },
             child: Container(
-              width: 10.h,
+              width: 10,
               height: 36,
               alignment: Alignment.center,
               decoration: BoxDecoration(
@@ -359,7 +358,7 @@ class PaginatorWidget extends StatelessWidget {
           ),
           SizedBox(width: 12),
           Container(
-              width: 16.h,
+              width: 16,
               height: 36,
               alignment: Alignment.center,
               decoration: BoxDecoration(
@@ -388,7 +387,7 @@ class PaginatorWidget extends StatelessWidget {
               }
             },
             child: Container(
-              width: 10.h,
+              width: 10,
               height: 36,
               alignment: Alignment.center,
               decoration: BoxDecoration(

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 import 'package:responsive_framework/responsive_value.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../utilities/images.dart';
 
 class FixHeader extends StatefulWidget {
@@ -238,10 +236,10 @@ class HeaderForMobile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 5.h),
+          SizedBox(height: 4),
           SizedBox(
-            width: Adaptive.w(100),
-            height: 13.h,
+            width: 100,
+            height: 13,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -251,11 +249,12 @@ class HeaderForMobile extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: Image.asset(
                       logo,
-                      width: Adaptive.w(15),
-                      height: 15.h,
+                      width: 96,
+                      height: 96,
                     ),
-                  ),
-                ),
+                  ),),
+              ]
+                ),),
                 Expanded(
                   child: Column(
                     children: [
@@ -276,7 +275,7 @@ class HeaderForMobile extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ),
+                  ),),
                   Row(
                     children: [
                       Image.asset(
@@ -337,35 +336,6 @@ class HeaderForMobile extends StatelessWidget {
                   ),
                 ],
               ),
-              MaterialButton(
-                onPressed: onResultsPublished,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                  margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.greenAccent,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                  alignment: Alignment.center,
-                  child: Row(
-                    children: [
-                      Text(
-                        "SEE RESULT",
-                        style: TextStyle(fontSize: 16.sp),
-                      ),
-                      SizedBox(width: 4.sp),
-                      Icon(Icons.login),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 8.sp,
-          ),
-        ],
-      ),
     );
   }
 }

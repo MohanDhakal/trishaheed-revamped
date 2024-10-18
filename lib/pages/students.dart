@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:trishaheed/model/states/students_state.dart';
 import 'package:trishaheed/model/student.dart' as studentModel;
 import 'package:trishaheed/widgets/student.dart';
@@ -354,13 +353,15 @@ class PaginatorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+        final size = MediaQuery.of(context).size;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         MaterialButton(
           onPressed: onPrevious,
           child: Container(
-            width: 10.h,
+            width: size.height*0.1,
             height: 36,
             alignment: Alignment.center,
             decoration: BoxDecoration(
@@ -374,7 +375,7 @@ class PaginatorWidget extends StatelessWidget {
         ),
         SizedBox(width: 8),
         Container(
-          width: 16.h,
+          width: size.width*0.5,
           height: 36,
           alignment: Alignment.center,
           decoration: BoxDecoration(
@@ -396,7 +397,7 @@ class PaginatorWidget extends StatelessWidget {
         MaterialButton(
           onPressed: onNext,
           child: Container(
-            width: 10.h,
+            width: size.height*0.5,
             height: 36,
             alignment: Alignment.center,
             decoration: BoxDecoration(
