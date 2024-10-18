@@ -11,7 +11,9 @@ import '../widgets/tags.dart';
 
 class BlogDetail extends StatefulWidget {
   final int? id;
-  const BlogDetail({Key? key, this.id}) : super(key: key);
+  final void Function() onBackPressed;
+  const BlogDetail({Key? key, this.id, required this.onBackPressed})
+      : super(key: key);
 
   @override
   State<BlogDetail> createState() => _BlogDetailState();
@@ -22,7 +24,10 @@ class _BlogDetailState extends State<BlogDetail> {
   final ScrollController _controller = ScrollController();
   String userName = "";
   bool _loading = true;
-  QuillController? _readOnlyContainer;
+  QuillController _readOnlyContainer = QuillController(
+      selection: TextSelection.collapsed(offset: 0),
+      document: Document(),
+      readOnly: true);
   Blog? _blogDetail;
 
   @override
@@ -49,10 +54,8 @@ class _BlogDetailState extends State<BlogDetail> {
       document: document,
       selection:
           TextSelection.collapsed(offset: 0, affinity: TextAffinity.downstream),
-      onSelectionChanged: (textSelection) {
-      },
-      onSelectionCompleted: () {
-      },
+      onSelectionChanged: (textSelection) {},
+      onSelectionCompleted: () {},
     );
   }
 
@@ -95,17 +98,27 @@ class _BlogDetailState extends State<BlogDetail> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 8.0,
-                            vertical: 12.0,
-                          ),
-                          child: SelectableText(
-                            _blogDetail!.title,
-                            // overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            maxLines: 3,
+                              horizontal: 16.0, vertical: 16.0),
+                          child: Row(
+                            children: [
+                              InkWell(
+                                onTap: widget.onBackPressed,
+                                child: Icon(
+                                  Icons.arrow_back,
+                                  size: 24,
+                                ),
+                              ),
+                              SizedBox(width: 8),
+                              SelectableText(
+                                _blogDetail!.title,
+                                // overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
                           ),
                         ),
                         ClipRRect(
@@ -120,7 +133,7 @@ class _BlogDetailState extends State<BlogDetail> {
                             width: responsiveWrapper.screenWidth,
                           ),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 8),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -186,24 +199,20 @@ class _BlogDetailState extends State<BlogDetail> {
                         ),
                         SizedBox(height: 10),
                         //  quill.QuillEditor(configurations: ,)
-                        _readOnlyContainer != null
-                            ? Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: QuillEditor.basic(
-                                  scrollController: ScrollController(),
-                                  focusNode: FocusNode(
-                                    canRequestFocus: true,
-                                  ),
-                                  
-                                  configurations: QuillEditorConfigurations(
-                                    controller: _readOnlyContainer!,
-                                    readOnly: true,                        
-                                     textSelectionThemeData: TextSelectionThemeData(),
-                                     sharedConfigurations: QuillSharedConfigurations()
-                                  ),
-                                ),
-                              )
-                            : SizedBox(),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: QuillEditor.basic(
+                            scrollController: ScrollController(),
+                            focusNode: FocusNode(
+                              canRequestFocus: true,
+                            ),
+                            configurations: QuillEditorConfigurations(
+                              controller: _readOnlyContainer,
+                              textSelectionThemeData: TextSelectionThemeData(),
+                              sharedConfigurations: QuillSharedConfigurations(),
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ),

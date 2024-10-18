@@ -22,7 +22,8 @@ class _DownloadPageState extends State<DownloadPage> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero).then((value) {
-      Provider.of<DownloadState>(context, listen: false).getFiles();
+   Provider.of<DownloadState>(context, listen: false).getFiles();
+
     });
   }
 
@@ -30,7 +31,6 @@ class _DownloadPageState extends State<DownloadPage> {
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final responsiveWrapper = ResponsiveWrapper.of(context);
-
     return Consumer<DownloadState>(builder: (context, model, child) {
       return ResponsiveRowColumn(
         rowMainAxisAlignment: MainAxisAlignment.start,
@@ -39,7 +39,7 @@ class _DownloadPageState extends State<DownloadPage> {
             : ResponsiveRowColumnType.ROW,
         children: [
           responsiveWrapper.isLargerThan(TABLET)
-              ? ResponsiveRowColumnItem(child: SizedBox(width: 24.sp))
+              ? ResponsiveRowColumnItem(child: SizedBox(width: 16))
               : ResponsiveRowColumnItem(child: SizedBox()),
           ResponsiveRowColumnItem(
             child: SizedBox(
@@ -51,173 +51,146 @@ class _DownloadPageState extends State<DownloadPage> {
                 rowCrossAxisAlignment: CrossAxisAlignment.start,
                 rowMainAxisAlignment: MainAxisAlignment.start,
                 columnMainAxisAlignment: MainAxisAlignment.start,
-                layout: responsiveWrapper.isSmallerThan(TABLET)
-                    ? ResponsiveRowColumnType.ROW
-                    : ResponsiveRowColumnType.COLUMN,
+                layout: ResponsiveRowColumnType.COLUMN,
                 children: [
                   ResponsiveRowColumnItem(
                     child: SizedBox(
-                      height:
-                          responsiveWrapper.isSmallerThan(TABLET) ? 8.sp : 0,
-                      width: responsiveWrapper.isLargerThan(TABLET) ? 0.sp: 8.sp,
+                      height: responsiveWrapper.isSmallerThan(TABLET) ? 0 : 8,
+                      width: responsiveWrapper.isSmallerThan(TABLET) ? 8 : 0,
                     ),
                   ),
                   ResponsiveRowColumnItem(
-                    child: SizedBox(
-                      height: responsiveWrapper.isSmallerThan(TABLET) ? 8.sp : 0,
-                      width: responsiveWrapper.isSmallerThan(TABLET) ? 0.sp : 8.sp,
+                    child: Text(
+                      "Downloads",
+                      style: TextStyle(
+                        decoration: TextDecoration.none,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: ResponsiveValue(
+                          context,
+                          defaultValue: 16.0,
+                          valueWhen: const [
+                            Condition.smallerThan(
+                              name: TABLET,
+                              value: 16.0,
+                            ),
+                            Condition.largerThan(
+                              name: TABLET,
+                              value: 24.0,
+                            )
+                          ],
+                        ).value,
+                      ),
                     ),
                   ),
                   ResponsiveRowColumnItem(
-                    child: responsiveWrapper.isSmallerThan(DESKTOP)
-                        ? SizedBox()
-                        : Divider(
+                    child:Divider(
                             thickness: 4,
                             color: Colors.black,
                           ),
                   ),
                   ResponsiveRowColumnItem(
                     child: SizedBox(
-                      height: responsiveWrapper.isSmallerThan(DESKTOP) ? 0 : 8,
-                      width: responsiveWrapper.isSmallerThan(DESKTOP) ? 8 : 0,
+                      height: responsiveWrapper.isSmallerThan(TABLET) ? 0 : 8,
+                      width: responsiveWrapper.isSmallerThan(TABLET) ? 8 : 0,
                     ),
                   ),
                   ResponsiveRowColumnItem(
-                    child: Stack(
-                      children: [
-                        model.selectedFolder == Downloads.results
-                            ? Positioned.fill(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(
-                                          10.0), // Adjust the border radius as needed
-                                      color: Colors.orange,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black26,
-                                          offset: Offset(0, 1),
-                                        )
-                                      ] // Adjust the opacity as needed
-                                      ),
-                                ),
-                              )
-                            : SizedBox(),
-                        MaterialButton(
-                          onPressed: () async {
-                            model.currentPage = 1;
-                            model.totalPage = 1;
-                            showLoadingDialog(context);
-                            model.selectedFolder = Downloads.results;
-                            model.refreshFiles().then((value) {
+                    child: Container(
+                      color: model.selectedFolder == Downloads.results
+                          ? Colors.orange
+                          : Colors.transparent,
+                      width: responsiveWrapper.isSmallerThan(TABLET)
+                          ? responsiveWrapper.screenWidth
+                          : responsiveWrapper.screenWidth * 0.3,
+                      alignment: Alignment.topLeft,
+                      child: MaterialButton(
+                        onPressed: () async {
+                          model.currentPage = 1;
+                          model.totalPage = 1;
+                          showLoadingDialog(context);
+                          model.selectedFolder = Downloads.results;
+                          model.refreshFiles().then(
+                            (value) {
                               Navigator.pop(context);
-                            });
-                          },
-                          child: Text(
-                            "Results",
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                            ),
+                            },
+                          );
+                        },
+                        child: Text(
+                          "Results",
+                          style: TextStyle(
+                            fontSize: 16,
                           ),
                         ),
-                      ],
+                      ),
                     ),
                   ),
                   ResponsiveRowColumnItem(
                     child: SizedBox(
-                      height:
-                          responsiveWrapper.isSmallerThan(DESKTOP) ? 0 : 8.sp,
-                      width:
-                          responsiveWrapper.isSmallerThan(DESKTOP) ? 8.sp : 0,
+                      height: responsiveWrapper.isSmallerThan(TABLET) ? 0 : 8,
+                      width: responsiveWrapper.isSmallerThan(TABLET) ? 8 : 0,
                     ),
                   ),
                   ResponsiveRowColumnItem(
-                    child: Stack(
-                      children: [
-                        model.selectedFolder == Downloads.routine
-                            ? Positioned.fill(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(
-                                          10.0), // Adjust the border radius as needed
-                                      color: Colors.orange,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black26,
-                                          offset: Offset(0, 1),
-                                          blurRadius: 4,
-                                        )
-                                      ] // Adjust the opacity as needed
-                                      ),
-                                ),
-                              )
-                            : SizedBox(),
-                        MaterialButton(
-                          onPressed: () async {
-                            model.currentPage = 1;
-                            model.totalPage = 1;
-
-                            showLoadingDialog(context);
-                            model.selectedFolder = Downloads.routine;
-                            model.refreshFiles().then((value) {
-                              Navigator.pop(context);
-                            });
-                          },
-                          child: Text(
-                            "Routine",
-                            style: TextStyle(fontSize: 16.sp),
-                          ),
+                    child: Container(
+                      color: model.selectedFolder == Downloads.routine
+                          ? Colors.orange
+                          : Colors.transparent,
+                      width: responsiveWrapper.isSmallerThan(TABLET)
+                          ? responsiveWrapper.screenWidth
+                          : responsiveWrapper.screenWidth * 0.2,
+                      alignment: Alignment.topLeft,
+                      child: MaterialButton(
+                        onPressed: () async {
+                          model.currentPage = 1;
+                          model.totalPage = 1;
+                          showLoadingDialog(context);
+                          model.selectedFolder = Downloads.routine;
+                          model.refreshFiles().then((value) {
+                            Navigator.pop(context);
+                          });
+                        },
+                        child: Text(
+                          "Routine",
+                          style: TextStyle(fontSize: 16),
                         ),
-                      ],
+                      ),
                     ),
                   ),
                   ResponsiveRowColumnItem(
                     child: SizedBox(
-                      height:
-                          responsiveWrapper.isSmallerThan(DESKTOP) ? 0 : 8.sp,
-                      width:
-                          responsiveWrapper.isSmallerThan(DESKTOP) ? 8.sp : 0,
+                      height: responsiveWrapper.isSmallerThan(TABLET) ? 0 : 8,
+                      width: responsiveWrapper.isSmallerThan(TABLET) ? 8 : 0,
                     ),
                   ),
                   ResponsiveRowColumnItem(
-                    child: Stack(
-                      children: [
-                        model.selectedFolder == Downloads.others
-                            ? Positioned.fill(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(
-                                          10.0), // Adjust the border radius as needed
-                                      color: Colors.orange,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black26,
-                                          offset: Offset(0, 1),
-                                        )
-                                      ] // Adjust the opacity as needed
-                                      ),
-                                ),
-                              )
-                            : SizedBox(),
-                        MaterialButton(
-                          onPressed: () {
-                            model.currentPage = 1;
-                            model.totalPage = 1;
-                            showLoadingDialog(context);
-                            model.selectedFolder = Downloads.others;
-                            model.refreshFiles().then((value) {
-                              Navigator.pop(context);
-                            });
-                          },
-                          child: Text(
-                            "Others",
-                            style: TextStyle(
-                              // decoration: TextDecoration.underline,
-                              // color: Colors.blueAccent,
-                              fontSize: 16.sp,
-                            ),
+                    child: Container(
+                      color: model.selectedFolder == Downloads.others
+                          ? Colors.orange
+                          : Colors.transparent,
+                      width: responsiveWrapper.isSmallerThan(TABLET)
+                          ? responsiveWrapper.screenWidth
+                          : responsiveWrapper.screenWidth * 0.2,
+                      alignment: Alignment.topLeft,
+                      child: MaterialButton(
+                        onPressed: () {
+                          model.currentPage = 1;
+                          model.totalPage = 1;
+                          showLoadingDialog(context);
+                          model.selectedFolder = Downloads.others;
+                          model.refreshFiles().then((value) {
+                            Navigator.pop(context);
+                          });
+                        },
+                        child: Text(
+                          "Others",
+                          style: TextStyle(
+                            // decoration: TextDecoration.underline,
+                            // color: Colors.blueAccent,
+                            fontSize: 16,
                           ),
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ],
@@ -236,7 +209,7 @@ class _DownloadPageState extends State<DownloadPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 24),
+                        SizedBox(height: 16),
                         const PlacholderDownloads(),
                         Divider(
                           thickness: 2,
@@ -273,13 +246,12 @@ class _DownloadPageState extends State<DownloadPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: 24),
+                            SizedBox(height: 16),
                             const PlacholderDownloads(),
                             Divider(
                               thickness: 2,
                               color: Colors.grey.shade300,
                             ),
-                            SizedBox(height: 8),
                             ...List.generate(
                               model.selectedDownloads.length,
                               (index) {
@@ -304,7 +276,7 @@ class _DownloadPageState extends State<DownloadPage> {
                   : model.selectedFolder == Downloads.others
                       ? ResponsiveRowColumnItem(
                           child: Container(
-                            width: responsiveWrapper.isSmallerThan(TABLET)
+                            width:responsiveWrapper.isSmallerThan(TABLET)
                                 ? screenWidth
                                 : screenWidth * 0.75,
                             margin: EdgeInsets.zero,
@@ -312,7 +284,7 @@ class _DownloadPageState extends State<DownloadPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(height: 24),
+                                SizedBox(height: 16),
                                 const PlacholderDownloads(),
                                 Divider(
                                   thickness: 2,
@@ -349,7 +321,7 @@ class _DownloadPageState extends State<DownloadPage> {
                         ),
         ],
       );
-    });
+    },);
   }
 }
 
@@ -464,7 +436,7 @@ class PlacholderDownloads extends StatelessWidget {
                     ),
                     Condition.largerThan(
                       name: TABLET,
-                      value: 24.0,
+                      value: 16.0,
                     )
                   ],
                 ).value,
@@ -488,7 +460,7 @@ class PlacholderDownloads extends StatelessWidget {
                     ),
                     Condition.largerThan(
                       name: TABLET,
-                      value: 24.0,
+                      value: 16.0,
                     )
                   ],
                 ).value,
@@ -511,7 +483,7 @@ class PlacholderDownloads extends StatelessWidget {
                     ),
                     Condition.largerThan(
                       name: TABLET,
-                      value: 24.0,
+                      value: 16.0,
                     )
                   ],
                 ).value,

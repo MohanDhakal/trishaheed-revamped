@@ -32,7 +32,7 @@ class _ImageDialogState extends State<ImageDialog> {
             child: Text("Something went wrong"),
           )
         : Dialog(
-            backgroundColor: Colors.blue.shade200,
+            backgroundColor: Colors.grey[200],
             child: SizedBox(
               width: responsiveWrapper.isSmallerThan(DESKTOP)
                   ? size.width
@@ -48,30 +48,41 @@ class _ImageDialogState extends State<ImageDialog> {
                       imageUrl: widget.imageUrls[_currentIndex!],
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(Icons.navigate_before),
-                        onPressed: _currentIndex! > 0
-                            ? () {
-                                setState(() {
-                                  _currentIndex = _currentIndex! - 1;
-                                });
-                              }
-                            : null,
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.navigate_next),
-                        onPressed: _currentIndex! < widget.imageUrls.length - 1
-                            ? () {
-                                setState(() {
-                                  _currentIndex = _currentIndex! + 1;
-                                });
-                              }
-                            : null,
-                      ),
-                    ],
+                  Container(
+                    color: Colors.blueAccent.shade400,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(
+                            Icons.navigate_before,
+                            size: 36,
+                          ),
+                          onPressed: _currentIndex! > 0
+                              ? () {
+                                  setState(() {
+                                    _currentIndex = _currentIndex! - 1;
+                                  });
+                                }
+                              : null,
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.navigate_next,
+                            size: 36,
+                          ),
+                          onPressed:
+                              _currentIndex! < widget.imageUrls.length - 1
+                                  ? () {
+                                      setState(() {
+                                        _currentIndex = _currentIndex! + 1;
+                                      });
+                                    }
+                                  : null,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

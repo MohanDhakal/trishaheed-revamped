@@ -32,24 +32,25 @@ class _ComplaintFormState extends State<ComplaintForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 10),
+              SizedBox(height: 8),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: TextFormField(
                   controller: nameController,
                   validator: validateName,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: "Enter Your Name Here",
-                    contentPadding: EdgeInsets.symmetric(horizontal: 5),
+
+                    contentPadding: EdgeInsets.symmetric(horizontal: 4),
                   ),
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 8
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: TextFormField(
                   controller: phoneController,
                   validator: validatePhone,
@@ -59,9 +60,9 @@ class _ComplaintFormState extends State<ComplaintForm> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 8),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: TextFormField(
                   controller: emailController,
                   validator: validateEmail,
@@ -71,9 +72,9 @@ class _ComplaintFormState extends State<ComplaintForm> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 8),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: TextFormField(
                   controller: complaintController,
                   validator: validateDescription,
@@ -81,10 +82,10 @@ class _ComplaintFormState extends State<ComplaintForm> {
                     border: OutlineInputBorder(),
                     hintText: "Enter Your Message Here",
                   ),
-                  maxLines: 10,
+                  maxLines: 12,
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 8),
               MaterialButton(
                 onPressed: () async {
                   final validated = _formKey.currentState?.validate() ?? false;
@@ -108,8 +109,8 @@ class _ComplaintFormState extends State<ComplaintForm> {
                   }
                 },
                 child: Container(
-                  height: 50,
-                  margin: EdgeInsets.symmetric(horizontal: 12),
+                  height: 48,
+                  margin: EdgeInsets.symmetric(horizontal: 8),
                   alignment: Alignment.center,
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
@@ -124,7 +125,7 @@ class _ComplaintFormState extends State<ComplaintForm> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 8),
             ],
           ),
         ),

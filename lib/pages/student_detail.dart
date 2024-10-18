@@ -1,10 +1,12 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import '../model/student.dart';
 import '../utilities/images.dart';
+import 'dart:html' as html;
 
-// ignore: must_be_immutable
-class StudentDetail extends StatelessWidget {
+class StudentDetail extends StatefulWidget {
   final Student student;
   final StudentContact? stdContact;
   Function() onBackPressed;
@@ -17,48 +19,76 @@ class StudentDetail extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<StudentDetail> createState() => _StudentDetailState();
+}
+
+class _StudentDetailState extends State<StudentDetail>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 500),
+    );
+    _animation = Tween(begin: -50.0, end: 0.0).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeIn,
+    ));
+    Future.delayed(Duration.zero).then((value) => _controller.forward());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    print('std ${stdContact?.toMap()}');
     final responsiveWrapper = ResponsiveWrapper.of(context);
     final size = MediaQuery.of(context).size;
-    return Container(
-      decoration: BoxDecoration(color: Colors.grey.shade300),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.arrow_back),
-                  onPressed: onBackPressed,
-                  iconSize: 36,
-                ),
-                SizedBox(width: 12),
-                Text(
-                  student.fullName,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge
-                      ?.copyWith(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            SizedBox(height: 24),
-            ResponsiveRowColumn(
-              layout: responsiveWrapper.isSmallerThan(DESKTOP)
-                  ? ResponsiveRowColumnType.COLUMN
-                  : ResponsiveRowColumnType.ROW,
-              rowMainAxisAlignment: MainAxisAlignment.center,
-              rowCrossAxisAlignment: CrossAxisAlignment.center,
-              columnCrossAxisAlignment: CrossAxisAlignment.center,
-              columnMainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                ResponsiveRowColumnItem(
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: widget.onBackPressed,
+                iconSize: 24,
+              ),
+              SizedBox(width: 12),
+              Text(
+                widget.student.fullName,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge
+                    ?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          SizedBox(height: 24),
+          AnimatedBuilder(
+              animation: _animation,
+              builder: (context, value) {
+                final position = _animation.value;
+                final transform = Matrix4.identity()
+                  ..setEntry(3, 2, 0.001)
+                  ..translate(
+                    position,
+                  );
+                return Transform(
+                  transform: transform,
+                  alignment: Alignment.centerLeft,
                   child: ResponsiveRowColumn(
-                    layout: responsiveWrapper.isSmallerThan(DESKTOP)
+                    layout: responsiveWrapper.isSmallerThan(TABLET)
                         ? ResponsiveRowColumnType.COLUMN
                         : ResponsiveRowColumnType.ROW,
                     rowMainAxisAlignment: MainAxisAlignment.center,
@@ -67,52 +97,96 @@ class StudentDetail extends StatelessWidget {
                     columnMainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       ResponsiveRowColumnItem(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(8),
-                            topRight: Radius.circular(8),
-                          ),
-                          child: student.imageUri == null
-                              ? Image.asset(
-                                  profile,
-                                  fit: BoxFit.contain,
-                                  width:
-                                      responsiveWrapper.isSmallerThan(DESKTOP)
-                                          ? size.width * 0.9
-                                          : size.width * 0.3,
-                                  height: size.height * 0.4,
-                                )
-                              : Image.network(
-                                  student.imageUri!,
-                                  fit: BoxFit.contain,
-                                  height: size.height * 0.5,
-                                  width:
-                                      responsiveWrapper.isSmallerThan(DESKTOP)
-                                          ? size.width * 0.9
-                                          : size.width * 0.3,
+                        child: Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                if (widget.student.imageUri != null) {
+                                  html.window
+                                      .open(widget.student.imageUri!, "_blank");
+                                }
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: Colors.blue,
+                                    width: 2,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 4.0,
+                                      spreadRadius: 4.0,
+                                      color: Colors.grey.shade200,
+                                    )
+                                  ],
+                                  image: widget.student.imageUri != null
+                                      ? DecorationImage(
+                                          image: NetworkImage(
+                                            widget.student.imageUri!,
+                                          ),
+                                          fit: BoxFit.cover,
+                                        )
+                                      : DecorationImage(
+                                          image: AssetImage(profile),
+                                          fit: BoxFit.cover,
+                                        ),
                                 ),
+                                width: 300,
+                                height: 360,
+                              ),
+                            ),
+                            SizedBox(height: 24),
+                            Text(
+                              widget.student.fullName,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                          ],
                         ),
                       ),
-                      responsiveWrapper.isSmallerThan(DESKTOP)
+                      responsiveWrapper.isSmallerThan(TABLET)
                           ? ResponsiveRowColumnItem(child: SizedBox(height: 24))
                           : ResponsiveRowColumnItem(child: SizedBox(width: 48)),
                       ResponsiveRowColumnItem(
                         child: SizedBox(
-                          width: responsiveWrapper.isSmallerThan(DESKTOP)
+                          width: responsiveWrapper.isSmallerThan(TABLET)
                               ? size.width
                               : size.width * 0.35,
                           child: Center(
                             child: Card(
                               elevation: 8,
-                              color: Colors.blue.shade400,
+                              color: Colors.grey.shade100,
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 8.0, vertical: 8.0),
+                                  horizontal: 24,
+                                  vertical: 24,
+                                ),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
+                                    Center(
+                                      child: RichText(
+                                        text: TextSpan(
+                                          text: "Detailed Information" + "  ",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge
+                                              ?.copyWith(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.red),
+                                        ),
+                                      ),
+                                    ),
+                                    Divider(thickness: 4),
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           left: 8.0, top: 8.0),
@@ -128,7 +202,7 @@ class StudentDetail extends StatelessWidget {
                                               ),
                                           children: [
                                             TextSpan(
-                                              text: student.majorSubject,
+                                              text: widget.student.majorSubject,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall
@@ -153,7 +227,7 @@ class StudentDetail extends StatelessWidget {
                                               ),
                                           children: [
                                             TextSpan(
-                                              text: student.currentRank
+                                              text: widget.student.currentRank
                                                   .toString(),
                                               style: Theme.of(context)
                                                   .textTheme
@@ -179,8 +253,8 @@ class StudentDetail extends StatelessWidget {
                                               ),
                                           children: [
                                             TextSpan(
-                                              text:
-                                                  student.rollNumber.toString(),
+                                              text: widget.student.rollNumber
+                                                  .toString(),
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall
@@ -205,7 +279,7 @@ class StudentDetail extends StatelessWidget {
                                               ),
                                           children: [
                                             TextSpan(
-                                              text: student.dob,
+                                              text: widget.student.dob,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall
@@ -230,7 +304,7 @@ class StudentDetail extends StatelessWidget {
                                               ),
                                           children: [
                                             TextSpan(
-                                              text: student.joinedAt,
+                                              text: widget.student.joinedAt,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall
@@ -240,13 +314,12 @@ class StudentDetail extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                      Padding(
+                                    Padding(
                                       padding: const EdgeInsets.only(
                                           left: 8.0, top: 8.0),
                                       child: RichText(
                                         text: TextSpan(
-                                          text: "Contact Number :" +
-                                              "  ",
+                                          text: "Contact Number :" + "  ",
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium
@@ -256,8 +329,9 @@ class StudentDetail extends StatelessWidget {
                                               ),
                                           children: [
                                             TextSpan(
-                                              text:
-                                                  stdContact?.phoneNumber.toString(),
+                                              text: widget
+                                                  .stdContact?.phoneNumber
+                                                  .toString(),
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall
@@ -283,8 +357,9 @@ class StudentDetail extends StatelessWidget {
                                               ),
                                           children: [
                                             TextSpan(
-                                              text:
-                                                  stdContact?.guardianContact.toString(),
+                                              text: widget
+                                                  .stdContact?.guardianContact
+                                                  .toString(),
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall
@@ -309,8 +384,8 @@ class StudentDetail extends StatelessWidget {
                                               ),
                                           children: [
                                             TextSpan(
-                                              text:
-                                                  stdContact?.email.toString(),
+                                              text: widget.stdContact?.email
+                                                  .toString(),
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall
@@ -330,11 +405,9 @@ class StudentDetail extends StatelessWidget {
                       ),
                     ],
                   ),
-                )
-              ],
-            ),
-          ],
-        ),
+                );
+              }),
+        ],
       ),
     );
   }

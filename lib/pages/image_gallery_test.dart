@@ -33,9 +33,9 @@ class _ImageGalleryState extends State<ImageGallery> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final wrapper = ResponsiveWrapper.of(context);
-    return RawKeyboardListener(
+    return KeyboardListener(
       focusNode: _focusNode,
-      onKey: _handleKeyEvent,
+      onKeyEvent: _handleKeyEvent,
       autofocus: true,
       child: SingleChildScrollView(
         controller: _controller,
@@ -51,7 +51,7 @@ class _ImageGalleryState extends State<ImageGallery> {
                       width: size.width * 0.8,
                       child: ListView(
                         shrinkWrap: true,
-                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        padding: EdgeInsets.symmetric(horizontal: 8),
                         children: model.action == GalleryAction.NONE
                             ? [
                                 Material(
@@ -81,7 +81,8 @@ class _ImageGalleryState extends State<ImageGallery> {
                                           height: size.height * 0.4,
                                           child: Padding(
                                             padding: const EdgeInsets.only(
-                                                bottom: 16.0),
+                                              bottom: 16.0,
+                                            ),
                                             child: ui.Album(
                                               album: model.albums[index],
                                             ),
@@ -100,7 +101,8 @@ class _ImageGalleryState extends State<ImageGallery> {
                                                   child: Center(
                                                     child:
                                                         CircularProgressIndicator(
-                                                            color: Colors.blue),
+                                                      color: Colors.blue,
+                                                    ),
                                                   ),
                                                 ),
                                               );
@@ -135,7 +137,7 @@ class _ImageGalleryState extends State<ImageGallery> {
                         childAspectRatio: 1.2,
                       ),
                       shrinkWrap: true,
-                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 8),
                       children: model.action == GalleryAction.NONE
                           ? [
                               Material(
@@ -214,7 +216,6 @@ class _ImageGalleryState extends State<ImageGallery> {
       barrierDismissible: true,
       builder: (context) => ImageDialog(
         imageUrls: List.generate(images.length, (index) {
-          // print(images[index].url);
           return images[index].url;
         }),
         initialIndex: 0,
@@ -228,7 +229,7 @@ class _ImageGalleryState extends State<ImageGallery> {
     super.dispose();
   }
 
-  void _handleKeyEvent(RawKeyEvent event) {
+  void _handleKeyEvent(KeyEvent event) {
     var offset = _controller.offset;
     if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
       setState(() {

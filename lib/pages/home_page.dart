@@ -1,20 +1,17 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:trishaheed/model/states/EventState.dart';
 import 'package:trishaheed/model/states/staff_state.dart';
 import 'package:trishaheed/widgets/count_display.dart';
-import 'package:trishaheed/widgets/event_card.dart';
+import 'package:trishaheed/widgets/events_section.dart';
 import 'package:trishaheed/widgets/footer.dart';
+import 'package:trishaheed/widgets/major_contacts.dart';
+import 'package:trishaheed/widgets/testimonials.dart';
 import '../utilities/images.dart';
 import '../widgets/headmaster_saying.dart';
 import '../widgets/highlights.dart';
-import '../widgets/staff.dart';
-import '../model/staff.dart' as s;
-import '../widgets/student_saying.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -27,27 +24,12 @@ class _HomePageState extends State<HomePage> {
   final FocusNode _focusNode = FocusNode();
   final ScrollController _controller = ScrollController();
   final CarouselController _carouselController = CarouselController();
-  List<Widget> _images = [];
-  // int _selectedImage = 0;
 
   @override
   void initState() {
     super.initState();
-
-    Future.delayed(Duration(milliseconds: 500)).then((value) {
-      setState(() {
-        _images = List.generate(
-          carouselImages.length,
-          (index) {
-            return Image.asset(
-              carouselImages[index],
-              fit: BoxFit.cover,
-            );
-          },
-        );
-      });
+    Future.delayed(Duration(milliseconds: 300)).then((value) {
       Provider.of<StaffState>(context, listen: false).contacts();
-      Provider.of<EventState>(context, listen: false).events();
     });
   }
 
@@ -66,132 +48,73 @@ class _HomePageState extends State<HomePage> {
           controller: _controller,
           child: Column(
             children: [
-              Stack(
-                children: [
-                  CarouselSlider(
-                    items: _images,
-                    carouselController: _carouselController,
-                    options: CarouselOptions(
-                      initialPage: 1,
-                      autoPlayInterval: Duration(milliseconds: 1000),
-                      reverse: true,
-                      aspectRatio: responsiveWrapper.isSmallerThan(DESKTOP)
-                          ? 4 / 3
-                          : 16 / 9,
-                      viewportFraction: 1,
-                      pageSnapping: true,
-                      onPageChanged: (index, reason) {},
-                    ),
+              SizedBox(
+                height: size.height * 0.7,
+                width: size.width,
+                child: CarouselView(
+                  itemExtent: size.width,
+                  scrollDirection: Axis.horizontal,
+                  controller: _carouselController,
+                  padding: EdgeInsets.all(0),
+                  itemSnapping: true,
+                  shape: ContinuousRectangleBorder(
+                    side: BorderSide.none,
+                    borderRadius: BorderRadius.circular(0),
                   ),
-                  Positioned(
-                    top: responsiveWrapper.isMobile
-                        ? size.height * 0.20
-                        : size.height * 0.4,
-                    left: 20,
-                    child: MaterialButton(
-                      onPressed: () {
-                        _carouselController.nextPage();
+                  children: [
+                    ...List.generate(
+                      carouselImages.length,
+                      (index) {
+                        return Image.network(
+                          carouselImages[index],
+                          fit: BoxFit.cover,
+                          loadingBuilder: (BuildContext context, Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) {
+                              // Image has been fully loaded, return the child image
+                              return child;
+                            }
+                            // While loading, return a circular progress indicator
+                            return Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                        : null,
+                                    color: Colors.blue,
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    'Loading...',
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.grey),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          errorBuilder: (BuildContext context, Object exception,
+                              StackTrace? stackTrace) {
+                            print(exception.toString());
+                            return Center(child: Text('Image failed to load'));
+                          },
+                        );
                       },
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        child: Icon(
-                          Icons.navigate_before,
-                          size: 30,
-                        ),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade300.withOpacity(0.5),
-                          shape: BoxShape.circle,
-                        ),
-                      ),
                     ),
-                  ),
-                  Positioned(
-                    top: responsiveWrapper.isMobile
-                        ? size.height * 0.20
-                        : size.height * 0.4,
-                    right: 20,
-                    child: MaterialButton(
-                      onPressed: () {
-                        _carouselController.previousPage();
-                      },
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        child: Icon(
-                          Icons.navigate_next,
-                          size: 30,
-                        ),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade300.withOpacity(0.5),
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(height: 24),
-              Text(
-                'प्रधानाध्यापक को कलमबाट',
-                textAlign: TextAlign.center,
-                style: ResponsiveWrapper.of(context).isMobile
-                    ? Theme.of(context)
-                        .textTheme
-                        .headlineMedium
-                        ?.copyWith(fontWeight: FontWeight.bold)
-                    : Theme.of(context)
-                        .textTheme
-                        .headlineLarge
-                        ?.copyWith(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(width: size.width * 0.2, child: Divider(thickness: 4)),
-              SizedBox(height: 24),
-              HeadMasterSaying(),
-              SizedBox(height: 24),
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0),
-                child: Text(
-                  "Latest Events",
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24,
-                        fontStyle: FontStyle.normal,
-                      ),
+                  ],
                 ),
               ),
-              SizedBox(width: size.width * 0.2, child: Divider(thickness: 4)),
-              SizedBox(height: 24),
-              Consumer<EventState>(builder: (context, model, child) {
-                return ResponsiveRowColumn(
-                  layout: responsiveWrapper.isSmallerThan(DESKTOP)
-                      ? ResponsiveRowColumnType.COLUMN
-                      : ResponsiveRowColumnType.ROW,
-                  rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  columnMainAxisAlignment: MainAxisAlignment.center,
-                  columnMainAxisSize: MainAxisSize.min,
-                  children: [
-                    ...model.schoolEvents.map((e) {
-                      return ResponsiveRowColumnItem(
-                        child: EventCard(
-                          bannerUrl: e.imageUri,
-                          title: e.eventName,
-                          description: e.eventDescription,
-                          startDate: e.startDate,
-                          endDate: e.endDate,
-                          startTime: e.startTime,
-                          endTime: e.endTime,
-                        ),
-                      );
-                    }).toList()
-                  ],
-                );
-              }),
 
-              SizedBox(height: 24),
+              SizedBox(height: 8),
+              HeadMasterSaying(),
+              SizedBox(height: 16),
+              MajorContacts(),
+              SizedBox(height: 16),
               Padding(
                 padding: const EdgeInsets.only(left: 20.0),
                 child: Text(
@@ -205,63 +128,15 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(width: size.width * 0.2, child: Divider(thickness: 4)),
-
+              // NumberCounter(),
               CountDisplay(
                 staffs: 33,
                 students: 487,
                 technicalStudents: 50,
               ),
-              SizedBox(height: 24),
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0),
-                child: Text(
-                  "Major Contacts",
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24,
-                        fontStyle: FontStyle.normal,
-                      ),
-                ),
-              ),
-              SizedBox(width: size.width * 0.2, child: Divider(thickness: 4)),
-
-              SizedBox(height: 24),
-              Consumer<StaffState>(builder: (context, model, child) {
-                return ResponsiveRowColumn(
-                  layout: responsiveWrapper.isSmallerThan(DESKTOP)
-                      ? ResponsiveRowColumnType.COLUMN
-                      : ResponsiveRowColumnType.ROW,
-                  rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  columnMainAxisAlignment: MainAxisAlignment.center,
-                  columnMainAxisSize: MainAxisSize.min,
-                  children: [
-                    ...model.staffs.map((e) {
-                      final staff = e.teacherStaff;
-                      return staff == null
-                          ? ResponsiveRowColumnItem(child: SizedBox())
-                          : ResponsiveRowColumnItem(
-                              child: Staff(
-                                staff: s.Staff(
-                                  fullName: staff.fullName,
-                                  post: staff.post,
-                                  dob: staff.dob,
-                                  address: staff.address,
-                                  isActive: staff.isActive,
-                                  joinedAt: staff.joinedAt,
-                                  majorSubject: staff.majorSubject,
-                                  jobType: staff.jobType,
-                                  rank: staff.rank,
-                                  teacherLevel: staff.teacherLevel,
-                                  imageUrl: staff.imageUrl,
-                                  contact: staff.contact,
-                                ),
-                              ),
-                            );
-                    }).toList()
-                  ],
-                );
-              }),
+              SizedBox(height: 16),
+              EventSection(),
+              SizedBox(height: 16),
               Padding(
                 padding: const EdgeInsets.only(left: 16.0, top: 36),
                 child: Text(
@@ -274,7 +149,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(width: size.width * 0.2, child: Divider(thickness: 4)),
-              SizedBox(height: 48),
+              SizedBox(height: 16),
               responsiveWrapper.isLargerThan(TABLET)
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -326,12 +201,12 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     ),
-              SizedBox(height: 48),
+              SizedBox(height: 16),
               Center(
                 child: Text(
                   " STUDENT TESTIMONIALS",
                   textAlign: TextAlign.center,
-                  style: responsiveWrapper.isSmallerThan(DESKTOP)
+                  style: responsiveWrapper.isSmallerThan(TABLET)
                       ? Theme.of(context)
                           .textTheme
                           .headlineMedium
@@ -343,120 +218,14 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(width: size.width * 0.2, child: Divider(thickness: 4)),
-              SizedBox(height: 12),
               Center(
                 child: Text(
                   "This is what our students has to say about us",
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
-              SizedBox(height: 48),
-              responsiveWrapper.isSmallerThan(DESKTOP)
-                  ? ResponsiveRowColumn(
-                      layout: responsiveWrapper.isSmallerThan(DESKTOP)
-                          ? ResponsiveRowColumnType.COLUMN
-                          : ResponsiveRowColumnType.ROW,
-                      columnMainAxisAlignment: MainAxisAlignment.center,
-                      rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ResponsiveRowColumnItem(
-                          child: StudentSaying(
-                            saying:
-                                """Friendly and motivating environment really helps us focus on what really matters. Our Teachers are available whenever we need them to clarify doubts.""",
-                            name: "Samraj Darji",
-                            title: "Student",
-                            shadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                                offset: Offset(4, 4),
-                                blurRadius: 4,
-                                spreadRadius: 4,
-                              ),
-                            ],
-                          ),
-                        ),
-                        ResponsiveRowColumnItem(
-                          child: StudentSaying(
-                            saying:
-                                "'Technology is inevitable in today's world.I have been involved in Technical Stream from Grade 9, which has helped me grow as a technical person.'",
-                            name: "Milan Dhakal",
-                            title: "Student",
-                            shadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                                offset: Offset(4, 4),
-                                blurRadius: 4,
-                                spreadRadius: 4,
-                              ),
-                            ],
-                          ),
-                        ),
-                        ResponsiveRowColumnItem(
-                          child: StudentSaying(
-                            saying:
-                                """ I joined Tri-Shaheed at grade 5, The environment for study has improved as the time passes by. Today, while working as an instructor, I feel quality of our student has improved alot.""",
-                            name: "Mohan k. Dhakal",
-                            title: "Technical Instructor(Former Student)",
-                            shadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                                offset: Offset(4, 4),
-                                blurRadius: 4,
-                                spreadRadius: 4,
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    )
-                  : SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          StudentSaying(
-                            saying:
-                                """Friendly and motivating environment really helps us focus on what really matters. Our Teachers are available whenever we need them to clarify doubts.""",
-                            name: "Samraj Darji",
-                            title: "Student",
-                            shadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                                offset: Offset(4, 4),
-                                blurRadius: 4,
-                                spreadRadius: 4,
-                              ),
-                            ],
-                          ),
-                          StudentSaying(
-                            name: "Milan Dhakal",
-                            title: "Student",
-                            shadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                                offset: Offset(4, 4),
-                                blurRadius: 4,
-                                spreadRadius: 4,
-                              ),
-                            ],
-                          ),
-                          StudentSaying(
-                            saying:
-                                """ I joined Tri-Shaheed at grade 5, The environment for study has improved as the time passes by. Today, while working as an instructor, I feel quality of our student has improved alot.""",
-                            name: "Mohan k. Dhakal",
-                            title: "Technical Instructor",
-                            shadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                                offset: Offset(4, 4),
-                                blurRadius: 4,
-                                spreadRadius: 4,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+              SizedBox(height: 16),
+              Testimonials(),
               SizedBox(height: 24),
               kIsWeb ? FooterWidget(color: Colors.black12) : SizedBox(),
               // SizedBox(height: 12),

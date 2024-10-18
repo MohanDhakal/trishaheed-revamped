@@ -4,7 +4,6 @@ import 'package:shimmer/shimmer.dart';
 import 'package:trishaheed/model/staff.dart' as s;
 import 'package:trishaheed/repository/staff_repo.dart';
 import 'package:trishaheed/widgets/staff.dart';
-
 import '../utilities/menu_tag.dart';
 
 class TeacherStaff extends StatefulWidget {
@@ -20,6 +19,7 @@ class _TeacherStaffState extends State<TeacherStaff> {
   bool _loading = true;
   int lastPage = 1;
   int currentPage = 1;
+
   @override
   void initState() {
     StaffRepo().getStaffList(page: 1).then((value) {
@@ -123,38 +123,43 @@ class _TeacherStaffState extends State<TeacherStaff> {
               )
             : responsiveWrapper.isLargerThan(TABLET)
                 ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      SizedBox(
-                        height: size.height * 0.65,
-                        child: GridView.builder(
-                          shrinkWrap: true,
-                          padding: EdgeInsets.all(10.0),
-                          gridDelegate:
-                              SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 300,
-                            mainAxisSpacing: 10,
-                            crossAxisSpacing: 10,
-                            childAspectRatio: 0.66,
-                          ),
-                          itemCount: teacherList.length,
-                          itemBuilder: ((context, index) {
-                            return InkWell(
-                              onTap: (() {
-                                s.Staff selectedStaff =
-                                    teacherList.elementAt(index);
-                                widget.onClick(MenuTag.staffDetail,
-                                    selectedStaff, selectedStaff.id!);
-                              }),
-                              onHover: ((value) {}),
-                              child: Staff(
-                                staff: teacherList[index],
-                              ),
-                            );
-                          }),
+                      SizedBox(height: 24),
+                      GridView.builder(
+                        shrinkWrap: true,
+                        padding: EdgeInsets.only(left: 8.0),
+                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                          mainAxisSpacing: 8,
+                          crossAxisSpacing: 8,
+                          childAspectRatio: 0.8,
+                          maxCrossAxisExtent:
+                              responsiveWrapper.isSmallerThan(TABLET)
+                                  ? size.width * 0.9
+                                  : size.width * 0.3,
                         ),
+                        itemCount: teacherList.length,
+                        itemBuilder: ((context, index) {
+                          return InkWell(
+                            onTap: (() {
+                              s.Staff selectedStaff =
+                                  teacherList.elementAt(index);
+                              widget.onClick(MenuTag.staffDetail, selectedStaff,
+                                  selectedStaff.id!);
+                            }),
+                            onHover: ((value) {
+                              setState(() {
+                                teacherList[index].onFocused = value;
+                              });
+                            }),
+                            child: Staff(
+                              staff: teacherList[index],
+                            ),
+                          );
+                        }),
                       ),
+                      SizedBox(height: 24),
                       PaginatorWidget(
                         onNext: () async {
                           if (currentPage < lastPage) {
@@ -192,8 +197,7 @@ class _TeacherStaffState extends State<TeacherStaff> {
                 : Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        height: size.height * 0.8,
+                      Expanded(
                         child: ListView.builder(
                           itemCount: teacherList.length,
                           shrinkWrap: true,
@@ -222,9 +226,13 @@ class _TeacherStaffState extends State<TeacherStaff> {
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 8.0, horizontal: 8.0),
-                                child: Staff(
-                                  staff: teacherList[index],
-                                  // width: MediaQuery.of(context).size.width,
+                                child: SizedBox(
+                                  width: size.width * 0.7,
+                                  height: size.height*0.6,
+                                  child: Staff(
+                                    staff: teacherList[index],
+                                    // width: MediaQuery.of(context).size.width,
+                                  ),
                                 ),
                               ),
                             );

@@ -31,6 +31,8 @@ class ApiRoutes {
   static final displayResult = "/results/display";
   static final majorContacts = "/staffs/major/contacts";
   static final events = "/events";
+  static final testimonials = "/testimonials";
+
 
 
 }

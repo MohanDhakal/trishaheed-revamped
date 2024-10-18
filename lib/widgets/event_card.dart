@@ -26,69 +26,72 @@ class EventCard extends StatelessWidget {
     final responsiveWrapper = ResponsiveWrapper.of(context);
     final size = MediaQuery.of(context).size;
 
-    return Card(
-      margin: EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(8),
-              topRight: Radius.circular(8),
+    return SizedBox(
+      width: responsiveWrapper.isSmallerThan(TABLET)
+          ? size.width
+          : size.width * 0.4,
+      child: Card(
+        elevation: 8,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            ClipRRect(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(8),
+                topRight: Radius.circular(8),
+              ),
+              child: bannerUrl == null
+                  ? Image.asset(
+                      eventBanner,
+                      fit: BoxFit.contain,
+                      width: responsiveWrapper.isSmallerThan(TABLET)
+                          ? size.width
+                          : size.width * 0.4,
+                      height: size.height * 0.4,
+                    )
+                  : Image.network(
+                      bannerUrl!,
+                      fit:BoxFit.contain,
+                      width: responsiveWrapper.isSmallerThan(TABLET)
+                          ? size.width
+                          : size.width * 0.4,
+                      height: size.height * 0.4,
+                    ),
             ),
-            child: bannerUrl == null
-                ? Image.asset(
-                    eventBanner,
-                    fit: BoxFit.cover,
-                    width: responsiveWrapper.isSmallerThan(DESKTOP)
-                        ? size.width * 0.9
-                        : size.width * 0.3,
-                    height: size.height * 0.4,
-                  )
-                : Image.network(
-                    bannerUrl!,
-                    fit: BoxFit.cover,
-                    width: responsiveWrapper.isSmallerThan(DESKTOP)
-                        ? size.width * 0.9
-                        : size.width * 0.3,
-                    height: size.height * 0.3,
-                  ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SelectableText(
-              title,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: SelectableText(
+                title,
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: SelectableText(description),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Wrap(
-              alignment: WrapAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  'Starts at: $startDate  $startTime  ',
-                  style: TextStyle(
-                    color: Colors.green[600],
-                    fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 8),
+              child: SelectableText(description),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                'Starts at: $startDate  $startTime  ',
+                style: TextStyle(
+                  color: Colors.green[600],
+                  fontWeight: FontWeight.w500,
 
-                  ),
                 ),
-                Text(
-                  '  Ends at:$endDate  $endTime  ',
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(
+                '  Ends at:$endDate  $endTime  ',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

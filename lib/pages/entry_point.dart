@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:trishaheed/utilities/my_app_router_information_parser.dart';
+import '../utilities/my_app_router_information_parser.dart';
 import 'myapp_router_delegate.dart';
 
 class EntryPoint extends StatelessWidget {
@@ -9,45 +8,63 @@ class EntryPoint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveSizer(
-      builder: (BuildContext, Orientation, ScreenType) {
-        return MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          title: "STSSS",
-          scrollBehavior: MaterialScrollBehavior().copyWith(
-            dragDevices: {
-              PointerDeviceKind.mouse,
-              PointerDeviceKind.touch,
-              PointerDeviceKind.stylus,
-              PointerDeviceKind.unknown,
-            },
-          ),
-          themeMode: ThemeMode.dark,
-          // color: Colors.black,
-          theme: ThemeData(
-            // fontFamily: 'OpenSans',
-            textTheme: TextTheme(
-              displaySmall: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontSize: 12,
-                    fontWeight: FontWeight.normal,
-                  ),
-              displayMedium: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                  ),
-              displayLarge: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontSize: 24,
-                    fontWeight: FontWeight.normal,
-                  ),
-            ),
-            primaryColor: Colors.white,
-            brightness: Brightness.light,
-          ),
-          backButtonDispatcher: RootBackButtonDispatcher(),
-          routeInformationParser: MyAppRouterInformationParser(),
-          routerDelegate: delegate,
-        );
-      },
+    // return MaterialApp(
+    //   title: 'Test',
+    //   themeMode: ThemeMode.dark,
+    //     scrollBehavior: MaterialScrollBehavior().copyWith(
+    //       dragDevices: {
+    //         PointerDeviceKind.mouse,
+    //         PointerDeviceKind.touch,
+    //         PointerDeviceKind.stylus,
+    //         PointerDeviceKind.unknown,
+    //       },
+    //     ),
+    //   home: ResponsiveWrapper.builder(
+    //     maxWidth: 1700,
+    //     minWidth: 350,
+    //     // defaultScale: true,
+    //     breakpoints: [
+    //       ResponsiveBreakpoint.resize(350, name: MOBILE),
+    //       ResponsiveBreakpoint.autoScale(600, name: TABLET),
+    //       ResponsiveBreakpoint.resize(800, name: DESKTOP),
+    //       ResponsiveBreakpoint.autoScale(1700, name: 'XL'),
+    //     ],
+    //     ViewResult(),
+    //   ),
+    // );
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      title: "STSSS",
+      scrollBehavior: MaterialScrollBehavior().copyWith(
+        dragDevices: {
+          PointerDeviceKind.mouse,
+          PointerDeviceKind.touch,
+          PointerDeviceKind.stylus,
+          PointerDeviceKind.unknown,
+        },
+      ),
+      themeMode: ThemeMode.dark,
+      theme: ThemeData(
+        textTheme: TextTheme(
+          displaySmall: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontSize: 12,
+                fontWeight: FontWeight.normal,
+              ),
+          displayMedium: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+              ),
+          displayLarge: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontSize: 24,
+                fontWeight: FontWeight.normal,
+              ),
+        ),
+        primaryColor: Colors.white,
+        brightness: Brightness.light,
+      ),
+      backButtonDispatcher: RootBackButtonDispatcher(),
+      routeInformationParser: MyAppRouterInformationParser(),
+      routerDelegate: delegate,
     );
   }
 }

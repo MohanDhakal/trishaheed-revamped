@@ -19,7 +19,10 @@ class DownloadState with ChangeNotifier {
 
   Future<void> getFiles() async {
     final downloadData = await FileRepo().listFiles(selectedFolder.name);
+    
+    print(downloadData);
     if (downloadData != null) {
+      print(downloadData.files);
       final chunks = chunk(downloadData.files, 5);
       if (chunks.isNotEmpty) {
         int index = currentPage - 1;
@@ -28,13 +31,12 @@ class DownloadState with ChangeNotifier {
       } else {
         selectedDownloads.clear();
       }
+      notifyListeners();
     }
   }
 
   Future<void> refreshFiles() async {
-    print("Selected Folder:$selectedFolder");
     await getFiles();
-    notifyListeners();
   }
 
   List<List<String>> chunk(List<String> array, int size) {
@@ -53,7 +55,7 @@ class DownloadState with ChangeNotifier {
     if (file != null) {
       final message =
           await FileSaver.instance.saveFile(name: removeDir(path), bytes: file);
-      print("Message: $message");
+      print(message);
     }
   }
 }

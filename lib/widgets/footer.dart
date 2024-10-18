@@ -147,7 +147,7 @@ class FooterWidget extends StatelessWidget {
                         // _launchURL(Globals.neb);
                       },
                       child: Text(
-                        "Nepal Education Board ",
+                        "National Education Board,Nepal",
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium

@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 import '../model/staff.dart';
 import '../utilities/textstyles.dart';
 import '../model/blog.dart';
@@ -36,14 +35,12 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
   set atMenu(MenuTag menu) {
     _menu = menu;
     notifyListeners();
-    // print(staffId);
   }
 
   set atPath(String path) {
     print("at path calleed");
     _external = path;
     notifyListeners();
-    // print(staffId);
   }
 
 
@@ -169,10 +166,10 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                         fit: StackFit.expand,
                         children: [
                           Positioned(
-                            top: 0.h,
-                            bottom: 0.h,
-                            left: 0.h,
-                            right: 0.h,
+                            top: 0,
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
                             child: Column(
                               children: [
                                 HeaderForMobile(
@@ -250,10 +247,10 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                             // ),
                           ),
                           Positioned(
-                            top: 31.h,
-                            left: 0.h,
-                            bottom: 0.h,
-                            right: 0.h,
+                            top: 31,
+                            left: 0,
+                            bottom: 0,
+                            right: 0,
                             child: TabBarView(
                               physics: NeverScrollableScrollPhysics(),
                               children: pages,
@@ -264,14 +261,14 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                   color: Colors.transparent,
                                   child: Padding(
                                     padding:
-                                        EdgeInsets.symmetric(vertical: 16.sp),
+                                        EdgeInsets.symmetric(vertical: 16),
                                     child: InteractiveViewer(
                                       scaleEnabled: true,
                                       constrained: false,
                                       alignment: Alignment.center,
                                       child: Container(
-                                        height: 100.h,
-                                        width: 100.w,
+                                        height: 100,
+                                        width: 100,
                                         color: noticeExists
                                             ? Colors.transparent
                                             : Colors.orange,
@@ -293,7 +290,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                                   },
                                                   child: Icon(
                                                     Icons.cancel_sharp,
-                                                    size: 24.sp,
+                                                    size: 24,
                                                     color: Colors.red,
                                                   ),
                                                 ),
@@ -303,7 +300,7 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
                                               child: Image.asset(
                                                 notice,
                                                 fit: BoxFit.fill,
-                                                height: 100.h,
+                                                height: 100,
                                                 // width: size.width * 0.8,
                                               ),
                                             )
@@ -330,14 +327,24 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
               if (menu == MenuTag.unknown) MaterialPage(child: UnknownPage()),
               if (menu == MenuTag.blogDetail)
                 MaterialPage(
-                    key: ValueKey(RouteName.blogDetail),
-                    child: BlogDetail(id: id)),
-              if (menu == MenuTag.staffDetail)
+                  key: ValueKey(RouteName.blogDetail),
+                  child: BlogDetail(
+                    id: id,
+                    onBackPressed: () {
+                      atMenu = MenuTag.blog;
+                    },
+                  ),
+                ),
+              if (menu == MenuTag.staffDetail && staffId != null)
                 MaterialPage(
                   key: ValueKey(RouteName.staffDetail),
                   child: s.StaffDetail(
                     staff: staff,
                     id: staffId,
+                    onBackPressed: () {
+                      staffId = null;
+                      atMenu = MenuTag.staff;
+                    },
                   ),
                 ),
             ],
@@ -369,9 +376,8 @@ class MyAppRouterDelegate extends RouterDelegate<MyAppConfiguration>
       id = configuration.id;
       atMenu = MenuTag.blogDetail;
     } else if (configuration.staffDetail) {
-      _menu = MenuTag.staffDetail;
       staffId = configuration.staffId;
-      notifyListeners();
+      atMenu = MenuTag.staffDetail;
     } else if (configuration.result) {
       atPath = Result.path;
     } else {
