@@ -23,7 +23,7 @@ class Blog {
     required this.position,
   });
 
-  factory Blog.fromJson(Map<String, dynamic> obj) {
+  factory Blog.fromJson(Map<dynamic, dynamic> obj) {
     List<Slug> s = <Slug>[];
 
     for (var slug in obj["slugs"]) {

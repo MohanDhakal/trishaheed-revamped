@@ -255,85 +255,89 @@ class HeaderForMobile extends StatelessWidget {
                   ),),
               ]
                 ),),
-                Expanded(
-                  child: Column(
-                    children: [
-                      SelectableText(
-                        "Shree Tri-Shaheed Model Secondary School, Aandhikhola-1 ",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      SizedBox(width: 8),
-                      SelectableText(
-                        "9846095574",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),),
-                  Row(
-                    children: [
-                      Image.asset(
-                        paperPlane,
-                        width: 24,
-                        height: 24,
-                      ),
-                      SizedBox(width: 10),
-                      Text(
-                        "Email: ",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                      Text(
-                        "trishaheed1986@gmail.com",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      MaterialButton(
-                        onPressed: onResultsPublished,
-                        child: Container(
-                          height: 48,
-                          width: 100,
-                          margin: EdgeInsets.only(
-                              left: 10, bottom: 5, top: 5, right: 10),
-                          decoration: BoxDecoration(
-                            color: Colors.greenAccent,
-                            borderRadius: BorderRadius.circular(2),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text("Exam Result"),
-                        ),
-                      ),
-                      MaterialButton(
-                        onPressed: onNewNotice,
-                        child: Container(
-                          height: 48,
-                          width: 100,
-                          margin: EdgeInsets.only(
-                              left: 10, bottom: 5, top: 5, right: 10),
-                          decoration: BoxDecoration(
-                            color: Colors.orange,
-                            borderRadius: BorderRadius.circular(2),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text("New Notice"),
-                        ),
-                      ),
-                    ],
-                  ),
+                // Expanded(
+                //   child: Column(
+                //     children: [
+                //       SelectableText(
+                //         "Shree Tri-Shaheed Model Secondary School, Aandhikhola-1 ",
+                //         textAlign: TextAlign.center,
+                //         style: TextStyle(
+                //           fontWeight: FontWeight.bold,
+                //           fontSize: 16,
+                //         ),
+                //       ),
+                //       SizedBox(width: 8),
+                //       SelectableText(
+                //         "9846095574",
+                //         style: TextStyle(
+                //           fontWeight: FontWeight.w400,
+                //           fontSize: 14,
+                //         ),
+                //       ),
+                //     ],
+                //   ),),
+                //   Expanded(
+                //     child: Row(
+                //       children: [
+                //         Image.asset(
+                //           paperPlane,
+                //           width: 24,
+                //           height: 24,
+                //         ),
+                //         SizedBox(width: 10),
+                //         Text(
+                //           "Email: ",
+                //           style: TextStyle(
+                //             fontWeight: FontWeight.bold,
+                //             fontSize: 18,
+                //           ),
+                //         ),
+                //         Text(
+                //           "trishaheed1986@gmail.com",
+                //           style: TextStyle(
+                //             fontWeight: FontWeight.w400,
+                //             fontSize: 14,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                  // Expanded(
+                  //   child: Row(
+                  //     children: [
+                  //       MaterialButton(
+                  //         onPressed: onResultsPublished,
+                  //         child: Container(
+                  //           height: 48,
+                  //           width: 100,
+                  //           margin: EdgeInsets.only(
+                  //               left: 10, bottom: 5, top: 5, right: 10),
+                  //           decoration: BoxDecoration(
+                  //             color: Colors.greenAccent,
+                  //             borderRadius: BorderRadius.circular(2),
+                  //           ),
+                  //           alignment: Alignment.center,
+                  //           child: Text("Exam Result"),
+                  //         ),
+                  //       ),
+                  //       MaterialButton(
+                  //         onPressed: onNewNotice,
+                  //         child: Container(
+                  //           height: 48,
+                  //           width: 100,
+                  //           margin: EdgeInsets.only(
+                  //               left: 10, bottom: 5, top: 5, right: 10),
+                  //           decoration: BoxDecoration(
+                  //             color: Colors.orange,
+                  //             borderRadius: BorderRadius.circular(2),
+                  //           ),
+                  //           alignment: Alignment.center,
+                  //           child: Text("New Notice"),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
     );

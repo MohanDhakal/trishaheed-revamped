@@ -1,16 +1,22 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:trishaheed/services/HiveStorage.dart';
+import 'package:trishaheed/services/TempCacheInterceptor.dart';
+import 'package:trishaheed/services/hive_cache_manager.dart';
+import 'package:trishaheed/utilities/api_routes.dart';
 import '../utilities/Error.dart';
 import '../utilities/globals.dart';
+import 'HiveCacheInterceptor.dart';
 
 class BaseApi {
+
   late Dio dio;
   BaseApi.createDio([String? accessToken]) {
     var dio = Dio(
       BaseOptions(
         baseUrl: Globals.Url,
-        receiveTimeout: Duration(seconds: 30), // 15 seconds
+        receiveTimeout: Duration(seconds: 30),
         connectTimeout: Duration(seconds: 30),
         sendTimeout: Duration(seconds: 30),
       ),
@@ -27,13 +33,12 @@ class BaseApi {
     Failure failure = new Failure("failure message", FailureType.OTHER);
     try {
       if (hasImage) {
-        print("Image is present");
         data["image"] = await MultipartFile.fromBytes(data['image'].toList(),
             filename: "sample_image");
       }
       final response = await dio.post(path, data: FormData.fromMap(data));
       return Left(response);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       print("BaseApi After DioError: " + e.toString());
       final dioError = getDioErrorMsg(failure, e);
       return Right(dioError);
@@ -48,9 +53,19 @@ class BaseApi {
       [Map<String, dynamic>? queryParameters]) async {
     Failure failure = new Failure("failure message", FailureType.OTHER);
     try {
-      final response = await dio.get(path, queryParameters: queryParameters);
+      Response? response;
+      if (path == ApiRoutes.posts || path.startsWith(ApiRoutes.postDetail)) {
+        final hiveCache = HiveCacheStore();
+        dio.interceptors..add(HiveCacheInterceptor(hiveCache));
+        response = await dio.get(path, queryParameters: queryParameters);
+      } else {
+        CacheManager tempCache = CacheManager();
+        final inteceptor = CacheInterceptor(tempCache);
+        dio.interceptors..add(inteceptor);
+        response = await dio.get(path, queryParameters: queryParameters);
+      }
       return Left(response);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       final dioError = getDioErrorMsg(failure, e);
       return Right(dioError);
     } catch (e) {
@@ -63,9 +78,8 @@ class BaseApi {
     Failure failure = new Failure("failure message", FailureType.OTHER);
     try {
       final response = await dio.delete(path);
-      // print("response $response");
       return Left(response);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       final dioError = getDioErrorMsg(failure, e);
       return Right(dioError);
     } catch (e) {
@@ -75,25 +89,25 @@ class BaseApi {
   }
 }
 
-Failure getDioErrorMsg(Failure failure, DioError e) {
+Failure getDioErrorMsg(Failure failure, DioException e) {
   switch (e.type) {
-    case DioErrorType.connectionError:
+    case DioExceptionType.connectionError:
       failure.message = e.message ?? "connection error";
       failure.type = FailureType.SERVER;
       return failure;
-    case DioErrorType.badResponse:
+    case DioExceptionType.badResponse:
       failure.message = e.message ?? "Bad Response";
       failure.type = FailureType.SERVER;
       return failure;
-    case DioErrorType.connectionTimeout:
+    case DioExceptionType.connectionTimeout:
       failure.message = e.message ?? "Connection Timeout ";
       failure.type = FailureType.SERVER;
       return failure;
-    case DioErrorType.receiveTimeout:
+    case DioExceptionType.receiveTimeout:
       failure.message = e.message ?? "Receive Time Out ";
       failure.type = FailureType.SERVER;
       return failure;
-    case DioErrorType.sendTimeout:
+    case DioExceptionType.sendTimeout:
       failure.message = e.message ?? "Request send timeout ";
       failure.type = FailureType.SERVER;
       return failure;

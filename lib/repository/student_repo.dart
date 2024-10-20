@@ -4,8 +4,12 @@ import '../services/BaseApi.dart';
 import '../utilities/api_routes.dart';
 
 class StudentRepo {
+  late BaseApi baseApi;
+  StudentRepo() {
+    baseApi = BaseApi.createDio();
+  }
   Future<StudentWrapper?> getStudentsForGrade(int classId, int page) async {
-    final response = await BaseApi.createDio()
+    final response = await baseApi
         .get(ApiRoutes.students + "$classId", {"page": page});
     List<Student> tList = <Student>[];
     StudentWrapper? student;
@@ -27,7 +31,6 @@ class StudentRepo {
   }
 
   Future<Student?> verifyStudent(int classId, int rollNumber) async {
-    BaseApi baseApi = BaseApi.createDio();
     var response = await baseApi.post(
         {'class_id': classId, 'roll_number': rollNumber},
         ApiRoutes.verifyStudent);
@@ -40,7 +43,6 @@ class StudentRepo {
 
   Future<List<Grade>> getClasses() async {
     List<Grade> tList = <Grade>[];
-    BaseApi baseApi = BaseApi.createDio();
     var response = await baseApi.get(ApiRoutes.grades);
     response.fold((l) {
       for (var element in l.data) {
@@ -54,7 +56,6 @@ class StudentRepo {
   }
 
   Future<StudentContact?> getContactForStudent(int id) async {
-    BaseApi baseApi = BaseApi.createDio();
     var response = await baseApi.get('${ApiRoutes.contactForID}$id');
     StudentContact? studentContact;
     response.fold((l) {

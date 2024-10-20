@@ -8,30 +8,7 @@ class EntryPoint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return MaterialApp(
-    //   title: 'Test',
-    //   themeMode: ThemeMode.dark,
-    //     scrollBehavior: MaterialScrollBehavior().copyWith(
-    //       dragDevices: {
-    //         PointerDeviceKind.mouse,
-    //         PointerDeviceKind.touch,
-    //         PointerDeviceKind.stylus,
-    //         PointerDeviceKind.unknown,
-    //       },
-    //     ),
-    //   home: ResponsiveWrapper.builder(
-    //     maxWidth: 1700,
-    //     minWidth: 350,
-    //     // defaultScale: true,
-    //     breakpoints: [
-    //       ResponsiveBreakpoint.resize(350, name: MOBILE),
-    //       ResponsiveBreakpoint.autoScale(600, name: TABLET),
-    //       ResponsiveBreakpoint.resize(800, name: DESKTOP),
-    //       ResponsiveBreakpoint.autoScale(1700, name: 'XL'),
-    //     ],
-    //     ViewResult(),
-    //   ),
-    // );
+ 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: "STSSS",

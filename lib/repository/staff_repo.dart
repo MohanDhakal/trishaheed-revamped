@@ -6,8 +6,9 @@ import '../utilities/api_routes.dart';
 
 class StaffRepo {
   Future<StaffDetail?> getStaffList({int page = 1}) async {
-    final response =
-        await BaseApi.createDio().get(ApiRoutes.staffs, {"page": page});
+   
+    final api = BaseApi.createDio();
+    final response = await api.get(ApiRoutes.staffs, {"page": page});
     StaffDetail? staffDetail;
     response.fold((l) {
       staffDetail = StaffDetail.fromJson(l.data);
@@ -16,7 +17,8 @@ class StaffRepo {
     });
     return staffDetail;
   }
-    Future<Staff?> getStaffWithId(int id) async {
+
+  Future<Staff?> getStaffWithId(int id) async {
     final response =
         await BaseApi.createDio().get(ApiRoutes.staffDetail + "$id");
     Staff? local;
@@ -28,7 +30,8 @@ class StaffRepo {
     });
     return local;
   }
-    Future<List<MajorContact>> getMajorContacts() async {
+
+  Future<List<MajorContact>> getMajorContacts() async {
     List<MajorContact> tList = <MajorContact>[];
     BaseApi baseApi = BaseApi.createDio();
     var response = await baseApi.get(ApiRoutes.majorContacts);
@@ -42,5 +45,4 @@ class StaffRepo {
     });
     return tList;
   }
-
 }

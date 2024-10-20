@@ -48,57 +48,60 @@ class _TeacherStaffState extends State<TeacherStaff> {
               child: SingleChildScrollView(
                 physics: NeverScrollableScrollPhysics(),
                 child: responsiveWrapper.isLargerThan(TABLET)
-                    ? Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(height: 16.0),
-                              BannerPlaceholder(),
-                              TitlePlaceholder(),
-                              SizedBox(height: 16.0),
-                            ],
-                          ),
-                          SizedBox(width: 8),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(height: 16.0),
-                              BannerPlaceholder(),
-                              TitlePlaceholder(),
-                              SizedBox(height: 16.0),
-                            ],
-                          ),
-                          SizedBox(width: 8),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(height: 16.0),
-                              BannerPlaceholder(),
-                              TitlePlaceholder(),
-                              SizedBox(height: 16.0),
-                            ],
-                          ),
-                          SizedBox(width: 8),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(height: 16.0),
-                              BannerPlaceholder(),
-                              TitlePlaceholder(),
-                              SizedBox(height: 16.0),
-                            ],
-                          ),
-                        ],
-                      )
+                    ? Padding(
+                      padding: const EdgeInsets.only(top:24.0),
+                      child: Row(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(height: 16.0),
+                                BannerPlaceholder(),
+                                TitlePlaceholder(),
+                                SizedBox(height: 16.0),
+                              ],
+                            ),
+                            SizedBox(width: 8),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(height: 16.0),
+                                BannerPlaceholder(),
+                                TitlePlaceholder(),
+                                SizedBox(height: 16.0),
+                              ],
+                            ),
+                            SizedBox(width: 8),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(height: 16.0),
+                                BannerPlaceholder(),
+                                TitlePlaceholder(),
+                                SizedBox(height: 16.0),
+                              ],
+                            ),
+                            SizedBox(width: 8),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(height: 16.0),
+                                BannerPlaceholder(),
+                                TitlePlaceholder(),
+                                SizedBox(height: 16.0),
+                              ],
+                            ),
+                          ],
+                        ),
+                    )
                     : Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.max,
@@ -126,7 +129,7 @@ class _TeacherStaffState extends State<TeacherStaff> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      SizedBox(height: 24),
+                      SizedBox(height: 36),
                       GridView.builder(
                         shrinkWrap: true,
                         padding: EdgeInsets.only(left: 8.0),

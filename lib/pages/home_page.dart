@@ -48,67 +48,67 @@ class _HomePageState extends State<HomePage> {
           controller: _controller,
           child: Column(
             children: [
-              SizedBox(
-                height: size.height * 0.7,
-                width: size.width,
-                child: CarouselView(
-                  itemExtent: size.width,
-                  scrollDirection: Axis.horizontal,
-                  controller: _carouselController,
-                  padding: EdgeInsets.all(0),
-                  itemSnapping: true,
-                  shape: ContinuousRectangleBorder(
-                    side: BorderSide.none,
-                    borderRadius: BorderRadius.circular(0),
-                  ),
-                  children: [
-                    ...List.generate(
-                      carouselImages.length,
-                      (index) {
-                        return Image.network(
-                          carouselImages[index],
-                          fit: BoxFit.cover,
-                          loadingBuilder: (BuildContext context, Widget child,
-                              ImageChunkEvent? loadingProgress) {
-                            if (loadingProgress == null) {
-                              // Image has been fully loaded, return the child image
-                              return child;
-                            }
-                            // While loading, return a circular progress indicator
-                            return Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                        : null,
-                                    color: Colors.blue,
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    'Loading...',
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.grey),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                          errorBuilder: (BuildContext context, Object exception,
-                              StackTrace? stackTrace) {
-                            print(exception.toString());
-                            return Center(child: Text('Image failed to load'));
-                          },
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
+              // SizedBox(
+              //   height: size.height * 0.7,
+              //   width: size.width,
+              //   child: CarouselView(
+              //     itemExtent: size.width,
+              //     scrollDirection: Axis.horizontal,
+              //     controller: _carouselController,
+              //     padding: EdgeInsets.all(0),
+              //     itemSnapping: true,
+              //     shape: ContinuousRectangleBorder(
+              //       side: BorderSide.none,
+              //       borderRadius: BorderRadius.circular(0),
+              //     ),
+              //     children: [
+              //       ...List.generate(
+              //         carouselImages.length,
+              //         (index) {
+              //           return Image.network(
+              //             carouselImages[index],
+              //             fit: BoxFit.cover,
+              //             loadingBuilder: (BuildContext context, Widget child,
+              //                 ImageChunkEvent? loadingProgress) {
+              //               if (loadingProgress == null) {
+              //                 // Image has been fully loaded, return the child image
+              //                 return child;
+              //               }
+              //               // While loading, return a circular progress indicator
+              //               return Center(
+              //                 child: Column(
+              //                   mainAxisAlignment: MainAxisAlignment.center,
+              //                   children: [
+              //                     CircularProgressIndicator(
+              //                       value: loadingProgress.expectedTotalBytes !=
+              //                               null
+              //                           ? loadingProgress
+              //                                   .cumulativeBytesLoaded /
+              //                               loadingProgress.expectedTotalBytes!
+              //                           : null,
+              //                       color: Colors.blue,
+              //                     ),
+              //                     SizedBox(height: 10),
+              //                     Text(
+              //                       'Loading...',
+              //                       style: TextStyle(
+              //                           fontSize: 16, color: Colors.grey),
+              //                     ),
+              //                   ],
+              //                 ),
+              //               );
+              //             },
+              //             errorBuilder: (BuildContext context, Object exception,
+              //                 StackTrace? stackTrace) {
+              //               print(exception.toString());
+              //               return Center(child: Text('Image failed to load'));
+              //             },
+              //           );
+              //         },
+              //       ),
+              //     ],
+              //   ),
+              // ),
 
               SizedBox(height: 8),
               HeadMasterSaying(),

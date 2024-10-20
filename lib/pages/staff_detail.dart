@@ -6,7 +6,6 @@ import 'package:trishaheed/model/staff.dart';
 import 'package:trishaheed/repository/staff_repo.dart';
 import 'package:trishaheed/utilities/images.dart';
 import '../utilities/selectables.dart';
-import 'dart:html' as html;
 
 // ignore: must_be_immutable
 class StaffDetail extends StatefulWidget {
@@ -61,456 +60,453 @@ class _StaffDetailState extends State<StaffDetail> {
       focusNode: _focusNode,
       onKeyEvent: _handleKeyEvent,
       autofocus: true,
-      child: SingleChildScrollView(
-        controller: _controller,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+      child: Scaffold(
+        
+        body: SafeArea(
+          child: SingleChildScrollView(
+            controller: _controller,
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(width: 12),
-                IconButton(
-                  icon: Icon(Icons.arrow_back),
-                  onPressed: widget.onBackPressed,
-                  iconSize: 24,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(width: 12),
+                    IconButton(
+                      icon: Icon(Icons.arrow_back),
+                      onPressed: widget.onBackPressed,
+                      iconSize: 24,
+                    ),
+                    SizedBox(width: 12),
+                    Text(
+                      " ${staff?.fullName}",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge
+                          ?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
-                SizedBox(width: 12),
-                Text(
-                  " ${staff?.fullName}",
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge
-                      ?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            SizedBox(height: 24),
-            ResponsiveRowColumnItem(
-              child: ResponsiveRowColumn(
-                layout: responsiveWrapper.isSmallerThan(TABLET)
-                    ? ResponsiveRowColumnType.COLUMN
-                    : ResponsiveRowColumnType.ROW,
-                rowMainAxisAlignment: MainAxisAlignment.center,
-                rowCrossAxisAlignment: CrossAxisAlignment.center,
-                columnCrossAxisAlignment: CrossAxisAlignment.center,
-                columnMainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  staff == null
-                      ? ResponsiveRowColumnItem(child: SizedBox())
-                      : ResponsiveRowColumnItem(
-                          child: Column(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  if (staff!.imageUrl != null) {
-                                    html.window
-                                        .open(staff!.imageUrl!, "_blank");
-                                  }
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(
-                                      color: Colors.blue,
-                                      width: 2,
+                SizedBox(height: 24),
+                ResponsiveRowColumnItem(
+                  child: ResponsiveRowColumn(
+                    layout: responsiveWrapper.isSmallerThan(TABLET)
+                        ? ResponsiveRowColumnType.COLUMN
+                        : ResponsiveRowColumnType.ROW,
+                    rowMainAxisAlignment: MainAxisAlignment.center,
+                    rowCrossAxisAlignment: CrossAxisAlignment.center,
+                    columnCrossAxisAlignment: CrossAxisAlignment.center,
+                    columnMainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      staff == null
+                          ? ResponsiveRowColumnItem(child: SizedBox())
+                          : ResponsiveRowColumnItem(
+                              child: Column(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(
+                                        color: Colors.blue,
+                                        width: 2,
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          blurRadius: 4.0,
+                                          spreadRadius: 4.0,
+                                          color: Colors.grey.shade200,
+                                        )
+                                      ],
+                                      image: staff!.imageUrl != null
+                                          ? DecorationImage(
+                                              image: NetworkImage(
+                                                staff!.imageUrl!,
+                                              ),
+                                              fit: BoxFit.cover,
+                                            )
+                                          : DecorationImage(
+                                              image: AssetImage(profile),
+                                              fit: BoxFit.cover,
+                                            ),
                                     ),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        blurRadius: 4.0,
-                                        spreadRadius: 4.0,
-                                        color: Colors.grey.shade200,
-                                      )
-                                    ],
-                                    image: staff!.imageUrl != null
-                                        ? DecorationImage(
-                                            image: NetworkImage(
-                                              staff!.imageUrl!,
+                                    width: 300,
+                                    height: 360,
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(left: 8.0, top: 16.0),
+                                    child: RichText(
+                                      text: TextSpan(
+                                        text: staff?.fullName ?? "N/A",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.bold,
                                             ),
-                                            fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                      responsiveWrapper.isSmallerThan(TABLET)
+                          ? ResponsiveRowColumnItem(child: SizedBox(height: 24))
+                          : ResponsiveRowColumnItem(child: SizedBox(width: 48)),
+                      ResponsiveRowColumnItem(
+                        child: SizedBox(
+                          width: responsiveWrapper.isSmallerThan(TABLET)
+                              ? size.width
+                              : size.width * 0.35,
+                          child: Card(
+                            elevation: 8,
+                            color: Colors.grey.shade100,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                                vertical: 24,
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Center(
+                                    child: RichText(
+                                      text: TextSpan(
+                                        text: "Detailed Information" + "  ",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.copyWith(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.red),
+                                      ),
+                                    ),
+                                  ),
+                                  Divider(thickness: 4),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(left: 8.0, top: 8.0),
+                                    child: RichText(
+                                      text: TextSpan(
+                                        text: "Level :" + "  ",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                        children: [
+                                          TextSpan(
+                                            text: staff?.teacherLevel ?? "N/A",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                           )
-                                        : DecorationImage(
-                                            image: AssetImage(profile),
-                                            fit: BoxFit.cover,
-                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                  width: 300,
-                                  height: 360,
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, top: 16.0),
-                                child: RichText(
-                                  text: TextSpan(
-                                    text: staff?.fullName ?? "N/A",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                  responsiveWrapper.isSmallerThan(TABLET)
-                      ? ResponsiveRowColumnItem(child: SizedBox(height: 24))
-                      : ResponsiveRowColumnItem(child: SizedBox(width: 48)),
-                  ResponsiveRowColumnItem(
-                    child: SizedBox(
-                      width: responsiveWrapper.isSmallerThan(TABLET)
-                          ? size.width
-                          : size.width * 0.35,
-                      child: Card(
-                        elevation: 8,
-                        color: Colors.grey.shade100,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 24,
-                            vertical: 24,
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Center(
-                                child: RichText(
-                                  text: TextSpan(
-                                    text: "Detailed Information" + "  ",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.copyWith(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.red),
-                                  ),
-                                ),
-                              ),
-                              Divider(thickness: 4),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, top: 8.0),
-                                child: RichText(
-                                  text: TextSpan(
-                                    text: "Level :" + "  ",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                    children: [
-                                      TextSpan(
-                                        text: staff?.teacherLevel ?? "N/A",
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(left: 8.0, top: 8.0),
+                                    child: RichText(
+                                      text: TextSpan(
+                                        text: "SUBJECT :" + "  ",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodySmall
+                                            .bodyMedium
                                             ?.copyWith(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                             ),
-                                      )
-                                    ],
+                                        children: [
+                                          TextSpan(
+                                            text: staff?.majorSubject ?? "N/A",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, top: 8.0),
-                                child: RichText(
-                                  text: TextSpan(
-                                    text: "SUBJECT :" + "  ",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                    children: [
-                                      TextSpan(
-                                        text: staff?.majorSubject ?? "N/A",
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(left: 8.0, top: 8.0),
+                                    child: RichText(
+                                      text: TextSpan(
+                                        text: "POSITION :" + "  ",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodySmall
+                                            .bodyMedium
                                             ?.copyWith(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                             ),
-                                      )
-                                    ],
+                                        children: [
+                                          TextSpan(
+                                            text: staff?.post ?? "N/A",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, top: 8.0),
-                                child: RichText(
-                                  text: TextSpan(
-                                    text: "POSITION :" + "  ",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                    children: [
-                                      TextSpan(
-                                        text: staff?.post ?? "N/A",
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(left: 8.0, top: 8.0),
+                                    child: RichText(
+                                      text: TextSpan(
+                                        text: "Rank :" + "  ",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodySmall
+                                            .bodyMedium
                                             ?.copyWith(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                             ),
-                                      )
-                                    ],
+                                        children: [
+                                          TextSpan(
+                                            text: staffRank,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, top: 8.0),
-                                child: RichText(
-                                  text: TextSpan(
-                                    text: "Rank :" + "  ",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                    children: [
-                                      TextSpan(
-                                        text: staffRank,
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(left: 8.0, top: 8.0),
+                                    child: RichText(
+                                      text: TextSpan(
+                                        text: "Major Subject: " + "  ",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodySmall
+                                            .bodyMedium
                                             ?.copyWith(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                             ),
-                                      )
-                                    ],
+                                        children: [
+                                          TextSpan(
+                                            text: staff?.majorSubject,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, top: 8.0),
-                                child: RichText(
-                                  text: TextSpan(
-                                    text: "Major Subject: " + "  ",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                    children: [
-                                      TextSpan(
-                                        text: staff?.majorSubject,
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(left: 8.0, top: 8.0),
+                                    child: RichText(
+                                      text: TextSpan(
+                                        text: "Address: " + "  ",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodySmall
+                                            .bodyMedium
                                             ?.copyWith(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                             ),
-                                      )
-                                    ],
+                                        children: [
+                                          TextSpan(
+                                            text: staff?.address,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, top: 8.0),
-                                child: RichText(
-                                  text: TextSpan(
-                                    text: "Address: " + "  ",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                    children: [
-                                      TextSpan(
-                                        text: staff?.address,
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(left: 8.0, top: 8.0),
+                                    child: RichText(
+                                      text: TextSpan(
+                                        text: "Date Of Birth: " + "  ",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodySmall
+                                            .bodyMedium
                                             ?.copyWith(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                             ),
-                                      )
-                                    ],
+                                        children: [
+                                          TextSpan(
+                                            text: staff?.dob,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, top: 8.0),
-                                child: RichText(
-                                  text: TextSpan(
-                                    text: "Date Of Birth: " + "  ",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                    children: [
-                                      TextSpan(
-                                        text: staff?.dob,
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(left: 8.0, top: 8.0),
+                                    child: RichText(
+                                      text: TextSpan(
+                                        text: "Jonined At: " + "  ",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodySmall
+                                            .bodyMedium
                                             ?.copyWith(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                             ),
-                                      )
-                                    ],
+                                        children: [
+                                          TextSpan(
+                                            text: staff?.joinedAt,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, top: 8.0),
-                                child: RichText(
-                                  text: TextSpan(
-                                    text: "Jonined At: " + "  ",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                    children: [
-                                      TextSpan(
-                                        text: staff?.joinedAt,
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(left: 8.0, top: 8.0),
+                                    child: RichText(
+                                      text: TextSpan(
+                                        text: "Job Type: " + "  ",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodySmall
+                                            .bodyMedium
                                             ?.copyWith(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                             ),
-                                      )
-                                    ],
+                                        children: [
+                                          TextSpan(
+                                            text: staff?.jobType,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, top: 8.0),
-                                child: RichText(
-                                  text: TextSpan(
-                                    text: "Job Type: " + "  ",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                    children: [
-                                      TextSpan(
-                                        text: staff?.jobType,
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(left: 8.0, top: 8.0),
+                                    child: RichText(
+                                      text: TextSpan(
+                                        text: "Phone Number :" + "  ",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodySmall
+                                            .bodyMedium
                                             ?.copyWith(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                             ),
-                                      )
-                                    ],
+                                        children: [
+                                          TextSpan(
+                                            text: staff?.contact ?? "98*******",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, top: 8.0),
-                                child: RichText(
-                                  text: TextSpan(
-                                    text: "Phone Number :" + "  ",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                    children: [
-                                      TextSpan(
-                                        text: staff?.contact ?? "98*******",
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(left: 8.0, top: 8.0),
+                                    child: RichText(
+                                      text: TextSpan(
+                                        text: "Email Address :" + "  ",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodySmall
+                                            .bodyMedium
                                             ?.copyWith(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                             ),
-                                      )
-                                    ],
+                                        children: [
+                                          TextSpan(
+                                            text: staff?.email ?? "abc@gmail.com",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                ],
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, top: 8.0),
-                                child: RichText(
-                                  text: TextSpan(
-                                    text: "Email Address :" + "  ",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                    children: [
-                                      TextSpan(
-                                        text: staff?.email ?? "abc@gmail.com",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall
-                                            ?.copyWith(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
