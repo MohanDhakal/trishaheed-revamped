@@ -20,8 +20,6 @@ class HiveCacheStore {
   }
 
   dynamic getCache(String key) {
-
-
     return cacheBox.get(key);
   }
 

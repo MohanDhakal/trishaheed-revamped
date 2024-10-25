@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 
@@ -23,42 +24,37 @@ class _ImageWithLoadingState extends State<ImageWithLoading> {
 
     return Stack(
       children: <Widget>[
-        Image.network(
-          widget.imageUrl,
+        CachedNetworkImage(
+          imageUrl: widget.imageUrl,
           fit: BoxFit.contain,
-          height: size.height * 0.8,
-          width: responsiveWrapper.isSmallerThan(DESKTOP)
+          height: responsiveWrapper.isSmallerThan(TABLET)
+              ? size.height * 0.5
+              : size.height * 0.8,
+          width: responsiveWrapper.isSmallerThan(TABLET)
               ? size.width * 0.95
               : size.width * 0.8,
-          loadingBuilder: (BuildContext context, Widget child,
-              ImageChunkEvent? loadingProgress) {
-            if (loadingProgress == null) {
-              return child;
-            }
-            return Center(
-              child: CircularProgressIndicator(
-                backgroundColor: Colors.green.shade200,
-                valueColor: AlwaysStoppedAnimation(Colors.green),
-              ),
+          progressIndicatorBuilder: (BuildContext context, String child,
+              DownloadProgress downloadProgress) {
+            return Stack(
+              alignment: Alignment.center,
+              children: [
+                CircularProgressIndicator(
+                  value: downloadProgress
+                      .progress, // Shows the current download progress
+                  strokeWidth: 4.0,
+                  color: Colors.blue,
+                ),
+                Text(
+                  '${(double.parse(downloadProgress.progress?.toStringAsFixed(1) ?? '0')) * 100}%',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                  ),
+                ),
+              ],
             );
           },
-          frameBuilder: (BuildContext context, Widget child, int? frame,
-              bool wasSynchronouslyLoaded) {
-            if (wasSynchronouslyLoaded) {
-              return child;
-            }
-            if (frame == null) {
-              return child;
-            }
-            return AnimatedOpacity(
-              child: child,
-              opacity: 1,
-              duration: const Duration(seconds: 1),
-              curve: Curves.easeOut,
-            );
-          },
-          errorBuilder: (context, error, stackTrace) {
-            print(stackTrace);
+          errorWidget: (context, error, stackTrace) {
             return Center(child: Text("Error loading image"));
           },
         ),

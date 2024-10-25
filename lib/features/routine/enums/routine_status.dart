@@ -1,0 +1,1 @@
+enum RoutineStatus {published,updated,notAvailable}

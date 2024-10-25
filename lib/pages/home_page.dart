@@ -23,7 +23,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final FocusNode _focusNode = FocusNode();
   final ScrollController _controller = ScrollController();
-  final CarouselController _carouselController = CarouselController();
+  // final CarouselController _carouselController = CarouselController();
 
   @override
   void initState() {

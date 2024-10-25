@@ -34,10 +34,12 @@ class _ImageDialogState extends State<ImageDialog> {
         : Dialog(
             backgroundColor: Colors.grey[200],
             child: SizedBox(
-              width: responsiveWrapper.isSmallerThan(DESKTOP)
+              width: responsiveWrapper.isSmallerThan(TABLET)
                   ? size.width
                   : size.width * 0.7,
-              height: size.height * 0.86,
+              height: responsiveWrapper.isSmallerThan(TABLET)
+                  ? size.height * 0.5
+                  : size.height * 0.8,
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,

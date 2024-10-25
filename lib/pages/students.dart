@@ -268,7 +268,7 @@ class DropDownGrade extends StatelessWidget {
       return model.grades.isEmpty
           ? Center(child: Text('No Students Found....'))
           : DropdownButton<studentModel.Grade>(
-              value: model.grades[0],
+              value: model.selectedGrade,
               onChanged: (studentModel.Grade? newValue) async {
                 model.loading = true;
                 model.selectedGrade = newValue;
@@ -375,7 +375,7 @@ class PaginatorWidget extends StatelessWidget {
         ),
         SizedBox(width: 8),
         Container(
-          width: size.width*0.5,
+          width: size.width*0.3,
           height: 36,
           alignment: Alignment.center,
           decoration: BoxDecoration(
@@ -397,7 +397,7 @@ class PaginatorWidget extends StatelessWidget {
         MaterialButton(
           onPressed: onNext,
           child: Container(
-            width: size.height*0.5,
+            width: size.height*0.1,
             height: 36,
             alignment: Alignment.center,
             decoration: BoxDecoration(

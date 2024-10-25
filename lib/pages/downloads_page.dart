@@ -344,7 +344,7 @@ class PaginatorWidget extends StatelessWidget {
               }
             },
             child: Container(
-              width: 10,
+              width: 100,
               height: 36,
               alignment: Alignment.center,
               decoration: BoxDecoration(
@@ -358,7 +358,7 @@ class PaginatorWidget extends StatelessWidget {
           ),
           SizedBox(width: 12),
           Container(
-              width: 16,
+              width: 100,
               height: 36,
               alignment: Alignment.center,
               decoration: BoxDecoration(
@@ -387,7 +387,7 @@ class PaginatorWidget extends StatelessWidget {
               }
             },
             child: Container(
-              width: 10,
+              width: 100,
               height: 36,
               alignment: Alignment.center,
               decoration: BoxDecoration(

@@ -6,7 +6,6 @@ import '../model/staff.dart';
 import '../utilities/textstyles.dart';
 import '../model/blog.dart';
 import '../utilities/utilities.dart';
-import 'headers.dart';
 import 'image_gallery_test.dart';
 import 'menupages.dart';
 import 'staff_detail.dart' as s;
