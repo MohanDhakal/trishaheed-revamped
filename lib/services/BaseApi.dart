@@ -10,8 +10,10 @@ import '../utilities/globals.dart';
 import 'HiveCacheInterceptor.dart';
 
 class BaseApi {
-
   late Dio dio;
+  BaseApi() {
+    BaseApi.createDio();
+  }
   BaseApi.createDio([String? accessToken]) {
     var dio = Dio(
       BaseOptions(

@@ -4,10 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:trishaheed/model/blog.dart';
-import 'package:trishaheed/repository/blog_info.dart';
+import 'package:trishaheed/repository/blog_repo.dart';
 import 'package:trishaheed/utilities/button_position.dart';
 import 'package:trishaheed/utilities/menu_tag.dart';
 import 'package:trishaheed/widgets/tags.dart';
+import '../services/BaseApi.dart';
 
 class BlogList extends StatefulWidget {
   final Function(MenuTag menuTag, int? id, Blog? blog) onClick;
@@ -24,17 +25,19 @@ class _BlogListState extends State<BlogList> {
   int _currentPage = 1;
   final FocusNode _focusNode = FocusNode();
   final ScrollController _controller = ScrollController();
-
+  BlogApi _blogApi = BlogApi(BaseApi.createDio());
   @override
   void initState() {
     super.initState();
-    BlogApi().getBlogList().then((value) {
-      setState(() {
-        blogList = value.blogList;
-        _totalPages = value.totalPages;
-        _currentPage = value.currentPage;
-        _loadingBlog = true;
-      });
+    _blogApi.getBlogList().then((value) {
+      if (value != null) {
+        setState(() {
+          blogList = value.blogList;
+          _totalPages = value.totalPages;
+          _currentPage = value.currentPage;
+          _loadingBlog = true;
+        });
+      }
     });
   }
 
@@ -152,15 +155,17 @@ class _BlogListState extends State<BlogList> {
                                             ),
                                           );
                                         });
-                                    BlogApi()
+                                    _blogApi
                                         .getBlogList(page: _currentPage - 1)
                                         .then((value) {
                                       Navigator.pop(context);
-                                      setState(() {
-                                        blogList = value.blogList;
-                                        _totalPages = value.totalPages;
-                                        _currentPage = value.currentPage;
-                                      });
+                                      if (value != null) {
+                                        setState(() {
+                                          blogList = value.blogList;
+                                          _totalPages = value.totalPages;
+                                          _currentPage = value.currentPage;
+                                        });
+                                      }
                                     });
                                   }
                                 },
@@ -198,18 +203,20 @@ class _BlogListState extends State<BlogList> {
                                       },
                                     );
 
-                                    BlogApi()
+                                    _blogApi
                                         .getBlogList(page: _currentPage + 1)
                                         .then(
                                       (value) {
                                         Navigator.pop(context);
-                                        setState(
-                                          () {
-                                            blogList = value.blogList;
-                                            _totalPages = value.totalPages;
-                                            _currentPage = value.currentPage;
-                                          },
-                                        );
+                                        if (value != null) {
+                                          setState(
+                                            () {
+                                              blogList = value.blogList;
+                                              _totalPages = value.totalPages;
+                                              _currentPage = value.currentPage;
+                                            },
+                                          );
+                                        }
                                       },
                                     );
                                   }

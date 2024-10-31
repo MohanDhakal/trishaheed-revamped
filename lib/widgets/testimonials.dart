@@ -17,15 +17,17 @@ class _TestimonialsState extends State<Testimonials> {
 
   @override
   void initState() {
-    TestimonialRepo().testimonials().then((List<Testimonial> value) {
-      if (value.isNotEmpty) {
-        if (value.length > 3) {
-          setState(() {
-            testimonials = value.sublist(0, 3);
+    TestimonialRepo().testimonials().then((List<Testimonial> testimonial) {
+      if (testimonial.isNotEmpty) {
+        if (testimonial.length > 3) {
+          Future.delayed(Duration(milliseconds: 500)).then((value) {
+            setState(() {
+              testimonials = testimonial.sublist(0, 3);
+            });
           });
         } else {
           setState(() {
-            testimonials = value;
+            testimonials = testimonial;
           });
         }
       }

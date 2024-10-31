@@ -103,6 +103,7 @@ class Staff extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: SelectableText(
+              key: ValueKey("position"),
               staff.post,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontSize: 16,

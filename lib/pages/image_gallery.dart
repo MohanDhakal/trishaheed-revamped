@@ -47,7 +47,6 @@ class _ImageGalleryState extends State<ImageGallery> {
             Consumer<GalleryState>(builder: (context, model, child) {
               return wrapper.isSmallerThan(DESKTOP)
                   ? SizedBox(
-                      // height: size.height * 0.9,
                       width: size.width * 0.8,
                       child: ListView(
                         shrinkWrap: true,

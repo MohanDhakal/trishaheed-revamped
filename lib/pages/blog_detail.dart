@@ -4,7 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_quill/quill_delta.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:trishaheed/repository/blog_info.dart';
+import 'package:trishaheed/repository/blog_repo.dart';
+import 'package:trishaheed/services/BaseApi.dart';
 import '../model/blog.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import '../widgets/tags.dart';
@@ -34,7 +35,7 @@ class _BlogDetailState extends State<BlogDetail> {
   void initState() {
     super.initState();
     if (widget.id != null) {
-      BlogApi().getBlogForId(widget.id!).then((blog) async {
+      BlogApi(BaseApi.createDio()).getBlogForId(widget.id!).then((blog) async {
         convertData(blog: blog).then((value) {
           setState(() {
             _loading = false;

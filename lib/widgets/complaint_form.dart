@@ -3,6 +3,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:trishaheed/repository/contacts_repo.dart';
 import 'package:trishaheed/utilities/textstyles.dart';
 import 'package:trishaheed/utilities/validators.dart';
+import '../services/BaseApi.dart';
 import '../utilities/loading_dialog.dart';
 
 class ComplaintForm extends StatefulWidget {
@@ -38,17 +39,15 @@ class _ComplaintFormState extends State<ComplaintForm> {
                 child: TextFormField(
                   controller: nameController,
                   validator: validateName,
+                  key: ValueKey("nameField"),
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: "Enter Your Name Here",
-
                     contentPadding: EdgeInsets.symmetric(horizontal: 4),
                   ),
                 ),
               ),
-              SizedBox(
-                height: 8
-              ),
+              SizedBox(height: 8),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: TextFormField(
@@ -87,27 +86,8 @@ class _ComplaintFormState extends State<ComplaintForm> {
               ),
               SizedBox(height: 8),
               MaterialButton(
-                onPressed: () async {
-                  final validated = _formKey.currentState?.validate() ?? false;
-                  if (validated) {
-                    showLoadingDialog(context);
-                    final response = await ContactRepo().addFeedback({
-                      "name": nameController.text,
-                      "email": emailController.text,
-                      "message": complaintController.text,
-                      "phone_number": phoneController.text,
-                    });
-                    if (response == null) {
-                      Navigator.pop(context);
-                      showErrorDialog(context, "Error Occured");
-                    } else {
-                      print("came here");
-                      _formKey.currentState?.reset();
-                      Navigator.pop(context);
-                      showSuccessDialog(context, response);
-                    }
-                  }
-                },
+                onPressed: submitQuery,
+                key:ValueKey("submitQuery"),
                 child: Container(
                   height: 48,
                   margin: EdgeInsets.symmetric(horizontal: 8),
@@ -131,5 +111,26 @@ class _ComplaintFormState extends State<ComplaintForm> {
         ),
       ),
     );
+  }
+
+  Future<void> submitQuery() async {
+    final validated = _formKey.currentState?.validate() ?? false;
+    if (validated) {
+      showLoadingDialog(context);
+      final response = await ContactRepo(BaseApi.createDio()).addFeedback({
+        "name": nameController.text,
+        "email": emailController.text,
+        "message": complaintController.text,
+        "phone_number": phoneController.text,
+      });
+      if (response == null) {
+        Navigator.pop(context);
+        showErrorDialog(context, "Error Occured");
+      } else {
+        _formKey.currentState?.reset();
+        Navigator.pop(context);
+        showSuccessDialog(context, response);
+      }
+    }
   }
 }
