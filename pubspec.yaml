@@ -18,30 +18,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  provider: ^6.0.3
-  url_strategy: ^0.2.0
   responsive_framework: ^0.2.0
-  dio: ^5.3.0
-  dartz: ^0.10.1
-  file_saver: ^0.2.6
-  flutter_quill: ^9.0.5
-  shimmer: ^3.0.0
-  flutter_form_builder: ^9.4.1
-  form_builder_validators: ^11.0.0
-  visibility_detector: ^0.4.0+2
   flutter_bloc: ^8.1.6
   equatable: ^2.0.5
-  gradient_borders: ^1.0.1
-  hive: ^2.2.3
-  path_provider: ^2.1.4
-  cached_network_image: ^3.4.1
-  permission_handler: ^11.3.1
-  flutter_local_notifications: ^17.2.3
-  timezone: ^0.9.4
-  android_intent_plus: ^5.2.0
-  http: ^1.2.2
-  google_sign_in: ^6.2.1
-  flutter_login_facebook: ^2.0.1
 
 dev_dependencies:
   flutter_test:
@@ -70,19 +49,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/logo.png
-    - assets/images/paper-airplane.png
-    - assets/images/telephone.png
-    - assets/images/event_banner.png
-    - assets/images/contacts/head_sir.jpg
-    - assets/images/profile.jpg
-    - assets/images/placholder.jpg
-    - assets/images/icons/graph.png
-    - assets/images/icons/microscope.png
-    - assets/images/icons/reading-book.png
-    - assets/images/customer-care.png
-    - assets/images/notice/suchana.jpg
-    - assets/images/icons/quotes.png
-
+    
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

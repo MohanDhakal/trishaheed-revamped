@@ -1,8 +1,6 @@
-import 'package:flutter/foundation.dart';
-import 'package:trishaheed/main_mobile.dart';
-import 'package:trishaheed/main_web.dart';
+import 'package:flutter/widgets.dart';
+import 'package:trishaheed/home_page.dart';
 
 void main() {
-  kIsWeb ? mainWeb() : mainMobile();
-  // mainWeb();
+  runApp(HomePage());
 }
