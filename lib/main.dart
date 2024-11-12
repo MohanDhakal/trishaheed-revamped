@@ -1,6 +1,13 @@
 import 'package:flutter/widgets.dart';
-import 'package:trishaheed/home_page.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:trishaheed/features/home_page.dart';
 
 void main() {
-  runApp(HomePage());
+  runApp(
+    ResponsiveSizer(
+      builder: (context, orientation, screenType) {
+        return HomePage();
+      },
+    ),
+  );
 }
