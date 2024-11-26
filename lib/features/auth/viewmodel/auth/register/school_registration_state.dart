@@ -11,7 +11,9 @@ final class SchoolRegistrationInitial extends SchoolRegistrationState {}
 
 final class SchoolRegistrationLoading extends SchoolRegistrationState {}
 
-final class SchoolRegistrationComplete extends SchoolRegistrationState {}
+final class SchoolRegistrationComplete extends SchoolRegistrationState {
+
+}
 
 final class SchoolRegistrationFailure extends SchoolRegistrationState {
    SchoolRegistrationFailure({Authfailure? authfailure})

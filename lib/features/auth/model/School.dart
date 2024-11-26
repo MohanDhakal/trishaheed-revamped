@@ -1,7 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-class School {
+import 'package:equatable/equatable.dart';
+
+class School extends Equatable{
   final String name;
   final String code;
   School({
@@ -49,4 +51,7 @@ class School {
 
   @override
   int get hashCode => name.hashCode ^ code.hashCode;
+  
+  @override
+  List<Object?> get props => [name,code];
 }

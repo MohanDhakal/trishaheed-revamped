@@ -16,7 +16,6 @@ class ValidationService {
   static String? validateName(String name) {
     if (name.isEmpty) return 'name cannot be empty';
     if (name.length < 6) return 'School name must be at least 6 characters';
-
     return null;
   }
 

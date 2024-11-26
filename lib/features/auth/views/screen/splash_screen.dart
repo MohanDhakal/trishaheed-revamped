@@ -19,7 +19,6 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-
     // Initialize the animation controller
     _animationController = AnimationController(
       vsync: this,
@@ -34,6 +33,7 @@ class _SplashScreenState extends State<SplashScreen>
     // Set a delay to navigate to the next screen
     Future.delayed(Duration(seconds: 1), () {
       _onboardingCubit = context.read<OnboardingCubit>();
+
       _onboardingCubit.findSchoolUrl();
     });
   }

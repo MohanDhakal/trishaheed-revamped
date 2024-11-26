@@ -2,7 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:trishaheed/features/auth/viewmodel/auth/school_registration_cubit.dart';
+import 'package:trishaheed/features/auth/model/School.dart';
+import 'package:trishaheed/features/auth/viewmodel/auth/register/school_registration_cubit.dart';
 import 'package:trishaheed/features/auth/views/widgets/customformfeild.dart';
 import 'package:trishaheed/features/routes.dart';
 
@@ -16,7 +17,6 @@ class SchoolRegistrationScreen extends StatefulWidget {
 
 class _SchoolRegistrationScreenState extends State<SchoolRegistrationScreen> {
   final _formKey = GlobalKey<FormState>();
-
   final TextEditingController nameController = TextEditingController();
   final TextEditingController codeController = TextEditingController();
   late SchoolRegistrationCubit registrationCubit;
@@ -64,13 +64,17 @@ class _SchoolRegistrationScreenState extends State<SchoolRegistrationScreen> {
                   BlocListener<SchoolRegistrationCubit,
                       SchoolRegistrationState>(
                     listener: (context, state) {
+                      print("Current State $state");
                       if (state is SchoolRegistrationComplete) {
-                        Navigator.pushNamedAndRemoveUntil(context, Routes.home,
-                            (Route<dynamic> route) => false);
+                        print("came here");
+                        Navigator.of(context, rootNavigator: true)
+                            .pop(); // Close the dialog explicitly
+                        Navigator.pushNamed(context, Routes.schoolLogin);
                       } else if (state is SchoolRegistrationLoading) {
-                        showDialog(
+                        showDialog<SchoolRegistrationState>(
                           context: context,
                           barrierDismissible: false,
+                          useSafeArea: false,
                           builder: (_) => Material(
                             color: Colors.white,
                             child: Center(
@@ -81,8 +85,9 @@ class _SchoolRegistrationScreenState extends State<SchoolRegistrationScreen> {
                       } else if (state is SchoolRegistrationFailure) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                              content: Text(state.authfailure?.message ??
-                                  " Unexpected Error Occured")),
+                            content: Text(state.authfailure?.message ??
+                                " Unexpected Error Occured"),
+                          ),
                         );
                       }
                     },

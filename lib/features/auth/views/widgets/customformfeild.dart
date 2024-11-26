@@ -43,7 +43,7 @@ class CustomFormField extends StatelessWidget {
             errorBorder: OutlineInputBorder(
                 borderSide: BorderSide(
               color: Colors.red,
-            ))),
+            ),),),
         style: TextStyle(fontSize: 16),
       ),
     );
