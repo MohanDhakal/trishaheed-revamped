@@ -2,44 +2,60 @@ import 'package:trishaheed/features/auth/repository/school_registration_repo.dar
 import 'package:trishaheed/utilities/data/school.dart';
 
 class SchoolRegistrationService {
-  late SchoolRegistrationRepo schoolRegistrationRepo;
-  SchoolRegistrationService(SchoolRegistrationRepo repo) {
+  SchoolRegistrationRepo? schoolRegistrationRepo;
+  SchoolRegistrationService(SchoolRegistrationRepo? repo) {
     schoolRegistrationRepo = repo;
   }
 
   Future<bool> saveName(String name) async {
-    final output =
-        await schoolRegistrationRepo.save(SchoolConstant.schoolName, name);
-    return output;
+    if (schoolRegistrationRepo != null) {
+      final output =
+          await schoolRegistrationRepo!.save(SchoolConstant.schoolName, name);
+      return output;
+    }
+    return false;
   }
 
   Future<bool> saveCode(String code) async {
-    final output =
-        await schoolRegistrationRepo.save(SchoolConstant.schoolCode, code);
-    return output;
+    if (schoolRegistrationRepo != null) {
+      final output =
+          await schoolRegistrationRepo!.save(SchoolConstant.schoolCode, code);
+
+      return output;
+    }
+    return false;
   }
 
   Future<bool> saveUrl(String url) async {
-    final output =
-        await schoolRegistrationRepo.save(SchoolConstant.schoolCode, url);
-    return output;
+    if (schoolRegistrationRepo != null) {
+      final output =
+          await schoolRegistrationRepo!.save(SchoolConstant.schoolCode, url);
+      return output;
+    }
+    return false;
   }
 
   Future<String?> getUrlFromInternetAndSave(String name, String code) async {
-
     //TODO: update this to get the url from the internet
-    final url = await schoolRegistrationRepo.getSchoolUrl();
-    if (url != null) {
-      saveUrl(url);
+    if (schoolRegistrationRepo != null) {
+      final url = await schoolRegistrationRepo?.getSchoolUrl();
+      if (url != null) {
+        saveUrl(url);
+      }
+      return url;
     }
-    return url;
+    return null;
   }
 
   Future<String?> getUrlFromStorage() async {
-    final url = await schoolRegistrationRepo.getSchoolUrl();
-    return url;
+    if (schoolRegistrationRepo != null) {
+      final url = await schoolRegistrationRepo!.getSchoolUrl();
+      return url;
+    }
+    return null;
   }
 }
+
 class SchoolRegistrationServiceInitial extends SchoolRegistrationService {
-  SchoolRegistrationServiceInitial(super.repo);
+  SchoolRegistrationServiceInitial(SchoolRegistrationRepo repo) : super(repo);
 }

@@ -5,22 +5,22 @@ import 'package:equatable/equatable.dart';
 
 class Student extends Equatable{
   final int? id;
-  final int rollNumber;
+  final int roll_number;
   final String name;
   Student({
     this.id,
-    required this.rollNumber,
+    required this.roll_number,
     required this.name,
   });
 
   Student copyWith({
     int? id,
-    int? rollNumber,
+    int? roll_number,
     String? name,
   }) {
     return Student(
       id: id ?? this.id,
-      rollNumber: rollNumber ?? this.rollNumber,
+      roll_number: roll_number ?? this.roll_number,
       name: name ?? this.name,
     );
   }
@@ -28,7 +28,7 @@ class Student extends Equatable{
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
-      'rollNumber': rollNumber,
+      'roll_number': roll_number,
       'name': name,
     };
   }
@@ -36,7 +36,7 @@ class Student extends Equatable{
   factory Student.fromMap(Map<String, dynamic> map) {
     return Student(
       id: map['id'] != null ? map['id'] as int : null,
-      rollNumber: map['rollNumber'] as int,
+      roll_number: map['roll_number'] as int,
       name: map['name'] as String,
     );
   }
@@ -47,20 +47,20 @@ class Student extends Equatable{
       Student.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'Student(id: $id, rollNumber: $rollNumber, name: $name)';
+  String toString() => 'Student(id: $id, roll_number: $roll_number, name: $name)';
 
   @override
   bool operator ==(covariant Student other) {
     if (identical(this, other)) return true;
 
     return other.id == id &&
-        other.rollNumber == rollNumber &&
+        other.roll_number == roll_number &&
         other.name == name;
   }
 
   @override
-  int get hashCode => id.hashCode ^ rollNumber.hashCode ^ name.hashCode;
+  int get hashCode => id.hashCode ^ roll_number.hashCode ^ name.hashCode;
   
   @override
-  List<Object?> get props => [rollNumber,name];
+  List<Object?> get props => [roll_number,name];
 }

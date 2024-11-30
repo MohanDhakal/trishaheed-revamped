@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:trishaheed/features/auth/model/School.dart';
 import 'package:trishaheed/features/auth/viewmodel/auth/register/school_registration_cubit.dart';
 import 'package:trishaheed/features/auth/views/widgets/customformfeild.dart';
 import 'package:trishaheed/features/routes.dart';

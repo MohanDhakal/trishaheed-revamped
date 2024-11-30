@@ -16,7 +16,7 @@ class SchoolRegistrationCubit extends Cubit<SchoolRegistrationState> {
     emit(SchoolRegistrationLoading());
     try {
       final url = await service.getUrlFromInternetAndSave(name, code);
-      // print("Url: $url");
+      print("Url: ${service.getUrlFromStorage()}");
       if (url != null) {
         emit(SchoolRegistrationComplete());
       } else {

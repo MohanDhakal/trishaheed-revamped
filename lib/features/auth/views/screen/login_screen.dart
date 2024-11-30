@@ -36,8 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       child: BlocBuilder<LoginCubit, LoginState>(
         builder: (context, state) {
-          print(state.grade);
-
+   
           return Scaffold(
             appBar: AppBar(
               title: Text(
@@ -230,7 +229,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     BlocListener<LoginCubit, LoginState>(
                       listener: (context, state) {
                         if (state is LoginComplete) {
-                          Navigator.of(context, rootNavigator: true).pop(); // Close the dialog explicitly
+                          Navigator.of(context, rootNavigator: true)
+                              .pop(); // Close the dialog explicitly
                           Navigator.pushNamedAndRemoveUntil(context,
                               Routes.home, (Route<dynamic> route) => false);
                         } else if (state is LoginLoading) {
@@ -246,7 +246,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           );
                         } else if (state is LoginFailure) {
-                          // Navigator.pop(context);
+                          Navigator.of(context, rootNavigator: true).pop();
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
@@ -256,7 +256,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           );
                         } else {
-                          print("something else");
+                          print("Undefined State");
                         }
                       },
                       child: Row(
