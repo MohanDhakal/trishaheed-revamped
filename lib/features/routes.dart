@@ -3,6 +3,5 @@ class Routes {
   static const String schoolRegistration = "/register";
   static const String schoolLogin = "/login";
   static const String splashScreen = "/splash";
-
 }
 

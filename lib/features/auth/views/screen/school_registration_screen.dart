@@ -63,12 +63,13 @@ class _SchoolRegistrationScreenState extends State<SchoolRegistrationScreen> {
                   BlocListener<SchoolRegistrationCubit,
                       SchoolRegistrationState>(
                     listener: (context, state) {
-                      print("Current State $state");
+                      // print("Current State $state");
                       if (state is SchoolRegistrationComplete) {
-                        print("came here");
+                        // print("came here");
                         Navigator.of(context, rootNavigator: true)
                             .pop(); // Close the dialog explicitly
-                        Navigator.pushNamed(context, Routes.schoolLogin);
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, Routes.schoolLogin, (_) => false);
                       } else if (state is SchoolRegistrationLoading) {
                         showDialog<SchoolRegistrationState>(
                           context: context,

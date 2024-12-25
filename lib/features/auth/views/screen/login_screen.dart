@@ -36,7 +36,6 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       child: BlocBuilder<LoginCubit, LoginState>(
         builder: (context, state) {
-   
           return Scaffold(
             appBar: AppBar(
               title: Text(
@@ -72,7 +71,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                             : null),
                               ),
                               Container(
-                                  height: 2, width: 16, color: Colors.grey),
+                                height: 2,
+                                width: 16,
+                                color: Colors.grey,
+                              ),
                             ],
                           ),
                         ),
@@ -305,7 +307,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

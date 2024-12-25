@@ -3,11 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:trishaheed/features/auth/repository/login_repo.dart';
 import 'package:trishaheed/features/auth/service/login_service.dart';
+import '../dashboard_cubit.dart';
 import 'auth/repository/school_registration_repo.dart';
 import 'auth/service/school_registration_service.dart';
 import 'auth/viewmodel/auth/login/login_cubit.dart';
 import 'auth/viewmodel/auth/register/school_registration_cubit.dart';
-import 'auth/viewmodel/dashboard/dashboard_cubit.dart';
 import 'auth/viewmodel/onboarding/onboarding_cubit.dart';
 
 class DependencyInjector {
@@ -64,7 +64,16 @@ class DependencyInjector {
         }
       }),
       BlocProvider<DashboardCubit>(create: (context) {
-        return DashboardCubit();
+        final service = context.read<SchoolRegistrationService?>();
+        final loginService = context.read<LoginService?>();
+        if ((service == null && service is SchoolRegistrationServiceInitial) &&
+            loginService == null &&
+            loginService is LoginServiceInitial) {
+          throw Exception(
+              "SchoolRegistrationService & LoginService are not initialized");
+        } else {
+          return DashboardCubit(service!, loginService!);
+        }
       })
     ];
   }

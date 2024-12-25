@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:trishaheed/features/auth/service/login_service.dart';
 import 'package:trishaheed/features/auth/service/validation_service.dart';
-import '../../../model/AuthFailure.dart';
+import '../../../model/auth_failure.dart';
 import '../../../model/Student.dart';
 import '../../../model/Teacher.dart';
 import '../../../model/grade.dart';
@@ -60,6 +60,7 @@ class LoginCubit extends Cubit<LoginState> {
 
   Future<void> setSelectedGrade(Grade? grade) async {
     selectedGrade = grade;
+    emit(LoginReady(grade: grade));
     await getStudentsForGrade();
   }
 /* 

@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:trishaheed/features/auth/model/AuthFailure.dart';
+import 'package:trishaheed/features/auth/model/auth_failure.dart';
 import 'package:trishaheed/features/auth/service/school_registration_service.dart';
 import 'package:trishaheed/features/auth/service/validation_service.dart';
 
